@@ -1,0 +1,13 @@
+.dx-flex {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dx-grid {
+    width: 100%;
+    display: grid;
+    align-items: stretch;
+    justify-items: center;
+    gap: 10px;
+}

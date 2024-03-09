@@ -1,0 +1,35 @@
+.syair_titlebody .list_form {
+    flex-direction: column;
+    gap: 10px;
+}
+.syair_titlebody .sec_label {
+    width: 100%;
+    border-radius: 0;
+}
+.syair_titlebody .trix-button--icon-bold::before,
+.syair_titlebody .trix-button--icon-italic::before,
+.syair_titlebody .trix-button--icon-strike::before,
+.syair_titlebody .trix-button--icon-link::before,
+.syair_titlebody .trix-button--icon-heading-1::before,
+.syair_titlebody .trix-button--icon-quote::before,
+.syair_titlebody .trix-button--icon-code::before, 
+.syair_titlebody .trix-button--icon-bullet-list::before,
+.syair_titlebody .trix-button--icon-number-list::before,
+.syair_titlebody .trix-button--icon:disabled::before,
+.syair_titlebody .trix-button--icon:disabled::before,
+.syair_titlebody .trix-button--icon-attach::before
+{
+    filter: invert(1);
+    opacity: unset;
+}
+.syair_titlebody .trix-button--icon:disabled::before {
+    opacity: 0.5;
+    filter: invert(1);
+}
+
+#notifikasiapk table {
+    width: 40%;
+}
+.all_act_butt.right {
+    justify-content: flex-end;
+}
