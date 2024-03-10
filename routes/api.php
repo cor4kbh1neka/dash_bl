@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/Bonus', [ApiBolaControllers::class, 'Bonus']);
 Route::post('/Cancel', [ApiBolaControllers::class, 'Cancel']);
 Route::post('/Deduct', [ApiBolaControllers::class, 'Deduct']);
-Route::post('/GetBalance', [ApiBolaControllers::class, 'GetBalance']);
+Route::post('/getbalance', [ApiBolaControllers::class, 'GetBalance']);
 Route::post('/Rollback', [ApiBolaControllers::class, 'Rollback']);
 Route::post('/Settle', [ApiBolaControllers::class, 'Settle']);
 Route::post('/GetBetStatus', [ApiBolaControllers::class, 'GetBetStatus']);
