@@ -153,15 +153,15 @@ class ApiBolaControllers extends Controller
 
         # Validation companyKey and other data
         /* Validasi Company */
-        $modelCompany = Companys::where('companykey', $request->CompanyKey)->first();
-        if (!$modelCompany) {
-            return response()->json([
-                'AccountName' => $request->Username,
-                'Belance' => 0,
-                'ErrorCode' => 4,
-                'ErrorMessage' => 'CompanyKey Error'
-            ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
-        }
+        // $modelCompany = Companys::where('companykey', $request->CompanyKey)->first();
+        // if (!$modelCompany) {
+        //     return response()->json([
+        //         'AccountName' => $request->Username,
+        //         'Belance' => 0,
+        //         'ErrorCode' => 4,
+        //         'ErrorMessage' => 'CompanyKey Error'
+        //     ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
+        // }
 
         /* Validasi username is empty */
         if (!$request->Username) {
@@ -174,15 +174,15 @@ class ApiBolaControllers extends Controller
         }
 
         /* Validasi Players member exsis or not */
-        $modelCompany = Players::where('username', $request->Username)->first();
-        if (!$modelCompany) {
-            return response()->json([
-                'AccountName' => $request->Username,
-                'Belance' => 0,
-                'ErrorCode' => 4,
-                'ErrorMessage' => 'Member not exist'
-            ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
-        }
+        // $modelCompany = Players::where('username', $request->Username)->first();
+        // if (!$modelCompany) {
+        //     return response()->json([
+        //         'AccountName' => $request->Username,
+        //         'Belance' => 0,
+        //         'ErrorCode' => 4,
+        //         'ErrorMessage' => 'Member not exist'
+        //     ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
+        // }
 
         /* Validasi Alldata */
         $validator = Validator::make($request->all(), [
