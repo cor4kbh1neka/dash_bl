@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('device');
             $table->timestamps();
 
-            $table->foreign('productid')
-                ->references('id')->on('products')
-                ->onUpdate('CASCADE')
-                ->onDelete('RESTRICT');
+            // $table->foreign('productid')
+            //     ->references('id')->on('products')
+            //     ->onUpdate('CASCADE')
+            //     ->onDelete('RESTRICT');
         });
     }
 
