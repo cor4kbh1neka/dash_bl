@@ -160,7 +160,7 @@ class ApiBolaControllers extends Controller
                 'Belance' => 0,
                 'ErrorCode' => 4,
                 'ErrorMessage' => 'CompanyKey Error'
-            ], 400);
+            ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
         }
 
         /* Validasi username is empty */
@@ -170,7 +170,7 @@ class ApiBolaControllers extends Controller
                 'Belance' => 0,
                 'ErrorCode' => 3,
                 'ErrorMessage' => 'Username empty'
-            ], 400);
+            ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
         }
 
         /* Validasi Players member exsis or not */
@@ -181,7 +181,7 @@ class ApiBolaControllers extends Controller
                 'Belance' => 0,
                 'ErrorCode' => 4,
                 'ErrorMessage' => 'Member not exist'
-            ], 400);
+            ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
         }
 
         /* Validasi Alldata */
@@ -200,7 +200,7 @@ class ApiBolaControllers extends Controller
                 'Belance' => 0,
                 'ErrorCode' => 7,
                 'ErrorMessage' => 'Internal Error'
-            ], 400);
+            ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
         } else {
             try {
                 $dataGetBalance = [
@@ -216,7 +216,7 @@ class ApiBolaControllers extends Controller
                         'Belance' => $getBalance["balance"],
                         'ErrorCode' => 0,
                         'ErrorMessage' => 'No Error'
-                    ]);
+                    ])->header('Content-Type', 'application/json; charset=UTF-8');
                 }
 
                 return response()->json([
@@ -224,14 +224,14 @@ class ApiBolaControllers extends Controller
                     'Belance' => 0,
                     'ErrorCode' => 99,
                     'ErrorMessage' => $getBalance["error"]["msg"]
-                ], 400);
+                ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
             } catch (\Exception $e) {
                 return response()->json([
                     'AccountName' => $request->Username,
                     'Belance' => 0,
                     'ErrorCode' => 99,
                     'ErrorMessage' => $e->getMessage()
-                ], 400);
+                ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
             }
         }
 
