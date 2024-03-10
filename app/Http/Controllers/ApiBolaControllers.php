@@ -137,6 +137,9 @@ class ApiBolaControllers extends Controller
         $request->merge([
             'CompanyKey' => '4E9AA552891B407DB14129BB03CB8C5E',
             'Username' => 'Player_B_002',
+            'ProductType' => 1,
+            'GameType' => 1,
+            'Gpid' => -2,
         ]);
 
         # Decode request
