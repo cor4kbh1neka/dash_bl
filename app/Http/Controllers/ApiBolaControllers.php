@@ -282,7 +282,7 @@ class ApiBolaControllers extends Controller
 
     function requestApi($endpoint, $data)
     {
-        $url = 'http://ex-api-demo-yy.568win.com/web-root/restricted/player/' . $endpoint . '.aspx';
+        $url = 'https://ex-api-demo-yy.568win.com/web-root/restricted/player/' . $endpoint . '.aspx';
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json; charset=UTF-8',
