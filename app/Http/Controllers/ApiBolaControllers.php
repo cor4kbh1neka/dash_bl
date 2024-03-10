@@ -135,8 +135,8 @@ class ApiBolaControllers extends Controller
     public function GetBalance(Request $request)
     {
         $request->merge([
-            'CompanyKey' => '4E9AA552891B407DB14129BB03CB8C5E',
-            'Username' => 'Player_B_002',
+            'CompanyKey' => '7b277d9ad9f146a591a6d40bf4290d62c65bf0bcda32b50404a011733cfb7b1e',
+            'Username' => 'test',
             'ProductType' => 1,
             'GameType' => 1,
             'Gpid' => -2,
@@ -203,21 +203,21 @@ class ApiBolaControllers extends Controller
             ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
         } else {
             try {
-                $dataGetBalance = [
-                    'Username' => $request->Username,
-                    'CompanyKey' => $request->CompanyKey,
-                    'ServerId' => $request->serverId,
-                ];
-                $getBalance = $this->requestApi('get-player-balance', $dataGetBalance);
+                // $dataGetBalance = [
+                //     'Username' => $request->Username,
+                //     'CompanyKey' => $request->CompanyKey,
+                //     'ServerId' => $request->serverId,
+                // ];
+                // $getBalance = $this->requestApi('get-player-balance', $dataGetBalance);
 
-                if ($getBalance["error"]["id"] === 0 || $getBalance["error"]["msg"] === "No Error") {
-                    return response()->json([
-                        'AccountName' => $request->Username,
-                        'Belance' => $getBalance["balance"],
-                        'ErrorCode' => 0,
-                        'ErrorMessage' => 'No Error'
-                    ])->header('Content-Type', 'application/json; charset=UTF-8');
-                }
+                // if ($getBalance["error"]["id"] === 0 || $getBalance["error"]["msg"] === "No Error") {
+                return response()->json([
+                    'AccountName' => $request->Username,
+                    'Belance' => $getBalance["balance"],
+                    'ErrorCode' => 0,
+                    'ErrorMessage' => 'No Error'
+                ])->header('Content-Type', 'application/json; charset=UTF-8');
+                // }
 
                 return response()->json([
                     'AccountName' => $request->Username,
