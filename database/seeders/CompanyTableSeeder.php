@@ -16,7 +16,7 @@ class CompanyTableSeeder extends Seeder
     {
         DB::table('companys')->insert([
             'id' => Str::uuid(),
-            'companykey' => '4E9AA552891B407DB14129BB03CB8C5E',
+            'companykey' => 'C441C721B2214E658A6D2A72C41D2063',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

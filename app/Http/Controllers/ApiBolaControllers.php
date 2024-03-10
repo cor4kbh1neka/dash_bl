@@ -34,7 +34,7 @@ class ApiBolaControllers extends Controller
         if (!$modelCompany) {
             return response()->json([
                 'AccountName' => $request->Username,
-                'Belance' => 0,
+                'Balance' => 0,
                 'ErrorCode' => 4,
                 'ErrorMessage' => 'CompanyKey Error'
             ], 400);
@@ -44,7 +44,7 @@ class ApiBolaControllers extends Controller
         if (!$request->Username) {
             return response()->json([
                 'AccountName' => $request->Username,
-                'Belance' => 0,
+                'Balance' => 0,
                 'ErrorCode' => 3,
                 'ErrorMessage' => 'Username empty'
             ], 400);
@@ -55,7 +55,7 @@ class ApiBolaControllers extends Controller
         if (!$modelCompany) {
             return response()->json([
                 'AccountName' => $request->Username,
-                'Belance' => 0,
+                'Balance' => 0,
                 'ErrorCode' => 4,
                 'ErrorMessage' => 'Member not exist'
             ], 400);
@@ -81,7 +81,7 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
             return response()->json([
                 'AccountName' => $request->Username,
-                'Belance' => 0,
+                'Balance' => 0,
                 'ErrorCode' => 7,
                 'ErrorMessage' => 'Internal Error'
             ], 400);
@@ -104,7 +104,7 @@ class ApiBolaControllers extends Controller
                 if ($addSaldo["error"]["id"] === 0 || $addSaldo["error"]["msg"] === "No Error") {
                     return response()->json([
                         'AccountName' => $request->Username,
-                        'Belance' => $addSaldo["balance"],
+                        'Balance' => $addSaldo["balance"],
                         'ErrorCode' => 0,
                         'ErrorMessage' => 'No Error'
                     ]);
@@ -134,13 +134,13 @@ class ApiBolaControllers extends Controller
 
     public function GetBalance(Request $request)
     {
-        $request->merge([
-            'CompanyKey' => 'C441C721B2214E658A6D2A72C41D2063',
-            'Username' => 'Player_C_001',
-            'ProductType' => 1,
-            'GameType' => 1,
-            'Gpid' => -1,
-        ]);
+        // $request->merge([
+        //     'CompanyKey' => 'C441C721B2214E658A6D2A72C41D2063',
+        //     'Username' => 'Player_C_001',
+        //     'ProductType' => 1,
+        //     'GameType' => 1,
+        //     'Gpid' => -1,
+        // ]);
 
         # Decode request
         $data = [
@@ -153,36 +153,36 @@ class ApiBolaControllers extends Controller
 
         # Validation companyKey and other data
         /* Validasi Company */
-        // $modelCompany = Companys::where('companykey', $request->CompanyKey)->first();
-        // if (!$modelCompany) {
-        //     return response()->json([
-        //         'AccountName' => $request->Username,
-        //         'Belance' => 0,
-        //         'ErrorCode' => 4,
-        //         'ErrorMessage' => 'CompanyKey Error'
-        //     ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
-        // }
+        $modelCompany = Companys::where('companykey', $request->CompanyKey)->first();
+        if (!$modelCompany) {
+            return response()->json([
+                'AccountName' => $request->Username,
+                'Balance' => 0,
+                'ErrorCode' => 4,
+                'ErrorMessage' => 'CompanyKey Error'
+            ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
+        }
 
         /* Validasi username is empty */
         if (!$request->Username) {
             return response()->json([
                 'AccountName' => $request->Username,
-                'Belance' => 0,
+                'Balance' => 0,
                 'ErrorCode' => 3,
                 'ErrorMessage' => 'Username empty'
             ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
         }
 
         /* Validasi Players member exsis or not */
-        // $modelCompany = Players::where('username', $request->Username)->first();
-        // if (!$modelCompany) {
-        //     return response()->json([
-        //         'AccountName' => $request->Username,
-        //         'Belance' => 0,
-        //         'ErrorCode' => 4,
-        //         'ErrorMessage' => 'Member not exist'
-        //     ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
-        // }
+        $modelCompany = Players::where('username', $request->Username)->first();
+        if (!$modelCompany) {
+            return response()->json([
+                'AccountName' => $request->Username,
+                'Balance' => 0,
+                'ErrorCode' => 4,
+                'ErrorMessage' => 'Member not exist'
+            ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
+        }
 
         /* Validasi Alldata */
         $validator = Validator::make($request->all(), [
@@ -197,7 +197,7 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
             return response()->json([
                 'AccountName' => $request->Username,
-                'Belance' => 0,
+                'Balance' => 0,
                 'ErrorCode' => 7,
                 'ErrorMessage' => 'Internal Error'
             ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
@@ -213,7 +213,7 @@ class ApiBolaControllers extends Controller
                 if ($getBalance["error"]["id"] === 0 || $getBalance["error"]["msg"] === "No Error") {
                     return response()->json([
                         'AccountName' => $request->Username,
-                        'Belance' => $getBalance["balance"],
+                        'Balance' => $getBalance["balance"],
                         'ErrorCode' => 0,
                         'ErrorMessage' => 'No Error'
                     ])->header('Content-Type', 'application/json; charset=UTF-8');
@@ -221,14 +221,14 @@ class ApiBolaControllers extends Controller
 
                 return response()->json([
                     'AccountName' => $request->Username,
-                    'Belance' => 0,
+                    'Balance' => 0,
                     'ErrorCode' => 99,
                     'ErrorMessage' => $getBalance["error"]["msg"]
                 ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
             } catch (\Exception $e) {
                 return response()->json([
                     'AccountName' => $request->Username,
-                    'Belance' => 0,
+                    'Balance' => 0,
                     'ErrorCode' => 99,
                     'ErrorMessage' => $e->getMessage()
                 ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
@@ -275,7 +275,6 @@ class ApiBolaControllers extends Controller
 
     public function GetBetStatus(Request $request)
     {
-        return '/GetBetStatus';
     }
 
     public function ReturnStake(Request $request)
