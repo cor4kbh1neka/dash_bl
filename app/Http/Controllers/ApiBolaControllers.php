@@ -137,9 +137,6 @@ class ApiBolaControllers extends Controller
         $request->merge([
             'CompanyKey' => '4E9AA552891B407DB14129BB03CB8C5E',
             'Username' => 'Player_B_002',
-            'ProductType' => 1,
-            'GameType' => 1,
-            'Gpid' => -2,
         ]);
 
         # Decode request
@@ -285,7 +282,7 @@ class ApiBolaControllers extends Controller
 
     function requestApi($endpoint, $data)
     {
-        $url = 'https://ex-api-demo-yy.568win.com/web-root/restricted/player/' . $endpoint . '.aspx';
+        $url = 'http://ex-api-demo-yy.568win.com/web-root/restricted/player/' . $endpoint . '.aspx';
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json; charset=UTF-8',
