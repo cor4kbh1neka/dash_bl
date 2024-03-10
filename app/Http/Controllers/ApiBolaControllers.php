@@ -135,11 +135,11 @@ class ApiBolaControllers extends Controller
     public function GetBalance(Request $request)
     {
         $request->merge([
-            'CompanyKey' => '4E9AA552891B407DB14129BB03CB8C5E',
-            'Username' => 'Player_B_002',
+            'CompanyKey' => 'C441C721B2214E658A6D2A72C41D2063',
+            'Username' => 'Player_C_001',
             'ProductType' => 1,
             'GameType' => 1,
-            'Gpid' => -2,
+            'Gpid' => -1,
         ]);
 
         # Decode request
