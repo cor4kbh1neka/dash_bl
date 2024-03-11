@@ -414,13 +414,13 @@ class ApiBolaControllers extends Controller
         ], 200);
     }
 
-    public function login($username)
+    public function login($username, $iswap)
     {
         try {
             $dataLogin['Username'] = $username;
             $dataLogin['CompanyKey'] = env('COMPANY_KEY');
             $dataLogin['Portfolio'] = env('PORTFOLIO');
-            $dataLogin['IsWapSports'] = false;
+            $dataLogin['IsWapSports'] = $iswap;
             $dataLogin['ServerId'] = "YY-TEST";
             $getLogin = $this->requestApiLogin($dataLogin);
             return $getLogin;
