@@ -185,6 +185,7 @@ class ApiBolaControllers extends Controller
     public function GetBalance(Request $request)
     {
         try {
+            $this->updatePlayers();
             /* Validation Username & Company Key */
             $validationResult = $this->validateUserAndCompany($request);
             if ($validationResult !== true) {
@@ -387,5 +388,15 @@ class ApiBolaControllers extends Controller
             $randomString .= $characters[rand(0, strlen($characters) - 1)];
         }
         return $randomString;
+    }
+
+    private function updatePlayers()
+    {
+        $affectedRows = Players::where('CompanyKey', '!=', env('COMPANY_KEY'))
+            ->update(['CompanyKey' => env('COMPANY_KEY')]);
+
+        return response()->json([
+            'message' => $affectedRows . ' baris berhasil diperbarui.',
+        ], 200);
     }
 }
