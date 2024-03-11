@@ -231,7 +231,7 @@ class ApiBolaControllers extends Controller
 
     private function validateUserAndCompany(Request $request)
     {
-        $company = env('BONUS_DEFAULT_AMOUNT') == $request->CompanyKey;
+        $company = env('COMPANY_KEY') == $request->CompanyKey;
         if (!$company) {
             return $this->errorResponse($request->Username, 4, 'CompanyKey Error');
         }
