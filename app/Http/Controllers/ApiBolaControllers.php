@@ -138,7 +138,13 @@ class ApiBolaControllers extends Controller
         $getBetStatus = $this->requestApi('check-transaction-status', $dataGetBetStatus);
 
         if ($getBetStatus["error"]["id"] === 0 || $getBetStatus["error"]["msg"] === "No Error") {
-            return $this->errorResponse($request->Username, 5003, 'Bet With Same RefNo Exists');
+
+            return response()->json([
+                'AccountName' => $request->Username,
+                'Balance' => 0,
+                'ErrorCode' => 5003,
+                'ErrorMessage' => 'Bet With Same RefNo Exists'
+            ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
         }
 
         return true;
