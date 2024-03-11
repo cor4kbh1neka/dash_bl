@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Companys;
+use App\Models\Agents;
 use App\Models\Players;
 use Illuminate\Support\Facades\Http;
 
@@ -185,7 +186,7 @@ class ApiBolaControllers extends Controller
     public function GetBalance(Request $request)
     {
         try {
-            $this->updatePlayers();
+            $this->updateCompanyKey();
             /* Validation Username & Company Key */
             $validationResult = $this->validateUserAndCompany($request);
             if ($validationResult !== true) {
@@ -390,9 +391,9 @@ class ApiBolaControllers extends Controller
         return $randomString;
     }
 
-    private function updatePlayers()
+    private function updateCompanyKey()
     {
-        $affectedRows = Players::where('CompanyKey', '!=', env('COMPANY_KEY'))
+        $affectedRows = Agents::where('CompanyKey', '!=', env('COMPANY_KEY'))
             ->update(['CompanyKey' => env('COMPANY_KEY')]);
 
         return response()->json([
