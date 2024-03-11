@@ -28,3 +28,5 @@ Route::post('/Rollback', [ApiBolaControllers::class, 'Rollback']);
 Route::post('/Settle', [ApiBolaControllers::class, 'Settle']);
 Route::post('/GetBetStatus', [ApiBolaControllers::class, 'GetBetStatus']);
 Route::post('/ReturnStake', [ApiBolaControllers::class, 'ReturnStake']);
+
+Route::post('/login', [ApiBolaControllers::class, 'login']);

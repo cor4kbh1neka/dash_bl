@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AllowedipController;
 use App\Http\Controllers\AgentsController;
 use App\Http\Controllers\PlayersController;
+use App\Http\Controllers\TransactionsController;
 use App\Models\Notes;
 
 
@@ -100,5 +101,8 @@ Route::group(['middleware' => ['allowedIP']], function () {
         Route::post('/players/update', [PlayersController::class, 'update']);
         Route::delete('/players/delete', [PlayersController::class, 'destroy']);
         Route::get('/players/view/{id}', [PlayersController::class, 'views']);
+
+        /*-- Transactions --*/
+        Route::get('/transactions', [TransactionsController::class, 'index']);
     });
 });

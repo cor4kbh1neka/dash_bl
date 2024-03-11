@@ -37,7 +37,7 @@ class ApiBolaControllers extends Controller
                 return response()->json(['errors' => $validator->errors()->all()]);
             }
             /* InjectSaldo */
-            $InjectSaldo = $this->depostiAmount($request);
+            $InjectSaldo = $this->depositAmount($request);
             return $InjectSaldo;
         } catch (\Exception $e) {
             return $this->errorResponse($request->Username, 99, $e->getMessage());
@@ -45,7 +45,7 @@ class ApiBolaControllers extends Controller
         return;
     }
 
-    private function depostiAmount($dataAddSaldo)
+    private function depositAmount($dataAddSaldo)
     {
         $addSaldo = $this->requestApi('deposit', $dataAddSaldo);
         // Retry adding balance if error "Transaction Has Made With Same Id"
@@ -53,7 +53,7 @@ class ApiBolaControllers extends Controller
         //     $dataAddSaldo['TxnId'] = $this->generateRandomString();
         //     $addSaldo = $this->requestApi('deposit', $dataAddSaldo);
         // }
-
+        dd($addSaldo);
         if ($addSaldo["error"]["id"] === 0 || $addSaldo["error"]["msg"] === "No Error") {
             return response()->json([
                 'AccountName' => $dataAddSaldo['Username'],
@@ -152,6 +152,12 @@ class ApiBolaControllers extends Controller
 
     private function withdrawAmount(Request $request)
     {
+        // Retry adding balance if error "Transaction Has Made With Same Id"
+        // while ($addSaldo["error"]["id"] === 4404 || $addSaldo["error"]["msg"] === 'Transaction Has Made With Same Id') {
+        //     $dataAddSaldo['TxnId'] = $this->generateRandomString();
+        //     $addSaldo = $this->requestApi('deposit', $dataAddSaldo);
+        // }
+        dd($this->generateRandomNumber('W'));
         $dataWithdraw = [
             'Username' => $request->Username,
             'txnId' => $request->TransactionId,
@@ -287,7 +293,7 @@ class ApiBolaControllers extends Controller
                 'CompanyKey' => $request->CompanyKey,
                 'ServerId' => $request->ServerId
             ];
-            $InjectSaldo = $this->depostiAmount($dataAddSaldo);
+            $InjectSaldo = $this->depositAmount($dataAddSaldo);
             return $InjectSaldo;
         } catch (\Exception $e) {
             return $this->errorResponse($request->Username, 99, $e->getMessage());
@@ -387,13 +393,14 @@ class ApiBolaControllers extends Controller
         return $responseData;
     }
 
-    function generateRandomString($length = 18)
+    function generateRandomString($jenis, $length = 17)
     {
-        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $characters = '0123456789';
         $randomString = '';
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, strlen($characters) - 1)];
         }
+        $randomString = $jenis . $randomString;
         return $randomString;
     }
 
@@ -405,5 +412,45 @@ class ApiBolaControllers extends Controller
         return response()->json([
             'message' => $affectedRows . ' baris berhasil diperbarui.',
         ], 200);
+    }
+
+    public function login(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'Username' => 'required|regex:/^[a-zA-Z0-9_]{6,20}$/',
+                'CompanyKey' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()->all()]);
+            }
+
+            $dataLogin = $request->all();
+            $dataLogin['Portfolio'] = env('PORTFOLIO');
+            $dataLogin['IsWapSports'] = false;
+            $dataLogin['ServerId'] = "YY-TEST";
+            $getLogin = $this->requestApiLogin($dataLogin);
+            return $getLogin;
+        } catch (\Exception $e) {
+            return $this->errorResponse($request->Username, 99, $e->getMessage());
+        }
+    }
+
+    function requestApiLogin($data)
+    {
+        $url = 'https://ex-api-demo-yy.568win.com/web-root/restricted/player/login.aspx';
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json; charset=UTF-8',
+        ])->post($url, $data);
+
+        if ($response->successful()) {
+            $responseData = $response->json();
+        } else {
+            $statusCode = $response->status();
+            $errorMessage = $response->body();
+            $responseData = "Error: $statusCode - $errorMessage";
+        }
+        return ['url' => $responseData["url"]];
     }
 }

@@ -350,6 +350,14 @@ $(document).on('click', '#Player', function (event) {
     });
 });
 
+$(document).on('click', '#Transaction', function (event) {
+    event.preventDefault();
+    $('.aplay_code').load('/transactions', function () {
+        adjustElementSize();
+        localStorage.setItem('lastPage', '/transactions');
+    });
+});
+
 $(document).on('click', '#Usermanagement', function (event) {
     event.preventDefault();
     $('.aplay_code').load('/user', function () {
