@@ -144,7 +144,7 @@ class ApiBolaControllers extends Controller
                 'Balance' => 0,
                 'ErrorCode' => 5003,
                 'ErrorMessage' => 'Bet With Same RefNo Exists'
-            ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
+            ])->header('Content-Type', 'application/json; charset=UTF-8');
         }
 
         return true;
