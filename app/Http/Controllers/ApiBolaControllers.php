@@ -242,10 +242,10 @@ class ApiBolaControllers extends Controller
             return $this->errorResponse($request->Username, 3, 'Username empty');
         }
 
-        $user = Players::where('username', $request->Username)->first();
-        if (!$user) {
-            return $this->errorResponse($request->Username, 4, 'Member not exist');
-        }
+        // $user = Players::where('username', $request->Username)->first();
+        // if (!$user) {
+        //     return $this->errorResponse($request->Username, 4, 'Member not exist');
+        // }
 
         return true;
     }
