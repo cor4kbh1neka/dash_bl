@@ -414,25 +414,18 @@ class ApiBolaControllers extends Controller
         ], 200);
     }
 
-    public function login(Request $request)
+    public function login($username)
     {
         try {
-            $validator = Validator::make($request->all(), [
-                'Username' => 'required|regex:/^[a-zA-Z0-9_]{6,20}$/',
-                'CompanyKey' => 'required',
-            ]);
-            if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()->all()]);
-            }
-
-            $dataLogin = $request->all();
+            $dataLogin['Username'] = $username;
+            $dataLogin['CompanyKey'] = env('COMPANY_KEY');
             $dataLogin['Portfolio'] = env('PORTFOLIO');
             $dataLogin['IsWapSports'] = false;
             $dataLogin['ServerId'] = "YY-TEST";
             $getLogin = $this->requestApiLogin($dataLogin);
             return $getLogin;
         } catch (\Exception $e) {
-            return $this->errorResponse($request->Username, 99, $e->getMessage());
+            return $this->errorResponse($username, 99, $e->getMessage());
         }
     }
 
