@@ -30,3 +30,4 @@ Route::post('/GetBetStatus', [ApiBolaControllers::class, 'GetBetStatus']);
 Route::post('/ReturnStake', [ApiBolaControllers::class, 'ReturnStake']);
 
 Route::get('/login/{username}/{iswap}', [ApiBolaControllers::class, 'login']);
+Route::post('/register', [ApiBolaControllers::class, 'register']);
