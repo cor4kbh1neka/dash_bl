@@ -52,7 +52,8 @@
                 {{-- <th class="check_box">
                     <input type="checkbox" id="myCheckbox" name="myCheckbox">
                 </th> --}}
-                <th>TransactionId</th>
+                <th>Txnid</th>
+                <th>Transfercode</th>
                 <th>Username</th>
                 <th>Jenis</th>
                 <th>Amount</th>
@@ -128,7 +129,8 @@
                         <input type="checkbox" id="myCheckbox-{{ $index }}"
                             name="myCheckbox-{{ $index }}" data-id=" {{ $d->id }}">
                     </td> --}}
-                    <td><span class="name">{{ $d->transid }}</span></td>
+                    <td><span class="name">{{ $d->txnid }}</span></td>
+                    <td><span class="name">{{ $d->transfercode }}</span></td>
                     <td><span class="name">{{ $d->username }}</span></td>
                     <td><span class="name">{{ $d->jenis }}</span></td>
                     <td><span class="name">{{ number_format($d->amount, 0, ',', '.') }}</span></td>
