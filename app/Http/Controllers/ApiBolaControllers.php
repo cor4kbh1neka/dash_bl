@@ -144,13 +144,14 @@ class ApiBolaControllers extends Controller
 
     private function checkBetStatus(Request $request)
     {
+        $dataWD = Transactions::where('transfercode', $request->TransferCode)->where('jenis', 'WD')->first();
+
         $dataGetBetStatus = [
             'TxnId' => $request->TransactionId,
-            'CompanyKey' => $request->CompanyKey,
+            'CompanyKey' => $dataWD->txnid,
             'ServerId' => 'YY-TEST',
         ];
         $getBetStatus = $this->requestApi('check-transaction-status', $dataGetBetStatus);
-
         if ($getBetStatus["error"]["id"] === 0 || $getBetStatus["error"]["msg"] === "No Error") {
 
             return response()->json([
