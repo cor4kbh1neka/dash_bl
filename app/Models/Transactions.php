@@ -4,17 +4,32 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Agents;
+use Illuminate\Support\Str;
 
-class Players extends Model
+class Transactions extends Model
 {
     use HasFactory;
-    public $incrementing = false;
-    protected $fillable = ['id', 'transid', 'username', 'jenis', 'amount'];
-    protected $table = 'user_players';
 
-    public function agent()
+    public $incrementing = false;
+
+    protected $fillable = ['txnid', 'transfercode', 'username', 'jenis', 'amount'];
+
+    protected $primaryKey = 'id';
+
+    protected $keyType = 'string';
+
+    protected $casts = [
+        'id' => 'string',
+    ];
+
+    protected static function boot()
     {
-        return $this->hasOne(Agents::class, 'agentid');
+        parent::boot();
+
+        static::creating(function ($transaction) {
+            $transaction->id = Str::uuid()->toString();
+        });
     }
+
+    protected $table = 'transactions';
 }

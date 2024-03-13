@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Currencys extends Model
 {
     use HasFactory;
-    protected $guarded = ['id'];
+    protected $fillable = ['id', 'currency'];
     protected $table = 'currencys';
 }

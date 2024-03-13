@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Companys;
 use App\Models\Agents;
-use App\Models\Players;
+use App\Models\Transactions;
 use Illuminate\Support\Facades\Http;
 
 class ApiBolaControllers extends Controller
@@ -37,33 +36,48 @@ class ApiBolaControllers extends Controller
                 return response()->json(['errors' => $validator->errors()->all()]);
             }
             /* InjectSaldo */
-            $InjectSaldo = $this->depositAmount($request);
-            return $InjectSaldo;
+            // $InjectSaldo = $this->depositAmount($request);
+            // return $InjectSaldo;
         } catch (\Exception $e) {
             return $this->errorResponse($request->Username, 99, $e->getMessage());
         }
         return;
     }
 
-    private function depositAmount($dataAddSaldo)
+    private function depositAmount($dataAddSaldo, $jenis)
     {
         $addSaldo = $this->requestApi('deposit', $dataAddSaldo);
-        // Retry adding balance if error "Transaction Has Made With Same Id"
-        // while ($addSaldo["error"]["id"] === 4404 || $addSaldo["error"]["msg"] === 'Transaction Has Made With Same Id') {
-        //     $dataAddSaldo['TxnId'] = $this->generateRandomString();
-        //     $addSaldo = $this->requestApi('deposit', $dataAddSaldo);
-        // }
-        dd($addSaldo);
+        $txnId = $this->generateRandomString('D');
+
+        /* Retry adding balance if error "Transaction Has Made With Same Id" */
+        $maxRetries = 3;
+        $retryCount = 0;
+        while (($addSaldo["error"]["id"] === 4404 || $addSaldo["error"]["msg"] === 'Transaction Has Made With Same Id') && $retryCount < $maxRetries) {
+            $txnId = $this->generateRandomString('D');
+            $addSaldo['TxnId'] = $txnId;
+            $addSaldo = $this->requestApi('deposit', $dataAddSaldo);
+            $retryCount++;
+        }
+
         if ($addSaldo["error"]["id"] === 0 || $addSaldo["error"]["msg"] === "No Error") {
-            return response()->json([
+            $dataTransaction = [
+                'txnid' => $txnId,
+                'transfercode' => $dataAddSaldo['TxnId'],
+                'username' => $dataAddSaldo['Username'],
+                'jenis' => $jenis,
+                'amount' => $dataAddSaldo['Amount'],
+            ];
+            $this->createTransaction($dataTransaction);
+
+            return [
                 'AccountName' => $dataAddSaldo['Username'],
                 'Balance' => $addSaldo["balance"],
                 'ErrorCode' => 0,
                 'ErrorMessage' => 'No Error'
-            ]);
+            ];
         }
 
-        return response()->json(['errors' => [$addSaldo["error"]["msg"]]], 400);
+        return ['errors' => [$addSaldo["error"]["msg"]]];
     }
 
     public function Deduct(Request $request)
@@ -101,7 +115,7 @@ class ApiBolaControllers extends Controller
             }
 
             /* Deduct Saldo */
-            $withdrawResult = $this->withdrawAmount($request);
+            $withdrawResult = $this->withdrawAmount($request, 'WD');
             return $withdrawResult;
         } catch (\Exception $e) {
             return $this->errorResponse($request->Username, 99, $e->getMessage());
@@ -150,25 +164,44 @@ class ApiBolaControllers extends Controller
         return true;
     }
 
-    private function withdrawAmount(Request $request)
+    private function withdrawAmount(Request $request, $jenis)
     {
-        // Retry adding balance if error "Transaction Has Made With Same Id"
-        // while ($addSaldo["error"]["id"] === 4404 || $addSaldo["error"]["msg"] === 'Transaction Has Made With Same Id') {
-        //     $dataAddSaldo['TxnId'] = $this->generateRandomString();
-        //     $addSaldo = $this->requestApi('deposit', $dataAddSaldo);
-        // }
-        dd($this->generateRandomNumber('W'));
+        $txnId = $this->generateRandomString('W');
         $dataWithdraw = [
             'Username' => $request->Username,
-            'txnId' => $request->TransactionId,
+            'txnId' => $txnId,
             'IsFullAmount' => false,
             'Amount' => $request->Amount,
             'CompanyKey' => $request->CompanyKey,
             'ServerId' => 'YY-TEST',
         ];
+
+        // Request API for withdrawal
         $getBalance = $this->requestApi('withdraw', $dataWithdraw);
 
+        // Retry adding balance if error "Transaction Has Made With Same Id"
+        $maxRetries = 3;
+        $retryCount = 0;
+        while (($getBalance["error"]["id"] === 4404 || $getBalance["error"]["msg"] === 'Transaction Has Made With Same Id') && $retryCount < $maxRetries) {
+            $txnId = $this->generateRandomString('W');
+            $dataWithdraw['TxnId'] = $txnId;
+            $getBalance = $this->requestApi('withdraw', $dataWithdraw);
+            $retryCount++;
+        }
+
+        // Check for successful withdrawal
         if ($getBalance["error"]["id"] === 0 || $getBalance["error"]["msg"] === "No Error") {
+
+            /* create Trnsaction */
+            $dataTransaction = [
+                'txnid' => $txnId,
+                'transfercode' => $request->TransactionId,
+                'username' => $request->Username,
+                'jenis' => $jenis,
+                'amount' => $request->Amount,
+            ];
+            $this->createTransaction($dataTransaction);
+
             return response()->json([
                 'AccountName' => $request->Username,
                 'Balance' => $getBalance["balance"],
@@ -178,6 +211,11 @@ class ApiBolaControllers extends Controller
         }
 
         return $this->errorResponse($request->Username, 99, $getBalance["error"]["msg"]);
+    }
+
+    private function createTransaction($data)
+    {
+        return Transactions::create($data);
     }
 
     private function errorResponse($username, $errorCode, $errorMessage)
@@ -285,16 +323,17 @@ class ApiBolaControllers extends Controller
                 return response()->json(['errors' => $validator->errors()->all()]);
             }
 
-            /* Inject Saldo */
+            /* Add Saldo */
             $dataAddSaldo = [
                 'Username' => $request->Username,
-                'TxnId' => $request->TransferCode,
+                'TxnId' => $this->generateRandomString('D'),
                 'Amount' => $request->WinLoss,
                 'CompanyKey' => $request->CompanyKey,
                 'ServerId' => $request->ServerId
             ];
-            $InjectSaldo = $this->depositAmount($dataAddSaldo);
-            return $InjectSaldo;
+            $addSaldo = $this->depositAmount($dataAddSaldo, 'DS');
+
+            return $addSaldo;
         } catch (\Exception $e) {
             return $this->errorResponse($request->Username, 99, $e->getMessage());
         }

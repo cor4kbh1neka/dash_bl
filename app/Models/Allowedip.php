@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Allowedip extends Model
 {
     use HasFactory;
-
+    protected $fillable = ['id', 'username', 'password', 'currency', 'min', 'max', 'maxpermatch', 'casinotablelimit', 'companykey', 'serverid'];
     protected $table = 'allowed_ips';
-    protected $guarded = [];
 }
