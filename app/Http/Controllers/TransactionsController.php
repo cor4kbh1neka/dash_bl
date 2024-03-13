@@ -11,7 +11,7 @@ class TransactionsController extends Controller
     public function index()
     {
         $data = Transactions::get();
-        return view('transactions.index', [
+        return view('Transactions.index', [
             'title' => 'Transactions',
             'data' => $data
         ]);
