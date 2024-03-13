@@ -486,4 +486,39 @@ class ApiBolaControllers extends Controller
         }
         return ['url' => $responseData["url"]];
     }
+
+    public function register(Request $request)
+    {
+        $data = [
+            "Username" => $request->Username,
+            "UserGroup" => "c",
+            "Agent" => "Agent_C_001",
+            "CompanyKey" => env('COMPANY_KEY'),
+            "ServerId" => "YY-TEST"
+        ];
+
+        $url = 'https://ex-api-demo-yy.568win.com/web-root/restricted/player/register-player.aspx';
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json; charset=UTF-8',
+        ])->post($url, $data);
+
+        if ($response->successful()) {
+            $responseData = $response->json();
+        } else {
+            $statusCode = $response->status();
+            $errorMessage = $response->body();
+            $responseData = "Error: $statusCode - $errorMessage";
+        }
+
+        if ($responseData["error"]["id"] === 0) {
+            return response()->json([
+                'message' => 'Data berhasil disimpan.'
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => $responseData["error"]["msg"]
+            ], 400);
+        }
+    }
 }
