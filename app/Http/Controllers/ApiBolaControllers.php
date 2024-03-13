@@ -489,6 +489,10 @@ class ApiBolaControllers extends Controller
 
     public function register(Request $request)
     {
+        if (!$request->header('Authorization')) {
+            return response()->json(['message' => 'Unauthorized.'], 401);
+        }
+
         $data = [
             "Username" => $request->Username,
             "UserGroup" => "c",
@@ -501,6 +505,7 @@ class ApiBolaControllers extends Controller
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json; charset=UTF-8',
+            'Authorization' => 'Bearer ' .  env('BEARER_TOKEN'),
         ])->post($url, $data);
 
         if ($response->successful()) {
@@ -517,7 +522,7 @@ class ApiBolaControllers extends Controller
             ], 200);
         } else {
             return response()->json([
-                'message' => $responseData["error"]["msg"]
+                'message' => $responseData["error"]["msg"] ?? 'Error tidak teridentifikasi.'
             ], 400);
         }
     }
