@@ -12,7 +12,7 @@ class BettingStatus extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['transferkode', 'username', 'status'];
+    protected $fillable = ['transfercode', 'username', 'status'];
 
     protected $primaryKey = 'id';
 

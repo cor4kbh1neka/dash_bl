@@ -114,7 +114,8 @@ class ApiBolaControllers extends Controller
 
             /* Cehck internal status Betting */
             $bettingStatus = BettingStatus::where('transfercode', $request->TransferCode)
-                ->where('username', $request->Username);
+                ->where('username', $request->Username)->first();
+
             if ($bettingStatus) {
                 return $this->errorResponse($request->Username, 5003, 'Bet With Same RefNo Exists');
             }
@@ -133,8 +134,9 @@ class ApiBolaControllers extends Controller
 
             /* Create betting */
             $data = [
-                'transferkode' => $request->TransferCode,
-                'status' => 'running',
+                'transfercode' => $request->TransferCode,
+                'username' => $request->Username,
+                'status' => 'Running',
             ];
             $withdrawData = BettingStatus::create($data);
 
