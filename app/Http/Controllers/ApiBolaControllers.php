@@ -61,18 +61,18 @@ class ApiBolaControllers extends Controller
         }
 
         if ($addSaldo["error"]["id"] === 0 || $addSaldo["error"]["msg"] === "No Error") {
-            $dataTransaction = [
-                'txnid' => $txnId,
-                'transfercode' => $dataAddSaldo['TxnId'],
-                'username' => $dataAddSaldo['Username'],
-                'jenis' => $jenis,
-                'amount' => $dataAddSaldo['Amount'],
-            ];
 
             $UpdateSettleStatus = BettingStatus::where('username', $dataAddSaldo['Username'])->where('transfercode', $dataAddSaldo['TransferCode'])->where('status', 'Running')->update([
                 'status' => 'Settled',
             ]);
 
+            $dataTransaction = [
+                'txnid' => $txnId,
+                'transfercode' => $dataAddSaldo['TransferCode'],
+                'username' => $dataAddSaldo['Username'],
+                'jenis' => $jenis,
+                'amount' => $dataAddSaldo['Amount'],
+            ];
             if ($UpdateSettleStatus > 0) {
                 $this->createTransaction($dataTransaction);
 
@@ -227,9 +227,19 @@ class ApiBolaControllers extends Controller
             $getBalance = $this->requestApi('withdraw', $dataWithdraw);
             $retryCount++;
         }
-
+        dd($getBalance);
         // Check for successful withdrawal
         if ($getBalance["error"]["id"] === 0 || $getBalance["error"]["msg"] === "No Error") {
+
+            /* Update status cancel jika $jenis = WC (withdraw cancel) */
+            if ($jenis === 'WC') {
+                BettingStatus::where('transfercode', $request->TransferCode)
+                    ->where('username', $request->Username)
+                    ->whereIn('status', ['Running', 'Settled'])
+                    ->update([
+                        'status' => 'Void'
+                    ]);
+            }
 
             /* create Trnsaction */
             $dataTransaction = [
@@ -269,7 +279,62 @@ class ApiBolaControllers extends Controller
 
     public function Cancel(Request $request)
     {
-        return '/Cancel';
+        try {
+            /* Validation Username & Company Key */
+            $validationResult = $this->validateUserAndCompany($request);
+            if ($validationResult !== true) {
+                return $validationResult;
+            }
+
+            /* Validation Requiremnt */
+            $validator = Validator::make($request->all(), [
+                'TransferCode' => 'required',
+                'CompanyKey' => 'required',
+                'Username' => 'required|regex:/^[a-zA-Z0-9_]{6,20}$/'
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()->all()]);
+            }
+
+            /* Cehck internal status Betting */
+            $bettingStatus = BettingStatus::where('transfercode', $request->TransferCode)
+                ->where('username', $request->Username)->first();
+
+            if ($bettingStatus->status === 'Running' || $bettingStatus->status === 'Settled') {
+
+                $withdrawResult = $this->withdrawAmount($request, 'WC');
+                return $withdrawResult;
+            }
+
+            // /* Check Status Betting */
+            // $betStatusCheckResult = $this->checkBetStatus($request);
+            // if ($betStatusCheckResult !== true) {
+            //     return $betStatusCheckResult;
+            // }
+
+            // /* Check Balance Have Saldo Or Not */
+            // $balanceCheckResult = $this->checkBalance($request);
+            // if ($balanceCheckResult !== true) {
+            //     return $balanceCheckResult;
+            // }
+
+            /* Create betting */
+            // $data = [
+            //     'transfercode' => $request->TransferCode,
+            //     'username' => $request->Username,
+            //     'status' => 'Running',
+            // ];
+            // $withdrawData = BettingStatus::create($data);
+
+            // if ($withdrawData) {
+            //     /* Deduct Saldo */
+            //     $withdrawResult = $this->withdrawAmount($request, 'WD');
+            //     return $withdrawResult;
+            // }
+            return $this->errorResponse($request->Username, 5003, 'Bet With Same RefNo Exists');
+        } catch (\Exception $e) {
+            return $this->errorResponse($request->Username, 99, $e->getMessage());
+        }
     }
 
     public function GetBalance(Request $request)
