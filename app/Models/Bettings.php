@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class BettingStatus extends Model
+class Bettings extends Model
 {
     use HasFactory;
 
     public $incrementing = false;
 
-    protected $fillable = ['bet_id', 'status'];
+    protected $fillable = ['transfercode', 'username', 'amount'];
 
     protected $primaryKey = 'id';
 
@@ -31,5 +31,5 @@ class BettingStatus extends Model
         });
     }
 
-    protected $table = 'betting_status';
+    protected $table = 'bettings';
 }
