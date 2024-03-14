@@ -13,7 +13,7 @@ class ApiBolaControllers extends Controller
 {
     public function Bonus()
     {
-        return '/Bonus';
+        return '/Bonuss';
     }
 
     public function Cancel()
