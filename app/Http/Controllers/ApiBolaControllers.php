@@ -227,7 +227,6 @@ class ApiBolaControllers extends Controller
             $getBalance = $this->requestApi('withdraw', $dataWithdraw);
             $retryCount++;
         }
-        dd($getBalance);
         // Check for successful withdrawal
         if ($getBalance["error"]["id"] === 0 || $getBalance["error"]["msg"] === "No Error") {
 
