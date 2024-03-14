@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Agents;
 use App\Models\Transactions;
+use App\Models\BettingStatus;
 use Illuminate\Support\Facades\Http;
 
 class ApiBolaControllers extends Controller
@@ -67,14 +68,23 @@ class ApiBolaControllers extends Controller
                 'jenis' => $jenis,
                 'amount' => $dataAddSaldo['Amount'],
             ];
-            $this->createTransaction($dataTransaction);
 
-            return [
-                'AccountName' => $dataAddSaldo['Username'],
-                'Balance' => $addSaldo["balance"],
-                'ErrorCode' => 0,
-                'ErrorMessage' => 'No Error'
-            ];
+            $UpdateSettleStatus = BettingStatus::where('username', $dataAddSaldo['Username'])->where('transfercode', $dataAddSaldo['TransferCode'])->where('status', 'Running')->update([
+                'status' => 'Settled',
+            ]);
+
+            if ($UpdateSettleStatus > 0) {
+                $this->createTransaction($dataTransaction);
+
+                return [
+                    'AccountName' => $dataAddSaldo['Username'],
+                    'Balance' => $addSaldo["balance"],
+                    'ErrorCode' => 0,
+                    'ErrorMessage' => 'No Error'
+                ];
+            }
+
+            return ['errors' => [$addSaldo["error"]["msg"]]];
         }
 
         return ['errors' => [$addSaldo["error"]["msg"]]];
@@ -102,10 +112,11 @@ class ApiBolaControllers extends Controller
                 return response()->json(['errors' => $validator->errors()->all()]);
             }
 
-            /* Check Balance Have Saldo Or Not */
-            $balanceCheckResult = $this->checkBalance($request);
-            if ($balanceCheckResult !== true) {
-                return $balanceCheckResult;
+            /* Cehck internal status Betting */
+            $bettingStatus = BettingStatus::where('transfercode', $request->TransferCode)
+                ->where('username', $request->Username);
+            if ($bettingStatus) {
+                return $this->errorResponse($request->Username, 5003, 'Bet With Same RefNo Exists');
             }
 
             /* Check Status Betting */
@@ -114,9 +125,25 @@ class ApiBolaControllers extends Controller
                 return $betStatusCheckResult;
             }
 
-            /* Deduct Saldo */
-            $withdrawResult = $this->withdrawAmount($request, 'WD');
-            return $withdrawResult;
+            /* Check Balance Have Saldo Or Not */
+            $balanceCheckResult = $this->checkBalance($request);
+            if ($balanceCheckResult !== true) {
+                return $balanceCheckResult;
+            }
+
+            /* Create betting */
+            $data = [
+                'transferkode' => $request->TransferCode,
+                'status' => 'running',
+            ];
+            $withdrawData = BettingStatus::create($data);
+
+            if ($withdrawData) {
+                /* Deduct Saldo */
+                $withdrawResult = $this->withdrawAmount($request, 'WD');
+                return $withdrawResult;
+            }
+            return $this->errorResponse($request->Username, 5003, 'Bet With Same RefNo Exists');
         } catch (\Exception $e) {
             return $this->errorResponse($request->Username, 99, $e->getMessage());
         }
@@ -144,25 +171,34 @@ class ApiBolaControllers extends Controller
 
     private function checkBetStatus(Request $request)
     {
-        $dataWD = Transactions::where('transfercode', $request->TransferCode)->where('jenis', 'WD')->first();
+        /* check transfercode pada table betting */
+        $dataBetting = $this->checkDataBetting($request->TransferCode);
+        if ($dataBetting !== true) {
+            return $dataBetting;
+        }
 
+        /* check transfercode pada table betting */
+        $dataWD = $this->getTransactionByTransferCode($request->TransferCode, 'WD');
+
+        /* Check API transaction status */
         $dataGetBetStatus = [
-            'TxnId' => $request->TransactionId,
-            'CompanyKey' => $dataWD->txnid,
+            'TxnId' => $dataWD != null ? $dataWD->txnid : $request->TransferCode,
+            'CompanyKey' => env('COMPANY_KEY'),
             'ServerId' => 'YY-TEST',
         ];
         $getBetStatus = $this->requestApi('check-transaction-status', $dataGetBetStatus);
-        if ($getBetStatus["error"]["id"] === 0 || $getBetStatus["error"]["msg"] === "No Error") {
 
-            return response()->json([
-                'AccountName' => $request->Username,
-                'Balance' => 0,
-                'ErrorCode' => 5003,
-                'ErrorMessage' => 'Bet With Same RefNo Exists'
-            ])->header('Content-Type', 'application/json; charset=UTF-8');
+        if ($getBetStatus["error"]["id"] === 0 || $getBetStatus["error"]["msg"] === "No Error") {
+            return $this->errorResponse($request->Username, 5003, 'Bet With Same RefNo Exists');
         }
 
         return true;
+    }
+
+    private function getTransactionByTransferCode($transferCode, $jenis)
+    {
+        $dataWD = Transactions::where('transfercode', $transferCode)->where('jenis', $jenis)->first();
+        return $dataWD;
     }
 
     private function withdrawAmount(Request $request, $jenis)
@@ -226,7 +262,7 @@ class ApiBolaControllers extends Controller
             'Balance' => 0,
             'ErrorCode' => $errorCode,
             'ErrorMessage' => $errorMessage
-        ], 400)->header('Content-Type', 'application/json; charset=UTF-8');
+        ])->header('Content-Type', 'application/json; charset=UTF-8');
     }
 
     public function Cancel(Request $request)
@@ -324,10 +360,25 @@ class ApiBolaControllers extends Controller
                 return response()->json(['errors' => $validator->errors()->all()]);
             }
 
+            /* check Data Betting Must Have Running Status */
+            $checkDataBetting = BettingStatus::where('transfercode', $request->TransferCode)
+                ->where('username', $request->Username)
+                ->first();
+            if ($checkDataBetting) {
+                if ($checkDataBetting->status === 'Settled') {
+                    return $this->errorResponse($request->Username, 2001, 'Bet Already Settled');
+                }
+            }
+
+            if (!$checkDataBetting) {
+                return $this->errorResponse($request->Username, 6, 'Bet not exists');
+            }
+
             /* Add Saldo */
             $dataAddSaldo = [
                 'Username' => $request->Username,
                 'TxnId' => $this->generateRandomString('D'),
+                'TransferCode' => $request->TransferCode,
                 'Amount' => $request->WinLoss,
                 'CompanyKey' => $request->CompanyKey,
                 'ServerId' => $request->ServerId
@@ -360,6 +411,13 @@ class ApiBolaControllers extends Controller
             ]);
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()->all()]);
+            }
+
+            /* Check status betting data internal */
+            $dataBetting = $this->checkDataBetting($request->TransferCode);
+
+            if ($dataBetting !== true) {
+                return $dataBetting;
             }
 
             /* BetStatus */
@@ -400,8 +458,11 @@ class ApiBolaControllers extends Controller
 
     private function requestApiForBetStatus(Request $request)
     {
+        $dataWD = $this->getTransactionByTransferCode($request->TransactionId, 'WD');
+        $txnid = $dataWD != null ?  $dataWD->txnid : $request->TransactionId;
+
         $dataGetBetStatus = [
-            'TxnId' => $request->TransactionId,
+            'TxnId' => $txnid,
             'CompanyKey' => $request->CompanyKey,
             'ServerId' => 'YY-TEST',
         ];
@@ -525,5 +586,26 @@ class ApiBolaControllers extends Controller
                 'message' => $responseData["error"]["msg"] ?? 'Error tidak teridentifikasi.'
             ], 400);
         }
+    }
+
+    private function checkDataBetting($transfercode)
+    {
+        $dataBetting = BettingStatus::where('transfercode', $transfercode)->first();
+
+        if ($dataBetting) {
+            if ($dataBetting->status === 'Running' || $dataBetting->status === 'Settled') {
+                return response()->json([
+                    'TransferCode' => $transfercode,
+                    'TransactionId' => $transfercode,
+                    "Status" => $dataBetting->status, /* Saat Ada Pemasangan Maka Status nya running */
+                    'ErrorCode' => 0,
+                    'ErrorMessage' => 'No Error'
+                ])->header('Content-Type', 'application/json; charset=UTF-8');
+            } else {
+                return $this->errorResponse($dataBetting->username, 5003, 'Bet With Same RefNo Exists');
+            }
+        }
+
+        return true;
     }
 }
