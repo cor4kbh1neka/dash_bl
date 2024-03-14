@@ -13,42 +13,42 @@ class ApiBolaControllers extends Controller
 {
     public function Bonus()
     {
-        return '/Bonuss';
+        return response()->json(['message' => 'Bet settled successfully', 'redirect_url' => '/Bonuss'], 200);
     }
 
     public function Cancel()
     {
-        return '/Cancel';
+        return response()->json(['message' => 'Bet settled successfully', 'redirect_url' => '/Cancel'], 200);
     }
 
     public function Deduct()
     {
-        return '/Deduct';
+        return response()->json(['message' => 'Bet settled successfully', 'redirect_url' => '/Deduct'], 200);
     }
 
     public function GetBalance()
     {
-        return '/GetBalance';
+        return response()->json(['message' => 'Bet settled successfully', 'redirect_url' => '/GetBalance'], 200);
     }
 
     public function Rollback()
     {
-        return '/Rollback';
+        return response()->json(['message' => 'Bet settled successfully', 'redirect_url' => '/Rollback'], 200);
     }
 
     public function Settle()
     {
-        return '/Settle';
+        return response()->json(['message' => 'Bet settled successfully', 'redirect_url' => '/Settle'], 200);
     }
 
     public function GetBetStatus()
     {
-        return '/GetBetStatus';
+        return response()->json(['message' => 'Bet settled successfully', 'redirect_url' => '/GetBetStatus'], 200);
     }
 
     public function ReturnStake()
     {
-        return '/ReturnStake';
+        return response()->json(['message' => 'Bet settled successfully', 'redirect_url' => '/ReturnStake'], 200);
     }
 
     public function login($username, $iswap)
