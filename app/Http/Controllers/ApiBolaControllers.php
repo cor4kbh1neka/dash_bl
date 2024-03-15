@@ -333,12 +333,11 @@ class ApiBolaControllers extends Controller
 
     public function getRecomMatch(Request $request)
     {
-
-        $token = $request->bearerToken();
-        $expectedToken = env('BEARER_TOKEN');
-        if ($token !== $expectedToken) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
-        }
+        // $token = $request->bearerToken();
+        // $expectedToken = env('BEARER_TOKEN');
+        // if ($token !== $expectedToken) {
+        //     return response()->json(['message' => 'Unauthorized.'], 401);
+        // }
 
         $data = [
             "language" => 'en',
