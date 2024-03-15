@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Bettings;
+use App\Models\BettingStatus;
+use App\Models\BettingTransactions;
 use Illuminate\Support\Facades\Http;
 
 
@@ -68,7 +70,65 @@ class ApiBolaControllers extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         }
+
+        // $cekBetting = Bettings::where('transfercode', $request->TransferCode);
+        // if($dataBetting) {
+
+        // }
+
+
+
     }
+
+    private function setBetting(Request $request)
+    {
+        $txnid = $this->generateTxnid('D', 17);
+        $dataSaldo = [
+            "Username" => $request->Username,
+            "txnId" => $txnid,
+            "IsFullAmount" => false,
+            "Amount" => $request->Amount,
+            "CompanyKey" => env('COMPANY_KEY'),
+            "ServerId" => env('SERVERID')
+        ];
+        $WdSaldo = $this->requestApi('withdraw', $dataSaldo);
+
+        if ($WdSaldo["error"]["id"] === 4404) {
+            return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
+        }
+
+        if ($WdSaldo["error"]["id"] === 0) {
+            $createBetting = Bettings::create([
+                "transfercode" => $request->TransferCode,
+                "username" => $request->Username,
+                "amount" => $request->Amount
+            ]);
+            if (!$createBetting) {
+                return response()->json(['error' => 'Failed to create betting'], 500);
+            }
+
+            $crteateStatusBetting = BettingStatus::create([
+                "bet_id" => $createBetting->id,
+                "status" => 'Running'
+            ]);
+            if ($crteateStatusBetting) {
+                BettingTransactions::create([
+                    "betstatus_id" => $crteateStatusBetting->id,
+                    "txnid" => $txnid,
+                    "jenis" => "W",
+                    "amount" => $request->Amount
+                ]);
+
+                return response()->json([
+                    'AccountName' => $request->Username,
+                    // 'Balance' => $getBalance["balance"],
+                    'ErrorCode' => 0,
+                    'ErrorMessage' => 'No Error'
+                ])->header('Content-Type', 'application/json; charset=UTF-8');
+            }
+        }
+    }
+
 
 
 
@@ -149,6 +209,18 @@ class ApiBolaControllers extends Controller
         ])->header('Content-Type', 'application/json; charset=UTF-8');
     }
 
+    function generateTxnid($jenis, $length = 17)
+    {
+        $characters = '0123456789';
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        $randomString = $jenis . $randomString;
+        return $randomString;
+    }
+
+
 
 
 
@@ -220,7 +292,9 @@ class ApiBolaControllers extends Controller
 
     public function register(Request $request)
     {
-        if (!$request->header('Authorization')) {
+        $token = $request->bearerToken();
+        $expectedToken = env('BEARER_TOKEN');
+        if ($token !== $expectedToken) {
             return response()->json(['message' => 'Unauthorized.'], 401);
         }
 
@@ -235,8 +309,7 @@ class ApiBolaControllers extends Controller
         $url = 'https://ex-api-demo-yy.568win.com/web-root/restricted/player/register-player.aspx';
 
         $response = Http::withHeaders([
-            'Content-Type' => 'application/json; charset=UTF-8',
-            'Authorization' => 'Bearer ' .  env('BEARER_TOKEN'),
+            'Content-Type' => 'application/json; charset=UTF-8'
         ])->post($url, $data);
 
         if ($response->successful()) {
@@ -256,5 +329,36 @@ class ApiBolaControllers extends Controller
                 'message' => $responseData["error"]["msg"] ?? 'Error tidak teridentifikasi.'
             ], 400);
         }
+    }
+
+    public function getRecomMatch(Request $request)
+    {
+
+        $token = $request->bearerToken();
+        $expectedToken = env('BEARER_TOKEN');
+        if ($token !== $expectedToken) {
+            return response()->json(['message' => 'Unauthorized.'], 401);
+        }
+
+        $data = [
+            "language" => 'en',
+            "companyKey" => env('COMPANY_KEY'),
+            "serverId" =>  env('SERVERID')
+        ];
+
+        $url = 'https://ex-api-demo-yy.568win.com/web-root/restricted/information/get-recommend-matches.aspx';
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json; charset=UTF-8'
+        ])->post($url, $data);
+        if ($response->successful()) {
+            $responseData = $response->json();
+        } else {
+            $statusCode = $response->status();
+            $errorMessage = $response->body();
+            $responseData = "Error: $statusCode - $errorMessage";
+        }
+
+        return $responseData;
     }
 }
