@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Models\BettingStatus;
 
 class Bettings extends Model
 {
@@ -12,7 +13,7 @@ class Bettings extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['transfercode', 'username', 'amount'];
+    protected $fillable = ['transfercode', 'username', 'status'];
 
     protected $primaryKey = 'id';
 
@@ -32,4 +33,9 @@ class Bettings extends Model
     }
 
     protected $table = 'bettings';
+
+    // public function bettingstatus()
+    // {
+    //     return $this->hasMany(BettingStatus::class, 'bet_id');
+    // }
 }

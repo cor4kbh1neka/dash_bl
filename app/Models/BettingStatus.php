@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Models\Bettings;
+use App\Models\BettingTransactions;
 
 class BettingStatus extends Model
 {
@@ -32,4 +34,14 @@ class BettingStatus extends Model
     }
 
     protected $table = 'betting_status';
+
+    // public function betting()
+    // {
+    //     return $this->belongsTo(Bettings::class);
+    // }
+
+    // public function bettingtransactions()
+    // {
+    //     return $this->hasMany(BettingTransactions::class);
+    // }
 }
