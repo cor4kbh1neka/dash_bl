@@ -650,4 +650,17 @@ class ApiBolaControllers extends Controller
 
         return $responseData;
     }
+
+    public function deleteTransactions()
+    {
+        try {
+            Bettings::query()->delete();
+            BettingStatus::query()->delete();
+            BettingTransactions::query()->delete();
+
+            return response()->json(['message' => 'Data berhasil dihapus'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal menghapus data: ' . $e->getMessage()], 400);
+        }
+    }
 }

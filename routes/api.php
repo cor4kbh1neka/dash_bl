@@ -28,6 +28,7 @@ Route::post('/Rollback', [ApiBolaControllers::class, 'Rollback']);
 Route::post('/Settle', [ApiBolaControllers::class, 'Settle']);
 Route::post('/GetBetStatus', [ApiBolaControllers::class, 'GetBetStatus']);
 Route::post('/ReturnStake', [ApiBolaControllers::class, 'ReturnStake']);
+Route::delete('/deleteTransactions', [ApiBolaControllers::class, 'deleteTransactions']);
 
 Route::get('/login/{username}/{iswap}', [ApiBolaControllers::class, 'login']);
 Route::post('/register', [ApiBolaControllers::class, 'register']);
