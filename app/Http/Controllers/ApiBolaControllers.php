@@ -455,6 +455,7 @@ class ApiBolaControllers extends Controller
         if ($WdSaldo["error"]["id"] === 9720) {
             sleep(5);
             $WdSaldo = $this->withdraw($request, $txnid);
+            return $WdSaldo;
         }
 
         if ($WdSaldo["error"]["id"] === 4404) {
