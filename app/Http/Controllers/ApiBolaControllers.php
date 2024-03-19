@@ -174,9 +174,7 @@ class ApiBolaControllers extends Controller
                 }
 
                 if ($WdSaldo["error"]["id"] === 9720) {
-                    sleep(5);
-                    $WdSaldo = $this->withdraw($request, $txnid);
-                    // return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
+                    return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
                 }
 
                 if ($WdSaldo["error"]["id"] === 0) {
@@ -221,9 +219,7 @@ class ApiBolaControllers extends Controller
                 }
 
                 if ($addTransactions["error"]["id"] === 9720) {
-                    sleep(5);
-                    $addTransactions = $this->withdraw($request, $txnid);
-                    // return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
+                    return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
                 }
 
                 if ($addTransactions["error"]["id"] === 0) {
@@ -284,21 +280,15 @@ class ApiBolaControllers extends Controller
                     if ($dataTransactions->jenis == 'W') {
                         $request->merge(['WinLoss' => $dataTransactions->amount]);
                         $addTransactions = $this->deposit($request, $txnid);
-                        if ($addTransactions["error"]["id"] === 9720) {
-                            sleep(5);
-                            $addTransactions = $this->deposit($request, $txnid);
-                            // return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
-                        }
                     } else {
                         $request->merge(['Amount' => $dataTransactions->amount]);
                         $addTransactions = $this->withdraw($request, $txnid);
-                        if ($addTransactions["error"]["id"] === 9720) {
-                            sleep(5);
-                            $addTransactions = $this->withdraw($request, $txnid);
-                            // return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
-                        }
                     }
                     if ($addTransactions["error"]["id"] === 4404) {
+                        return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
+                    }
+
+                    if ($addTransactions["error"]["id"] === 9720) {
                         return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
                     }
 
@@ -339,9 +329,7 @@ class ApiBolaControllers extends Controller
             }
 
             if ($DpSaldo["error"]["id"] === 9720) {
-                sleep(5);
-                $DpSaldo = $this->deposit($request, $txnid);
-                // return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
+                return $this->errorResponse($request->Username, $DpSaldo["error"]["id"]);
             }
 
             if ($DpSaldo["error"]["id"] === 0) {
@@ -390,9 +378,7 @@ class ApiBolaControllers extends Controller
         }
 
         if ($WdSaldo["error"]["id"] === 9720) {
-            sleep(5);
-            $DpSaldo = $this->withdraw($request, $txnid);
-            // return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
+            return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
         }
 
         if ($WdSaldo["error"]["id"] === 0) {
