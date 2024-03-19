@@ -22,24 +22,15 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        try {
-            $saldo = $this->apiGetBelance($request);
+        $saldo = $this->apiGetBelance($request);
 
-            $response = [
-                "AccountName" => $saldo['username'],
-                "Balance" => $saldo['balance'],
-                "ErrorCode" => 0,
-                "ErrorMessage" => "No Error"
-            ];
-            return response()->json($response, 200);
-        } catch (\Illuminate\Http\Client\RequestException $e) {
-            if ($e->response->status() === 429) {
-                sleep(10);
-                return $this->GetBalance($request);
-            } else {
-                return response()->json(['error' => 'Error occurred while fetching balance'], $e->getCode());
-            }
-        }
+        $response = [
+            "AccountName" => $saldo['username'],
+            "Balance" => $saldo['balance'],
+            "ErrorCode" => 0,
+            "ErrorMessage" => "No Error"
+        ];
+        return response()->json($response, 200);
     }
 
     public function GetBetStatus(Request $request)
@@ -54,38 +45,29 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        try {
-            $dataBetting = Bettings::where('transfercode', $request->TransferCode)->first();
-            if (!$dataBetting) {
-                return $this->errorResponse($request->Username, 6);
-            }
-
-            $statusBetting = BettingStatus::where('bet_id', $dataBetting->id)->orderBy('created_at', 'DESC')->first();
-
-            if ($statusBetting->status == 'Rollback' || $statusBetting->status == 'Running') {
-                $status = 'Running';
-            } else if ($statusBetting->status == 'Cancel') {
-                $status = 'Void';
-            } else {
-                $status = $statusBetting->status;
-            }
-
-
-            return response()->json([
-                'TransferCode' => $request->TransferCode,
-                'TransactionId' => $request->TransactionId,
-                "Status" => $status,
-                'ErrorCode' => 0,
-                'ErrorMessage' => 'No Error'
-            ])->header('Content-Type', 'application/json; charset=UTF-8');
-        } catch (\Illuminate\Http\Client\RequestException $e) {
-            if ($e->response->status() === 429) {
-                sleep(10);
-                return $this->GetBetStatus($request);
-            } else {
-                return response()->json(['error' => 'Error occurred while fetching bet status'], $e->getCode());
-            }
+        $dataBetting = Bettings::where('transfercode', $request->TransferCode)->first();
+        if (!$dataBetting) {
+            return $this->errorResponse($request->Username, 6);
         }
+
+        $statusBetting = BettingStatus::where('bet_id', $dataBetting->id)->orderBy('created_at', 'DESC')->first();
+
+        if ($statusBetting->status == 'Rollback' || $statusBetting->status == 'Running') {
+            $status = 'Running';
+        } else if ($statusBetting->status == 'Cancel') {
+            $status = 'Void';
+        } else {
+            $status = $statusBetting->status;
+        }
+
+
+        return response()->json([
+            'TransferCode' => $request->TransferCode,
+            'TransactionId' => $request->TransactionId,
+            "Status" => $status,
+            'ErrorCode' => 0,
+            'ErrorMessage' => 'No Error'
+        ])->header('Content-Type', 'application/json; charset=UTF-8');
     }
 
     public function Deduct(Request $request)
@@ -101,21 +83,13 @@ class ApiBolaControllers extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         }
-        try {
-            $cekBetting = Bettings::where('transfercode', $request->TransferCode)->first();
-            if ($cekBetting) {
-                return $this->errorResponse($request->Username, 5003);
-            }
 
-            return $this->setBetting($request);
-        } catch (\Illuminate\Http\Client\RequestException $e) {
-            if ($e->response->status() === 429) {
-                sleep(10);
-                return $this->setBetting($request);
-            } else {
-                return response()->json(['error' => 'Error occurred while fetching bet status'], $e->getCode());
-            }
+        $cekBetting = Bettings::where('transfercode', $request->TransferCode)->first();
+        if ($cekBetting) {
+            return $this->errorResponse($request->Username, 5003);
         }
+
+        return $this->setBetting($request);
     }
 
     public function Settle(Request $request)
@@ -131,16 +105,7 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        try {
-            return $this->setSettle($request);
-        } catch (\Illuminate\Http\Client\RequestException $e) {
-            if ($e->response->status() === 429) {
-                sleep(10);
-                return $this->setSettle($request);
-            } else {
-                return response()->json(['error' => 'Error occurred while fetching bet status'], $e->getCode());
-            }
-        }
+        return $this->setSettle($request);
     }
 
     public function Cancel(Request $request)
@@ -156,16 +121,7 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        try {
-            return $this->setCancel($request);
-        } catch (\Illuminate\Http\Client\RequestException $e) {
-            if ($e->response->status() === 429) {
-                sleep(10);
-                return $this->GetBetStatus($request);
-            } else {
-                return response()->json(['error' => 'Error occurred while fetching bet status'], $e->getCode());
-            }
-        }
+        return $this->setCancel($request);
     }
 
     public function Rollback(Request $request)
@@ -178,17 +134,8 @@ class ApiBolaControllers extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         }
-
-        try {
-            return $this->setRollback($request);
-        } catch (\Illuminate\Http\Client\RequestException $e) {
-            if ($e->response->status() === 429) {
-                sleep(10);
-                return $this->GetBetStatus($request);
-            } else {
-                return response()->json(['error' => 'Error occurred while fetching bet status'], $e->getCode());
-            }
-        }
+        return '/rollback';
+        // return $this->setRollback($request);
     }
 
 

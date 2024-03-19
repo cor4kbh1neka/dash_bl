@@ -358,6 +358,14 @@ $(document).on('click', '#Transaction', function (event) {
     });
 });
 
+$(document).on('click', '#Settings', function (event) {
+    event.preventDefault();
+    $('.aplay_code').load('/settings', function () {
+        adjustElementSize();
+        localStorage.setItem('lastPage', '/settings');
+    });
+});
+
 $(document).on('click', '#Usermanagement', function (event) {
     event.preventDefault();
     $('.aplay_code').load('/user', function () {

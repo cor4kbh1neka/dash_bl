@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AllowedipController;
 use App\Http\Controllers\AgentsController;
 use App\Http\Controllers\PlayersController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TransactionsController;
 use App\Models\Notes;
 
@@ -104,5 +105,14 @@ Route::middleware(['auth'])->group(function () {
 
     /*-- Transactions --*/
     Route::get('/transactions', [TransactionsController::class, 'index']);
+
+    /*-- Settings --*/
+    Route::get('/settings', [SettingsController::class, 'index']);
+    Route::get('/settings/add', [SettingsController::class, 'create']);
+    Route::get('/settings/edit/{id}', [SettingsController::class, 'edit']);
+    Route::post('/settings/store', [SettingsController::class, 'store']);
+    Route::post('/settings/update', [SettingsController::class, 'update']);
+    Route::delete('/settings/delete', [SettingsController::class, 'destroy']);
+    Route::get('/settings/view/{id}', [SettingsController::class, 'views']);
 });
 // });
