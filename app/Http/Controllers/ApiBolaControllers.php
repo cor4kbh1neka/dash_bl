@@ -168,8 +168,12 @@ class ApiBolaControllers extends Controller
                 $txnid = $this->generateTxnid('W', 10);
                 $request->merge(['Amount' => $dataTransactions->amount]);
                 $WdSaldo = $this->withdraw($request, $txnid);
-                return $WdSaldo;
+
                 if ($WdSaldo["error"]["id"] === 4404) {
+                    return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
+                }
+
+                if ($WdSaldo["error"]["id"] === 9720) {
                     return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
                 }
 
@@ -194,7 +198,7 @@ class ApiBolaControllers extends Controller
                     }
                 }
             }
-            return $lastRunningStatus == null ? 'kosong' : $lastRunningStatus;
+            return $this->errorResponse($request->Username, 6);
         } else if ($lastStatus->status === 'Settled') {
 
             $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Rollback');
@@ -242,6 +246,8 @@ class ApiBolaControllers extends Controller
             }
         } else if ($lastStatus->status === 'Rollback') {
             return $this->errorResponse($request->Username, 2003);
+        } else {
+            $this->errorResponse($request->Username, 6);
         }
     }
 
@@ -505,8 +511,10 @@ class ApiBolaControllers extends Controller
             $errorMessage = 'Bet With Same RefNo Exists';
         } else if ($errorCode == '5008') {
             $errorMessage = 'Bet Already Returned Stake';
+        } else if ($errorCode == '9720') {
+            $errorMessage = 'Withdraw request so frequent';
         } else {
-            $errorMessage = '';
+            $errorMessage = 'Error';
         }
 
 
