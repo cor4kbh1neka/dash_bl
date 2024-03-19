@@ -134,8 +134,8 @@ class ApiBolaControllers extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         }
-        return '/rollback';
-        // return $this->setRollback($request);
+
+        return $this->setRollback($request);
     }
 
 
@@ -168,7 +168,7 @@ class ApiBolaControllers extends Controller
                 $txnid = $this->generateTxnid('W', 10);
                 $request->merge(['Amount' => $dataTransactions->amount]);
                 $WdSaldo = $this->withdraw($request, $txnid);
-
+                return $WdSaldo;
                 if ($WdSaldo["error"]["id"] === 4404) {
                     return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
                 }
@@ -194,6 +194,7 @@ class ApiBolaControllers extends Controller
                     }
                 }
             }
+            return $lastRunningStatus == null ? 'kosong' : $lastRunningStatus;
         } else if ($lastStatus->status === 'Settled') {
 
             $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Rollback');
