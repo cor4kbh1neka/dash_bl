@@ -439,6 +439,7 @@ class ApiBolaControllers extends Controller
         // }
 
         $WdSaldo = $this->withdraw($request, $txnid);
+
         // $WdSaldo = $this->someMethod($request, $txnid);
         // dd($WdSaldo);
         // $dataSaldo = [
@@ -451,9 +452,9 @@ class ApiBolaControllers extends Controller
         // ];
 
         // $response = Http::timeout(10)->post('https://ex-api-demo-yy.568win.com/web-root/restricted/player/withdraw.aspx', $dataSaldo);
-
         if ($WdSaldo["error"]["id"] === 9720) {
-            sleep(5);
+
+            dd($WdSaldo["error"]["id"]);
             $WdSaldo = $this->withdraw($request, $txnid);
             return $WdSaldo;
         }
