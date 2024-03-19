@@ -453,6 +453,7 @@ class ApiBolaControllers extends Controller
         // $response = Http::timeout(10)->post('https://ex-api-demo-yy.568win.com/web-root/restricted/player/withdraw.aspx', $dataSaldo);
 
         if ($WdSaldo["error"]["id"] === 9720) {
+            sleep(5);
             $WdSaldo = $this->withdraw($request, $txnid);
         }
 
