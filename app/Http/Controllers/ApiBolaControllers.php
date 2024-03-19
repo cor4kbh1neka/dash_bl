@@ -8,6 +8,7 @@ use App\Models\Bettings;
 use App\Models\BettingStatus;
 use App\Models\BettingTransactions;
 use Illuminate\Support\Facades\Http;
+use App\Jobs\createWdJob;
 
 
 class ApiBolaControllers extends Controller
@@ -223,14 +224,7 @@ class ApiBolaControllers extends Controller
                 $WdSaldo = $this->withdraw($request, $txnid);
 
                 if ($WdSaldo["error"]["id"] === 9720) {
-                    // return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
-                    $WdSaldo = $this->withdraw($request, $txnid);
-                    if ($WdSaldo["error"]["id"] === 9720) {
-                        $WdSaldo = $this->withdraw($request, $txnid);
-                        if ($WdSaldo["error"]["id"] === 9720) {
-                            return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
-                        }
-                    }
+                    $WdSaldo = createWdJob::dispatch($request, $txnid)->delay(now()->addSeconds(5));
                 }
 
                 if ($WdSaldo["error"]["id"] === 4404) {
@@ -275,7 +269,8 @@ class ApiBolaControllers extends Controller
                 $addTransactions = $this->withdraw($request, $txnid);
 
                 if ($addTransactions["error"]["id"] === 9720) {
-                    return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
+                    $addTransactions = createWdJob::dispatch($request, $txnid)->delay(now()->addSeconds(5));
+                    // return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
                 }
 
                 if ($addTransactions["error"]["id"] === 4404) {
@@ -346,7 +341,8 @@ class ApiBolaControllers extends Controller
                     }
 
                     if ($addTransactions["error"]["id"] === 9720) {
-                        return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
+                        $addTransactions = createWdJob::dispatch($request, $txnid)->delay(now()->addSeconds(5));
+                        // return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
                     }
 
                     if ($addTransactions["error"]["id"] === 4404) {
@@ -385,9 +381,9 @@ class ApiBolaControllers extends Controller
             $txnid = $this->generateTxnid('D', 17);
             $DpSaldo = $this->deposit($request, $txnid);
 
-            if ($DpSaldo["error"]["id"] === 9720) {
-                return $this->errorResponse($request->Username, $DpSaldo["error"]["id"]);
-            }
+            // if ($DpSaldo["error"]["id"] === 9720) {
+            //     return $this->errorResponse($request->Username, $DpSaldo["error"]["id"]);
+            // }
 
             if ($DpSaldo["error"]["id"] === 4404) {
                 return $this->errorResponse($request->Username, $DpSaldo["error"]["id"]);
@@ -435,7 +431,7 @@ class ApiBolaControllers extends Controller
         $WdSaldo = $this->withdraw($request, $txnid);
 
         if ($WdSaldo["error"]["id"] === 9720) {
-            return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
+            $WdSaldo = createWdJob::dispatch($request, $txnid)->delay(now()->addSeconds(5));
         }
 
         if ($WdSaldo["error"]["id"] === 4404) {
