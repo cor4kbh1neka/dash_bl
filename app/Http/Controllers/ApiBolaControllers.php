@@ -9,6 +9,8 @@ use App\Models\BettingStatus;
 use App\Models\BettingTransactions;
 use Illuminate\Support\Facades\Http;
 use App\Jobs\createWdJob;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Queue;
 
 
 class ApiBolaControllers extends Controller
@@ -27,8 +29,6 @@ class ApiBolaControllers extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         }
-
-
 
         $saldo = $this->apiGetBelance($request);
 
@@ -424,14 +424,37 @@ class ApiBolaControllers extends Controller
         return $DpSaldo;
     }
 
+
     /* ====================== Deduct ======================= */
     private function setBetting(Request $request)
     {
         $txnid = $this->generateTxnid('W', 10);
-        $WdSaldo = $this->withdraw($request, $txnid);
+        // // $currentTime = Carbon::now();
+        // // $updatedTime = $currentTime->addSeconds(6);
+        // // $updatedTimeString = $updatedTime->toDateTimeString();
+        // // $CurrentTimeString = $currentTime->toDateTimeString();
+
+        // if ($CurrentTimeString < $updatedTimeString) {
+        //     $WdSaldo = $this->withdraw($request, $txnid);
+        // }
+
+        // $WdSaldo = $this->withdraw($request, $txnid);
+        $WdSaldo = $this->someMethod($request, $txnid);
+        // dd($WdSaldo);
+        // $dataSaldo = [
+        //     "Username" => $request->Username,
+        //     "txnId" => $txnid,
+        //     "IsFullAmount" => false,
+        //     "Amount" => $request->Amount,
+        //     "CompanyKey" => env('COMPANY_KEY'),
+        //     "ServerId" => env('SERVERID')
+        // ];
+
+        // $response = Http::timeout(10)->post('https://ex-api-demo-yy.568win.com/web-root/restricted/player/withdraw.aspx', $dataSaldo);
 
         if ($WdSaldo["error"]["id"] === 9720) {
-            $WdSaldo = createWdJob::dispatch($request, $txnid)->delay(now()->addSeconds(5));
+            sleep(5);
+            $WdSaldo = $this->withdraw($request, $txnid);
         }
 
         if ($WdSaldo["error"]["id"] === 4404) {

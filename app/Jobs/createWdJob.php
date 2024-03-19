@@ -30,7 +30,7 @@ class createWdJob implements ShouldQueue
      */
     public function handle(): void
     {
-        return $this->withdraw($this->request, $this->txnid);
+        $this->withdraw($this->request, $this->txnid);
     }
 
     private function withdraw(Request $request, $txnid)
