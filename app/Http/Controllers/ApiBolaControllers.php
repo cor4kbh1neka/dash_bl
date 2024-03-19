@@ -14,6 +14,11 @@ class ApiBolaControllers extends Controller
 {
     public function GetBalance(Request $request)
     {
+        $validasiSBO = $this->validasiSBO($request);
+        if ($validasiSBO !== true) {
+            return $validasiSBO;
+        }
+
         $validator = Validator::make($request->all(), [
             'Username' => 'required',
             'CompanyKey' => 'required',
@@ -21,6 +26,8 @@ class ApiBolaControllers extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         }
+
+
 
         $saldo = $this->apiGetBelance($request);
 
@@ -35,6 +42,11 @@ class ApiBolaControllers extends Controller
 
     public function GetBetStatus(Request $request)
     {
+        $validasiSBO = $this->validasiSBO($request);
+        if ($validasiSBO !== true) {
+            return $validasiSBO;
+        }
+
         $validator = Validator::make($request->all(), [
             'Username' => 'required',
             'CompanyKey' => 'required',
@@ -72,6 +84,11 @@ class ApiBolaControllers extends Controller
 
     public function Deduct(Request $request)
     {
+        $validasiSBO = $this->validasiSBO($request);
+        if ($validasiSBO !== true) {
+            return $validasiSBO;
+        }
+
         $validator = Validator::make($request->all(), [
             'Username' => 'required',
             'CompanyKey' => 'required',
@@ -89,11 +106,21 @@ class ApiBolaControllers extends Controller
             return $this->errorResponse($request->Username, 5003);
         }
 
+        $saldo = $this->apiGetBelance($request);
+        if ($saldo["balance"] < $request->Amount) {
+            return $this->errorResponse($request->Username, 5);
+        }
+
         return $this->setBetting($request);
     }
 
     public function Settle(Request $request)
     {
+        $validasiSBO = $this->validasiSBO($request);
+        if ($validasiSBO !== true) {
+            return $validasiSBO;
+        }
+
         $validator = Validator::make($request->all(), [
             'Username' => 'required',
             'CompanyKey' => 'required',
@@ -110,6 +137,11 @@ class ApiBolaControllers extends Controller
 
     public function Cancel(Request $request)
     {
+        $validasiSBO = $this->validasiSBO($request);
+        if ($validasiSBO !== true) {
+            return $validasiSBO;
+        }
+
         $validator = Validator::make($request->all(), [
             'Username' => 'required',
             'CompanyKey' => 'required',
@@ -126,6 +158,11 @@ class ApiBolaControllers extends Controller
 
     public function Rollback(Request $request)
     {
+        $validasiSBO = $this->validasiSBO($request);
+        if ($validasiSBO !== true) {
+            return $validasiSBO;
+        }
+
         $validator = Validator::make($request->all(), [
             'Username' => 'required',
             'CompanyKey' => 'required',
@@ -147,7 +184,23 @@ class ApiBolaControllers extends Controller
 
 
 
+    /* ====================== Validasi SBO ======================= */
+    private function validasiSBO(Request $request)
+    {
+        if ($request->Username == '') {
+            return $this->errorResponse($request->Username, 3);
+        }
 
+        if ($request->Username != 'Player_C_002') {
+            return $this->errorResponse($request->Username, 1);
+        }
+
+        if ($request->CompanyKey != env('COMPANY_KEY')) {
+            return $this->errorResponse($request->Username, 4);
+        }
+
+        return true;
+    }
 
     /* ====================== Rollback ======================= */
     private function setRollback(Request $request)
