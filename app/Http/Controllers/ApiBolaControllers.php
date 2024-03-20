@@ -225,7 +225,8 @@ class ApiBolaControllers extends Controller
                 $WdSaldo = $this->withdraw($request, $txnid);
 
                 if ($WdSaldo["error"]["id"] === 9720) {
-                    sleep(4);
+                    set_time_limit(60);
+                    sleep(4.5);
                     $WdSaldo = $this->withdraw($request, $txnid);
 
                     if ($WdSaldo["error"]["id"] === 9720) {
@@ -275,7 +276,8 @@ class ApiBolaControllers extends Controller
                 $addTransactions = $this->withdraw($request, $txnid);
 
                 if ($addTransactions["error"]["id"] === 9720) {
-                    sleep(4);
+                    set_time_limit(60);
+                    sleep(4.5);
                     $addTransactions = $this->withdraw($request, $txnid);
 
                     if ($addTransactions["error"]["id"] === 9720) {
@@ -351,7 +353,8 @@ class ApiBolaControllers extends Controller
                     }
 
                     if ($addTransactions["error"]["id"] === 9720) {
-                        sleep(4);
+                        set_time_limit(60);
+                        sleep(4.5);
                         $addTransactions = $this->withdraw($request, $txnid);
 
                         if ($addTransactions["error"]["id"] === 9720) {
@@ -466,7 +469,8 @@ class ApiBolaControllers extends Controller
         // ];
         // $response = Http::timeout(10)->post('https://ex-api-demo-yy.568win.com/web-root/restricted/player/withdraw.aspx', $dataSaldo);
         if ($WdSaldo["error"]["id"] === 9720) {
-            sleep(4);
+            set_time_limit(60);
+            sleep(4.5);
             $addTransactions = $this->withdraw($request, $txnid);
 
             if ($addTransactions["error"]["id"] === 9720) {
