@@ -225,7 +225,12 @@ class ApiBolaControllers extends Controller
                 $WdSaldo = $this->withdraw($request, $txnid);
 
                 if ($WdSaldo["error"]["id"] === 9720) {
-                    return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
+                    sleep(5);
+                    $WdSaldo = $this->withdraw($request, $txnid);
+
+                    if ($WdSaldo["error"]["id"] === 9720) {
+                        return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
+                    }
                 }
 
                 if ($WdSaldo["error"]["id"] === 4404) {
@@ -486,7 +491,6 @@ class ApiBolaControllers extends Controller
 
     private function withdraw(Request $request, $txnid)
     {
-        sleep(6);
         $dataSaldo = [
             "Username" => $request->Username,
             "txnId" => $txnid,
