@@ -221,10 +221,11 @@ class ApiBolaControllers extends Controller
 
                 $txnid = $this->generateTxnid('W', 10);
                 $request->merge(['Amount' => $dataTransactions->amount]);
+
                 $WdSaldo = $this->withdraw($request, $txnid);
 
                 if ($WdSaldo["error"]["id"] === 9720) {
-                    $WdSaldo = createWdJob::dispatch($request, $txnid)->delay(now()->addSeconds(5));
+                    return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
                 }
 
                 if ($WdSaldo["error"]["id"] === 4404) {
@@ -269,8 +270,9 @@ class ApiBolaControllers extends Controller
                 $addTransactions = $this->withdraw($request, $txnid);
 
                 if ($addTransactions["error"]["id"] === 9720) {
-                    $addTransactions = createWdJob::dispatch($request, $txnid)->delay(now()->addSeconds(5));
-                    // return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
+
+                    // $addTransactions = createWdJob::dispatch($request, $txnid)->delay(now()->addSeconds(5));
+                    return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
                 }
 
                 if ($addTransactions["error"]["id"] === 4404) {
@@ -450,7 +452,6 @@ class ApiBolaControllers extends Controller
         //     "CompanyKey" => env('COMPANY_KEY'),
         //     "ServerId" => env('SERVERID')
         // ];
-
         // $response = Http::timeout(10)->post('https://ex-api-demo-yy.568win.com/web-root/restricted/player/withdraw.aspx', $dataSaldo);
         if ($WdSaldo["error"]["id"] === 9720) {
 
@@ -487,6 +488,7 @@ class ApiBolaControllers extends Controller
 
     private function withdraw(Request $request, $txnid)
     {
+        sleep(5);
         $dataSaldo = [
             "Username" => $request->Username,
             "txnId" => $txnid,
