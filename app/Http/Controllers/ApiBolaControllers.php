@@ -275,9 +275,12 @@ class ApiBolaControllers extends Controller
                 $addTransactions = $this->withdraw($request, $txnid);
 
                 if ($addTransactions["error"]["id"] === 9720) {
+                    sleep(5);
+                    $addTransactions = $this->withdraw($request, $txnid);
 
-                    // $addTransactions = createWdJob::dispatch($request, $txnid)->delay(now()->addSeconds(5));
-                    return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
+                    if ($addTransactions["error"]["id"] === 9720) {
+                        return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
+                    }
                 }
 
                 if ($addTransactions["error"]["id"] === 4404) {
@@ -348,8 +351,12 @@ class ApiBolaControllers extends Controller
                     }
 
                     if ($addTransactions["error"]["id"] === 9720) {
-                        $addTransactions = createWdJob::dispatch($request, $txnid)->delay(now()->addSeconds(5));
-                        // return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
+                        sleep(5);
+                        $addTransactions = $this->withdraw($request, $txnid);
+
+                        if ($addTransactions["error"]["id"] === 9720) {
+                            return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
+                        }
                     }
 
                     if ($addTransactions["error"]["id"] === 4404) {
@@ -459,8 +466,12 @@ class ApiBolaControllers extends Controller
         // ];
         // $response = Http::timeout(10)->post('https://ex-api-demo-yy.568win.com/web-root/restricted/player/withdraw.aspx', $dataSaldo);
         if ($WdSaldo["error"]["id"] === 9720) {
-            $WdSaldo = $this->withdraw($request, $txnid);
-            return $WdSaldo;
+            sleep(5);
+            $addTransactions = $this->withdraw($request, $txnid);
+
+            if ($addTransactions["error"]["id"] === 9720) {
+                return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
+            }
         }
 
         if ($WdSaldo["error"]["id"] === 4404) {
