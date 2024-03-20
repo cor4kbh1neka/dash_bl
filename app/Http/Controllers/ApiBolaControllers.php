@@ -486,7 +486,7 @@ class ApiBolaControllers extends Controller
 
     private function withdraw(Request $request, $txnid)
     {
-        sleep(7);
+        sleep(6);
         $dataSaldo = [
             "Username" => $request->Username,
             "txnId" => $txnid,
