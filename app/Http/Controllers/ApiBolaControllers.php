@@ -446,28 +446,8 @@ class ApiBolaControllers extends Controller
     private function setBetting(Request $request)
     {
         $txnid = $this->generateTxnid('W', 10);
-        // // $currentTime = Carbon::now();
-        // // $updatedTime = $currentTime->addSeconds(6);
-        // // $updatedTimeString = $updatedTime->toDateTimeString();
-        // // $CurrentTimeString = $currentTime->toDateTimeString();
-
-        // if ($CurrentTimeString < $updatedTimeString) {
-        //     $WdSaldo = $this->withdraw($request, $txnid);
-        // }
-
         $WdSaldo = $this->withdraw($request, $txnid);
 
-        // $WdSaldo = $this->someMethod($request, $txnid);
-        // dd($WdSaldo);
-        // $dataSaldo = [
-        //     "Username" => $request->Username,
-        //     "txnId" => $txnid,
-        //     "IsFullAmount" => false,
-        //     "Amount" => $request->Amount,
-        //     "CompanyKey" => env('COMPANY_KEY'),
-        //     "ServerId" => env('SERVERID')
-        // ];
-        // $response = Http::timeout(10)->post('https://ex-api-demo-yy.568win.com/web-root/restricted/player/withdraw.aspx', $dataSaldo);
         if ($WdSaldo["error"]["id"] === 9720) {
             set_time_limit(60);
             sleep(4.5);
@@ -502,6 +482,7 @@ class ApiBolaControllers extends Controller
                 }
             }
         }
+        return $WdSaldo;
     }
 
     private function withdraw(Request $request, $txnid)
