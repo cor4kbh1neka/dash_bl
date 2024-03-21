@@ -328,8 +328,8 @@ class ApiBolaControllers extends Controller
                     $this->createbetTransaction($crteateStatusBetting->id, $txnid, $jenis, $dataTransactions->amount, 1);
 
                     if ($last2ndStatus->status != 'Running' || $last2ndStatus->status != 'Rollback') {
-                        $dataTransactions = BettingTransactions::where('betstatus_id', $last2ndStatus->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->last();
-                        dd($dataTransactions);
+                        $dataTransactions = BettingTransactions::where('betstatus_id', $last2ndStatus->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
+
                         $jenis = 'D';
                         $rangeNumber = 17;
                         $txnid = $this->generateTxnid($jenis, $rangeNumber);
