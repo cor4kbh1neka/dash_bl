@@ -332,7 +332,7 @@ class ApiBolaControllers extends Controller
 
                         $jenis = 'D';
                         $rangeNumber = 17;
-                        $txnid = $this->generateTxnid($jenis, $rangeNumber);
+                        $txnid = $this->generateTxnid($jenis, $rangeNumber);s
 
                         $this->createbetTransaction($crteateStatusBetting->id, $txnid, $jenis, $dataTransactions->amount, 2);
                     }
