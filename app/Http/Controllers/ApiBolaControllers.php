@@ -319,7 +319,7 @@ class ApiBolaControllers extends Controller
             $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Cancel');
 
             if ($crteateStatusBetting) {
-                if ($lastStatus->status == 'Settle') {
+                if ($lastStatus->status == 'Settled') {
                     $dataTransactions = BettingTransactions::where('betstatus_id', $lastStatus->id)->first();
                     $jenis = 'W';
                     $rangeNumber = 10;
