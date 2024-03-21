@@ -257,7 +257,7 @@ class ApiBolaControllers extends Controller
                 /* Rollback Settle */
                 $dtStatusBetting = $dataLstSettle;
                 $dataTransactions = BettingTransactions::where('betstatus_id', $dtStatusBetting->id)->first();
-                $txnid = $this->generateTxnid('W', 17);s
+                $txnid = $this->generateTxnid('W', 17);
 
                 // $request->merge(['Amount' => $dataTransactions->amount]);
                 // $addTransactions = $this->withdraw($request, $txnid);
