@@ -13,7 +13,7 @@ class BettingTransactions extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['betstatus_id', 'txnid', 'jenis', 'amount'];
+    protected $fillable = ['betstatus_id', 'txnid', 'jenis', 'amount', 'urutan'];
 
     protected $primaryKey = 'id';
 
