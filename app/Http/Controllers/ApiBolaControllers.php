@@ -246,10 +246,8 @@ class ApiBolaControllers extends Controller
             }
         } else if ($lastStatus->status === 'Settled') {
             $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Rollback');
-            $dataLstRunning = BettingStatus::where('bet_id', $dataBetting->id)->where('status', 'Running')->first();
-            $dataLstSettle = BettingStatus::where('bet_id', $dataBetting->id)->where('status', 'Settled')->first();
-
-
+            $dataLstRunning = BettingStatus::where('bet_id', $dataBetting->id)->where('status', 'Running')->orderBy('created_at', 'DESC')->first();
+            $dataLstSettle = BettingStatus::where('bet_id', $dataBetting->id)->where('status', 'Settled')->orderBy('created_at', 'DESC')->first();;
             if ($crteateStatusBetting) {
                 /* Rollback Settle */
                 $dtStatusBetting = $dataLstSettle;
@@ -315,36 +313,59 @@ class ApiBolaControllers extends Controller
         }
 
         $lastStatus = BettingStatus::where('bet_id', $dataBetting->id)->orderBy('created_at', 'DESC')->first();
-        $dataStatusBetting = BettingStatus::where('bet_id', $dataBetting->id)->get();
+        $last2ndStatus = BettingStatus::where('bet_id', $dataBetting->id)->where('id', '!=', $lastStatus->id)->orderBy('created_at', 'DESC')->first();
 
         if ($lastStatus->status != 'Cancel') {
             $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Cancel');
 
             if ($crteateStatusBetting) {
-                foreach ($dataStatusBetting as $index => $dtStatusBetting) {
-                    $dataTransactions = BettingTransactions::where('betstatus_id', $dtStatusBetting->id)->first();
-                    $jenis = $dataTransactions->jenis == 'W' ? 'D' : 'W';
-                    $rangeNumber = $jenis == 'D' ? 17 : 10;
+                if ($lastStatus->status == 'Settle') {
+                    $dataTransactions = BettingTransactions::where('betstatus_id', $lastStatus->id)->first();
+                    $jenis = 'W';
+                    $rangeNumber = 10;
                     $txnid = $this->generateTxnid($jenis, $rangeNumber);
 
-                    // if ($dataTransactions->jenis == 'W') {
-                    //     $request->merge(['WinLoss' => $dataTransactions->amount]);
-                    //     $addTransactions = $this->deposit($request, $txnid);
-                    // } else {
-                    //     $request->merge(['Amount' => $dataTransactions->amount]);
-                    //     $addTransactions = $this->withdraw($request, $txnid);
-                    // }
+                    $this->createbetTransaction($crteateStatusBetting->id, $txnid, $jenis, $dataTransactions->amount);
 
-                    // if ($addTransactions["error"]["id"] === 9720) {
-                    //     $addTransactions = $this->requestWitdraw9720($request, $txnid);
-                    // }
+                    if ($last2ndStatus->status != 'Running' || $last2ndStatus->status != 'Rollback') {
+                        $dataTransactions = BettingTransactions::where('betstatus_id', $last2ndStatus->id)->first();
+                        $jenis = 'D';
+                        $rangeNumber = 17;
+                        $txnid = $this->generateTxnid($jenis, $rangeNumber);
 
-                    // if ($addTransactions["error"]["id"] === 4404) {
-                    //     return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
-                    // }
+                        $this->createbetTransaction($crteateStatusBetting->id, $txnid, $jenis, $dataTransactions->amount);
+                    }
+                } else if ($lastStatus->status == 'Running' || $lastStatus->status == 'Rollback') {
+                    $dataTransactions = BettingTransactions::where('betstatus_id', $lastStatus->id)->first();
+                    $jenis = 'D';
+                    $rangeNumber = 17;
+                    $txnid = $this->generateTxnid($jenis, $rangeNumber);
 
                     $this->createbetTransaction($crteateStatusBetting->id, $txnid, $jenis, $dataTransactions->amount);
                 }
+
+                // $dataTransactions = BettingTransactions::where('betstatus_id', $dtStatusBetting->id)->first();
+                // $jenis = $dataTransactions->jenis == 'W' ? 'D' : 'W';
+                // $rangeNumber = $jenis == 'D' ? 17 : 10;
+                // $txnid = $this->generateTxnid($jenis, $rangeNumber);
+
+                // if ($dataTransactions->jenis == 'W') {
+                //     $request->merge(['WinLoss' => $dataTransactions->amount]);
+                //     $addTransactions = $this->deposit($request, $txnid);
+                // } else {
+                //     $request->merge(['Amount' => $dataTransactions->amount]);
+                //     $addTransactions = $this->withdraw($request, $txnid);
+                // }
+
+                // if ($addTransactions["error"]["id"] === 9720) {
+                //     $addTransactions = $this->requestWitdraw9720($request, $txnid);
+                // }
+
+                // if ($addTransactions["error"]["id"] === 4404) {
+                //     return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
+                // }
+
+                // $this->createbetTransaction($crteateStatusBetting->id, $txnid, $jenis, $dataTransactions->amount);
             }
 
             $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
@@ -368,6 +389,7 @@ class ApiBolaControllers extends Controller
         }
 
         $dataStatusBet = BettingStatus::where('bet_id', $dataBetting->id)->orderBy('created_at', 'DESC')->first();
+
         if ($dataStatusBet->status == 'Running' || $dataStatusBet->status == 'Rollback') {
             $txnid = $this->generateTxnid('D', 17);
             // $DpSaldo = $this->deposit($request, $txnid);
