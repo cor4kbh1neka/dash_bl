@@ -245,9 +245,14 @@ class ApiBolaControllers extends Controller
                 }
             }
         } else if ($lastStatus->status === 'Settled') {
+
             $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Rollback');
-            $dataLstRunning = BettingStatus::where('bet_id', $dataBetting->id)->where('status', 'Running')->orderBy('created_at', 'DESC')->first();
-            $dataLstSettle = BettingStatus::where('bet_id', $dataBetting->id)->where('status', 'Settled')->orderBy('created_at', 'DESC')->first();;
+
+            $dataLstSettle = BettingStatus::where('bet_id', $dataBetting->id)->where('status', 'Settled')->orderBy('created_at', 'DESC')->first();
+
+
+            $dataLstRunning = BettingStatus::where('bet_id', $dataBetting->id)->where('id', '!=', $dataLstSettle->id)->orderBy('created_at', 'DESC')->first();
+
             if ($crteateStatusBetting) {
                 /* Rollback Settle */
                 $dtStatusBetting = $dataLstSettle;
@@ -275,7 +280,7 @@ class ApiBolaControllers extends Controller
                 $this->createbetTransaction($crteateStatusBetting->id, $txnid, 'W', $dataTransactions->amount, 1);
 
                 /* Make Running Status */
-                $historyLastRunning = BettingTransactions::where('betstatus_id', $dataLstRunning->id)->first();
+                $historyLastRunning = BettingTransactions::where('betstatus_id', $dataLstRunning->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
                 $txnid = $this->generateTxnid('D', 10);
 
                 $bettingRollback = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "D", $historyLastRunning->amount, 2);
