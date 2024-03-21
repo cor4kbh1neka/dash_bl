@@ -30,11 +30,11 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $saldo = $this->apiGetBelance($request);
+        $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
 
         $response = [
-            "AccountName" => $saldo['username'],
-            "Balance" => $saldo['balance'],
+            "AccountName" => $request->Username,
+            "Balance" => $saldo,
             "ErrorCode" => 0,
             "ErrorMessage" => "No Error"
         ];
@@ -52,7 +52,6 @@ class ApiBolaControllers extends Controller
             'Username' => 'required',
             'CompanyKey' => 'required',
             'TransferCode' => 'required',
-            'TransactionId' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
@@ -105,11 +104,6 @@ class ApiBolaControllers extends Controller
         $cekBetting = Bettings::where('transfercode', $request->TransferCode)->first();
         if ($cekBetting) {
             return $this->errorResponse($request->Username, 5003);
-        }
-
-        $saldo = $this->apiGetBelance($request);
-        if ($saldo["balance"] < $request->Amount) {
-            return $this->errorResponse($request->Username, 5);
         }
 
         return $this->setBetting($request);
@@ -206,6 +200,7 @@ class ApiBolaControllers extends Controller
     /* ====================== Rollback ======================= */
     private function setRollback(Request $request)
     {
+
         $dataBetting = Bettings::where('transfercode', $request->TransferCode)->first();
         if (!$dataBetting) {
             return $this->errorResponse($request->Username, 6);
@@ -220,45 +215,40 @@ class ApiBolaControllers extends Controller
                 $dataTransactions = BettingTransactions::where('betstatus_id', $lastRunningStatus->id)->first();
 
                 $txnid = $this->generateTxnid('W', 10);
-                $request->merge(['Amount' => $dataTransactions->amount]);
+                // $request->merge(['Amount' => $dataTransactions->amount]);
 
-                $WdSaldo = $this->withdraw($request, $txnid);
+                // $WdSaldo = $this->withdraw($request, $txnid);
 
-                if ($WdSaldo["error"]["id"] === 9720) {
-                    $WdSaldo = $this->requestWitdraw9720($request, $txnid);
-                }
+                // if ($WdSaldo["error"]["id"] === 9720) {
+                //     $WdSaldo = $this->requestWitdraw9720($request, $txnid);
+                // }
 
-                if ($WdSaldo["error"]["id"] === 4404) {
-                    return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
-                }
+                // if ($WdSaldo["error"]["id"] === 4404) {
+                //     return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
+                // }
 
-                if ($WdSaldo["error"]["id"] === 0) {
-                    $createBetting = $dataBetting;
+                $createBetting = $dataBetting;
+                $crteateStatusBetting = $this->updateBetStatus($createBetting->id, 'Rollback');
 
-                    $crteateStatusBetting = $this->updateBetStatus($createBetting->id, 'Rollback');
+                if ($crteateStatusBetting) {
+                    $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "W", $dataTransactions->amount);
 
-
-                    if ($crteateStatusBetting) {
-                        $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "W", $request->Amount);
-
-                        if ($bettingTransaction) {
-                            $saldo = $this->apiGetBelance($request);
-                            return response()->json([
-                                'AccountName' => $request->Username,
-                                'Balance' => $saldo['balance'],
-                                'ErrorCode' => 0,
-                                'ErrorMessage' => 'No Error'
-                            ])->header('Content-Type', 'application/json; charset=UTF-8');
-                        }
+                    if ($bettingTransaction) {
+                        $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+                        return response()->json([
+                            'AccountName' => $request->Username,
+                            'Balance' => $saldo,
+                            'ErrorCode' => 0,
+                            'ErrorMessage' => 'No Error'
+                        ])->header('Content-Type', 'application/json; charset=UTF-8');
                     }
                 }
             }
-            return $this->errorResponse($request->Username, 6);
         } else if ($lastStatus->status === 'Settled') {
-
             $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Rollback');
             $dataLstRunning = BettingStatus::where('bet_id', $dataBetting->id)->where('status', 'Running')->first();
             $dataLstSettle = BettingStatus::where('bet_id', $dataBetting->id)->where('status', 'Settled')->first();
+
 
             if ($crteateStatusBetting) {
                 /* Rollback Settle */
@@ -266,24 +256,29 @@ class ApiBolaControllers extends Controller
                 $dataTransactions = BettingTransactions::where('betstatus_id', $dtStatusBetting->id)->first();
                 $txnid = $this->generateTxnid('W', 17);
 
-                $request->merge(['Amount' => $dataTransactions->amount]);
-                $addTransactions = $this->withdraw($request, $txnid);
+                // $request->merge(['Amount' => $dataTransactions->amount]);
+                // $addTransactions = $this->withdraw($request, $txnid);
 
-                if ($addTransactions["error"]["id"] === 9720) {
-                    $addTransactions = $this->requestWitdraw9720($request, $txnid);
-                }
+                // if ($addTransactions["error"]["id"] === 4501) {
+                //     $dataAllTrans = BettingStatus::with('bettingtransactions')
+                //         ->where('bet_id', $dataBetting->id)
+                //         ->get();
+                //     dd($dataAllTrans);
+                // }
 
-                if ($addTransactions["error"]["id"] === 4404) {
-                    return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
-                }
+                // if ($addTransactions["error"]["id"] === 9720) {
+                //     $addTransactions = $this->requestWitdraw9720($request, $txnid);
+                // }
 
-                if ($addTransactions["error"]["id"] === 0) {
-                    $this->createbetTransaction($crteateStatusBetting->id, $txnid, 'W', $request->Amount);
-                }
+                // if ($addTransactions["error"]["id"] === 4404) {
+                //     return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
+                // }
+
+                $this->createbetTransaction($crteateStatusBetting->id, $txnid, 'W', $dataTransactions->amount);
 
                 /* Make Running Status */
                 $historyLastRunning = BettingTransactions::where('betstatus_id', $dataLstRunning->id)->first();
-                $txnid = $this->generateTxnid('R', 12);
+                $txnid = $this->generateTxnid('D', 10);
 
                 $bettingRollback = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "D", $historyLastRunning->amount);
 
@@ -291,10 +286,10 @@ class ApiBolaControllers extends Controller
                     $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $historyLastRunning->txnid, "W", $historyLastRunning->amount);
 
                     if ($bettingTransaction) {
-                        $saldo = $this->apiGetBelance($request);
+                        $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
                         return response()->json([
                             'AccountName' => $request->Username,
-                            'Balance' => $saldo['balance'],
+                            'Balance' => $saldo,
                             'ErrorCode' => 0,
                             'ErrorMessage' => 'No Error'
                         ])->header('Content-Type', 'application/json; charset=UTF-8');
@@ -332,33 +327,30 @@ class ApiBolaControllers extends Controller
                     $rangeNumber = $jenis == 'D' ? 17 : 10;
                     $txnid = $this->generateTxnid($jenis, $rangeNumber);
 
-                    if ($dataTransactions->jenis == 'W') {
-                        $request->merge(['WinLoss' => $dataTransactions->amount]);
-                        $addTransactions = $this->deposit($request, $txnid);
-                    } else {
-                        $request->merge(['Amount' => $dataTransactions->amount]);
-                        $addTransactions = $this->withdraw($request, $txnid);
-                    }
+                    // if ($dataTransactions->jenis == 'W') {
+                    //     $request->merge(['WinLoss' => $dataTransactions->amount]);
+                    //     $addTransactions = $this->deposit($request, $txnid);
+                    // } else {
+                    //     $request->merge(['Amount' => $dataTransactions->amount]);
+                    //     $addTransactions = $this->withdraw($request, $txnid);
+                    // }
 
-                    if ($addTransactions["error"]["id"] === 9720) {
-                        $addTransactions = $this->requestWitdraw9720($request, $txnid);
-                    }
+                    // if ($addTransactions["error"]["id"] === 9720) {
+                    //     $addTransactions = $this->requestWitdraw9720($request, $txnid);
+                    // }
 
-                    if ($addTransactions["error"]["id"] === 4404) {
-                        return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
-                    }
+                    // if ($addTransactions["error"]["id"] === 4404) {
+                    //     return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
+                    // }
 
-                    if ($addTransactions["error"]["id"] === 0) {
-                        $amount = $jenis == 'D' ? $request->WinLoss : $request->Amount;
-                        $this->createbetTransaction($crteateStatusBetting->id, $txnid, $jenis, $amount);
-                    }
+                    $this->createbetTransaction($crteateStatusBetting->id, $txnid, $jenis, $dataTransactions->amount);
                 }
             }
 
-            $saldo = $this->apiGetBelance($request);
+            $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
             return response()->json([
                 'AccountName' => $request->Username,
-                'Balance' => $saldo['balance'],
+                'Balance' => $saldo,
                 'ErrorCode' => 0,
                 'ErrorMessage' => 'No Error'
             ])->header('Content-Type', 'application/json; charset=UTF-8');
@@ -378,29 +370,27 @@ class ApiBolaControllers extends Controller
         $dataStatusBet = BettingStatus::where('bet_id', $dataBetting->id)->orderBy('created_at', 'DESC')->first();
         if ($dataStatusBet->status == 'Running' || $dataStatusBet->status == 'Rollback') {
             $txnid = $this->generateTxnid('D', 17);
-            $DpSaldo = $this->deposit($request, $txnid);
+            // $DpSaldo = $this->deposit($request, $txnid);
 
             // if ($DpSaldo["error"]["id"] === 9720) {
             //     return $this->errorResponse($request->Username, $DpSaldo["error"]["id"]);
             // }
 
-            if ($DpSaldo["error"]["id"] === 4404) {
-                return $this->errorResponse($request->Username, $DpSaldo["error"]["id"]);
-            }
+            // if ($DpSaldo["error"]["id"] === 4404) {
+            //     return $this->errorResponse($request->Username, $DpSaldo["error"]["id"]);
+            // }
 
-            if ($DpSaldo["error"]["id"] === 0) {
-                $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Settled');
-                if ($crteateStatusBetting) {
-                    $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "D", $request->WinLoss);
-                    if ($bettingTransaction) {
-                        $saldo = $this->apiGetBelance($request);
-                        return response()->json([
-                            'AccountName' => $request->Username,
-                            'Balance' => $saldo['balance'],
-                            'ErrorCode' => 0,
-                            'ErrorMessage' => 'No Error'
-                        ])->header('Content-Type', 'application/json; charset=UTF-8');
-                    }
+            $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Settled');
+            if ($crteateStatusBetting) {
+                $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "D", $request->WinLoss);
+                if ($bettingTransaction) {
+                    $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+                    return response()->json([
+                        'AccountName' => $request->Username,
+                        'Balance' => $saldo,
+                        'ErrorCode' => 0,
+                        'ErrorMessage' => 'No Error'
+                    ])->header('Content-Type', 'application/json; charset=UTF-8');
                 }
             }
         } else if ($dataStatusBet->status == 'Cancel') {
@@ -425,6 +415,18 @@ class ApiBolaControllers extends Controller
 
 
     /* ====================== Deduct ======================= */
+    private function saldoBerjalan(Request $request)
+    {
+        $allBettingTransaction = $this->getAllTransactions($request);
+
+        $dataAllTransactionsWD = $allBettingTransaction->where('jenis', 'W')->sum('amount');
+        $dataAllTransactionsDP = $allBettingTransaction->where('jenis', 'D')->sum('amount');
+
+        $saldoBerjalan = $dataAllTransactionsDP  - $dataAllTransactionsWD;
+
+        return $saldoBerjalan;
+    }
+
     private function requestWitdraw9720(Request $request, $txnid)
     {
         set_time_limit(60);
@@ -442,38 +444,42 @@ class ApiBolaControllers extends Controller
 
     private function setBetting(Request $request)
     {
+        $saldoMember = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+
+        if ($saldoMember < $request->Amount) {
+            return $this->errorResponse($request->Username, 5);
+        }
+
         $txnid = $this->generateTxnid('W', 10);
-        $WdSaldo = $this->withdraw($request, $txnid);
 
-        if ($WdSaldo["error"]["id"] === 9720) {
-            $WdSaldo = $this->requestWitdraw9720($request, $txnid);
-        }
+        // $WdSaldo = $this->withdraw($request, $txnid);
 
-        if ($WdSaldo["error"]["id"] === 4404) {
-            return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
-        }
+        // if ($WdSaldo["error"]["id"] === 9720) {
+        //     $WdSaldo = $this->requestWitdraw9720($request, $txnid);
+        // }
 
-        if ($WdSaldo["error"]["id"] === 0) {
-            $createBetting = $this->createBetting($request);
+        // if ($WdSaldo["error"]["id"] === 4404) {
+        //     return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
+        // }
 
-            $crteateStatusBetting = $this->updateBetStatus($createBetting->id, 'Running');
+        $createBetting = $this->createBetting($request);
+
+        $crteateStatusBetting = $this->updateBetStatus($createBetting->id, 'Running');
 
 
-            if ($crteateStatusBetting) {
-                $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "W", $request->Amount);
+        if ($crteateStatusBetting) {
+            $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "W", $request->Amount);
 
-                if ($bettingTransaction) {
-                    $saldo = $this->apiGetBelance($request);
-                    return response()->json([
-                        'AccountName' => $request->Username,
-                        'Balance' => $saldo['balance'],
-                        'ErrorCode' => 0,
-                        'ErrorMessage' => 'No Error'
-                    ])->header('Content-Type', 'application/json; charset=UTF-8');
-                }
+            if ($bettingTransaction) {
+                $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+                return response()->json([
+                    'AccountName' => $request->Username,
+                    'Balance' => $saldo,
+                    'ErrorCode' => 0,
+                    'ErrorMessage' => 'No Error'
+                ])->header('Content-Type', 'application/json; charset=UTF-8');
             }
         }
-        return $WdSaldo;
     }
 
     private function withdraw(Request $request, $txnid)
@@ -521,6 +527,20 @@ class ApiBolaControllers extends Controller
         return $results;
     }
 
+    private function getAllTransactions(Request $request)
+    {
+        $username = $request->Username;
+        $bettings = Bettings::where('username', $username)->get();
+        $bettingTransactions = collect();
+        foreach ($bettings as $betting) {
+            $transactions = $betting->bettingstatus->flatMap(function ($status) {
+                return $status->bettingtransactions;
+            });
+
+            $bettingTransactions = $bettingTransactions->concat($transactions);
+        }
+        return $bettingTransactions;
+    }
 
     /* ====================== GetBelance ======================= */
     private function apiGetBelance(Request $request)

@@ -34,8 +34,8 @@ class Bettings extends Model
 
     protected $table = 'bettings';
 
-    // public function bettingstatus()
-    // {
-    //     return $this->hasMany(BettingStatus::class, 'bet_id');
-    // }
+    public function bettingstatus()
+    {
+        return $this->hasMany(BettingStatus::class, 'bet_id');
+    }
 }
