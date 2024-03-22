@@ -200,7 +200,7 @@ class ApiBolaControllers extends Controller
     /* ====================== Rollback ======================= */
     private function setRollback(Request $request)
     {
-
+        set_time_limit(60);
         try {
             $dataBetting = Bettings::where('transfercode', $request->TransferCode)->first();
             if (!$dataBetting) {
@@ -298,7 +298,9 @@ class ApiBolaControllers extends Controller
                                 'ErrorMessage' => 'No Error'
                             ])->header('Content-Type', 'application/json; charset=UTF-8');
                         }
+                        return 'error $bettingTransaction : ' . $bettingTransaction;
                     }
+                    return 'error $bettingRollback : ' . $bettingRollback;
                 } else {
                     return $this->errorResponse($request->Username, 6);
                 }
