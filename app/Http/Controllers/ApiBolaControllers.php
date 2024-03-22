@@ -201,110 +201,117 @@ class ApiBolaControllers extends Controller
     private function setRollback(Request $request)
     {
 
-        $dataBetting = Bettings::where('transfercode', $request->TransferCode)->first();
-        if (!$dataBetting) {
-            return $this->errorResponse($request->Username, 6);
-        }
-
-        $lastStatus = BettingStatus::where('bet_id', $dataBetting->id)->orderBy('created_at', 'DESC')->first();
-
-        if ($lastStatus->status === 'Cancel') {
-            $lastRunningStatus = BettingStatus::where('bet_id', $dataBetting->id)->where('status', 'Running')->orderBy('created_at', 'DESC')->first();
-
-            if ($lastRunningStatus) {
-                $dataTransactions = BettingTransactions::where('betstatus_id', $lastRunningStatus->id)->first();
-
-                $txnid = $this->generateTxnid('W', 10);
-                // $request->merge(['Amount' => $dataTransactions->amount]);
-
-                // $WdSaldo = $this->withdraw($request, $txnid);
-
-                // if ($WdSaldo["error"]["id"] === 9720) {
-                //     $WdSaldo = $this->requestWitdraw9720($request, $txnid);
-                // }
-
-                // if ($WdSaldo["error"]["id"] === 4404) {
-                //     return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
-                // }
-
-                $createBetting = $dataBetting;
-                $crteateStatusBetting = $this->updateBetStatus($createBetting->id, 'Rollback');
-
-                if ($crteateStatusBetting) {
-                    $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "W", $dataTransactions->amount, 1);
-
-                    if ($bettingTransaction) {
-                        $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
-                        return response()->json([
-                            'AccountName' => $request->Username,
-                            'Balance' => $saldo,
-                            'ErrorCode' => 0,
-                            'ErrorMessage' => 'No Error'
-                        ])->header('Content-Type', 'application/json; charset=UTF-8');
-                    }
-                }
-                return 'error $bettingTransaction : ' . $bettingTransaction;
-            }
-            return 'error $lastRunningStatus : ' . $lastRunningStatus;
-        } else if ($lastStatus->status === 'Settled') {
-
-            $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Rollback');
-
-            $dataLstSettle = BettingStatus::where('bet_id', $dataBetting->id)->where('status', 'Settled')->orderBy('created_at', 'DESC')->first();
-            $dataLstRunning = BettingStatus::where('bet_id', $dataBetting->id)->where('id', '!=', $dataLstSettle->id)->where('created_at', '<',  $dataLstSettle->created_at)->orderBy('created_at', 'DESC')->first();
-
-            /* Make Running Status */
-            if ($crteateStatusBetting) {
-                /* Rollback Settle */
-                $dtStatusBetting = $dataLstSettle;
-                $dataTransactions = BettingTransactions::where('betstatus_id', $dtStatusBetting->id)->first();
-                $txnid = $this->generateTxnid('W', 17);
-
-                // $request->merge(['Amount' => $dataTransactions->amount]);
-                // $addTransactions = $this->withdraw($request, $txnid);
-
-                // if ($addTransactions["error"]["id"] === 4501) {
-                //     $dataAllTrans = BettingStatus::with('bettingtransactions')
-                //         ->where('bet_id', $dataBetting->id)
-                //         ->get();
-                //     dd($dataAllTrans);
-                // }
-
-                // if ($addTransactions["error"]["id"] === 9720) {
-                //     $addTransactions = $this->requestWitdraw9720($request, $txnid);
-                // }
-
-                // if ($addTransactions["error"]["id"] === 4404) {
-                //     return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
-                // }
-
-                $this->createbetTransaction($crteateStatusBetting->id, $txnid, 'W', $dataTransactions->amount, 1);
-
-                /* Make Running Status */
-                $historyLastRunning = BettingTransactions::where('betstatus_id', $dataLstRunning->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
-                $txnid = $this->generateTxnid('D', 10);
-                $bettingRollback = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "D", $historyLastRunning->amount, 2);
-
-                if ($bettingRollback) {
-                    $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $historyLastRunning->txnid, "W", $historyLastRunning->amount, 3);
-
-                    if ($bettingTransaction) {
-                        $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
-                        return response()->json([
-                            'AccountName' => $request->Username,
-                            'Balance' => $saldo,
-                            'ErrorCode' => 0,
-                            'ErrorMessage' => 'No Error'
-                        ])->header('Content-Type', 'application/json; charset=UTF-8');
-                    }
-                }
-            } else {
+        try {
+            $dataBetting = Bettings::where('transfercode', $request->TransferCode)->first();
+            if (!$dataBetting) {
                 return $this->errorResponse($request->Username, 6);
             }
-        } else if ($lastStatus->status === 'Rollback') {
-            return $this->errorResponse($request->Username, 2003);
-        } else {
-            $this->errorResponse($request->Username, 6);
+
+            $lastStatus = BettingStatus::where('bet_id', $dataBetting->id)->orderBy('created_at', 'DESC')->first();
+
+            if ($lastStatus->status === 'Cancel') {
+                $lastRunningStatus = BettingStatus::where('bet_id', $dataBetting->id)->where('status', 'Running')->orderBy('created_at', 'DESC')->first();
+
+                if ($lastRunningStatus) {
+                    $dataTransactions = BettingTransactions::where('betstatus_id', $lastRunningStatus->id)->first();
+
+                    $txnid = $this->generateTxnid('W', 10);
+                    // $request->merge(['Amount' => $dataTransactions->amount]);
+
+                    // $WdSaldo = $this->withdraw($request, $txnid);
+
+                    // if ($WdSaldo["error"]["id"] === 9720) {
+                    //     $WdSaldo = $this->requestWitdraw9720($request, $txnid);
+                    // }
+
+                    // if ($WdSaldo["error"]["id"] === 4404) {
+                    //     return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
+                    // }
+
+                    $createBetting = $dataBetting;
+                    $crteateStatusBetting = $this->updateBetStatus($createBetting->id, 'Rollback');
+
+                    if ($crteateStatusBetting) {
+                        $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "W", $dataTransactions->amount, 1);
+
+                        if ($bettingTransaction) {
+                            $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+                            return response()->json([
+                                'AccountName' => $request->Username,
+                                'Balance' => $saldo,
+                                'ErrorCode' => 0,
+                                'ErrorMessage' => 'No Error'
+                            ])->header('Content-Type', 'application/json; charset=UTF-8');
+                        }
+                    }
+                    return 'error $bettingTransaction : ' . $bettingTransaction;
+                }
+                return 'error $lastRunningStatus : ' . $lastRunningStatus;
+            } else if ($lastStatus->status === 'Settled') {
+
+                $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Rollback');
+
+                $dataLstSettle = BettingStatus::where('bet_id', $dataBetting->id)->where('status', 'Settled')->orderBy('created_at', 'DESC')->first();
+                $dataLstRunning = BettingStatus::where('bet_id', $dataBetting->id)->where('id', '!=', $dataLstSettle->id)->where('created_at', '<',  $dataLstSettle->created_at)->orderBy('created_at', 'DESC')->first();
+
+                /* Make Running Status */
+                if ($crteateStatusBetting) {
+                    /* Rollback Settle */
+                    $dtStatusBetting = $dataLstSettle;
+                    $dataTransactions = BettingTransactions::where('betstatus_id', $dtStatusBetting->id)->first();
+                    $txnid = $this->generateTxnid('W', 17);
+
+                    // $request->merge(['Amount' => $dataTransactions->amount]);
+                    // $addTransactions = $this->withdraw($request, $txnid);
+
+                    // if ($addTransactions["error"]["id"] === 4501) {
+                    //     $dataAllTrans = BettingStatus::with('bettingtransactions')
+                    //         ->where('bet_id', $dataBetting->id)
+                    //         ->get();
+                    //     dd($dataAllTrans);
+                    // }
+
+                    // if ($addTransactions["error"]["id"] === 9720) {
+                    //     $addTransactions = $this->requestWitdraw9720($request, $txnid);
+                    // }
+
+                    // if ($addTransactions["error"]["id"] === 4404) {
+                    //     return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
+                    // }
+
+                    $this->createbetTransaction($crteateStatusBetting->id, $txnid, 'W', $dataTransactions->amount, 1);
+
+                    /* Make Running Status */
+                    $historyLastRunning = BettingTransactions::where('betstatus_id', $dataLstRunning->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
+                    $txnid = $this->generateTxnid('D', 10);
+                    $bettingRollback = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "D", $historyLastRunning->amount, 2);
+
+                    if ($bettingRollback) {
+                        $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $historyLastRunning->txnid, "W", $historyLastRunning->amount, 3);
+
+                        if ($bettingTransaction) {
+                            $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+                            return response()->json([
+                                'AccountName' => $request->Username,
+                                'Balance' => $saldo,
+                                'ErrorCode' => 0,
+                                'ErrorMessage' => 'No Error'
+                            ])->header('Content-Type', 'application/json; charset=UTF-8');
+                        }
+                    }
+                } else {
+                    return $this->errorResponse($request->Username, 6);
+                }
+            } else if ($lastStatus->status === 'Rollback') {
+                return $this->errorResponse($request->Username, 2003);
+            } else {
+                $this->errorResponse($request->Username, 6);
+            }
+        } catch (\Exception $e) {
+            // Tangani kesalahan di sini
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 200);
         }
     }
 
