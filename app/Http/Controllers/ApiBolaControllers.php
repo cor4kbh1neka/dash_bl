@@ -249,10 +249,9 @@ class ApiBolaControllers extends Controller
             $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Rollback');
 
             $dataLstSettle = BettingStatus::where('bet_id', $dataBetting->id)->where('status', 'Settled')->orderBy('created_at', 'DESC')->first();
+            $dataLstRunning = BettingStatus::where('bet_id', $dataBetting->id)->where('id', '!=', $dataLstSettle->id)->where('created_at', '<',  $dataLstSettle->created_at)->orderBy('created_at', 'DESC')->first();
 
-
-            $dataLstRunning = BettingStatus::where('bet_id', $dataBetting->id)->where('id', '!=', $dataLstSettle->id)->orderBy('created_at', 'DESC')->first();
-
+            /* Make Running Status */
             if ($crteateStatusBetting) {
                 /* Rollback Settle */
                 $dtStatusBetting = $dataLstSettle;
@@ -282,7 +281,6 @@ class ApiBolaControllers extends Controller
                 /* Make Running Status */
                 $historyLastRunning = BettingTransactions::where('betstatus_id', $dataLstRunning->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
                 $txnid = $this->generateTxnid('D', 10);
-
                 $bettingRollback = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "D", $historyLastRunning->amount, 2);
 
                 if ($bettingRollback) {
@@ -324,6 +322,7 @@ class ApiBolaControllers extends Controller
             $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Cancel');
 
             if ($crteateStatusBetting) {
+
                 if ($lastStatus->status == 'Settled') {
                     $dataTransactions = BettingTransactions::where('betstatus_id', $lastStatus->id)->first();
                     $jenis = 'W';
