@@ -243,7 +243,9 @@ class ApiBolaControllers extends Controller
                         ])->header('Content-Type', 'application/json; charset=UTF-8');
                     }
                 }
+                return 'error $bettingTransaction : ' . $bettingTransaction;
             }
+            return 'error $lastRunningStatus : ' . $lastRunningStatus;
         } else if ($lastStatus->status === 'Settled') {
 
             $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Rollback');
