@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Bettings;
-use App\Models\BettingStatus;
-use App\Models\BettingTransactions;
+use App\Models\Transactions;
+use App\Models\TransactionStatus;
+use App\Models\TransactionSaldo;
 use Illuminate\Support\Facades\Http;
 use App\Jobs\createWdJob;
 use Carbon\Carbon;
@@ -57,19 +57,19 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $dataBetting = Bettings::where('transfercode', $request->TransferCode)->first();
-        if (!$dataBetting) {
+        $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+        if (!$dataTransaction) {
             return $this->errorResponse($request->Username, 6);
         }
 
-        $statusBetting = BettingStatus::where('bet_id', $dataBetting->id)->orderBy('created_at', 'DESC')->first();
+        $statusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
 
-        if ($statusBetting->status == 'Rollback' || $statusBetting->status == 'Running') {
+        if ($statusTransaction->status == 'Rollback' || $statusTransaction->status == 'Running') {
             $status = 'Running';
-        } else if ($statusBetting->status == 'Cancel') {
+        } else if ($statusTransaction->status == 'Cancel') {
             $status = 'Void';
         } else {
-            $status = $statusBetting->status;
+            $status = $statusTransaction->status;
         }
 
 
@@ -101,14 +101,14 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $cekBetting = Bettings::where('transfercode', $request->TransferCode)->first();
-        if ($cekBetting) {
+        $cekTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+        if ($cekTransaction) {
             if ($request->ProductType == 3 || $request->ProductType == 7) {
-                $cetLastStatus = BettingStatus::where('bet_id', $cekBetting->id)->orderBy('created_at', 'DESC')->first();
+                $cetLastStatus = TransactionStatus::where('trans_id', $cekTransaction->id)->orderBy('created_at', 'DESC')->first();
                 if ($cetLastStatus->status == 'Running') {
-                    $totalBetting = BettingTransactions::where('betstatus_id', $cetLastStatus->id)->sum('amount');
-                    if ($request->Amount > $totalBetting) {
-                        return $this->setBetting($request);
+                    $totalTransaction = TransactionSaldo::where('transtatus_id', $cetLastStatus->id)->sum('amount');
+                    if ($request->Amount > $totalTransaction) {
+                        return $this->setTransaction($request);
                     } else {
                         return $this->errorResponse($request->Username, 7);
                     }
@@ -120,7 +120,7 @@ class ApiBolaControllers extends Controller
             }
         }
 
-        return $this->setBetting($request);
+        return $this->setTransaction($request);
     }
 
     public function Settle(Request $request)
@@ -184,6 +184,37 @@ class ApiBolaControllers extends Controller
         return $this->setRollback($request);
     }
 
+    public function Bonus(Request $request)
+    {
+        $cekTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+        if ($cekTransaction) {
+            return $this->errorResponse($request->Username, 5003);
+        }
+
+        $createTransaction = $this->createTransaction($request, 'Bonus');
+        $crteateStatusTransaction = $this->updateTranStatus($createTransaction->id, 'Running');
+
+        if ($crteateStatusTransaction) {
+            $txnid = $this->generateTxnid('D', 17);
+            $transactionTransaction = $this->createBetTransaction($crteateStatusTransaction->id, $txnid, "D", $request->Amount, 1);
+
+
+            if ($transactionTransaction) {
+                $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+
+                return response()->json([
+                    'AccountName' => $request->Username,
+                    'Balance' => $saldo,
+                    'ErrorCode' => 0,
+                    'ErrorMessage' => 'No Error'
+                ])->header('Content-Type', 'application/json; charset=UTF-8');
+            }
+
+            return $this->errorResponse($request->Username, 5003);
+        }
+        return $this->errorResponse($request->Username, 5003);
+    }
+
 
 
 
@@ -216,21 +247,21 @@ class ApiBolaControllers extends Controller
     {
         set_time_limit(60);
         try {
-            $dataBetting = Bettings::where('transfercode', $request->TransferCode)->first();
-            if (!$dataBetting) {
+            $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+            if (!$dataTransaction) {
                 return $this->errorResponse($request->Username, 6);
             }
 
-            $lastStatus = BettingStatus::where('bet_id', $dataBetting->id)->orderBy('created_at', 'DESC')->first();
+            $lastStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
 
             if ($lastStatus->status === 'Cancel') {
-                $lastRunningStatus = BettingStatus::where('bet_id', $dataBetting->id)->where('status', 'Running')->orderBy('created_at', 'DESC')->first();
+                $lastRunningStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->where('status', 'Running')->orderBy('created_at', 'DESC')->first();
 
                 if ($lastRunningStatus) {
                     if ($request->ProductType == 3 || $request->ProductType == 7) {
-                        $totalAmount = BettingTransactions::where('betstatus_id', $lastRunningStatus->id)->sum('amount');
+                        $totalAmount = TransactionSaldo::where('transtatus_id', $lastRunningStatus->id)->sum('amount');
                     } else {
-                        $dataTransactions = BettingTransactions::where('betstatus_id', $lastRunningStatus->id)->first();
+                        $dataTransactions = TransactionSaldo::where('transtatus_id', $lastRunningStatus->id)->first();
                         $totalAmount = $dataTransactions->amount;
                     }
                     $txnid = $this->generateTxnid('W', 10);
@@ -246,13 +277,13 @@ class ApiBolaControllers extends Controller
                     //     return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
                     // }
 
-                    $createBetting = $dataBetting;
-                    $crteateStatusBetting = $this->updateBetStatus($createBetting->id, 'Rollback');
+                    $createTransaction = $dataTransaction;
+                    $crteateStatusTransaction = $this->updateTranStatus($createTransaction->id, 'Rollback');
 
-                    if ($crteateStatusBetting) {
-                        $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "W", $totalAmount, 1);
+                    if ($crteateStatusTransaction) {
+                        $transactionTransaction = $this->createBetTransaction($crteateStatusTransaction->id, $txnid, "W", $totalAmount, 1);
 
-                        if ($bettingTransaction) {
+                        if ($transactionTransaction) {
                             $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
                             return response()->json([
                                 'AccountName' => $request->Username,
@@ -262,29 +293,29 @@ class ApiBolaControllers extends Controller
                             ])->header('Content-Type', 'application/json; charset=UTF-8');
                         }
                     }
-                    return 'error $bettingTransaction : ' . $bettingTransaction;
+                    return 'error $transactionTransaction : ' . $transactionTransaction;
                 }
                 return 'error $lastRunningStatus : ' . $lastRunningStatus;
             } else if ($lastStatus->status === 'Settled') {
 
-                $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Rollback');
+                $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Rollback');
 
-                $dataLstSettle = BettingStatus::where('bet_id', $dataBetting->id)->where('status', 'Settled')->orderBy('created_at', 'DESC')->first();
-                $dataLstRunning = BettingStatus::where('bet_id', $dataBetting->id)->where('id', '!=', $dataLstSettle->id)->where('created_at', '<',  $dataLstSettle->created_at)->orderBy('created_at', 'DESC')->first();
+                $dataLstSettle = TransactionStatus::where('trans_id', $dataTransaction->id)->where('status', 'Settled')->orderBy('created_at', 'DESC')->first();
+                $dataLstRunning = TransactionStatus::where('trans_id', $dataTransaction->id)->where('id', '!=', $dataLstSettle->id)->where('created_at', '<',  $dataLstSettle->created_at)->orderBy('created_at', 'DESC')->first();
 
                 /* Make Running Status */
-                if ($crteateStatusBetting) {
+                if ($crteateStatusTransaction) {
                     /* Rollback Settle */
-                    $dtStatusBetting = $dataLstSettle;
-                    $dataTransactions = BettingTransactions::where('betstatus_id', $dtStatusBetting->id)->first();
+                    $dtStatusTransaction = $dataLstSettle;
+                    $dataTransactions = TransactionSaldo::where('transtatus_id', $dtStatusTransaction->id)->first();
                     $txnid = $this->generateTxnid('W', 17);
 
                     // $request->merge(['Amount' => $dataTransactions->amount]);
                     // $addTransactions = $this->withdraw($request, $txnid);
 
                     // if ($addTransactions["error"]["id"] === 4501) {
-                    //     $dataAllTrans = BettingStatus::with('bettingtransactions')
-                    //         ->where('bet_id', $dataBetting->id)
+                    //     $dataAllTrans = TransactionStatus::with('bettingtransactions')
+                    //         ->where('trans_id', $dataTransaction->id)
                     //         ->get();
                     //     dd($dataAllTrans);
                     // }
@@ -297,17 +328,17 @@ class ApiBolaControllers extends Controller
                     //     return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
                     // }
 
-                    $this->createbetTransaction($crteateStatusBetting->id, $txnid, 'W', $dataTransactions->amount, 1);
+                    $this->createBetTransaction($crteateStatusTransaction->id, $txnid, 'W', $dataTransactions->amount, 1);
 
                     /* Make Running Status */
-                    $historyLastRunning = BettingTransactions::where('betstatus_id', $dataLstRunning->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
+                    $historyLastRunning = TransactionSaldo::where('transtatus_id', $dataLstRunning->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
                     $txnid = $this->generateTxnid('D', 10);
-                    $bettingRollback = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "D", $historyLastRunning->amount, 2);
+                    $transactionRollback = $this->createBetTransaction($crteateStatusTransaction->id, $txnid, "D", $historyLastRunning->amount, 2);
 
-                    if ($bettingRollback) {
-                        $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $historyLastRunning->txnid, "W", $historyLastRunning->amount, 3);
+                    if ($transactionRollback) {
+                        $transactionTransaction = $this->createBetTransaction($crteateStatusTransaction->id, $historyLastRunning->txnid, "W", $historyLastRunning->amount, 3);
 
-                        if ($bettingTransaction) {
+                        if ($transactionTransaction) {
                             $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
                             return response()->json([
                                 'AccountName' => $request->Username,
@@ -316,9 +347,9 @@ class ApiBolaControllers extends Controller
                                 'ErrorMessage' => 'No Error'
                             ])->header('Content-Type', 'application/json; charset=UTF-8');
                         }
-                        return 'error $bettingTransaction : ' . $bettingTransaction;
+                        return 'error $transactionTransaction : ' . $transactionTransaction;
                     }
-                    return 'error $bettingRollback : ' . $bettingRollback;
+                    return 'error $transactionRollback : ' . $transactionRollback;
                 } else {
                     return $this->errorResponse($request->Username, 6);
                 }
@@ -339,46 +370,46 @@ class ApiBolaControllers extends Controller
     /* ====================== Cancel ======================= */
     private function setCancel(Request $request)
     {
-        $dataBetting = Bettings::where('transfercode', $request->TransferCode)->first();
-        if (!$dataBetting) {
+        $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+        if (!$dataTransaction) {
             return $this->errorResponse($request->Username, 6);
         }
 
-        $lastStatus = BettingStatus::where('bet_id', $dataBetting->id)->orderBy('created_at', 'DESC')->first();
-        $last2ndStatus = BettingStatus::where('bet_id', $dataBetting->id)->where('id', '!=', $lastStatus->id)->orderBy('created_at', 'DESC')->first();
+        $lastStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
+        $last2ndStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->where('id', '!=', $lastStatus->id)->orderBy('created_at', 'DESC')->first();
 
         if ($lastStatus->status != 'Cancel') {
-            $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Cancel');
+            $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Cancel');
 
-            if ($crteateStatusBetting) {
+            if ($crteateStatusTransaction) {
 
                 if ($lastStatus->status == 'Settled') {
 
-                    $dataTransactions = BettingTransactions::where('betstatus_id', $lastStatus->id)->first();
+                    $dataTransactions = TransactionSaldo::where('transtatus_id', $lastStatus->id)->first();
 
                     $jenis = 'W';
                     $rangeNumber = 10;
                     $txnid = $this->generateTxnid($jenis, $rangeNumber);
-                    $this->createbetTransaction($crteateStatusBetting->id, $txnid, $jenis, $dataTransactions->amount, 1);
+                    $this->createBetTransaction($crteateStatusTransaction->id, $txnid, $jenis, $dataTransactions->amount, 1);
 
                     if ($last2ndStatus->status != 'Running' || $last2ndStatus->status != 'Rollback') {
                         if ($request->ProductType == 3 || $request->ProductType == 7) {
-                            $totalAmount = BettingTransactions::where('betstatus_id', $last2ndStatus->id)->sum('amount');
+                            $totalAmount = TransactionSaldo::where('transtatus_id', $last2ndStatus->id)->sum('amount');
                         } else {
-                            $dataTransactions = BettingTransactions::where('betstatus_id', $last2ndStatus->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
+                            $dataTransactions = TransactionSaldo::where('transtatus_id', $last2ndStatus->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
                             $totalAmount = $dataTransactions->amount;
                         }
 
                         $jenis = 'D';
                         $rangeNumber = 17;
                         $txnid = $this->generateTxnid($jenis, $rangeNumber);
-                        $this->createbetTransaction($crteateStatusBetting->id, $txnid, $jenis, $totalAmount, 2);
+                        $this->createBetTransaction($crteateStatusTransaction->id, $txnid, $jenis, $totalAmount, 2);
                     }
                 } else if ($lastStatus->status == 'Running' || $lastStatus->status == 'Rollback') {
                     if ($request->ProductType == 3 || $request->ProductType == 7) {
-                        $totalAmount = BettingTransactions::where('betstatus_id', $lastStatus->id)->sum('amount');
+                        $totalAmount = TransactionSaldo::where('transtatus_id', $lastStatus->id)->sum('amount');
                     } else {
-                        $dataTransactions = BettingTransactions::where('betstatus_id', $lastStatus->id)->first();
+                        $dataTransactions = TransactionSaldo::where('transtatus_id', $lastStatus->id)->first();
                         $totalAmount = $dataTransactions->amount;
                     }
 
@@ -386,10 +417,10 @@ class ApiBolaControllers extends Controller
                     $rangeNumber = 17;
                     $txnid = $this->generateTxnid($jenis, $rangeNumber);
 
-                    $this->createbetTransaction($crteateStatusBetting->id, $txnid, $jenis, $totalAmount, 1);
+                    $this->createBetTransaction($crteateStatusTransaction->id, $txnid, $jenis, $totalAmount, 1);
                 }
 
-                // $dataTransactions = BettingTransactions::where('betstatus_id', $dtStatusBetting->id)->first();
+                // $dataTransactions = TransactionSaldo::where('transtatus_id', $dtStatusTransaction->id)->first();
                 // $jenis = $dataTransactions->jenis == 'W' ? 'D' : 'W';
                 // $rangeNumber = $jenis == 'D' ? 17 : 10;
                 // $txnid = $this->generateTxnid($jenis, $rangeNumber);
@@ -410,7 +441,7 @@ class ApiBolaControllers extends Controller
                 //     return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
                 // }
 
-                // $this->createbetTransaction($crteateStatusBetting->id, $txnid, $jenis, $dataTransactions->amount);
+                // $this->createBetTransaction($crteateStatusTransaction->id, $txnid, $jenis, $dataTransactions->amount);
             }
 
             $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
@@ -428,14 +459,14 @@ class ApiBolaControllers extends Controller
     /* ====================== Settle ======================= */
     private function setSettle(Request $request)
     {
-        $dataBetting = Bettings::where('transfercode', $request->TransferCode)->first();
-        if (!$dataBetting) {
+        $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+        if (!$dataTransaction) {
             return $this->errorResponse($request->Username, 6);
         }
 
-        $dataStatusBet = BettingStatus::where('bet_id', $dataBetting->id)->orderBy('created_at', 'DESC')->first();
+        $dataStatusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
 
-        if ($dataStatusBet->status == 'Running' || $dataStatusBet->status == 'Rollback') {
+        if ($dataStatusTransaction->status == 'Running' || $dataStatusTransaction->status == 'Rollback') {
             $txnid = $this->generateTxnid('D', 17);
             // $DpSaldo = $this->deposit($request, $txnid);
 
@@ -447,10 +478,10 @@ class ApiBolaControllers extends Controller
             //     return $this->errorResponse($request->Username, $DpSaldo["error"]["id"]);
             // }
 
-            $crteateStatusBetting = $this->updateBetStatus($dataBetting->id, 'Settled');
-            if ($crteateStatusBetting) {
-                $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "D", $request->WinLoss, 1);
-                if ($bettingTransaction) {
+            $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Settled');
+            if ($crteateStatusTransaction) {
+                $transactionTransaction = $this->createBetTransaction($crteateStatusTransaction->id, $txnid, "D", $request->WinLoss, 1);
+                if ($transactionTransaction) {
                     $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
                     return response()->json([
                         'AccountName' => $request->Username,
@@ -460,7 +491,7 @@ class ApiBolaControllers extends Controller
                     ])->header('Content-Type', 'application/json; charset=UTF-8');
                 }
             }
-        } else if ($dataStatusBet->status == 'Cancel') {
+        } else if ($dataStatusTransaction->status == 'Cancel') {
             return $this->errorResponse($request->Username, 2002);
         } else {
             return $this->errorResponse($request->Username, 2001);
@@ -484,10 +515,10 @@ class ApiBolaControllers extends Controller
     /* ====================== Deduct ======================= */
     private function saldoBerjalan(Request $request)
     {
-        $allBettingTransaction = $this->getAllTransactions($request);
+        $allTransactionTransaction = $this->getAllTransactions($request);
 
-        $dataAllTransactionsWD = $allBettingTransaction->where('jenis', 'W')->sum('amount');
-        $dataAllTransactionsDP = $allBettingTransaction->where('jenis', 'D')->sum('amount');
+        $dataAllTransactionsWD = $allTransactionTransaction->where('jenis', 'W')->sum('amount');
+        $dataAllTransactionsDP = $allTransactionTransaction->where('jenis', 'D')->sum('amount');
 
         $saldoBerjalan = $dataAllTransactionsDP  - $dataAllTransactionsWD;
 
@@ -509,15 +540,15 @@ class ApiBolaControllers extends Controller
         return $addTransactions;
     }
 
-    private function setBetting(Request $request)
+    private function setTransaction(Request $request)
     {
         $saldoMember = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
 
         if ($request->ProductType == 3 || $request->ProductType == 7) {
-            $cekBetting = Bettings::where('transfercode', $request->TransferCode)->first();
-            if ($cekBetting) {
-                $cekLastStatus = BettingStatus::where('bet_id', $cekBetting->id)->first();
-                $dataTransactions = BettingTransactions::where('betstatus_id', $cekLastStatus->id)->first();
+            $cekTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+            if ($cekTransaction) {
+                $cekLastStatus = TransactionStatus::where('trans_id', $cekTransaction->id)->first();
+                $dataTransactions = TransactionSaldo::where('transtatus_id', $cekLastStatus->id)->first();
                 $saldoMember = $saldoMember + $dataTransactions->amount;
             }
         }
@@ -537,23 +568,23 @@ class ApiBolaControllers extends Controller
         // if ($WdSaldo["error"]["id"] === 4404) {
         //     return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
         // }
-        if (($request->ProductType == 3 && $cekBetting) || ($request->ProductType == 7 && $cekBetting)) {
-            $createBetting = $cekBetting;
-            $crteateStatusBetting = $cekLastStatus;
+        if (($request->ProductType == 3 && $cekTransaction) || ($request->ProductType == 7 && $cekTransaction)) {
+            $createTransaction = $cekTransaction;
+            $crteateStatusTransaction = $cekLastStatus;
         } else {
-            $createBetting = $this->createBetting($request);
-            $crteateStatusBetting = $this->updateBetStatus($createBetting->id, 'Running');
+            $createTransaction = $this->createTransaction($request, 'Betting');
+            $crteateStatusTransaction = $this->updateTranStatus($createTransaction->id, 'Running');
         }
 
-        if ($crteateStatusBetting) {
-            if ($request->ProductType == 3 && $cekBetting || $request->ProductType == 7 && $cekBetting) {
+        if ($crteateStatusTransaction) {
+            if ($request->ProductType == 3 && $cekTransaction || $request->ProductType == 7 && $cekTransaction) {
                 $amount = $request->Amount - $dataTransactions->amount;
-                $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "W", $amount, 1);
+                $transactionTransaction = $this->createBetTransaction($crteateStatusTransaction->id, $txnid, "W", $amount, 1);
             } else {
-                $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "W", $request->Amount, 1);
+                $transactionTransaction = $this->createBetTransaction($crteateStatusTransaction->id, $txnid, "W", $request->Amount, 1);
             }
 
-            if ($bettingTransaction) {
+            if ($transactionTransaction) {
                 $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
                 return response()->json([
                     'AccountName' => $request->Username,
@@ -579,30 +610,31 @@ class ApiBolaControllers extends Controller
         return $WdSaldo;
     }
 
-    private function createBetting(Request $request)
+    private function createTransaction(Request $request, $type)
     {
-        $createBetting = Bettings::create([
+        $createTransaction = Transactions::create([
             "transfercode" => $request->TransferCode,
             "username" => $request->Username,
+            "type" => $type,
             "status" => 0
         ]);
 
-        return $createBetting;
+        return $createTransaction;
     }
 
-    private function updateBetStatus($bet_id, $status)
+    private function updateTranStatus($trans_id, $status)
     {
-        $results = BettingStatus::create([
-            "bet_id" => $bet_id,
+        $results = TransactionStatus::create([
+            "trans_id" => $trans_id,
             "status" => $status
         ]);
         return $results;
     }
 
-    private function createbetTransaction($betstatus_id, $txnid, $jenis, $amount, $urutan)
+    private function createBetTransaction($transtatus_id, $txnid, $jenis, $amount, $urutan)
     {
-        $results = BettingTransactions::create([
-            "betstatus_id" => $betstatus_id,
+        $results = TransactionSaldo::create([
+            "transtatus_id" => $transtatus_id,
             "txnid" => $txnid,
             "jenis" => $jenis,
             "amount" => $amount,
@@ -614,16 +646,17 @@ class ApiBolaControllers extends Controller
     private function getAllTransactions(Request $request)
     {
         $username = $request->Username;
-        $bettings = Bettings::where('username', $username)->get();
-        $bettingTransactions = collect();
-        foreach ($bettings as $betting) {
-            $transactions = $betting->bettingstatus->flatMap(function ($status) {
-                return $status->bettingtransactions;
+        $transactions = Transactions::where('username', $username)->get();
+        $transactionTransactions = collect();
+
+        foreach ($transactions as $transaction) {
+            $transactions = $transaction->transactionstatus->flatMap(function ($status) {
+                return $status->transactionsaldo;
             });
 
-            $bettingTransactions = $bettingTransactions->concat($transactions);
+            $transactionTransactions = $transactionTransactions->concat($transactions);
         }
-        return $bettingTransactions;
+        return $transactionTransactions;
     }
 
     /* ====================== GetBelance ======================= */
@@ -739,10 +772,7 @@ class ApiBolaControllers extends Controller
 
 
 
-    public function Bonus()
-    {
-        return response()->json(['message' => 'Bet settled successfully', 'redirect_url' => '/Bonuss'], 200);
-    }
+
 
     public function ReturnStake()
     {
@@ -856,9 +886,9 @@ class ApiBolaControllers extends Controller
     public function deleteTransactions()
     {
         try {
-            Bettings::query()->delete();
-            BettingStatus::query()->delete();
-            BettingTransactions::query()->delete();
+            Transactions::query()->delete();
+            TransactionStatus::query()->delete();
+            TransactionSaldo::query()->delete();
 
             return response()->json(['message' => 'Data berhasil dihapus'], 200);
         } catch (\Exception $e) {

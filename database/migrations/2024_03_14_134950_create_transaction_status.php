@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bettings', function (Blueprint $table) {
+        Schema::create('transaction_status', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('transfercode');
-            $table->string('username');
+            $table->string('trans_id');
             $table->string('status');
             $table->timestamps();
         });
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bettings');
+        Schema::dropIfExists('transaction_status');
     }
 };

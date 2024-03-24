@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('betting_status', function (Blueprint $table) {
+        Schema::create('transaction_saldo', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('bet_id');
-            $table->string('status');
+            $table->string('transtatus_id');
+            $table->string('txnid');
+            $table->string('jenis');
+            $table->string('amount');
             $table->timestamps();
+            $table->integer('urutan');
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('betting_status');
+        Schema::dropIfExists('transaction_saldo');
     }
 };

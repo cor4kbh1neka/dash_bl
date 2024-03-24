@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Models\TransactionStatus;
 
 class Transactions extends Model
 {
@@ -12,7 +13,7 @@ class Transactions extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['txnid', 'transfercode', 'username', 'jenis', 'amount'];
+    protected $fillable = ['transfercode', 'username', 'type', 'status'];
 
     protected $primaryKey = 'id';
 
@@ -32,4 +33,9 @@ class Transactions extends Model
     }
 
     protected $table = 'transactions';
+
+    public function transactionstatus()
+    {
+        return $this->hasMany(TransactionStatus::class, 'trans_id');
+    }
 }

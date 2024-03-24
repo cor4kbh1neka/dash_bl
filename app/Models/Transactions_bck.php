@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use App\Models\BettingStatus;
 
-class BettingTransactions extends Model
+class Transactions extends Model
 {
     use HasFactory;
 
     public $incrementing = false;
 
-    protected $fillable = ['betstatus_id', 'txnid', 'jenis', 'amount', 'urutan'];
+    protected $fillable = ['txnid', 'transfercode', 'username', 'jenis', 'amount'];
 
     protected $primaryKey = 'id';
 
@@ -32,10 +31,5 @@ class BettingTransactions extends Model
         });
     }
 
-    protected $table = 'betting_transactions';
-
-    public function bettingstatus()
-    {
-        return $this->belongsTo(BettingStatus::class, 'id');
-    }
+    protected $table = 'transactions';
 }

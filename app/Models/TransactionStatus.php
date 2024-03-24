@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use App\Models\BettingStatus;
+use App\Models\Transactions;
+use App\Models\TransactionsSaldo;
 
-class Bettings extends Model
+class TransactionStatus extends Model
 {
     use HasFactory;
 
     public $incrementing = false;
 
-    protected $fillable = ['transfercode', 'username', 'status'];
+    protected $fillable = ['trans_id', 'status'];
 
     protected $primaryKey = 'id';
 
@@ -32,10 +33,15 @@ class Bettings extends Model
         });
     }
 
-    protected $table = 'bettings';
+    protected $table = 'transaction_status';
 
-    public function bettingstatus()
+    public function transactions()
     {
-        return $this->hasMany(BettingStatus::class, 'bet_id');
+        return $this->belongsTo(Transactions::class, 'id');
+    }
+
+    public function transactionsaldo()
+    {
+        return $this->hasMany(TransactionSaldo::class, 'transtatus_id');
     }
 }
