@@ -101,7 +101,7 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $cekTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+        $cekTransaction = Transactions::where('transfercode', $request->TransactionId)->first();
         if ($cekTransaction) {
             if ($request->ProductType == 3 || $request->ProductType == 7) {
                 $cetLastStatus = TransactionStatus::where('trans_id', $cekTransaction->id)->orderBy('created_at', 'DESC')->first();
@@ -545,7 +545,7 @@ class ApiBolaControllers extends Controller
         $saldoMember = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
 
         if ($request->ProductType == 3 || $request->ProductType == 7) {
-            $cekTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+            $cekTransaction = Transactions::where('transfercode', $request->TransactionId)->first();
             if ($cekTransaction) {
                 $cekLastStatus = TransactionStatus::where('trans_id', $cekTransaction->id)->first();
                 $dataTransactions = TransactionSaldo::where('transtatus_id', $cekLastStatus->id)->first();
@@ -613,7 +613,7 @@ class ApiBolaControllers extends Controller
     private function createTransaction(Request $request, $type)
     {
         $createTransaction = Transactions::create([
-            "transfercode" => $request->TransferCode,
+            "transfercode" => $request->TransactionId,
             "username" => $request->Username,
             "type" => $type,
             "status" => 0
