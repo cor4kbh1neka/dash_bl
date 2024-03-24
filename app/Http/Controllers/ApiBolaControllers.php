@@ -113,7 +113,7 @@ class ApiBolaControllers extends Controller
                     if ($request->Amount > $totalBetting) {
                         return $this->setBetting($request);
                     } else {
-                        return $this->errorResponse($request->Username, 5003);
+                        return $this->errorResponse($request->Username, 7);
                     }
                 } else {
                     return $this->errorResponse($request->Username, 5003);
@@ -708,7 +708,7 @@ class ApiBolaControllers extends Controller
         } else if ($errorCode == '9720') {
             $errorMessage = 'Withdraw request so frequent';
         } else {
-            $errorMessage = 'Error';
+            $errorMessage = 'Internal Error';
         }
 
 
