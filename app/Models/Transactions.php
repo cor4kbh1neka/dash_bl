@@ -13,7 +13,7 @@ class Transactions extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['transfercode', 'username', 'type', 'status'];
+    protected $fillable = ['transactionid', 'transfercode', 'username', 'type', 'status'];
 
     protected $primaryKey = 'id';
 
