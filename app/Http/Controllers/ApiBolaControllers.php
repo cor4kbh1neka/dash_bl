@@ -52,12 +52,13 @@ class ApiBolaControllers extends Controller
             'Username' => 'required',
             'CompanyKey' => 'required',
             'TransferCode' => 'required',
+            'TransactionId' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+        $dataTransaction = Transactions::where('transfercode', $request->TransactionId)->first();
         if (!$dataTransaction) {
             return $this->errorResponse($request->Username, 6);
         }
@@ -186,7 +187,7 @@ class ApiBolaControllers extends Controller
 
     public function Bonus(Request $request)
     {
-        $cekTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+        $cekTransaction = Transactions::where('transfercode', $request->TransactionId)->first();
         if ($cekTransaction) {
             return $this->errorResponse($request->Username, 5003);
         }
@@ -247,7 +248,7 @@ class ApiBolaControllers extends Controller
     {
         set_time_limit(60);
         try {
-            $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+            $dataTransaction = Transactions::where('transfercode', $request->TransactionId)->first();
             if (!$dataTransaction) {
                 return $this->errorResponse($request->Username, 6);
             }
@@ -370,7 +371,7 @@ class ApiBolaControllers extends Controller
     /* ====================== Cancel ======================= */
     private function setCancel(Request $request)
     {
-        $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+        $dataTransaction = Transactions::where('transfercode', $request->TransactionId)->first();
         if (!$dataTransaction) {
             return $this->errorResponse($request->Username, 6);
         }
@@ -459,7 +460,7 @@ class ApiBolaControllers extends Controller
     /* ====================== Settle ======================= */
     private function setSettle(Request $request)
     {
-        $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+        $dataTransaction = Transactions::where('transfercode', $request->TransactionId)->first();
         if (!$dataTransaction) {
             return $this->errorResponse($request->Username, 6);
         }
