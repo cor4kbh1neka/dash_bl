@@ -109,8 +109,8 @@ class ApiBolaControllers extends Controller
             } else {
                 $cetLastStatus = BettingStatus::where('bet_id', $cekBetting->id)->orderBy('created_at', 'DESC')->first();
                 if ($cetLastStatus->status == 'Running') {
-                    $dataTransactions = BettingTransactions::where('betstatus_id', $cetLastStatus->id)->first();
-                    if ($request->Amount > $dataTransactions->amount) {
+                    $totalBetting = BettingTransactions::where('betstatus_id', $cetLastStatus->id)->sum('amount');
+                    if ($request->Amount > $totalBetting) {
                         return $this->setBetting($request);
                     } else {
                         return $this->errorResponse($request->Username, 5003);
@@ -538,7 +538,7 @@ class ApiBolaControllers extends Controller
         // if ($WdSaldo["error"]["id"] === 4404) {
         //     return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
         // }
-        if ($request->ProductType == 3) {
+        if ($request->ProductType == 3 && $cekBetting) {
             $createBetting = $cekBetting;
             $crteateStatusBetting = $cekLastStatus;
         } else {
@@ -547,7 +547,7 @@ class ApiBolaControllers extends Controller
         }
 
         if ($crteateStatusBetting) {
-            if ($request->ProductType == 3) {
+            if ($request->ProductType == 3 && $cekBetting) {
                 $amount = $request->Amount - $dataTransactions->amount;
                 $bettingTransaction = $this->createbetTransaction($crteateStatusBetting->id, $txnid, "W", $amount, 1);
             } else {
