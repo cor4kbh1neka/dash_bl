@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaction_status', function (Blueprint $table) {
+        Schema::create('transactions_detail', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('trans_id');
-            $table->string('transdetail_id');
+            $table->string('transactionid');
             $table->string('status');
             $table->timestamps();
         });
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaction_status');
+        Schema::dropIfExists('transactions_detail');
     }
 };

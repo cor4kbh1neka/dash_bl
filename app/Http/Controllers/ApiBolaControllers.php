@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Transactions;
+use App\Models\TransactionsDetail;
 use App\Models\TransactionStatus;
 use App\Models\TransactionSaldo;
 use Illuminate\Support\Facades\Http;
@@ -101,7 +102,7 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $cekTransaction = Transactions::where('transactionid', $request->TransactionId)->first();
+        $cekTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
         if ($cekTransaction) {
             if ($request->ProductType == 3 || $request->ProductType == 7) {
                 $cetLastStatus = TransactionStatus::where('trans_id', $cekTransaction->id)->orderBy('created_at', 'DESC')->first();
@@ -609,6 +610,7 @@ class ApiBolaControllers extends Controller
             $crteateStatusTransaction = $cekLastStatus;
         } else {
             $createTransaction = $this->createTransaction($request, 'Betting');
+            $createTransactionDetail = $this->createTransactionDetail($request, $createTransaction->id);
             $crteateStatusTransaction = $this->updateTranStatus($createTransaction->id, 'Running');
         }
 
@@ -653,6 +655,17 @@ class ApiBolaControllers extends Controller
             "transfercode" => $request->TransferCode,
             "username" => $request->Username,
             "type" => $type,
+            "status" => 0
+        ]);
+
+        return $createTransaction;
+    }
+
+    private function createTransactionDetail(Request $request, $trans_id)
+    {
+        $createTransaction = TransactionsDetail::create([
+            "trans_id" => $trans_id,
+            "transactionid" => $request->TransactionId,
             "status" => 0
         ]);
 
