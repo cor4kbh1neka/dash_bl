@@ -611,7 +611,7 @@ class ApiBolaControllers extends Controller
         } else {
             $createTransaction = $this->createTransaction($request, 'Betting');
             $createTransactionDetail = $this->createTransactionDetail($request, $createTransaction->id);
-            $crteateStatusTransaction = $this->updateTranStatus($createTransaction->id, 'Running');
+            $crteateStatusTransaction = $this->updateTranStatus($createTransaction->id, $createTransactionDetail->id, 'Running');
         }
 
         if ($crteateStatusTransaction) {
@@ -672,10 +672,11 @@ class ApiBolaControllers extends Controller
         return $createTransaction;
     }
 
-    private function updateTranStatus($trans_id, $status)
+    private function updateTranStatus($trans_id, $transdetail_id, $status)
     {
         $results = TransactionStatus::create([
             "trans_id" => $trans_id,
+            "transdetail_id" => $$transdetail_id,
             "status" => $status
         ]);
         return $results;
