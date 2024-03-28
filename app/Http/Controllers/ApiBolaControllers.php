@@ -142,7 +142,15 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        return $this->setSettle($request);
+        $dataTransactions = Transactions::where('transfercode', $request->TransferCode)->get();
+        if ($dataTransactions->isEmpty()) {
+            return $this->errorResponse($request->Username, 6);
+        }
+
+        foreach ($dataTransactions as $index => $dataTransaction) {
+            $results[] = $this->setSettle($request, $dataTransaction, $index);
+        }
+        return end($results);
     }
 
     public function Cancel(Request $request)
@@ -485,53 +493,13 @@ class ApiBolaControllers extends Controller
     }
 
     /* ====================== Settle ======================= */
-    private function setSettle(Request $request)
+    private function setSettle(Request $request, $dataTransaction, $index)
     {
-        if ($request->ProductType == 9) {
-            $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->get();
-            $dataStatusTransaction = null;
-            if ($dataTransaction->isEmpty()) {
-                return $this->errorResponse($request->Username, 6);
-            }
-        } else {
-            $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
-            $dataStatusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
-            if (!$dataTransaction) {
-                return $this->errorResponse($request->Username, 6);
-            }
-        }
+        $dataTransaction = Transactions::where('transactionid', $dataTransaction->transactionid)->first();
+        $dataStatusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
 
-        if ($request->ProductType == 9) {
-            $dataTransactions = $dataTransaction;
-            foreach ($dataTransactions as $index => $dataTransaction) {
-                $dataStatusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
 
-                if ($dataStatusTransaction->status == 'Running' || $dataStatusTransaction->status == 'Rollback') {
-                    $txnid = $this->generateTxnid('D', 17);
-                    $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Settled');
-                    if ($crteateStatusTransaction) {
-                        if ($index == 0) {
-                            $saldo = $request->WinLoss;
-                        } else {
-                            $saldo = 0;
-                        }
-                        $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $request->WinLoss, 1);
-                    }
-                } else if ($dataStatusTransaction->status == 'Cancel') {
-                    return $this->errorResponse($request->Username, 2002);
-                } else {
-                    return $this->errorResponse($request->Username, 2001);
-                }
-
-                $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
-                return response()->json([
-                    'AccountName' => $request->Username,
-                    'Balance' => $saldo,
-                    'ErrorCode' => 0,
-                    'ErrorMessage' => 'No Error'
-                ])->header('Content-Type', 'application/json; charset=UTF-8');
-            }
-        } else if ($dataStatusTransaction->status == 'Running' || $dataStatusTransaction->status == 'Rollback') {
+        if ($dataStatusTransaction->status == 'Running' || $dataStatusTransaction->status == 'Rollback') {
             $txnid = $this->generateTxnid('D', 17);
             // $DpSaldo = $this->deposit($request, $txnid);
 
@@ -545,7 +513,8 @@ class ApiBolaControllers extends Controller
 
             $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Settled');
             if ($crteateStatusTransaction) {
-                $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $request->WinLoss, 1);
+                $WinLoss = $index == 0 ? $request->WinLoss : 0;
+                $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $WinLoss, 1);
                 if ($transactionTransaction) {
                     $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
                     return response()->json([
