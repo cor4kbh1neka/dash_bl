@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Http;
 use App\Jobs\createWdJob;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Cache;
 
 
 class ApiBolaControllers extends Controller
@@ -30,7 +31,7 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+        $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
 
         $response = [
             "AccountName" => $request->Username,
@@ -237,7 +238,7 @@ class ApiBolaControllers extends Controller
 
 
             if ($transactionTransaction) {
-                $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+                $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
 
                 return response()->json([
                     'AccountName' => $request->Username,
@@ -316,7 +317,7 @@ class ApiBolaControllers extends Controller
                         $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "W", $totalAmount, 1);
 
                         if ($transactionTransaction) {
-                            $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+                            $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
                             return response()->json([
                                 'AccountName' => $request->Username,
                                 'Balance' => $saldo,
@@ -371,7 +372,7 @@ class ApiBolaControllers extends Controller
                         $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $historyLastRunning->txnid, "W", $historyLastRunning->amount, 3);
 
                         if ($transactionTransaction) {
-                            $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+                            $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
                             return response()->json([
                                 'AccountName' => $request->Username,
                                 'Balance' => $saldo,
@@ -471,7 +472,7 @@ class ApiBolaControllers extends Controller
                 // $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, $jenis, $dataTransactions->amount);
             }
 
-            $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+            $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
             return response()->json([
                 'AccountName' => $request->Username,
                 'Balance' => $saldo,
@@ -522,7 +523,7 @@ class ApiBolaControllers extends Controller
                     return $this->errorResponse($request->Username, 2001);
                 }
 
-                $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+                $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
                 return response()->json([
                     'AccountName' => $request->Username,
                     'Balance' => $saldo,
@@ -546,7 +547,7 @@ class ApiBolaControllers extends Controller
             if ($crteateStatusTransaction) {
                 $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $request->WinLoss, 1);
                 if ($transactionTransaction) {
-                    $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+                    $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
                     return response()->json([
                         'AccountName' => $request->Username,
                         'Balance' => $saldo,
@@ -606,7 +607,7 @@ class ApiBolaControllers extends Controller
 
     private function setTransaction(Request $request)
     {
-        $saldoMember = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+        $saldoMember = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
 
         if ($request->ProductType == 3 || $request->ProductType == 7) {
             $cekTransaction = Transactions::where('transferid', $request->TransactionId)->first();
@@ -649,7 +650,7 @@ class ApiBolaControllers extends Controller
             }
 
             if ($transactionTransaction) {
-                $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+                $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
                 return response()->json([
                     'AccountName' => $request->Username,
                     'Balance' => $saldo,
@@ -725,14 +726,23 @@ class ApiBolaControllers extends Controller
     }
 
     /* ====================== GetBelance ======================= */
-    private function apiGetBelance(Request $request)
+    private function apiGetBalance(Request $request)
     {
+        $cacheKey = 'balance_' . $request->Username;
+
+        if (Cache::has($cacheKey)) {
+            return Cache::get($cacheKey);
+        }
+
         $dataSaldo = [
             "Username" => $request->Username,
             "CompanyKey" => env('COMPANY_KEY'),
             "ServerId" => env('SERVERID')
         ];
         $saldo = $this->requestApi('get-player-balance', $dataSaldo);
+
+        Cache::put($cacheKey, $saldo, 3600);
+
         return $saldo;
     }
 
