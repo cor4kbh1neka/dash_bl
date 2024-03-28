@@ -166,8 +166,9 @@ class ApiBolaControllers extends Controller
         if (!$dataTransaction) {
             return $this->errorResponse($request->Username, 6);
         }
+        $lastStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
 
-        if ($request->ProductType == 9) {
+        if ($request->ProductType == 9 && $lastStatus == 'Settled') {
             $dataTransactions = Transactions::where('transfercode', $request->TransferCode)->get();
 
             if ($dataTransactions->isEmpty()) {
