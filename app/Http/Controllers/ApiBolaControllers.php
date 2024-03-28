@@ -217,7 +217,7 @@ class ApiBolaControllers extends Controller
         if ($request->ProductType == 9) {
             $dataTransactions = Transactions::where('transfercode', $request->TransferCode)->get();
 
-            if ($dataTransaction->isEmpty()) {
+            if ($dataTransactions->isEmpty()) {
                 return $this->errorResponse($request->Username, 6);
             }
 
