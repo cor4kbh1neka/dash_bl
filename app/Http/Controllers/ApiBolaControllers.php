@@ -57,7 +57,7 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $dataTransaction = Transactions::where('ransactionid', $request->TransactionId)->first();
+        $dataTransaction = Transactions::where('transactionid', $request->TransactionId)->first();
         if (!$dataTransaction) {
             return $this->errorResponse($request->Username, 6);
         }
