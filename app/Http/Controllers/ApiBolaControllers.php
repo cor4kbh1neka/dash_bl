@@ -150,7 +150,17 @@ class ApiBolaControllers extends Controller
         foreach ($dataTransactions as $index => $dataTransaction) {
             $results[] = $this->setSettle($request, $dataTransaction, $index);
         }
-        return end($results);
+
+        $filterResults = [];
+        foreach (array_reverse($results) as $item) {
+            $balance = $item->original['Balance'];
+            if ($balance > 0) {
+                $filterResults[] = $item;
+                break;
+            }
+        }
+
+        return end($filterResults);
     }
 
     public function Cancel(Request $request)
@@ -412,9 +422,10 @@ class ApiBolaControllers extends Controller
     private function setCancel(Request $request, $dataTransaction)
     {
         $lastStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
+
         $last2ndStatus = TransactionStatus::where('trans_id', $dataTransaction->id)
             ->where('id', '!=', $lastStatus->id)
-            ->where('created_at', '<', $lastStatus->created_at)
+            // ->where('created_at', '<', $lastStatus->created_at)
             ->whereIn('status', ['Running', 'Settled'])
             ->orderBy('created_at', 'DESC')->first();
 
@@ -700,11 +711,11 @@ class ApiBolaControllers extends Controller
     /* ====================== GetBelance ======================= */
     private function apiGetBalance(Request $request)
     {
-        $cacheKey = 'balance_' . $request->Username;
+        // $cacheKey = 'balance_' . $request->Username;
 
-        if (Cache::has($cacheKey)) {
-            return Cache::get($cacheKey);
-        }
+        // if (Cache::has($cacheKey)) {
+        //     return Cache::get($cacheKey);
+        // }
 
         $dataSaldo = [
             "Username" => $request->Username,
@@ -713,7 +724,7 @@ class ApiBolaControllers extends Controller
         ];
         $saldo = $this->requestApi('get-player-balance', $dataSaldo);
 
-        Cache::put($cacheKey, $saldo, 3600);
+        // Cache::put($cacheKey, $saldo, 3600);
 
         return $saldo;
     }
