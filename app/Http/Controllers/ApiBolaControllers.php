@@ -151,16 +151,15 @@ class ApiBolaControllers extends Controller
             $results[] = $this->setSettle($request, $dataTransaction, $index);
         }
 
-        $filterResults = [];
-        foreach (array_reverse($results) as $item) {
-            $balance = $item->original['Balance'];
-            if ($balance > 0) {
-                $filterResults[] = $item;
-                break;
-            }
-        }
-
-        return end($filterResults);
+        // $filterResults = [];
+        // foreach (array_reverse($results) as $item) {
+        //     $balance = $item->original['Balance'];
+        //     if ($balance > 0) {
+        //         $filterResults[] = $item;
+        //         break;
+        //     }
+        // }
+        return end($results);
     }
 
     public function Cancel(Request $request)
@@ -531,12 +530,12 @@ class ApiBolaControllers extends Controller
                 $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $WinLoss, 1);
                 if ($transactionTransaction) {
                     $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
-                    return response()->json([
+                    return [
                         'AccountName' => $request->Username,
                         'Balance' => $saldo,
                         'ErrorCode' => 0,
                         'ErrorMessage' => 'No Error'
-                    ])->header('Content-Type', 'application/json; charset=UTF-8');
+                    ];
                 }
             }
         } else if ($dataStatusTransaction->status == 'Cancel') {
