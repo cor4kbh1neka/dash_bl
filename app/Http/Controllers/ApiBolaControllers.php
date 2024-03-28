@@ -177,7 +177,7 @@ class ApiBolaControllers extends Controller
         }
         $lastStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
 
-        if ($request->ProductType == 9 && $lastStatus == 'Settled') {
+        if ($request->ProductType == 9 && $lastStatus->status == 'Settled') {
             $dataTransactions = Transactions::where('transfercode', $request->TransferCode)->get();
 
             if ($dataTransactions->isEmpty()) {
@@ -412,7 +412,11 @@ class ApiBolaControllers extends Controller
     private function setCancel(Request $request, $dataTransaction)
     {
         $lastStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
-        $last2ndStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->where('id', '!=', $lastStatus->id)->orderBy('created_at', 'DESC')->first();
+        $last2ndStatus = TransactionStatus::where('trans_id', $dataTransaction->id)
+            ->where('id', '!=', $lastStatus->id)
+            ->where('created_at', '<', $lastStatus->created_at)
+            ->whereIn('status', ['Running', 'Settled'])
+            ->orderBy('created_at', 'DESC')->first();
 
         if ($lastStatus->status != 'Cancel') {
             $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Cancel');
@@ -420,7 +424,6 @@ class ApiBolaControllers extends Controller
             if ($crteateStatusTransaction) {
 
                 if ($lastStatus->status == 'Settled') {
-
                     $dataTransactions = TransactionSaldo::where('transtatus_id', $lastStatus->id)->first();
 
                     $jenis = 'W';
@@ -433,6 +436,7 @@ class ApiBolaControllers extends Controller
                             $totalAmount = TransactionSaldo::where('transtatus_id', $last2ndStatus->id)->sum('amount');
                         } else {
                             $dataTransactions = TransactionSaldo::where('transtatus_id', $last2ndStatus->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
+
                             $totalAmount = $dataTransactions->amount;
                         }
 
@@ -497,7 +501,6 @@ class ApiBolaControllers extends Controller
     {
         $dataTransaction = Transactions::where('transactionid', $dataTransaction->transactionid)->first();
         $dataStatusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
-
 
         if ($dataStatusTransaction->status == 'Running' || $dataStatusTransaction->status == 'Rollback') {
             $txnid = $this->generateTxnid('D', 17);
