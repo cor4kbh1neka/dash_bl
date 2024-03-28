@@ -33,8 +33,8 @@ class TransactionsDetail extends Model
 
     protected $table = 'transactions_detail';
 
-    // public function transactionstatus()
-    // {
-    //     return $this->hasMany(TransactionStatus::class, 'trans_id');
-    // }
+    public function transactionstatus()
+    {
+        return $this->hasMany(TransactionStatus::class, 'trans_id');
+    }
 }

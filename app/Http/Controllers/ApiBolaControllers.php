@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Transactions;
-use App\Models\TransactionsDetail;
 use App\Models\TransactionStatus;
 use App\Models\TransactionSaldo;
 use Illuminate\Support\Facades\Http;
@@ -65,7 +64,7 @@ class ApiBolaControllers extends Controller
 
         $statusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
 
-        if ($statusTransaction->status == 'Rollback' || $statusTransaction->status == 'Running' || $statusTransaction->status == 'ReturnStake') {
+        if ($statusTransaction->status == 'Rollback' || $statusTransaction->status == 'Running') {
             $status = 'Running';
         } else if ($statusTransaction->status == 'Cancel') {
             $status = 'Void';
@@ -102,7 +101,7 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $cekTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+        $cekTransaction = Transactions::where('transactionid', $request->TransactionId)->first();
         if ($cekTransaction) {
             if ($request->ProductType == 3 || $request->ProductType == 7) {
                 $cetLastStatus = TransactionStatus::where('trans_id', $cekTransaction->id)->orderBy('created_at', 'DESC')->first();
@@ -163,7 +162,25 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        return $this->setCancel($request);
+        $dataTransaction = Transactions::where('transactionid', $request->TransactionId)->first();
+        if (!$dataTransaction) {
+            return $this->errorResponse($request->Username, 6);
+        }
+
+        if ($request->ProductType == 9) {
+            $dataTransactions = Transactions::where('transfercode', $request->TransferCode)->get();
+
+            if ($dataTransaction->isEmpty()) {
+                return $this->errorResponse($request->Username, 6);
+            }
+
+            foreach ($dataTransactions as $dataTransaction) {
+                $results[] = $this->setCancel($request, $dataTransaction);
+            }
+            return end($results);
+        }
+
+        return $this->setCancel($request, $dataTransaction);
     }
 
     public function Rollback(Request $request)
@@ -182,7 +199,25 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        return $this->setRollback($request);
+        $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+        if (!$dataTransaction) {
+            return $this->errorResponse($request->Username, 6);
+        }
+
+        if ($request->ProductType == 9) {
+            $dataTransactions = Transactions::where('transfercode', $request->TransferCode)->get();
+
+            if ($dataTransaction->isEmpty()) {
+                return $this->errorResponse($request->Username, 6);
+            }
+
+            foreach ($dataTransactions as $dataTransaction) {
+                $results[] = $this->setRollback($request, $dataTransaction);
+            }
+            return end($results);
+        }
+
+        return $this->setRollback($request, $dataTransaction);
     }
 
     public function Bonus(Request $request)
@@ -216,42 +251,6 @@ class ApiBolaControllers extends Controller
         return $this->errorResponse($request->Username, 5003);
     }
 
-    public function ReturnStake(Request $request)
-    {
-        $cekTransaction = Transactions::where('transactionid', $request->TransactionId)->first();
-        if (!$cekTransaction) {
-            return $this->errorResponse($request->Username, 6);
-        }
-
-        $lastStatus = TransactionStatus::where('trans_id', $cekTransaction->id)->orderBy('created_at', 'DESC')->first()->status;
-
-        $txnid = $this->generateTxnid('D', 17);
-        if ($lastStatus === 'Running') {
-            $createTransaction = $cekTransaction;
-            $crteateStatusTransaction = $this->updateTranStatus($createTransaction->id, 'ReturnStake');
-
-            if ($crteateStatusTransaction) {
-                $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $request->CurrentStake, 1);
-
-                if ($transactionTransaction) {
-                    $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
-                    return response()->json([
-                        'AccountName' => $request->Username,
-                        'Balance' => $saldo,
-                        'ErrorCode' => 0,
-                        'ErrorMessage' => 'No Error'
-                    ])->header('Content-Type', 'application/json; charset=UTF-8');
-                }
-            }
-        } else if ($lastStatus === 'ReturnStake') {
-            return $this->errorResponse($request->Username, 5008);
-        } else if ($lastStatus === 'Cancel') {
-            return $this->errorResponse($request->Username, 2002);
-        }
-
-        return $this->errorResponse($request->Username, 6);
-    }
-
 
 
 
@@ -280,15 +279,10 @@ class ApiBolaControllers extends Controller
     }
 
     /* ====================== Rollback ======================= */
-    private function setRollback(Request $request)
+    private function setRollback(Request $request, $dataTransaction)
     {
-        set_time_limit(60);
         try {
-            $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
-            if (!$dataTransaction) {
-                return $this->errorResponse($request->Username, 6);
-            }
-
+            $dataTransactions = Transactions::where('transactionid', $dataTransaction->transactionid)->first();
             $lastStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
 
             if ($lastStatus->status === 'Cancel') {
@@ -405,13 +399,8 @@ class ApiBolaControllers extends Controller
 
 
     /* ====================== Cancel ======================= */
-    private function setCancel(Request $request)
+    private function setCancel(Request $request, $dataTransaction)
     {
-        $dataTransaction = Transactions::where('transfercode', $request->TransactionId)->first();
-        if (!$dataTransaction) {
-            return $this->errorResponse($request->Username, 6);
-        }
-
         $lastStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
         $last2ndStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->where('id', '!=', $lastStatus->id)->orderBy('created_at', 'DESC')->first();
 
@@ -429,7 +418,7 @@ class ApiBolaControllers extends Controller
                     $txnid = $this->generateTxnid($jenis, $rangeNumber);
                     $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, $jenis, $dataTransactions->amount, 1);
 
-                    if ($last2ndStatus->status != 'Running' || $last2ndStatus->status != 'Rollback' || $last2ndStatus->status != 'ReturnStake') {
+                    if ($last2ndStatus->status != 'Running' || $last2ndStatus->status != 'Rollback') {
                         if ($request->ProductType == 3 || $request->ProductType == 7) {
                             $totalAmount = TransactionSaldo::where('transtatus_id', $last2ndStatus->id)->sum('amount');
                         } else {
@@ -442,7 +431,7 @@ class ApiBolaControllers extends Controller
                         $txnid = $this->generateTxnid($jenis, $rangeNumber);
                         $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, $jenis, $totalAmount, 2);
                     }
-                } else if ($lastStatus->status == 'Running' || $lastStatus->status == 'Rollback' || $lastStatus->status == 'ReturnStake') {
+                } else if ($lastStatus->status == 'Running' || $lastStatus->status == 'Rollback') {
                     if ($request->ProductType == 3 || $request->ProductType == 7) {
                         $totalAmount = TransactionSaldo::where('transtatus_id', $lastStatus->id)->sum('amount');
                     } else {
@@ -496,14 +485,50 @@ class ApiBolaControllers extends Controller
     /* ====================== Settle ======================= */
     private function setSettle(Request $request)
     {
-        $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
-        if (!$dataTransaction) {
+        if ($request->ProductType == 9) {
+            $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->get();
+            $dataStatusTransaction = null;
+        } else {
+            $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+            $dataStatusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
+        }
+
+        if (!$dataTransaction || $dataTransaction->isEmpty()) {
             return $this->errorResponse($request->Username, 6);
         }
 
-        $dataStatusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
+        if ($request->ProductType == 9) {
+            $dataTransactions = $dataTransaction;
+            dd($dataTransactions);
+            foreach ($dataTransactions as $index => $dataTransaction) {
+                $dataStatusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
 
-        if ($dataStatusTransaction->status == 'Running' || $dataStatusTransaction->status == 'Rollback' || $dataStatusTransaction->status == 'ReturnStake') {
+                if ($dataStatusTransaction->status == 'Running' || $dataStatusTransaction->status == 'Rollback') {
+                    $txnid = $this->generateTxnid('D', 17);
+                    $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Settled');
+                    if ($crteateStatusTransaction) {
+                        if ($index == 0) {
+                            $saldo = $request->WinLoss;
+                        } else {
+                            $saldo = 0;
+                        }
+                        $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $request->WinLoss, 1);
+                    }
+                } else if ($dataStatusTransaction->status == 'Cancel') {
+                    return $this->errorResponse($request->Username, 2002);
+                } else {
+                    return $this->errorResponse($request->Username, 2001);
+                }
+
+                $saldo = $this->apiGetBelance($request)["balance"] + $this->saldoBerjalan($request);
+                return response()->json([
+                    'AccountName' => $request->Username,
+                    'Balance' => $saldo,
+                    'ErrorCode' => 0,
+                    'ErrorMessage' => 'No Error'
+                ])->header('Content-Type', 'application/json; charset=UTF-8');
+            }
+        } else if ($dataStatusTransaction->status == 'Running' || $dataStatusTransaction->status == 'Rollback') {
             $txnid = $this->generateTxnid('D', 17);
             // $DpSaldo = $this->deposit($request, $txnid);
 
@@ -610,8 +635,7 @@ class ApiBolaControllers extends Controller
             $crteateStatusTransaction = $cekLastStatus;
         } else {
             $createTransaction = $this->createTransaction($request, 'Betting');
-            $createTransactionDetail = $this->createTransactionDetail($request, $createTransaction->id);
-            $crteateStatusTransaction = $this->updateTranStatus($createTransaction->id, $createTransactionDetail->id, 'Running');
+            $crteateStatusTransaction = $this->updateTranStatus($createTransaction->id, 'Running');
         }
 
         if ($crteateStatusTransaction) {
@@ -661,22 +685,10 @@ class ApiBolaControllers extends Controller
         return $createTransaction;
     }
 
-    private function createTransactionDetail(Request $request, $trans_id)
-    {
-        $createTransaction = TransactionsDetail::create([
-            "trans_id" => $trans_id,
-            "transactionid" => $request->TransactionId,
-            "status" => 0
-        ]);
-
-        return $createTransaction;
-    }
-
-    private function updateTranStatus($trans_id, $transdetail_id, $status)
+    private function updateTranStatus($trans_id, $status)
     {
         $results = TransactionStatus::create([
             "trans_id" => $trans_id,
-            "transdetail_id" => $$transdetail_id,
             "status" => $status
         ]);
         return $results;
@@ -805,11 +817,6 @@ class ApiBolaControllers extends Controller
 
     function generateTxnid($jenis, $length)
     {
-        if ($jenis == "D") {
-            $length = 17;
-        } else {
-            $length = 10;
-        }
         $characters = '0123456789';
         $randomString = '';
         for ($i = 0; $i < $length; $i++) {
@@ -830,7 +837,10 @@ class ApiBolaControllers extends Controller
 
 
 
-
+    public function ReturnStake()
+    {
+        return response()->json(['message' => 'Bet settled successfully', 'redirect_url' => '/ReturnStake'], 200);
+    }
 
     public function login($username, $iswap)
     {

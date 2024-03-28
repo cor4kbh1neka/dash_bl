@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('transaction_status', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('trans_id');
-            $table->string('transdetail_id');
             $table->string('status');
             $table->timestamps();
         });
