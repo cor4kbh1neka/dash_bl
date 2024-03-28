@@ -489,18 +489,19 @@ class ApiBolaControllers extends Controller
         if ($request->ProductType == 9) {
             $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->get();
             $dataStatusTransaction = null;
+            if ($dataTransaction->isEmpty()) {
+                return $this->errorResponse($request->Username, 6);
+            }
         } else {
             $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
             $dataStatusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
-        }
-
-        if (!$dataTransaction || $dataTransaction->isEmpty()) {
-            return $this->errorResponse($request->Username, 6);
+            if (!$dataTransaction) {
+                return $this->errorResponse($request->Username, 6);
+            }
         }
 
         if ($request->ProductType == 9) {
             $dataTransactions = $dataTransaction;
-            dd($dataTransactions);
             foreach ($dataTransactions as $index => $dataTransaction) {
                 $dataStatusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
 
