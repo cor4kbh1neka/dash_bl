@@ -79,7 +79,7 @@ class ApiBolaControllers extends Controller
             "Status" => $status,
             'ErrorCode' => 0,
             'ErrorMessage' => 'No Error'
-        ])->header('Content-Type', 'application/json; charset=UTF-8');
+        ])->header('Content-Type', 'application/json; charset=UTF-8');s
     }
 
     public function Deduct(Request $request)
