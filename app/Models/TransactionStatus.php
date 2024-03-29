@@ -14,7 +14,7 @@ class TransactionStatus extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['trans_id', 'status'];
+    protected $fillable = ['trans_id', 'status', 'urutan'];
 
     protected $primaryKey = 'id';
 
@@ -30,6 +30,17 @@ class TransactionStatus extends Model
 
         static::creating(function ($transaction) {
             $transaction->id = Str::uuid()->toString();
+
+            // Menggunakan first() untuk mendapatkan model tunggal, bukan koleksi
+            $lastTransaction = self::where('trans_id', $transaction->trans_id)
+                ->orderBy('urutan', 'desc')
+                ->first();
+
+            if ($lastTransaction) {
+                $transaction->urutan = $lastTransaction->urutan + 1;
+            } else {
+                $transaction->urutan = 1;
+            }
         });
     }
 

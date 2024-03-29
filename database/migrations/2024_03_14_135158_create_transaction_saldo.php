@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('txnid');
             $table->string('jenis');
             $table->string('amount');
-            $table->timestamps();
             $table->integer('urutan');
+            $table->timestamps();
         });
     }
 

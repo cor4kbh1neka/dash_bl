@@ -63,7 +63,7 @@ class ApiBolaControllers extends Controller
             return $this->errorResponse($request->Username, 6);
         }
 
-        $statusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
+        $statusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'desc')->first();
 
         if ($statusTransaction->status == 'Rollback' || $statusTransaction->status == 'Running') {
             $status = 'Running';
@@ -105,7 +105,7 @@ class ApiBolaControllers extends Controller
         $cekTransaction = Transactions::where('transactionid', $request->TransactionId)->first();
         if ($cekTransaction) {
             if ($request->ProductType == 3 || $request->ProductType == 7) {
-                $cetLastStatus = TransactionStatus::where('trans_id', $cekTransaction->id)->orderBy('created_at', 'DESC')->first();
+                $cetLastStatus = TransactionStatus::where('trans_id', $cekTransaction->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'desc')->first();
                 if ($cetLastStatus->status == 'Running') {
                     $totalTransaction = TransactionSaldo::where('transtatus_id', $cetLastStatus->id)->sum('amount');
                     if ($request->Amount > $totalTransaction) {
@@ -184,7 +184,7 @@ class ApiBolaControllers extends Controller
         if (!$dataTransaction) {
             return $this->errorResponse($request->Username, 6);
         }
-        $lastStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
+        $lastStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'desc')->first();
 
         if ($request->ProductType == 9 && $lastStatus->status == 'Settled') {
             $dataTransactions = Transactions::where('transfercode', $request->TransferCode)->get();
@@ -219,6 +219,7 @@ class ApiBolaControllers extends Controller
         }
 
         $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
+
         if (!$dataTransaction) {
             return $this->errorResponse($request->Username, 6);
         }
@@ -302,107 +303,12 @@ class ApiBolaControllers extends Controller
     {
         try {
             $dataTransactions = Transactions::where('transactionid', $dataTransaction->transactionid)->first();
-            $lastStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
-
+            $lastStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'desc')->first();
             if ($lastStatus->status === 'Cancel') {
-                $lastRunningStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->where('status', 'Running')->orderBy('created_at', 'DESC')->first();
-
-                if ($lastRunningStatus) {
-                    if ($request->ProductType == 3 || $request->ProductType == 7) {
-                        $totalAmount = TransactionSaldo::where('transtatus_id', $lastRunningStatus->id)->sum('amount');
-                    } else {
-                        $dataTransactions = TransactionSaldo::where('transtatus_id', $lastRunningStatus->id)->first();
-                        $totalAmount = $dataTransactions->amount;
-                    }
-                    $txnid = $this->generateTxnid('W', 10);
-                    // $request->merge(['Amount' => $dataTransactions->amount]);
-
-                    // $WdSaldo = $this->withdraw($request, $txnid);
-
-                    // if ($WdSaldo["error"]["id"] === 9720) {
-                    //     $WdSaldo = $this->requestWitdraw9720($request, $txnid);
-                    // }
-
-                    // if ($WdSaldo["error"]["id"] === 4404) {
-                    //     return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
-                    // }
-
-                    $createTransaction = $dataTransaction;
-                    $crteateStatusTransaction = $this->updateTranStatus($createTransaction->id, 'Rollback');
-
-                    if ($crteateStatusTransaction) {
-                        $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "W", $totalAmount, 1);
-
-                        if ($transactionTransaction) {
-                            $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
-                            return response()->json([
-                                'AccountName' => $request->Username,
-                                'Balance' => $saldo,
-                                'ErrorCode' => 0,
-                                'ErrorMessage' => 'No Error'
-                            ])->header('Content-Type', 'application/json; charset=UTF-8');
-                        }
-                    }
-                    return 'error $transactionTransaction : ' . $transactionTransaction;
-                }
-                return 'error $lastRunningStatus : ' . $lastRunningStatus;
-            } else if ($lastStatus->status === 'Settled') {
-
                 $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Rollback');
-
-                $dataLstSettle = TransactionStatus::where('trans_id', $dataTransaction->id)->where('status', 'Settled')->orderBy('created_at', 'DESC')->first();
-                $dataLstRunning = TransactionStatus::where('trans_id', $dataTransaction->id)->where('id', '!=', $dataLstSettle->id)->where('created_at', '<',  $dataLstSettle->created_at)->orderBy('created_at', 'DESC')->first();
-
-                /* Make Running Status */
-                if ($crteateStatusTransaction) {
-                    /* Rollback Settle */
-                    $dtStatusTransaction = $dataLstSettle;
-                    $dataTransactions = TransactionSaldo::where('transtatus_id', $dtStatusTransaction->id)->first();
-                    $txnid = $this->generateTxnid('W', 17);
-
-                    // $request->merge(['Amount' => $dataTransactions->amount]);
-                    // $addTransactions = $this->withdraw($request, $txnid);
-
-                    // if ($addTransactions["error"]["id"] === 4501) {
-                    //     $dataAllTrans = TransactionStatus::with('bettingtransactions')
-                    //         ->where('trans_id', $dataTransaction->id)
-                    //         ->get();
-                    //     dd($dataAllTrans);
-                    // }
-
-                    // if ($addTransactions["error"]["id"] === 9720) {
-                    //     $addTransactions = $this->requestWitdraw9720($request, $txnid);
-                    // }
-
-                    // if ($addTransactions["error"]["id"] === 4404) {
-                    //     return $this->errorResponse($request->Username, $addTransactions["error"]["id"]);
-                    // }
-
-                    $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, 'W', $dataTransactions->amount, 1);
-
-                    /* Make Running Status */
-                    $historyLastRunning = TransactionSaldo::where('transtatus_id', $dataLstRunning->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
-                    $txnid = $this->generateTxnid('D', 10);
-                    $transactionRollback = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $historyLastRunning->amount, 2);
-
-                    if ($transactionRollback) {
-                        $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $historyLastRunning->txnid, "W", $historyLastRunning->amount, 3);
-
-                        if ($transactionTransaction) {
-                            $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
-                            return response()->json([
-                                'AccountName' => $request->Username,
-                                'Balance' => $saldo,
-                                'ErrorCode' => 0,
-                                'ErrorMessage' => 'No Error'
-                            ])->header('Content-Type', 'application/json; charset=UTF-8');
-                        }
-                        return 'error $transactionTransaction : ' . $transactionTransaction;
-                    }
-                    return 'error $transactionRollback : ' . $transactionRollback;
-                } else {
-                    return $this->errorResponse($request->Username, 6);
-                }
+                return $this->rollbackTransaction($request, $dataTransaction, $crteateStatusTransaction);
+            } else if ($lastStatus->status === 'Settled') {
+                return $this->cancelTransaction($request, $dataTransaction, $lastStatus);
             } else if ($lastStatus->status === 'Rollback') {
                 return $this->errorResponse($request->Username, 2003);
             } else {
@@ -416,17 +322,48 @@ class ApiBolaControllers extends Controller
         }
     }
 
+    private function rollbackTransaction(Request $request, $dataTransaction, $crteateStatusTransaction = null)
+    {
+        $lastRunningStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->where('status', 'Running')->orderBy('created_at', 'DESC')->orderBy('urutan', 'desc')->first();
+
+        if ($lastRunningStatus) {
+            if ($request->ProductType == 3 || $request->ProductType == 7) {
+                $totalAmount = TransactionSaldo::where('transtatus_id', $lastRunningStatus->id)->sum('amount');
+            } else {
+                $dataTransactions = TransactionSaldo::where('transtatus_id', $lastRunningStatus->id)->first();
+                $totalAmount = $dataTransactions->amount;
+            }
+            $txnid = $this->generateTxnid('W', 10);
+
+            if ($crteateStatusTransaction) {
+                $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "W", $totalAmount, 3);
+
+                if ($transactionTransaction) {
+                    $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
+                    return response()->json([
+                        'AccountName' => $request->Username,
+                        'Balance' => $saldo,
+                        'ErrorCode' => 0,
+                        'ErrorMessage' => 'No Error'
+                    ])->header('Content-Type', 'application/json; charset=UTF-8');
+                }
+            }
+            return 'error $transactionTransaction : ' . $transactionTransaction;
+        }
+    }
+
 
     /* ====================== Cancel ======================= */
     private function setCancel(Request $request, $dataTransaction)
     {
-        $lastStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
-
+        $lastStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'desc')->first();
         $last2ndStatus = TransactionStatus::where('trans_id', $dataTransaction->id)
             ->where('id', '!=', $lastStatus->id)
-            // ->where('created_at', '<', $lastStatus->created_at)
-            ->whereIn('status', ['Running', 'Settled'])
-            ->orderBy('created_at', 'DESC')->first();
+            // ->where('created_at', '<', $lastStatus->created_at) 
+            ->whereIn('status', ['Running', 'Settled', 'Rollback'])
+            ->orderBy('created_at', 'DESC')
+            ->orderBy('urutan', 'desc')
+            ->first();
 
         if ($lastStatus->status != 'Cancel') {
             $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Cancel');
@@ -506,11 +443,48 @@ class ApiBolaControllers extends Controller
         }
     }
 
+    private function cancelTransaction(Request $request, $dataTransaction, $lastStatus)
+    {
+        $last2ndStatus = TransactionStatus::where('trans_id', $dataTransaction->id)
+            ->where('id', '!=', $lastStatus->id)
+            // ->where('created_at', '<', $lastStatus->created_at) 
+            ->whereIn('status', ['Running', 'Settled', 'Rollback'])
+            ->orderBy('created_at', 'DESC')
+            ->orderBy('urutan', 'desc')
+            ->first();
+
+        $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Rollback');
+        if ($crteateStatusTransaction) {
+            $dataTransactions = TransactionSaldo::where('transtatus_id', $lastStatus->id)->first();
+            $jenis = 'W';
+            $rangeNumber = 10;
+            $txnid = $this->generateTxnid($jenis, $rangeNumber);
+            $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, $jenis, $dataTransactions->amount, 1);
+
+            if ($last2ndStatus->status != 'Running' || $last2ndStatus->status != 'Rollback') {
+                if ($request->ProductType == 3 || $request->ProductType == 7) {
+                    $totalAmount = TransactionSaldo::where('transtatus_id', $last2ndStatus->id)->sum('amount');
+                } else {
+                    $dataTransactions = TransactionSaldo::where('transtatus_id', $last2ndStatus->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
+
+                    $totalAmount = $dataTransactions->amount;
+                }
+
+                $jenis = 'D';
+                $rangeNumber = 17;
+                $txnid = $this->generateTxnid($jenis, $rangeNumber);
+                $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, $jenis, $totalAmount, 2);
+            }
+
+            return $this->rollbackTransaction($request, $dataTransaction, $crteateStatusTransaction);
+        }
+    }
+
     /* ====================== Settle ======================= */
     private function setSettle(Request $request, $dataTransaction, $index)
     {
         $dataTransaction = Transactions::where('transactionid', $dataTransaction->transactionid)->first();
-        $dataStatusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->first();
+        $dataStatusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'desc')->first();
 
         if ($dataStatusTransaction->status == 'Running' || $dataStatusTransaction->status == 'Rollback') {
             $txnid = $this->generateTxnid('D', 17);
@@ -767,7 +741,6 @@ class ApiBolaControllers extends Controller
 
     private function errorResponse($username, $errorCode)
     {
-
         if ($errorCode == '0') {
             $errorMessage = 'No Error';
         } else if ($errorCode == '1') {
