@@ -566,9 +566,11 @@ class ApiBolaControllers extends Controller
         $saldoMember = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
 
         if ($request->ProductType == 3 || $request->ProductType == 7) {
-            $cekTransaction = Transactions::where('transferid', $request->TransactionId)->first();
+            $cekTransaction = Transactions::where('transactionid', $request->TransactionId)->first();
+
             if ($cekTransaction) {
                 $cekLastStatus = TransactionStatus::where('trans_id', $cekTransaction->id)->first();
+
                 $dataTransactions = TransactionSaldo::where('transtatus_id', $cekLastStatus->id)->first();
                 $saldoMember = $saldoMember + $dataTransactions->amount;
             }
