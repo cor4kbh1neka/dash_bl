@@ -422,12 +422,17 @@ class ApiBolaControllers extends Controller
                             $totalAmount = $dataTransactions->amount;
                         }
 
+                        $jenis = 'D';
+                        $rangeNumber = 17;
+                        $txnid = $this->generateTxnid($jenis, $rangeNumber);
+                        $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, $jenis, $totalAmount, 3);
+
                         if ($request->ProductType == 9) {
                             $checkReturnStakeStatus = TransactionStatus::where('trans_id', $dataTransaction->id)
                                 ->where('id', '!=', $lastStatus->id)
                                 ->where('status', 'ReturnStake')
-                                ->where('created_at', '<', $lastStatus->created_at)
-                                ->where('created_at', '>', $last2ndStatus->created_at)
+                                ->where('created_at', '<=', $lastStatus->created_at)
+                                ->where('created_at', '>=', $last2ndStatus->created_at)
                                 ->orderBy('created_at', 'DESC')
                                 ->orderBy('urutan', 'DESC')
                                 ->first();
@@ -441,11 +446,6 @@ class ApiBolaControllers extends Controller
                                 $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, $jenis, $trReturnStake->amount, 2);
                             }
                         }
-
-                        $jenis = 'D';
-                        $rangeNumber = 17;
-                        $txnid = $this->generateTxnid($jenis, $rangeNumber);
-                        $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, $jenis, $totalAmount, 3);
                     }
                 } else if ($lastStatus->status == 'Running' || $lastStatus->status == 'Rollback') {
                     if ($request->ProductType == 3 || $request->ProductType == 7) {
