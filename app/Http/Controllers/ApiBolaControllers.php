@@ -142,15 +142,13 @@ class ApiBolaControllers extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $dataTransactions = Transactions::where('transfercode', $request->TransferCode)->get();
+        $dataTransactions = Transactions::where('transfercode', $request->TransferCode)->orderBy('created_at', 'DESC')->get();
         if ($dataTransactions->isEmpty()) {
             return $this->errorResponse($request->Username, 6);
         }
-
         foreach ($dataTransactions as $index => $dataTransaction) {
             $results[] = $this->setSettle($request, $dataTransaction, $index);
         }
-
         // $filterResults = [];
         // foreach (array_reverse($results) as $item) {
         //     $balance = $item->original['Balance'];
@@ -159,7 +157,7 @@ class ApiBolaControllers extends Controller
         //         break;
         //     }
         // }
-        return end($results);
+        return reset($results);
     }
 
     public function Cancel(Request $request)
@@ -483,7 +481,7 @@ class ApiBolaControllers extends Controller
     /* ====================== Settle ======================= */
     private function setSettle(Request $request, $dataTransaction, $index)
     {
-        $dataTransaction = Transactions::where('transactionid', $dataTransaction->transactionid)->first();
+        // $dataTransaction = Transactions::where('transactionid', $dataTransaction->transactionid)->first();
         $dataStatusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'desc')->first();
 
         if ($dataStatusTransaction->status == 'Running' || $dataStatusTransaction->status == 'Rollback') {
@@ -513,8 +511,10 @@ class ApiBolaControllers extends Controller
                 }
             }
         } else if ($dataStatusTransaction->status == 'Cancel') {
+            $WinLoss = $index == 0 ? $request->WinLoss : 0;
             return $this->errorResponse($request->Username, 2002);
         } else {
+            $WinLoss = $index == 0 ? $request->WinLoss : 0;
             return $this->errorResponse($request->Username, 2001);
         }
     }
