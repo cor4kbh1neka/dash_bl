@@ -657,7 +657,7 @@ class ApiBolaControllers extends Controller
             $cekTransaction = Transactions::where('transactionid', $request->TransactionId)->first();
 
             if ($cekTransaction) {
-                $cekLastStatus = TransactionStatus::where('trans_id', $cekTransaction->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
+                $cekLastStatus = TransactionStatus::where('trans_id', $cekTransaction->id)->first();
 
                 $dataTransactions = TransactionSaldo::where('transtatus_id', $cekLastStatus->id)->first();
                 $saldoMember = $saldoMember + $dataTransactions->amount;
