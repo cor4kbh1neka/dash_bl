@@ -431,8 +431,10 @@ class ApiBolaControllers extends Controller
                                 ->orderBy('created_at', 'DESC')
                                 ->orderBy('urutan', 'DESC')
                                 ->first();
-                            $trReturnStake = TransactionSaldo::where('transtatus_id', $checkReturnStakeStatus->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
+
                             if ($checkReturnStakeStatus) {
+                                $trReturnStake = TransactionSaldo::where('transtatus_id', $checkReturnStakeStatus->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
+
                                 $jenis = 'W';
                                 $rangeNumber = 10;
                                 $txnid = $this->generateTxnid($jenis, $rangeNumber);
