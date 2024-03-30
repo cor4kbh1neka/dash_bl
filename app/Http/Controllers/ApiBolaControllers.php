@@ -103,9 +103,11 @@ class ApiBolaControllers extends Controller
         }
 
         $cekTransaction = Transactions::where('transactionid', $request->TransactionId)->first();
+
         if ($cekTransaction) {
             if ($request->ProductType == 3 || $request->ProductType == 7) {
                 $cetLastStatus = TransactionStatus::where('trans_id', $cekTransaction->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'desc')->first();
+
                 if ($cetLastStatus->status == 'Running') {
                     $totalTransaction = TransactionSaldo::where('transtatus_id', $cetLastStatus->id)->sum('amount');
                     if ($request->Amount > $totalTransaction) {
