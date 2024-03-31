@@ -88,6 +88,71 @@
     </div>
 
     <div class="nav_group">
+        <span class="title_Nav">TRANSACTIONS</span>
+        <div class="list_sidejsx">
+            <div class="data_sidejsx">
+                <a href="#" id="Player">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-wallet">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path
+                            d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12" />
+                        <path d="M20 12v4h-4a2 2 0 0 1 0 -4h4" />
+                    </svg>
+                    <span class="nav_title1">Deposit (0)</span>
+                </a>
+            </div>
+        </div>
+        <div class="list_sidejsx">
+            <div class="data_sidejsx">
+                <a href="#" id="Transaction">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-coins">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M9 14c0 1.657 2.686 3 6 3s6 -1.343 6 -3s-2.686 -3 -6 -3s-6 1.343 -6 3z" />
+                        <path d="M9 14v4c0 1.656 2.686 3 6 3s6 -1.344 6 -3v-4" />
+                        <path
+                            d="M3 6c0 1.072 1.144 2.062 3 2.598s4.144 .536 6 0c1.856 -.536 3 -1.526 3 -2.598c0 -1.072 -1.144 -2.062 -3 -2.598s-4.144 -.536 -6 0c-1.856 .536 -3 1.526 -3 2.598z" />
+                        <path d="M3 6v10c0 .888 .772 1.45 2 2" />
+                        <path d="M3 11c0 .888 .772 1.45 2 2" />
+                    </svg>
+                    <span class="nav_title1">Withdrawal (0)</span>
+                </a>
+            </div>
+        </div>
+        <div class="list_sidejsx">
+            <div class="data_sidejsx">
+                <a href="#" id="Agent">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-transfer">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M20 10h-16l5.5 -6" />
+                        <path d="M4 14h16l-5.5 6" />
+                    </svg>
+                    <span class="nav_title1">Manual</span>
+                </a>
+            </div>
+        </div>
+        <div class="list_sidejsx">
+            <div class="data_sidejsx">
+                <a href="#" id="Agent">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-history">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M12 8l0 4l2 2" />
+                        <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
+                    </svg>
+                    <span class="nav_title1">History</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav_group">
         <span class="title_Nav">CONFIG</span>
         <div class="list_sidejsx">
             <div class="data_sidejsx">
