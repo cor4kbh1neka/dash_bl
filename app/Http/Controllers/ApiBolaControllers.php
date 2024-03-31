@@ -935,9 +935,9 @@ class ApiBolaControllers extends Controller
     {
         $token = $request->bearerToken();
         $expectedToken = env('BEARER_TOKEN');
-        if ($token !== $expectedToken) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
-        }
+        // if ($token !== $expectedToken) {
+        //     return response()->json(['message' => 'Unauthorized.'], 401);
+        // }
 
         $data = [
             "Username" => $request->Username,
