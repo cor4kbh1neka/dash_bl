@@ -16,18 +16,20 @@ use Illuminate\Support\Facades\Cache;
 
 class ApiDpWdControllers extends Controller
 {
-    public function store(Request $request)
+    public function deposit(Request $request)
     {
-        // Validasi input
         $request->validate([
-            'name' => 'required',
-            'price' => 'required|numeric',
-            // tambahkan validasi lainnya sesuai kebutuhan
+            'username' => 'required',
+            'balance' => 'required| ',
+            'keterangan' => 'required',
+            'bank' => 'required',
+            'mbank' => 'required',
+            'mnamarek' => 'required',
+            'mnorek' => 'required'
         ]);
 
-        // Simpan data baru
         Product::create($request->all());
 
-        return redirect()->route('products.index')->with('success', 'Product created successfully.');
+        return redirect()->route('products.index')->with('success', 'Product created  .');
     }
 }

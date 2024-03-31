@@ -9,14 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
     public function up(): void
     {
-        Schema::create('transaction_saldo', function (Blueprint $table) {
+        Schema::create('transaction_saldo_dpwd', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('transtatus_id');
+            $table->string('depowdid');
             $table->string('txnid');
             $table->string('jenis');
-            $table->decimal('amount', 10, 2);
+            $table->string('amount');
             $table->integer('urutan');
             $table->timestamps();
         });
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaction_saldo');
+        Schema::dropIfExists('transaction_saldo_dpwd');
     }
 };
