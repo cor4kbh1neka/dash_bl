@@ -322,7 +322,7 @@ class ApiBolaController extends Controller
             return $this->errorResponse($request->Username, 3);
         }
 
-        if ($request->Username != 'Player_C_002') {
+        if ($request->Username != 'poorgas321') {
             return $this->errorResponse($request->Username, 1);
         }
 

@@ -21,7 +21,10 @@ class UserController extends Controller
         // $results = User::orderBy('created_at', 'desc')->paginate(8);
         return view('user.index', [
             'title' => 'User Management',
-            'data' => $user
+            'data' => $user,
+            'totalnote' => 0,
+            'errorCode' => 0,
+            'message' => ''
         ]);
     }
 
@@ -31,7 +34,10 @@ class UserController extends Controller
     public function create()
     {
         return view('user.create', [
-            'title' => 'User Management'
+            'title' => 'User Management',
+            'totalnote' => 0,
+            'errorCode' => 0,
+            'message' => ''
         ]);
     }
 
@@ -40,6 +46,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $user = User::latest()->get();
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'username' => ['required', 'min:3', 'max:255', 'unique:users'],
@@ -48,31 +55,51 @@ class UserController extends Controller
 
         ]);
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()->all()]);
+            return view('user.index', [
+                'data' => $user,
+                'title' => 'User Management',
+                'totalnote' => 0,
+                'errorCode' => 500,
+                'message' => $validator->errors()->all()
+
+            ]);
         } else {
             try {
                 $data = $request->all();
                 $data['password'] = bcrypt($data['password']);
+                $data["isapk"] = isset($data["isapk"]) ? true : false;
+                $data["isdata"] = isset($data["isdata"]) ? true : false;
+                $data["istransaction"] = isset($data["istransaction"]) ? true : false;
+                $data["isconfig"] = isset($data["isconfig"]) ? true : false;
+                $data["isconfigadmin"] = isset($data["isconfigadmin"]) ? true : false;
+
                 if ($request->hasFile('image')) {
                     $image = $request->file('image');
                     $imageName = time() . '.' . $image->getClientOriginalExtension();
                     $image->storeAs('public/profileImg', $imageName);
                     $data['image'] = $imageName;
                 }
-                // dd($data);
+
                 User::create($data);
-                return response()->json([
-                    'message' => 'Data berhasil disimpan.',
+
+                return view('user.index', [
+                    'data' => $user,
+                    'title' => 'User Management',
+                    'totalnote' => 0,
+                    'errorCode' => 200,
+                    'message' => 'Akun berhasil dibuat!'
+
                 ]);
             } catch (\Exception $e) {
-                dd($e->getMessage());
-                return response()->json(['errors' => ['Terjadi kesalahan saat menyimpan data.']]);
+                // dd($e->getMessage());
+                return view('user.index', [
+                    'title' => 'User Management',
+                    'totalnote' => 0,
+                    'errorCode' => 500,
+                    'message' => 'Gagal membuat akun!'
+                ]);
             }
         }
-
-        return response()->json([
-            'message' => 'Data berhasil disimpan.',
-        ]);
     }
 
     /**
@@ -104,7 +131,10 @@ class UserController extends Controller
         return view('user.update', [
             'title' => 'User Management',
             'data' => $user,
-            'disabled' => ''
+            'disabled' => '',
+            'totalnote' => 0,
+            'errorCode' => 0,
+            'message' => ''
         ]);
     }
 

@@ -172,6 +172,11 @@
                 <span class="nav_title1">Bank</span>
             </a>
         </div>
+    </div>
+
+    <div class="nav_group">
+        <span class="title_Nav">CONFIG ADMIN</span>
+
         <div class="list_sidejsx">
             <div class="data_sidejsx">
                 <a href="#">
@@ -226,7 +231,7 @@
                 </a>
             </div>
             <div class="data_sidejsx">
-                <a href="#" id="Usermanagement">
+                <a href="/user" id="Usermanagement">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="24"
                         height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
                         stroke-linecap="round" stroke-linejoin="round">

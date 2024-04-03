@@ -20,6 +20,11 @@ class UsersTableSeeder extends Seeder
             'divisi' => 'admin',
             'password' => Hash::make('adminl21'),
             'image' => '',
+            'isapk' => true,
+            'isdata' => true,
+            'istransaction' => true,
+            'isconfig' => true,
+            'isconfigadmin' => true,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
