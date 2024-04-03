@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('transactionid');
-            $table->string('transfercode');
-            $table->string('username');
-            $table->string('type');
-            $table->string('status');
+            $table->string('transactionid', 50)->required();
+            $table->string('transfercode', 50)->required();
+            $table->string('username', 50)->required();
+            $table->string('type', 20)->required();
+            $table->string('status', 2)->required();
             $table->timestamps();
         });
     }

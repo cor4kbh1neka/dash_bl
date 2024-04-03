@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('transaction_saldo', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('transtatus_id');
-            $table->string('txnid');
-            $table->string('jenis');
-            $table->decimal('amount', 10, 2);
-            $table->integer('urutan');
+            $table->string('transtatus_id', 50)->required();
+            $table->string('txnid', 50)->required();
+            $table->string('jenis', 5)->required();
+            $table->decimal('amount', 10, 2)->required();
+            $table->integer('urutan')->required();
             $table->timestamps();
         });
     }

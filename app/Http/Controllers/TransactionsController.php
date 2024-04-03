@@ -13,7 +13,8 @@ class TransactionsController extends Controller
         $data = Transactions::get();
         return view('Transactions.index', [
             'title' => 'Transactions',
-            'data' => $data
+            'data' => $data,
+            'totalnote' => 0
         ]);
     }
 }

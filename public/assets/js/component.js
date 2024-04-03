@@ -350,6 +350,22 @@ $(document).on('click', '#Player', function (event) {
     });
 });
 
+$(document).on('click', '#Deposit', function (event) {
+    event.preventDefault();
+    $('.aplay_code').load('/indexdeposit', function () {
+        adjustElementSize();
+        localStorage.setItem('lastPage', '/indexdeposit');
+    });
+});
+
+$(document).on('click', '#History', function (event) {
+    event.preventDefault();
+    $('.aplay_code').load('/indexhistory', function () {
+        adjustElementSize();
+        localStorage.setItem('lastPage', '/indexhistory');
+    });
+});
+
 $(document).on('click', '#Transaction', function (event) {
     event.preventDefault();
     $('.aplay_code').load('/transactions', function () {

@@ -23,7 +23,8 @@ class PlayersController extends Controller
 
         return view('players.index', [
             'title' => 'Players',
-            'data' => $results
+            'data' => $results,
+            'totalnote' => 0
         ]);
     }
 
@@ -32,7 +33,8 @@ class PlayersController extends Controller
         $modelAgent = Agents::get();
         return view('players.create', [
             'title' => 'Players',
-            'modelAgent' => $modelAgent
+            'modelAgent' => $modelAgent,
+            'totalnote' => 0,
         ]);
     }
 

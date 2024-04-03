@@ -26,7 +26,7 @@
         <span class="title_Nav">APK</span>
         <div class="list_sidejsx">
             <div class="data_sidejsx">
-                <a href="#" id="Settings">
+                <a href="/settings" id="Settings">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24"
                         height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
                         stroke-linecap="round" stroke-linejoin="round">
@@ -43,7 +43,7 @@
         <span class="title_Nav">DATA</span>
         <div class="list_sidejsx">
             <div class="data_sidejsx">
-                <a href="#" id="Agent">
+                <a href="/agents" id="Agent">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-star"
                         width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                         fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -59,7 +59,7 @@
         </div>
         <div class="list_sidejsx">
             <div class="data_sidejsx">
-                <a href="#" id="Player">
+                <a href="/players" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24"
                         height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
                         stroke-linecap="round" stroke-linejoin="round">
@@ -73,7 +73,7 @@
         </div>
         <div class="list_sidejsx">
             <div class="data_sidejsx">
-                <a href="#" id="Transaction">
+                <a href="/transactions" id="Transaction">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24"
                         height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
                         stroke-linecap="round" stroke-linejoin="round">
@@ -91,7 +91,7 @@
         <span class="title_Nav">TRANSACTIONS</span>
         <div class="list_sidejsx">
             <div class="data_sidejsx">
-                <a href="#" id="Player">
+                <a href="/deposit" id="Deposit">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-wallet">
@@ -106,7 +106,7 @@
         </div>
         <div class="list_sidejsx">
             <div class="data_sidejsx">
-                <a href="#" id="Transaction">
+                <a href="/withdrawal" id="Withdrawal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-coins">
@@ -124,7 +124,7 @@
         </div>
         <div class="list_sidejsx">
             <div class="data_sidejsx">
-                <a href="#" id="Agent">
+                <a href="/manual" id="Manual">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-transfer">
@@ -138,7 +138,7 @@
         </div>
         <div class="list_sidejsx">
             <div class="data_sidejsx">
-                <a href="#" id="Agent">
+                <a href="/history" id="History">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-history">
@@ -154,6 +154,24 @@
 
     <div class="nav_group">
         <span class="title_Nav">CONFIG</span>
+        <div class="data_sidejsx">
+            <a href="#" id="Allowedip">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-building-bank">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M3 21l18 0" />
+                    <path d="M3 10l18 0" />
+                    <path d="M5 6l7 -3l7 3" />
+                    <path d="M4 10l0 11" />
+                    <path d="M20 10l0 11" />
+                    <path d="M8 14l0 3" />
+                    <path d="M12 14l0 3" />
+                    <path d="M16 14l0 3" />
+                </svg>
+                <span class="nav_title1">Bank</span>
+            </a>
+        </div>
         <div class="list_sidejsx">
             <div class="data_sidejsx">
                 <a href="#">

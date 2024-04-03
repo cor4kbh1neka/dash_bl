@@ -10,6 +10,7 @@ use App\Http\Controllers\AgentsController;
 use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\DepoWdController;
 use App\Models\Notes;
 
 
@@ -27,6 +28,7 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('layouts.index', [
         'title' => 'dashboard',
+        'totalnote' => 0
     ]);
 })->middleware('auth');
 
@@ -114,5 +116,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/settings/update', [SettingsController::class, 'update']);
     Route::delete('/settings/delete', [SettingsController::class, 'destroy']);
     Route::get('/settings/view/{id}', [SettingsController::class, 'views']);
+
+    /*-- Deposit --*/
+    Route::get('/deposit', [DepoWdController::class, 'indexdeposit']);
+    Route::get('/history', [DepoWdController::class, 'indexhistory']);
+    Route::get('/withdrawal', [DepoWdController::class, 'indexwithdrawal']);
+    Route::post('/reject', [DepoWdController::class, 'reject']);
+    Route::post('/approve', [DepoWdController::class, 'approve']);
+    Route::get('/manual', [DepoWdController::class, 'indexmanual']);
+    Route::post('/manual/add', [DepoWdController::class, 'storemanual']);
 });
 // });

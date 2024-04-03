@@ -17,7 +17,8 @@ class AgentsController extends Controller
         $agents = Agents::latest()->get();
         return view('agents.index', [
             'title' => 'Agents',
-            'data' => $agents
+            'data' => $agents,
+            'totalnote' => 0,
         ]);
     }
 
@@ -28,7 +29,8 @@ class AgentsController extends Controller
         return view('agents.create', [
             'title' => 'Agents',
             'modelCompany' => $modelCompany,
-            'modelCurrency' => $modelCurrency
+            'modelCurrency' => $modelCurrency,
+            'totalnote' => 0,
         ]);
     }
 

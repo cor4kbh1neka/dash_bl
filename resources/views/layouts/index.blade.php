@@ -22,15 +22,21 @@
 
 <body>
     <div class="sec_container_utama">
-        <div class="sec_sidebar" id="sec_sidebar"></div>
+        <div class="sec_sidebar" id="sec_sidebar">
+            @include('layouts.side_nav')
+        </div>
         <div class="sec_groupmain">
-            <div class="sec_top_navbar"></div>
+            <div class="sec_top_navbar">
+                @include('layouts.top_nav')
+            </div>
             <div class="sec_main_konten">
                 <div class="title_main_content">
                     {{-- <h3>GLOBAL BOLA</h3> --}}
                 </div>
                 <div class="content_body">
-                    <div class="aplay_code"></div>
+                    <div class="aplay_code">
+                        @yield('container')
+                    </div>
                     <div class="footer" id="footer">
                         <span>© Copyright 2024 Global Bola All Rights Reserved.</span>
                     </div>
@@ -42,7 +48,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
     <script src="{{ asset('/assets/js/script.js') }}"></script>
     <script src="{{ asset('/assets/js/design.js') }}"></script>
-    <script src="{{ asset('/assets/js/component.js') }}"></script>
+    {{-- <script src="{{ asset('/assets/js/component.js') }}"></script> --}}
 
 </body>
 
