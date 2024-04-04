@@ -34,14 +34,14 @@ class ApiBolaController extends Controller
 
         $saldo = $this->apiGetBalance($request)["balance"];
 
-        if ($saldo <= 0) {
-            $saldoDpWd = DepoWd::where('username', $request->Username)->where('status', 1)->get();
-            $sumSaldoDp = $saldoDpWd->whereIn('jenis', ['DP', 'DPM'])->sum('amount');
-            $sumSaldoWd = $saldoDpWd->whereIn('jenis', ['WD', 'WDM'])->sum('amount');
-            $totalSaldoDpWd = $sumSaldoDp - $sumSaldoWd;
+        // if ($saldo <= 0) {
+        //     $saldoDpWd = DepoWd::where('username', $request->Username)->where('status', 1)->get();
+        //     $sumSaldoDp = $saldoDpWd->whereIn('jenis', ['DP', 'DPM'])->sum('amount');
+        //     $sumSaldoWd = $saldoDpWd->whereIn('jenis', ['WD', 'WDM'])->sum('amount');
+        //     $totalSaldoDpWd = $sumSaldoDp - $sumSaldoWd;
 
-            $saldo = $totalSaldoDpWd + $this->saldoBerjalan($request);
-        }
+        //     $saldo = $totalSaldoDpWd + $this->saldoBerjalan($request);
+        // }
 
         $response = [
             "AccountName" => $request->Username,
