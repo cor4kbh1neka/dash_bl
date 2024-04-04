@@ -48,11 +48,11 @@ class TransactionStatus extends Model
 
     public function transactions()
     {
-        return $this->belongsTo(Transactions::class, 'id');
+        return $this->belongsTo(Transactions::class, 'id', 'trans_id');
     }
 
     public function transactionsaldo()
     {
-        return $this->hasMany(TransactionSaldo::class, 'transtatus_id');
+        return $this->hasMany(TransactionSaldo::class, 'transtatus_id', 'id');
     }
 }

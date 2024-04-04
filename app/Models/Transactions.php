@@ -36,6 +36,6 @@ class Transactions extends Model
 
     public function transactionstatus()
     {
-        return $this->hasMany(TransactionStatus::class, 'trans_id');
+        return $this->hasMany(TransactionStatus::class, 'trans_id', 'id');
     }
 }

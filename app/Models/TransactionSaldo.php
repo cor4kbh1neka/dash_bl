@@ -13,7 +13,7 @@ class TransactionSaldo extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['transtatus_id', 'txnid', 'jenis', 'amount', 'urutan'];
+    protected $fillable = ['transtatus_id', 'txnid', 'jenis', 'amount', 'ishutang', 'urutan'];
 
     protected $primaryKey = 'id';
 
@@ -36,6 +36,6 @@ class TransactionSaldo extends Model
 
     public function bettingstatus()
     {
-        return $this->belongsTo(TransactionStatus::class, 'id');
+        return $this->belongsTo(TransactionStatus::class, 'id', 'transtatus_id');
     }
 }
