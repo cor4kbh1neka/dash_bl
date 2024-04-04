@@ -37,7 +37,6 @@ class DepoWdController extends Controller
             if ($txnid === null) {
                 return $this->errorResponse($request->username, 'Txnid error');
             }
-
             /* Request Ke Database Internal */
             $data = $request->all();
             $data["jenis"] = "DP";

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('txnid', 50)->required();
             $table->string('jenis', 5)->required();
             $table->decimal('amount', 10, 2)->required();
+            $table->boolean('ishutang')->default(false);
             $table->integer('urutan')->required();
             $table->timestamps();
         });
