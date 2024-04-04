@@ -339,8 +339,7 @@ class ApiBolaController extends Controller
         //     return $this->errorResponse($request->Username, 1);
         // }
         $data = $this->apiGetBalance($request);
-        dd($data);
-        if ($data["error"] !== 0) {
+        if ($data["error"]["id"] !== 0) {
             return $this->errorResponse($request->Username, 1);
         }
 
