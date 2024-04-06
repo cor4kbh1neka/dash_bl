@@ -60,6 +60,7 @@
                     <th>Ket</th>
                     <th>Status</th>
                     <th>Amount</th>
+                    <th>Date</th>
                     {{-- <th>Action</th> --}}
                 </tr>
                 <tr class="filter_row">
@@ -137,7 +138,7 @@
                             <input type="text" placeholder="Cari data..." id="searchData-name">
                         </div>
                     </td>
-                    {{-- <td></td> --}}
+                    <td></td>
                 </tr>
 
                 @foreach ($data as $index => $d)
@@ -163,6 +164,7 @@
                                 @endphp</span></td>
 
                         <td><span class="name">{{ number_format($d->amount, 3, ',', '.') }}</span></td>
+                        <td><span class="name">{{ date('d-m-Y H:i:s', strtotime($d->created_at)) }}</span></td>
                         {{-- <td><span class="name">{{ date('d-m-Y H:i:s', strtotime($d->tgl_berita)) }}</span></td> --}}
 
                         {{-- <td class="kolom_action">

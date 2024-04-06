@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use App\Models\DepoWd;
 
+date_default_timezone_set('Asia/Jakarta');
+
 
 class DepoWdController extends Controller
 {
@@ -381,7 +383,7 @@ class DepoWdController extends Controller
         try {
             $ids = $request->id;
             foreach ($ids as $id) {
-                DepoWd::where('id', $id)->where('jenis', 'DP')->where('status', 0)->update(['status' => 2, 'approved_by' => Auth::user()->username]);
+                DepoWd::where('id', $id)->where('status', 0)->update(['status' => 2, 'approved_by' => Auth::user()->username]);
             }
             return response()->json([
                 'status' => 'Success',
