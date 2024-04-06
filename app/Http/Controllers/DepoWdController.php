@@ -32,6 +32,14 @@ class DepoWdController extends Controller
                 return response()->json(['errors' => $validator->errors()->all()]);
             }
 
+            $dataDepoWd = DepoWd::where('username', $request->username)->where('jenis', 'DP')->where('status', '0')->first();
+            if ($dataDepoWd) {
+                return response()->json([
+                    'status' => 'Fail',
+                    'message' => 'Gagal melakukan deposit'
+                ], 400);
+            }
+
             /* Request API check transaction */
             $txnid = $this->generateTxnid('D');
             if ($txnid === null) {
@@ -47,7 +55,7 @@ class DepoWdController extends Controller
 
             return response()->json([
                 'status' => 'Success',
-                'message' => 'Deposit berhasil'
+                'message' => 'Deposit sedang diproses'
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -68,14 +76,20 @@ class DepoWdController extends Controller
             $validator = Validator::make($request->all(), [
                 'username' => 'required|max:50',
                 'amount' => 'required|numeric',
-                'keterangan' => 'nullable|max:20',
-                'bank' => 'required|max:100',
                 'mbank' => 'required|max:100',
                 'mnamarek' => 'required|max:150',
                 'mnorek' => 'required|max:30',
             ]);
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()->all()]);
+            }
+
+            $dataDepoWd = DepoWd::where('username', $request->username)->where('jenis', 'WD')->where('status', '0')->first();
+            if ($dataDepoWd) {
+                return response()->json([
+                    'status' => 'Fail',
+                    'message' => 'Gagal melakukan withdrawal'
+                ], 400);
             }
 
             /* Request API check transaction */
@@ -86,6 +100,8 @@ class DepoWdController extends Controller
 
             /* Request Ke Database Internal */
             $data = $request->all();
+            $data["keterangan"] = null;
+            $data["bank"] = null;
             $data["jenis"] = "WD";
             $data["txnid"] = $txnid;
             $data["status"] = 0;
@@ -94,7 +110,7 @@ class DepoWdController extends Controller
 
             return response()->json([
                 'status' => 'Success',
-                'message' => 'Deposit berhasil'
+                'message' => 'Withdrawal sedang diproses'
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -103,6 +119,81 @@ class DepoWdController extends Controller
             ], 500);
         }
     }
+
+    public function getbalance(Request $request, $username)
+    {
+        $validasiBearer = $this->validasiBearer($request);
+        if ($validasiBearer !== true) {
+            return $validasiBearer;
+        }
+
+        $dataApiCheckBalance = [
+            "Username" => $username,
+            "CompanyKey" => env('COMPANY_KEY'),
+            "ServerId" => env('SERVERID')
+        ];
+
+        $data = $this->requestApi('get-player-balance', $dataApiCheckBalance);
+
+        if ($data["error"]["id"] === 0) {
+            $results = [
+                "username" => $data["username"],
+                "balance" => $data["balance"],
+            ];
+            return $results;
+        } else {
+            return response()->json([
+                'status' => 'Error',
+                'message' => $data["error"]["msg"]
+            ]);
+        }
+    }
+
+    public function getLastStatusTransaction(Request $request, $jenis, $username)
+    {
+        $validasiBearer = $this->validasiBearer($request);
+        if ($validasiBearer !== true) {
+            return $validasiBearer;
+        }
+
+        if ($jenis == 'DP') {
+            $tipe = "Deposit";
+        } else if ($jenis == 'WD') {
+            $tipe = "Withdrawal";
+        } else {
+            return response()->json([
+                'status' => 'Fail',
+                'message' => 'Status transaksi tidak falid!'
+            ]);
+        }
+
+        $dataLastDepo = DepoWd::where('username', $username)->where('jenis', $jenis)->orderBy('created_at', 'desc')->first();
+
+        if ($dataLastDepo) {
+            if ($dataLastDepo->status == 1) {
+                return response()->json([
+                    'status' => 'Success',
+                    'message' => $tipe . ' berhasil diporses!'
+                ]);
+            } else if ($dataLastDepo->status == 2) {
+                return response()->json([
+                    'status' => 'Fail',
+                    'message' => $tipe . ' gagal diproses!'
+                ]);
+            } else if ($dataLastDepo->status == 0) {
+                return response()->json([
+                    'status' => 'Waitting',
+                    'message' => $tipe . ' sedang diproses!'
+                ]);
+            }
+        }
+
+        return response()->json([
+            'status' => 'None',
+            'message' => 'Tidak ada status ' . $tipe . '!'
+        ]);
+    }
+
 
     public function indexdeposit()
     {

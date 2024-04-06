@@ -41,7 +41,7 @@
     </div>
     <div class="nav_group">
         <span class="title_Nav">DATA</span>
-        <div class="list_sidejsx">
+        {{-- <div class="list_sidejsx">
             <div class="data_sidejsx">
                 <a href="/agents" id="Agent">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-star"
@@ -56,10 +56,10 @@
                     <span class="nav_title1">Agent</span>
                 </a>
             </div>
-        </div>
+        </div> --}}
         <div class="list_sidejsx">
             <div class="data_sidejsx">
-                <a href="/players" id="Player">
+                <a href="/member" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24"
                         height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
                         stroke-linecap="round" stroke-linejoin="round">
@@ -67,11 +67,11 @@
                         <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
                         <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
                     </svg>
-                    <span class="nav_title1">Player</span>
+                    <span class="nav_title1">Member</span>
                 </a>
             </div>
         </div>
-        <div class="list_sidejsx">
+        {{-- <div class="list_sidejsx">
             <div class="data_sidejsx">
                 <a href="/transactions" id="Transaction">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24"
@@ -84,7 +84,7 @@
                     <span class="nav_title1">Transaction</span>
                 </a>
             </div>
-        </div>
+        </div> --}}
     </div>
 
     <div class="nav_group">

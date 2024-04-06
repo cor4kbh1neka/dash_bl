@@ -11,6 +11,7 @@ use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\DepoWdController;
+use App\Http\Controllers\MemberController;
 use App\Models\Notes;
 
 
@@ -125,5 +126,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/approve', [DepoWdController::class, 'approve']);
     Route::get('/manual', [DepoWdController::class, 'indexmanual']);
     Route::post('/manual/add', [DepoWdController::class, 'storemanual']);
+
+    /*-- Member --*/
+    Route::get('/member', [MemberController::class, 'index']);
 });
 // });

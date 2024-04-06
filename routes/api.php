@@ -37,3 +37,6 @@ Route::get('/get-recommend-matches', [ApiBolaController::class, 'getRecomMatch']
 
 Route::post('/deposit', [DepoWdController::class, 'deposit']);
 Route::post('/withdrawal', [DepoWdController::class, 'withdrawal']);
+
+Route::get('/checkLastTransaction/{jenis}/{username}', [DepoWdController::class, 'getLastStatusTransaction']);
+Route::get('/checkBalance/{username}', [DepoWdController::class, 'getBalance']);
