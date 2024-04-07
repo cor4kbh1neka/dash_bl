@@ -42,25 +42,19 @@ class AllowedipController extends Controller
         $validator = Validator::make($request->all(), [
             'ip_address' => 'required'
         ]);
+
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()->all()]);
-        } else {
-            try {
-                Allowedip::create($request->all());
-                return response()->json([
-                    'message' => 'Data berhasil disimpan.',
-                ]);
-            } catch (\Exception $e) {
-                dd($e->getMessage());
-                return response()->json(['errors' => ['Terjadi kesalahan saat menyimpan data.']]);
-            }
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        return response()->json([
-            'message' => 'Data berhasil disimpan.',
-        ]);
+        try {
+            Allowedip::create($request->all());
+            return redirect()->route('allowedip')->with('success', 'Data berhasil disimpan.');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan data.');
+        }
     }
-
     /**
      * Display the specified resource.
      */
