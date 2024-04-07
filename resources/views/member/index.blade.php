@@ -52,21 +52,15 @@
         <table>
             <tbody>
                 <tr class="head_table">
-                    {{-- <th class="check_box">
-                    <input type="checkbox" id="myCheckbox" name="myCheckbox">
-                </th> --}}
+                    <th class="check_box">
+                        <input type="checkbox" id="myCheckbox" name="myCheckbox">
+                    </th>
                     <th>Username</th>
-                    <th>Currency</th>
-                    <th>Min</th>
-                    <th>Max</th>
-                    <th>MaxPerMatch</th>
-                    <th>CasinoTableLimit</th>
-                    <th>CompanyKey</th>
-                    <th>ServerId</th>
+                    <th>Balance</th>
                     <th>Action</th>
                 </tr>
                 <tr class="filter_row">
-                    {{-- <td></td> --}}
+                    <td></td>
                     <td>
                         <div class="grubsearchtable">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
@@ -91,96 +85,17 @@
                             <input type="text" placeholder="Cari data..." id="searchData-name">
                         </div>
                     </td>
-                    <td>
-                        <div class="grubsearchtable">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-                                viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                            <input type="text" placeholder="Cari data..." id="searchData-name">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grubsearchtable">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-                                viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                            <input type="text" placeholder="Cari data..." id="searchData-name">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grubsearchtable">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-                                viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                            <input type="text" placeholder="Cari data..." id="searchData-name">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grubsearchtable">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-                                viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                            <input type="text" placeholder="Cari data..." id="searchData-name">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grubsearchtable">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-                                viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                            <input type="text" placeholder="Cari data..." id="searchData-name">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grubsearchtable">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-                                viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                            <input type="text" placeholder="Cari data..." id="searchData-name">
-                        </div>
-                    </td>
+
                     <td></td>
                 </tr>
                 @foreach ($data as $index => $d)
                     <tr>
-                        {{-- <td class="check_box">
-                        <input type="checkbox" id="myCheckbox-{{ $index }}"
-                            name="myCheckbox-{{ $index }}" data-id=" {{ $d->id }}">
-                    </td> --}}
-                        <td><span class="name">{{ $d->username }}</span></td>
-                        <td><span class="name">{{ $d->currency }}</span></td>
-                        <td><span class="name">{{ $d->min }}</span></td>
-                        <td><span class="name">{{ number_format($d->max, 0, ',', '.') }}</span></td>
-                        <td><span class="name">{{ number_format($d->maxpermatch, 0, ',', '.') }}</span>
+                        <td class="check_box">
+                            <input type="checkbox" id="myCheckbox-{{ $index }}" name="myCheckbox-{{ $index }}"
+                                data-id=" {{ $d->id }}">
                         </td>
-                        <td><span class="name">{{ $d->casinotablelimit }}</span></td>
-                        <td><span class="name">{{ $d->companykey }}</span></td>
-                        <td><span class="name">{{ $d->serverid }}</span></td>
-                        {{-- <td><span class="name">{{ date('d-m-Y H:i:s', strtotime($d->tgl_berita)) }}</span></td> --}}
+                        <td><span class="name">{{ $d->username }}</span></td>
+                        <td><span class="name">{{ $d->balance }}</span></td>
 
                         <td class="kolom_action">
                             <div class="dot_action">
@@ -261,207 +176,26 @@
                 }
             });
 
-            $('#update-member').off('click').click(function(event) {
-                event.preventDefault();
+            var status = "<?php echo session('status'); ?>";
 
-                var checkedValues = [];
-                $('input[id^="myCheckbox-"]:checked').each(function() {
-                    var value = $(this).data('id');
-                    checkedValues.push(value);
-                });
-
-                if (checkedValues == 0) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Silahkan pilih Data!',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
-
-
-                var parameterString = $.param({
-                    'values[]': checkedValues
-                }, true);
-                console.log(parameterString);
-                $('.aplay_code').load('/member/edit/' + parameterString, function() {
-                    adjustElementSize();
-                    localStorage.setItem('lastPage', '/member/edit/' +
-                        parameterString);
-                });
-            });
-
-
-            $(document).off('click', '#add-member').on('click', '#add-member', function(event) {
-                event.preventDefault();
-                $('.aplay_code').load('/member/add', function() {
-                    adjustElementSize();
-                    localStorage.setItem('lastPage', '/member/add');
-                });
-            });
-            // $(document).on('click', '#delete', function(event) {
-            //     event.preventDefault();
-            //     $('.aplay_code').load('/member/delete', function() {
-            //         adjustElementSize();
-            //         localStorage.setItem('lastPage', '/member/delete');
-            //     });
-            // })
-
-
-
-            $(document).on('click', '#delete-member', function(event) {
-                event.preventDefault();
-
-                var checkedValues = [];
-                $('input[id^="myCheckbox-"]:checked').each(function() {
-                    var value = $(this).data('id');
-                    checkedValues.push(value);
-                });
-
-                if (checkedValues.length === 0) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Silahkan pilih Data!',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    return; // Menghentikan eksekusi jika tidak ada item yang dipilih
-                }
-
-                var parameterString = $.param({
-                    'values[]': checkedValues
-                }, true);
-                var url =
-                    "/member/delete/"; // Ubah URL sesuai dengan endpoint delete yang sesuai
-
+            if (status == 'fail') {
                 Swal.fire({
-                    title: 'Apakah Anda yakin ingin menghapus data ini?',
-                    text: "Data yang dihapus tidak dapat dikembalikan!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, Hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: url,
-                            method: 'DELETE',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                values: checkedValues
-                            },
-                            success: function(result) {
-                                // Tampilkan SweetAlert untuk sukses
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Data berhasil dihapus!',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                }).then(function() {
-                                    // Lakukan perubahan halaman atau tindakan lainnya setelah data berhasil dihapus
-                                    $('.aplay_code').load(
-                                        '/member',
-                                        function() {
-                                            adjustElementSize();
-                                            localStorage.setItem('lastPage',
-                                                '/member');
-                                        });
-                                });
-                            },
-                            error: function(xhr) {
-                                // Tampilkan SweetAlert untuk kesalahan
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: 'Terjadi kesalahan saat menghapus data.'
-                                });
-
-                                console.log(xhr.responseText);
-                            }
-                        });
-                    }
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '{{ session('message') }}',
+                    showConfirmButton: false,
+                    timer: 2500 // Durasi pesan sukses
                 });
-            });
-            $(document).off('click', '#view').on('click', '#view', function(event) {
-                event.preventDefault();
-                var id = $(this).data('id');
-                $('.aplay_code').empty();
-                $('.aplay_code').load('/member/view/' + id, function() {
-                    adjustElementSize();
-                    localStorage.setItem('lastPage', '/member/view/' + id);
-                });
-            });
-
-
-            $(document).off('click', '#edit').on('click', '#edit', function(event) {
-                event.preventDefault();
-                var id = $(this).data('id');
-                $('.aplay_code').empty();
-                $('.aplay_code').load('/member/edit/' + id, function() {
-                    adjustElementSize();
-                    localStorage.setItem('lastPage', '/member/edit/' + id);
-                });
-            });
-
-            $(document).on('click', '#delete', function(event) {
-                event.preventDefault();
-
-                var id = $(this).data('id');
-                var url =
-                    "/member/delete/"; // Ubah URL sesuai dengan endpoint delete yang sesuai
-
+            } else if (status == 'success') {
                 Swal.fire({
-                    title: 'Apakah Anda yakin ingin menghapus data ini?',
-                    text: "Data yang dihapus tidak dapat dikembalikan!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, Hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: url,
-                            method: 'DELETE',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                values: id
-                            },
-                            success: function(result) {
-                                // Tampilkan SweetAlert untuk sukses
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Data berhasil dihapus!',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                }).then(function() {
-                                    // Lakukan perubahan halaman atau tindakan lainnya setelah data berhasil dihapus
-                                    $('.aplay_code').load(
-                                        '/member',
-                                        function() {
-                                            adjustElementSize();
-                                            localStorage.setItem('lastPage',
-                                                '/member');
-                                        });
-                                });
-                            },
-                            error: function(xhr) {
-                                // Tampilkan SweetAlert untuk kesalahan
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: 'Terjadi kesalahan saat menghapus data.'
-                                });
-
-                                console.log(xhr.responseText);
-                            }
-                        });
-                    }
+                    icon: 'success',
+                    title: 'Success',
+                    text: '{{ session('message') }}',
+                    showConfirmButton: false,
+                    timer: 2500 // Durasi pesan sukses
                 });
-            });
+            }
+
         });
     </script>
 @endsection

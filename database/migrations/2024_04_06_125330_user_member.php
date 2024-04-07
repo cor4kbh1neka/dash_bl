@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('member', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('username');
+            $table->decimal('balance', 10, 2);
             $table->integer('status');
             $table->timestamps();
         });

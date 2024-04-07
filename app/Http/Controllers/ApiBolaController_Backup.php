@@ -948,7 +948,7 @@ class ApiBolaController extends Controller
         $data = [
             "Username" => $request->Username,
             "UserGroup" => "c",
-            "Agent" => "Agent_C_001",
+            "Agent" => env('AGENTID'),
             "CompanyKey" => env('COMPANY_KEY'),
             "ServerId" => "YY-TEST"
         ];

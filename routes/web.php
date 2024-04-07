@@ -12,6 +12,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\DepoWdController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\BankController;
 use App\Models\Notes;
 
 
@@ -110,13 +111,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/transactions', [TransactionsController::class, 'index']);
 
     /*-- Settings --*/
-    Route::get('/settings', [SettingsController::class, 'index']);
-    Route::get('/settings/add', [SettingsController::class, 'create']);
-    Route::get('/settings/edit/{id}', [SettingsController::class, 'edit']);
-    Route::post('/settings/store', [SettingsController::class, 'store']);
-    Route::post('/settings/update', [SettingsController::class, 'update']);
-    Route::delete('/settings/delete', [SettingsController::class, 'destroy']);
-    Route::get('/settings/view/{id}', [SettingsController::class, 'views']);
+    // Route::get('/settings', [SettingsController::class, 'index']);
+    // Route::get('/settings/add', [SettingsController::class, 'create']);
+    // Route::get('/settings/edit/{id}', [SettingsController::class, 'edit']);
+    // Route::post('/settings/store', [SettingsController::class, 'store']);
+    // Route::post('/settings/update', [SettingsController::class, 'update']);
+    // Route::delete('/settings/delete', [SettingsController::class, 'destroy']);
+    // Route::get('/settings/view/{id}', [SettingsController::class, 'views']);
 
     /*-- Deposit --*/
     Route::get('/deposit', [DepoWdController::class, 'indexdeposit']);
@@ -129,5 +130,16 @@ Route::middleware(['auth'])->group(function () {
 
     /*-- Member --*/
     Route::get('/member', [MemberController::class, 'index']);
+    Route::get('/member/add', [MemberController::class, 'create']);
+    Route::post('/member/store', [MemberController::class, 'store']);
+
+
+    /*-- APK --*/
+    Route::get('/setting', [SettingsController::class, 'indexsetting']);
+    Route::get('/event', [SettingsController::class, 'indexevent']);
+    Route::get('/notice', [SettingsController::class, 'indexnotice']);
+
+    /*-- Bank --*/
+    Route::get('/bank', [BankController::class, 'index']);
 });
 // });

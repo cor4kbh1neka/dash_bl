@@ -12,11 +12,41 @@ use Illuminate\Support\Str;
 
 class SettingsController extends Controller
 {
-    public function index()
+    public function indexsetting()
+    {
+        $responseData = $this->getAllDataSettings()["data"]["masterdata"];
+        return view('settings.indexsetting', [
+            'title' => 'Setting',
+            'data' => $responseData,
+            'totalnote' => 0
+        ]);
+    }
+
+    public function indexevent()
+    {
+        $responseData = $this->getAllDataSettings()["data"]["events"];
+        return view('settings.indexevent', [
+            'title' => 'Events',
+            'data' => $responseData,
+            'totalnote' => 0
+        ]);
+    }
+
+    public function indexnotice()
+    {
+        $responseData = $this->getAllDataSettings()["data"]["notice"];;
+        return view('settings.indexnotice', [
+            'title' => 'Notices',
+            'data' => $responseData,
+            'totalnote' => 0
+        ]);
+    }
+
+    private function getAllDataSettings()
     {
         $response = Http::withHeaders([
             'Content-Type' => 'application/json; charset=UTF-8',
-        ])->get('https://back-staging.bosraka.com/apks/settings/apko8tZfTbCyGvEvU475wqgc');
+        ])->get('https://back-staging.bosraka.com/apks/settings/apkCrQQbIU5RGc9GSy9C4bn2');
 
         if ($response->successful()) {
             $responseData = $response->json();
@@ -26,10 +56,7 @@ class SettingsController extends Controller
             $responseData = "Error: $statusCode - $errorMessage";
         }
 
-        return view('settings.update', [
-            'title' => 'Setting',
-            'data' => $responseData
-        ]);
+        return $responseData;
     }
 
     public function create()

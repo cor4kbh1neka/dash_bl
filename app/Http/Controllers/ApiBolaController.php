@@ -31,7 +31,7 @@ class ApiBolaController extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
+        $saldo = $this->apiGetBalance($request)["balance"];
 
         $response = [
             "AccountName" => $request->Username,
@@ -72,7 +72,6 @@ class ApiBolaController extends Controller
         } else {
             $status = $statusTransaction->status;
         }
-
 
         return response()->json([
             'TransferCode' => $request->TransferCode,
@@ -614,12 +613,12 @@ class ApiBolaController extends Controller
         }
     }
 
-    private function deposit(Request $request, $txnid)
+    private function deposit($username, $txnid, $amount)
     {
         $dataSaldo = [
-            "Username" => $request->Username,
+            "Username" => $username,
             "TxnId" => $txnid,
-            "Amount" => $request->WinLoss,
+            "Amount" => $amount,
             "CompanyKey" => env('COMPANY_KEY'),
             "ServerId" => env('SERVERID')
         ];
@@ -714,13 +713,13 @@ class ApiBolaController extends Controller
         }
     }
 
-    private function withdraw(Request $request, $txnid)
+    private function withdraw($username, $txnid, $amount)
     {
         $dataSaldo = [
-            "Username" => $request->Username,
+            "Username" => $username,
             "txnId" => $txnid,
             "IsFullAmount" => false,
-            "Amount" => $request->Amount,
+            "Amount" => $amount,
             "CompanyKey" => env('COMPANY_KEY'),
             "ServerId" => env('SERVERID')
         ];
@@ -752,13 +751,49 @@ class ApiBolaController extends Controller
 
     private function createSaldoTransaction($transtatus_id, $txnid, $jenis, $amount, $urutan)
     {
-        $results = TransactionSaldo::create([
-            "transtatus_id" => $transtatus_id,
-            "txnid" => $txnid,
-            "jenis" => $jenis,
-            "amount" => $amount,
-            "urutan" => $urutan
-        ]);
+        $trans_id = TransactionStatus::where('id', $transtatus_id)->first()->trans_id;
+        $dataTransaction = Transactions::where('id', $trans_id)->first();
+
+        if ($jenis == 'W') {
+            $transaction = $this->withdraw($dataTransaction->username, $txnid, $amount);
+        } else {
+            $transaction = $this->deposit($dataTransaction->username, $txnid, $amount);
+        }
+
+        $results = null;
+        if ($transaction["error"]["id"] === 0) {
+            $results = TransactionSaldo::create([
+                "transtatus_id" => $transtatus_id,
+                "txnid" => $txnid,
+                "jenis" => $jenis,
+                "amount" => $amount,
+                "urutan" => $urutan
+            ]);
+        } else if ($transaction["error"]["id"] === 9720) {
+            sleep(6);
+            $transaction = $this->withdraw($dataTransaction->username, $txnid, $amount);
+            if ($transaction["error"]["id"] === 0) {
+                $results = TransactionSaldo::create([
+                    "transtatus_id" => $transtatus_id,
+                    "txnid" => $txnid,
+                    "jenis" => $jenis,
+                    "amount" => $amount,
+                    "urutan" => $urutan
+                ]);
+            }
+        } else if ($transaction["error"]["id"] === 4501) {
+            if (true) {
+                $results = TransactionSaldo::create([
+                    "transtatus_id" => $transtatus_id,
+                    "txnid" => $txnid,
+                    "jenis" => $jenis,
+                    "amount" => $amount,
+                    "ishutang" => 1,
+                    "urutan" => $urutan
+                ]);
+            }
+        }
+
         return $results;
     }
 
@@ -798,16 +833,6 @@ class ApiBolaController extends Controller
 
         return $saldo;
     }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -948,7 +973,7 @@ class ApiBolaController extends Controller
         $data = [
             "Username" => $request->Username,
             "UserGroup" => "c",
-            "Agent" => "Agent_C_001",
+            "Agent" => env('AGENTID'),
             "CompanyKey" => env('COMPANY_KEY'),
             "ServerId" => "YY-TEST"
         ];

@@ -32,5 +32,5 @@ class Member extends Model
         });
     }
 
-    protected $table = 'depo_wd';
+    protected $table = 'member';
 }

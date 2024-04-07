@@ -86,6 +86,21 @@ class DepoWdController extends Controller
                 return response()->json(['errors' => $validator->errors()->all()]);
             }
 
+            $checkBalance = $this->reqApiBalance($request->username);
+            if ($checkBalance["balance"] < $request->amount) {
+                return response()->json([
+                    'status' => 'Fail',
+                    'message' => 'Balance tidak cukup'
+                ], 400);
+            }
+
+            if ($checkBalance["error"]["id"] !== 0) {
+                return response()->json([
+                    'status' => 'Fail',
+                    'message' => $checkBalance["error"]["msg"]
+                ], 400);
+            }
+
             $dataDepoWd = DepoWd::where('username', $request->username)->where('jenis', 'WD')->where('status', '0')->first();
             if ($dataDepoWd) {
                 return response()->json([
@@ -129,13 +144,7 @@ class DepoWdController extends Controller
             return $validasiBearer;
         }
 
-        $dataApiCheckBalance = [
-            "Username" => $username,
-            "CompanyKey" => env('COMPANY_KEY'),
-            "ServerId" => env('SERVERID')
-        ];
-
-        $data = $this->requestApi('get-player-balance', $dataApiCheckBalance);
+        $data = $this->reqApiBalance($username);
 
         if ($data["error"]["id"] === 0) {
             $results = [
@@ -149,6 +158,17 @@ class DepoWdController extends Controller
                 'message' => $data["error"]["msg"]
             ]);
         }
+    }
+
+    private function reqApiBalance($username)
+    {
+        $dataApiCheckBalance = [
+            "Username" => $username,
+            "CompanyKey" => env('COMPANY_KEY'),
+            "ServerId" => env('SERVERID')
+        ];
+
+        return $this->requestApi('get-player-balance', $dataApiCheckBalance);
     }
 
     public function getLastStatusTransaction(Request $request, $jenis, $username)
@@ -332,8 +352,10 @@ class DepoWdController extends Controller
             $ids = $request->id;
             foreach ($ids as $id) {
                 $dataDepo = DepoWd::where('id', $id)->where('status', 0)->first();
+
                 if ($dataDepo) {
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
+
                     if ($updateDepo) {
                         /* Request Ke API SBO Depo*/
                         $dataAPI = [
