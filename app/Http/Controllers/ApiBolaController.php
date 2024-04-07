@@ -31,7 +31,7 @@ class ApiBolaController extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $saldo = $this->apiGetBalance($request)["balance"];
+        $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
 
         $response = [
             "AccountName" => $request->Username,
@@ -72,6 +72,7 @@ class ApiBolaController extends Controller
         } else {
             $status = $statusTransaction->status;
         }
+
 
         return response()->json([
             'TransferCode' => $request->TransferCode,
@@ -613,12 +614,12 @@ class ApiBolaController extends Controller
         }
     }
 
-    private function deposit($username, $txnid, $amount)
+    private function deposit(Request $request, $txnid)
     {
         $dataSaldo = [
-            "Username" => $username,
+            "Username" => $request->Username,
             "TxnId" => $txnid,
-            "Amount" => $amount,
+            "Amount" => $request->WinLoss,
             "CompanyKey" => env('COMPANY_KEY'),
             "ServerId" => env('SERVERID')
         ];
@@ -713,13 +714,13 @@ class ApiBolaController extends Controller
         }
     }
 
-    private function withdraw($username, $txnid, $amount)
+    private function withdraw(Request $request, $txnid)
     {
         $dataSaldo = [
-            "Username" => $username,
+            "Username" => $request->Username,
             "txnId" => $txnid,
             "IsFullAmount" => false,
-            "Amount" => $amount,
+            "Amount" => $request->Amount,
             "CompanyKey" => env('COMPANY_KEY'),
             "ServerId" => env('SERVERID')
         ];
@@ -751,49 +752,13 @@ class ApiBolaController extends Controller
 
     private function createSaldoTransaction($transtatus_id, $txnid, $jenis, $amount, $urutan)
     {
-        $trans_id = TransactionStatus::where('id', $transtatus_id)->first()->trans_id;
-        $dataTransaction = Transactions::where('id', $trans_id)->first();
-
-        if ($jenis == 'W') {
-            $transaction = $this->withdraw($dataTransaction->username, $txnid, $amount);
-        } else {
-            $transaction = $this->deposit($dataTransaction->username, $txnid, $amount);
-        }
-
-        $results = null;
-        if ($transaction["error"]["id"] === 0) {
-            $results = TransactionSaldo::create([
-                "transtatus_id" => $transtatus_id,
-                "txnid" => $txnid,
-                "jenis" => $jenis,
-                "amount" => $amount,
-                "urutan" => $urutan
-            ]);
-        } else if ($transaction["error"]["id"] === 9720) {
-            sleep(6);
-            $transaction = $this->withdraw($dataTransaction->username, $txnid, $amount);
-            if ($transaction["error"]["id"] === 0) {
-                $results = TransactionSaldo::create([
-                    "transtatus_id" => $transtatus_id,
-                    "txnid" => $txnid,
-                    "jenis" => $jenis,
-                    "amount" => $amount,
-                    "urutan" => $urutan
-                ]);
-            }
-        } else if ($transaction["error"]["id"] === 4501) {
-            if (true) {
-                $results = TransactionSaldo::create([
-                    "transtatus_id" => $transtatus_id,
-                    "txnid" => $txnid,
-                    "jenis" => $jenis,
-                    "amount" => $amount,
-                    "ishutang" => 1,
-                    "urutan" => $urutan
-                ]);
-            }
-        }
-
+        $results = TransactionSaldo::create([
+            "transtatus_id" => $transtatus_id,
+            "txnid" => $txnid,
+            "jenis" => $jenis,
+            "amount" => $amount,
+            "urutan" => $urutan
+        ]);
         return $results;
     }
 
@@ -833,6 +798,16 @@ class ApiBolaController extends Controller
 
         return $saldo;
     }
+
+
+
+
+
+
+
+
+
+
 
 
 
