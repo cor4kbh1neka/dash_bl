@@ -377,34 +377,32 @@ class DepoWdController extends Controller
 
                 if ($dataDepo) {
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
+                    if ($dataDepo->jenis !== 'WD') {
+                        if ($updateDepo) {
+                            /* Request Ke API SBO Depo*/
+                            $dataAPI = [
+                                "Username" => $dataDepo->username,
+                                "TxnId" => $dataDepo->txnid,
+                                "Amount" => $dataDepo->amount,
+                                "CompanyKey" => env('COMPANY_KEY'),
+                                "ServerId" => env('SERVERID')
+                            ];
 
-                    if ($updateDepo) {
-                        /* Request Ke API SBO Depo*/
-                        $dataAPI = [
-                            "Username" => $dataDepo->username,
-                            "TxnId" => $dataDepo->txnid,
-                            "Amount" => $dataDepo->amount,
-                            "CompanyKey" => env('COMPANY_KEY'),
-                            "ServerId" => env('SERVERID')
-                        ];
-
-                        if ($dataDepo->jenis == 'DP') {
-                            $resultsApi = $this->requestApi('deposit', $dataAPI);
-                        } elseif ($dataDepo->jenis == 'WD') {
-                            $dataAPI["IsFullAmount"] = false;
-                            $resultsApi = $this->requestApi('withdraw', $dataAPI);
-                        } else {
-                            return response()->json([
-                                'status' => 'Error',
-                                'message' => 'Gagal melakukan transaksi!'
-                            ], 500);
-                        }
-                        if ($resultsApi["error"]["id"] !== 0) {
-                            DepoWd::where('id', $id)->update(['status' => 0, 'approved_by' => null]);
-                            return response()->json([
-                                'status' => 'Error',
-                                'message' => $resultsApi["error"]["msg"]
-                            ], 500);
+                            if ($dataDepo->jenis == 'DP') {
+                                $resultsApi = $this->requestApi('deposit', $dataAPI);
+                            } else {
+                                return response()->json([
+                                    'status' => 'Error',
+                                    'message' => 'Gagal melakukan transaksi!'
+                                ], 500);
+                            }
+                            if ($resultsApi["error"]["id"] !== 0) {
+                                DepoWd::where('id', $id)->update(['status' => 0, 'approved_by' => null]);
+                                return response()->json([
+                                    'status' => 'Error',
+                                    'message' => $resultsApi["error"]["msg"]
+                                ], 500);
+                            }
                         }
                     }
                 }
