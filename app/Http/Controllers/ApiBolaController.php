@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Transactions;
 use App\Models\TransactionStatus;
 use App\Models\TransactionSaldo;
-use App\Models\Member;
 use Illuminate\Support\Facades\Http;
 use App\Jobs\createWdJob;
 use Carbon\Carbon;
@@ -15,19 +14,14 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Cache;
 
 
-class ApiBolaController extends Controller
+class ApiBolaController_backup extends Controller
 {
     public function GetBalance(Request $request)
     {
         $validasiSBO = $this->validasiSBO($request);
-        if (isset($validasiSBO['status'])) {
-            if ($validasiSBO["status"] !== true) {
-                return $validasiSBO;
-            }
-        } else {
+        if ($validasiSBO !== true) {
             return $validasiSBO;
         }
-
 
         $validator = Validator::make($request->all(), [
             'Username' => 'required',
@@ -37,7 +31,7 @@ class ApiBolaController extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $saldo = $this->apiGetBalance($request)["balance"];
+        $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
 
         $response = [
             "AccountName" => $request->Username,
@@ -341,12 +335,7 @@ class ApiBolaController extends Controller
             return $this->errorResponse($request->Username, 4);
         }
 
-        $results = [
-            'status' => true,
-            '$data' => $data
-        ];
-
-        return $results;
+        return true;
     }
 
     /* ====================== Rollback ======================= */
@@ -914,15 +903,8 @@ class ApiBolaController extends Controller
 
 
 
-    public function login(Request $request, $username, $iswap)
+    public function login($username, $iswap)
     {
-        $token = $request->bearerToken();
-        $expectedToken = env('BEARER_TOKEN');
-
-        if ($token !== $expectedToken) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
-        }
-
         try {
             $dataLogin['Username'] = $username;
             $dataLogin['CompanyKey'] = env('COMPANY_KEY');
@@ -930,11 +912,6 @@ class ApiBolaController extends Controller
             $dataLogin['IsWapSports'] = $iswap;
             $dataLogin['ServerId'] = "YY-TEST";
             $getLogin = $this->requestApiLogin($dataLogin);
-
-            Member::where('username', $username)->update([
-                'ip_log' => $request->ip()
-            ]);
-
             return $getLogin;
         } catch (\Exception $e) {
             return $this->errorResponse($username, 99, $e->getMessage());
@@ -991,14 +968,6 @@ class ApiBolaController extends Controller
         }
 
         if ($responseData["error"]["id"] === 0) {
-            Member::create([
-                'username' => $request->Username,
-                'balance' => 0,
-                'ip_reg' => $request->ip(),
-                'ip_log' => null,
-                'status' => 1
-            ]);
-
             return response()->json([
                 'message' => 'Data berhasil disimpan.'
             ], 200);
