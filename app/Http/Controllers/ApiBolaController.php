@@ -904,8 +904,15 @@ class ApiBolaController extends Controller
 
 
 
-    public function login($username, $iswap, $ip_log)
+    public function login(Request $request, $username, $iswap)
     {
+        $token = $request->bearerToken();
+        $expectedToken = env('BEARER_TOKEN');
+
+        if ($token !== $expectedToken) {
+            return response()->json(['message' => 'Unauthorized.'], 401);
+        }
+
         try {
             $dataLogin['Username'] = $username;
             $dataLogin['CompanyKey'] = env('COMPANY_KEY');
@@ -915,7 +922,7 @@ class ApiBolaController extends Controller
             $getLogin = $this->requestApiLogin($dataLogin);
 
             Member::where('username', $username)->update([
-                'ip_log' => $ip_log
+                'ip_log' => $request->ip()
             ]);
 
             return $getLogin;
