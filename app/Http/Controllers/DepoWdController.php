@@ -124,7 +124,27 @@ class DepoWdController extends Controller
             $data["txnid"] = $txnid;
             $data["status"] = 0;
             $data["approved_by"] = null;
-            DepoWd::create($data);
+            $dataWD = DepoWd::create($data);
+
+            if ($dataWD) {
+                $dataAPI = [
+                    "Username" => $dataWD->username,
+                    "TxnId" => $txnid,
+                    "Amount" => $dataWD->amount,
+                    "CompanyKey" => env('COMPANY_KEY'),
+                    "ServerId" => env('SERVERID'),
+                    "IsFullAmount" => false
+                ];
+                $resultsApi = $this->requestApi('withdraw', $dataAPI);
+                if ($resultsApi["error"]["id"] !== 0) {
+                    DepoWd::destroy($dataWD->id);
+
+                    return response()->json([
+                        'status' => 'Error',
+                        'message' => $resultsApi["error"]["msg"]
+                    ], 500);
+                }
+            }
 
             return response()->json([
                 'status' => 'Success',
@@ -406,8 +426,45 @@ class DepoWdController extends Controller
         try {
             $ids = $request->id;
             foreach ($ids as $id) {
-                DepoWd::where('id', $id)->where('status', 0)->update(['status' => 2, 'approved_by' => Auth::user()->username]);
+                //UPDATE STATUS CANCEL
+                $updateStatusTransaction = DepoWd::where('id', $id)->first();
+                if ($updateStatusTransaction) {
+                    $updateStatusTransaction->update(['status' => 2, 'approved_by' => Auth::user()->username]);
+                } else {
+                    return response()->json([
+                        'status' => 'Error',
+                        'message' => 'Data tidak ditemukan'
+                    ], 500);
+                }
+
+                if ($updateStatusTransaction->jenis == 'WD') {
+                    //GET TXNID
+                    $txnid = $this->generateTxnid('D');
+                    if ($txnid === null) {
+                        $updateStatusTransaction->update(['status' => 0, 'approved_by' => null]);
+                        return $this->errorResponse($updateStatusTransaction->username, 'Txnid error');
+                    }
+
+                    //PROSES WD
+                    $dataAPI = [
+                        "Username" => $updateStatusTransaction->username,
+                        "TxnId" => $txnid,
+                        "Amount" => $updateStatusTransaction->amount,
+                        "CompanyKey" => env('COMPANY_KEY'),
+                        "ServerId" => env('SERVERID')
+                    ];
+                    $resultsApi = $this->requestApi('deposit', $dataAPI);
+                    if ($resultsApi["error"]["id"] !== 0) {
+                        $updateStatusTransaction->update(['status' => 0, 'approved_by' => null]);
+
+                        return response()->json([
+                            'status' => 'Error',
+                            'message' => $resultsApi["error"]["msg"]
+                        ], 500);
+                    }
+                }
             }
+
             return response()->json([
                 'status' => 'Success',
                 'message' => 'Reject berhasil'
@@ -419,8 +476,6 @@ class DepoWdController extends Controller
             ], 500);
         }
     }
-
-
 
     private function generateTxnid($jenis)
     {
