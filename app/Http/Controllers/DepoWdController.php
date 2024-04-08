@@ -170,7 +170,8 @@ class DepoWdController extends Controller
         if ($data["error"]["id"] === 0) {
             $results = [
                 "username" => $data["username"],
-                "balance" => $data["balance"] + $this->saldoBerjalan($username),
+                // "balance" => $data["balance"] + $this->saldoBerjalan($username),
+                "balance" => $data["balance"],
             ];
             return $results;
         } else {

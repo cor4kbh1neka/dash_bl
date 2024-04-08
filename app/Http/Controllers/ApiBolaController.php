@@ -19,7 +19,6 @@ class ApiBolaController extends Controller
     public function GetBalance(Request $request)
     {
         $validasiSBO = $this->validasiSBO($request);
-
         if (isset($validasiSBO->original)) {
             return $validasiSBO;
         }
@@ -46,7 +45,7 @@ class ApiBolaController extends Controller
     public function GetBetStatus(Request $request)
     {
         $validasiSBO = $this->validasiSBO($request);
-        if ($validasiSBO !== true) {
+        if (isset($validasiSBO->original)) {
             return $validasiSBO;
         }
 
