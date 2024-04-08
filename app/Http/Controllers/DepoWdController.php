@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use App\Models\DepoWd;
+use App\Models\Transactions;
 
 date_default_timezone_set('Asia/Jakarta');
 
@@ -137,7 +138,7 @@ class DepoWdController extends Controller
         }
     }
 
-    public function getbalance(Request $request, $username)
+    public function getBalance(Request $request, $username)
     {
         $validasiBearer = $this->validasiBearer($request);
         if ($validasiBearer !== true) {
@@ -149,7 +150,7 @@ class DepoWdController extends Controller
         if ($data["error"]["id"] === 0) {
             $results = [
                 "username" => $data["username"],
-                "balance" => $data["balance"],
+                "balance" => $data["balance"] + $this->saldoBerjalan($request),
             ];
             return $results;
         } else {
@@ -489,5 +490,33 @@ class DepoWdController extends Controller
             'AccountName' => $username,
             'ErrorMessage' => $errorMessage
         ])->header('Content-Type', 'application/json; charset=UTF-8');
+    }
+
+    private function saldoBerjalan(Request $request)
+    {
+        $allTransactionTransaction = $this->getAllTransactions($request);
+
+        $dataAllTransactionsWD = $allTransactionTransaction->where('jenis', 'W')->sum('amount');
+        $dataAllTransactionsDP = $allTransactionTransaction->where('jenis', 'D')->sum('amount');
+
+        $saldoBerjalan = $dataAllTransactionsDP  - $dataAllTransactionsWD;
+
+        return $saldoBerjalan;
+    }
+
+    private function getAllTransactions(Request $request)
+    {
+        $username = $request->Username;
+        $transactions = Transactions::where('username', $username)->get();
+        $transactionTransactions = collect();
+
+        foreach ($transactions as $transaction) {
+            $transactions = $transaction->transactionstatus->flatMap(function ($status) {
+                return $status->transactionsaldo;
+            });
+
+            $transactionTransactions = $transactionTransactions->concat($transactions);
+        }
+        return $transactionTransactions;
     }
 }

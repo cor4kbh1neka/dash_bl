@@ -20,9 +20,14 @@ class ApiBolaController extends Controller
     public function GetBalance(Request $request)
     {
         $validasiSBO = $this->validasiSBO($request);
-        if ($validasiSBO !== true) {
+        if (isset($validasiSBO['status'])) {
+            if ($validasiSBO["status"] !== true) {
+                return $validasiSBO;
+            }
+        } else {
             return $validasiSBO;
         }
+
 
         $validator = Validator::make($request->all(), [
             'Username' => 'required',
@@ -32,7 +37,7 @@ class ApiBolaController extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
+        $saldo = $this->apiGetBalance($request)["balance"];
 
         $response = [
             "AccountName" => $request->Username,
@@ -336,7 +341,12 @@ class ApiBolaController extends Controller
             return $this->errorResponse($request->Username, 4);
         }
 
-        return true;
+        $results = [
+            'status' => true,
+            '$data' => $data
+        ];
+
+        return $results;
     }
 
     /* ====================== Rollback ======================= */
