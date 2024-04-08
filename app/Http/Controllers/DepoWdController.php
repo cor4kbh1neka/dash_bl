@@ -150,7 +150,7 @@ class DepoWdController extends Controller
         if ($data["error"]["id"] === 0) {
             $results = [
                 "username" => $data["username"],
-                "balance" => $data["balance"] + $this->saldoBerjalan($request),
+                "balance" => $data["balance"] + $this->saldoBerjalan($username),
             ];
             return $results;
         } else {
@@ -492,9 +492,9 @@ class DepoWdController extends Controller
         ])->header('Content-Type', 'application/json; charset=UTF-8');
     }
 
-    private function saldoBerjalan(Request $request)
+    private function saldoBerjalan($username)
     {
-        $allTransactionTransaction = $this->getAllTransactions($request);
+        $allTransactionTransaction = $this->getAllTransactions($username);
 
         $dataAllTransactionsWD = $allTransactionTransaction->where('jenis', 'W')->sum('amount');
         $dataAllTransactionsDP = $allTransactionTransaction->where('jenis', 'D')->sum('amount');
@@ -504,9 +504,8 @@ class DepoWdController extends Controller
         return $saldoBerjalan;
     }
 
-    private function getAllTransactions(Request $request)
+    private function getAllTransactions($username)
     {
-        $username = $request->Username;
         $transactions = Transactions::where('username', $username)->get();
         $transactionTransactions = collect();
 
