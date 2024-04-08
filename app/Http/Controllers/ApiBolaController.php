@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Cache;
 
 
-class ApiBolaController extends Controller
+class ApiBolaController_backup extends Controller
 {
     public function GetBalance(Request $request)
     {
         $validasiSBO = $this->validasiSBO($request);
-        if (isset($validasiSBO->original)) {
+        if ($validasiSBO !== true) {
             return $validasiSBO;
         }
 
@@ -31,7 +31,7 @@ class ApiBolaController extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $saldo = $validasiSBO["balance"];
+        $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
 
         $response = [
             "AccountName" => $request->Username,
@@ -45,7 +45,7 @@ class ApiBolaController extends Controller
     public function GetBetStatus(Request $request)
     {
         $validasiSBO = $this->validasiSBO($request);
-        if (isset($validasiSBO->original)) {
+        if ($validasiSBO !== true) {
             return $validasiSBO;
         }
 
@@ -64,6 +64,7 @@ class ApiBolaController extends Controller
         }
 
         $statusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
+
         if ($statusTransaction->status == 'Rollback' || $statusTransaction->status == 'Running') {
             $status = 'Running';
         } else if ($statusTransaction->status == 'Cancel') {
@@ -334,7 +335,7 @@ class ApiBolaController extends Controller
             return $this->errorResponse($request->Username, 4);
         }
 
-        return $data;
+        return true;
     }
 
     /* ====================== Rollback ======================= */
