@@ -31,7 +31,7 @@ Route::post('/GetBetStatus', [ApiBolaController::class, 'GetBetStatus']);
 Route::post('/ReturnStake', [ApiBolaController::class, 'ReturnStake']);
 Route::delete('/deleteTransactions', [ApiBolaController::class, 'deleteTransactions']);
 
-Route::get('/login/{username}/{iswap}', [ApiBolaController::class, 'login']);
+Route::get('/login/{username}/{iswap}/{ip_log}', [ApiBolaController::class, 'login']);
 Route::post('/register', [ApiBolaController::class, 'register']);
 Route::get('/get-recommend-matches', [ApiBolaController::class, 'getRecomMatch']);
 

@@ -23,6 +23,17 @@ class BankController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        $data = $this->getAllDataSettings();
+        return view('bank.index', [
+            'title' => 'Setting',
+            'data' => [],
+            'totalnote' => 0,
+            'data' => $data
+        ]);
+    }
+
     private function getAllDataSettings()
     {
         $response = Http::withHeaders([

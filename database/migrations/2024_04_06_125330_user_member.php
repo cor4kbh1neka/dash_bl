@@ -12,6 +12,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('username');
             $table->decimal('balance', 10, 2);
+            $table->string('ip_reg')->nullable();
+            $table->string('ip_log')->nullable();
             $table->integer('status');
             $table->timestamps();
         });

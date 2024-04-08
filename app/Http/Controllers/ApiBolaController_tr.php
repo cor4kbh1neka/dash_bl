@@ -702,9 +702,9 @@ class ApiBolaController extends Controller
         if ($crteateStatusTransaction) {
             if ($request->ProductType == 3 && $cekTransaction || $request->ProductType == 7 && $cekTransaction) {
                 $amount = $request->Amount - $dataTransactions->amount;
-                $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "W", $amount, 1);
+                $transactionTransaction = $this->createSaldoTransaction($createTransaction->id, $crteateStatusTransaction->id, $txnid, "W", $amount, 1);
             } else {
-                $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "W", $request->Amount, 1);
+                $transactionTransaction = $this->createSaldoTransaction($createTransaction->id, $crteateStatusTransaction->id, $txnid, "W", $request->Amount, 1);
             }
 
             if ($transactionTransaction) {

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Transactions;
 use App\Models\TransactionStatus;
 use App\Models\TransactionSaldo;
+use App\Models\Member;
 use Illuminate\Support\Facades\Http;
 use App\Jobs\createWdJob;
 use Carbon\Carbon;
@@ -903,7 +904,7 @@ class ApiBolaController extends Controller
 
 
 
-    public function login($username, $iswap)
+    public function login($username, $iswap, $ip_log)
     {
         try {
             $dataLogin['Username'] = $username;
@@ -912,6 +913,11 @@ class ApiBolaController extends Controller
             $dataLogin['IsWapSports'] = $iswap;
             $dataLogin['ServerId'] = "YY-TEST";
             $getLogin = $this->requestApiLogin($dataLogin);
+
+            Member::where('username', $username)->update([
+                'ip_log' => $ip_log
+            ]);
+
             return $getLogin;
         } catch (\Exception $e) {
             return $this->errorResponse($username, 99, $e->getMessage());
@@ -968,6 +974,14 @@ class ApiBolaController extends Controller
         }
 
         if ($responseData["error"]["id"] === 0) {
+            Member::create([
+                'username' => $request->Username,
+                'balance' => 0,
+                'ip_reg' => $request->ip(),
+                'ip_log' => null,
+                'status' => 1
+            ]);
+
             return response()->json([
                 'message' => 'Data berhasil disimpan.'
             ], 200);
