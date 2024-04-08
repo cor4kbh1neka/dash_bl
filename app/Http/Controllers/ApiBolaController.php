@@ -19,7 +19,8 @@ class ApiBolaController extends Controller
     public function GetBalance(Request $request)
     {
         $validasiSBO = $this->validasiSBO($request);
-        if ($validasiSBO !== true) {
+
+        if (isset($validasiSBO->original)) {
             return $validasiSBO;
         }
 
@@ -31,7 +32,7 @@ class ApiBolaController extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
+        $saldo = $validasiSBO["balance"];
 
         $response = [
             "AccountName" => $request->Username,
@@ -64,7 +65,6 @@ class ApiBolaController extends Controller
         }
 
         $statusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
-
         if ($statusTransaction->status == 'Rollback' || $statusTransaction->status == 'Running') {
             $status = 'Running';
         } else if ($statusTransaction->status == 'Cancel') {
@@ -335,7 +335,7 @@ class ApiBolaController extends Controller
             return $this->errorResponse($request->Username, 4);
         }
 
-        return true;
+        return $data;
     }
 
     /* ====================== Rollback ======================= */

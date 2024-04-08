@@ -79,6 +79,7 @@ class DepoWdController extends Controller
             $validator = Validator::make($request->all(), [
                 'username' => 'required|max:50',
                 'amount' => 'required|numeric',
+                'bank' => 'required|max:100',
                 'mbank' => 'required|max:100',
                 'mnamarek' => 'required|max:150',
                 'mnorek' => 'required|max:30',
@@ -119,7 +120,6 @@ class DepoWdController extends Controller
             /* Request Ke Database Internal */
             $data = $request->all();
             $data["keterangan"] = null;
-            $data["bank"] = null;
             $data["jenis"] = "WD";
             $data["txnid"] = $txnid;
             $data["status"] = 0;
