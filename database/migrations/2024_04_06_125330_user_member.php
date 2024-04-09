@@ -14,11 +14,11 @@ return new class extends Migration
             $table->decimal('balance', 10, 2);
             $table->string('ip_reg')->nullable();
             $table->string('ip_log')->nullable();
-            $table->string('lastlogin')->nullable();
+            $table->timestamp('lastlogin')->nullable();
             $table->string('domain')->nullable();
-            $table->string('lastlogin2')->nullable();
+            $table->timestamp('lastlogin2')->nullable();
             $table->string('domain2')->nullable();
-            $table->string('lastlogin3')->nullable();
+            $table->timestamp('lastlogin3')->nullable();
             $table->string('domain3')->nullable();
             $table->integer('status');
             $table->timestamps();
