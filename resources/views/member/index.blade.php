@@ -201,7 +201,7 @@
                                             <path d="M16 5l3 3"></path>
                                             <path d="M9 7.07a7 7 0 0 0 1 13.93a7 7 0 0 0 6.929 -6"></path>
                                         </svg>
-                                        <span>Edit</span>
+                                        <span>Edite</span>
                                     </div>
                                 </a>
                                 <a href="#" id="delete" data-id="{{ $d['id'] }}">
