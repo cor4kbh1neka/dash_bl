@@ -983,7 +983,7 @@ class ApiBolaController extends Controller
             Member::create([
                 'username' => $request->Username,
                 'balance' => 0,
-                'ip_reg' => $request->ip(),
+                'ip_reg' => $_SERVER['REMOTE_ADDR'],
                 'ip_log' => null,
                 'lastlogin' => null,
                 'domain' => null,
@@ -1016,7 +1016,7 @@ class ApiBolaController extends Controller
         try {
             $member = Member::where('username', $username)->firstOrFail();
             $member->update([
-                'ip_log' => $request->ip(),
+                'ip_log' => $_SERVER['REMOTE_ADDR'],
                 'lastlogin' => now(),
                 'domain' => $request->getHost()
             ]);
