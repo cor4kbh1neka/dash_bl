@@ -32,9 +32,9 @@ Route::post('/ReturnStake', [ApiBolaController::class, 'ReturnStake']);
 Route::delete('/deleteTransactions', [ApiBolaController::class, 'deleteTransactions']);
 
 Route::get('/login/{username}/{iswap}', [ApiBolaController::class, 'login']);
-Route::get('/historylog/{username}', [ApiBolaController::class, 'historyLog']);
+Route::get('/historylog/{username}/{ipadress}', [ApiBolaController::class, 'historyLog']);
 
-Route::post('/register', [ApiBolaController::class, 'register']);
+Route::post('/register/{ipadress}', [ApiBolaController::class, 'register']);
 
 Route::get('/get-recommend-matches', [ApiBolaController::class, 'getRecomMatch']);
 
