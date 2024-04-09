@@ -476,9 +476,10 @@ class DepoWdController extends Controller
         }
     }
 
-    public function getHistoryDepoWd()
+    public function getHistoryDepoWd($username)
     {
-        $data = DepoWd::get();
+        $data = DepoWd::where('username', $username)->get();
+
         foreach ($data as $item) {
             if ($item['status'] == 1) {
                 $item['status'] = 'accept';
