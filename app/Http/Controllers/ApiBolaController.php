@@ -906,7 +906,6 @@ class ApiBolaController extends Controller
 
     public function login(Request $request, $username, $iswap)
     {
-        dd($request);
         try {
             $dataLogin['Username'] = $username;
             $dataLogin['CompanyKey'] = env('COMPANY_KEY');
@@ -940,8 +939,6 @@ class ApiBolaController extends Controller
 
     public function register(Request $request)
     {
-        dd($request);
-        // dd($request->url());
         $token = $request->bearerToken();
         $expectedToken = env('BEARER_TOKEN');
 
