@@ -476,6 +476,27 @@ class DepoWdController extends Controller
         }
     }
 
+    public function getHistoryDepoWd()
+    {
+        $data = DepoWd::get();
+        foreach ($data as $item) {
+            if ($item['status'] == 1) {
+                $item['status'] = 'accept';
+            } elseif ($item['status'] == 2) {
+                $item['status'] = 'cancel';
+            } elseif ($item['status'] == 0) {
+                $item['status'] = 'pending';
+            }
+        }
+        return $data;
+    }
+
+
+
+
+
+
+
     private function generateTxnid($jenis)
     {
         $characters = '0123456789';

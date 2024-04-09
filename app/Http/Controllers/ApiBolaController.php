@@ -923,7 +923,6 @@ class ApiBolaController extends Controller
             if ($getLogin["url"] !== "") {
             }
 
-
             return $getLogin;
         } catch (\Exception $e) {
             return $this->errorResponse($username, 99, $e->getMessage());
@@ -991,7 +990,8 @@ class ApiBolaController extends Controller
                 'lastlogin2' => null,
                 'domain2' => null,
                 'lastlogin3' => null,
-                'domain3' => null
+                'domain3' => null,
+                'status' => 0
             ]);
 
             return response()->json([
@@ -1001,6 +1001,29 @@ class ApiBolaController extends Controller
             return response()->json([
                 'message' => $responseData["error"]["msg"] ?? 'Error tidak teridentifikasi.'
             ], 400);
+        }
+    }
+
+    public function historyLog(Request $request, $username)
+    {
+        $token = $request->bearerToken();
+        $expectedToken = env('BEARER_TOKEN');
+
+        if ($token !== $expectedToken) {
+            return response()->json(['message' => 'Unauthorized.'], 401);
+        }
+
+        try {
+            $member = Member::where('username', $username)->firstOrFail();
+            $member->update([
+                'ip_log' => $request->ip(),
+                'lastlogin' => now(),
+                'domain' => $request->getHost()
+            ]);
+
+            return response()->json(['message' => 'Log berhasil tersimpan!']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Terjadi kesalahan saat menyimpan log.'], 500);
         }
     }
 
