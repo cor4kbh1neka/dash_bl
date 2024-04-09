@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Transactions;
 use App\Models\TransactionStatus;
 use App\Models\TransactionSaldo;
-use App\Models\Member;
 use Illuminate\Support\Facades\Http;
 use App\Jobs\createWdJob;
 use Carbon\Carbon;
@@ -15,7 +14,7 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Cache;
 
 
-class ApiBolaController_backup extends Controller
+class ApiBolaController extends Controller
 {
     public function GetBalance(Request $request)
     {
@@ -32,7 +31,7 @@ class ApiBolaController_backup extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
+        $saldo = $this->apiGetBalance($request)["balance"];
 
         $response = [
             "AccountName" => $request->Username,
@@ -659,7 +658,7 @@ class ApiBolaController_backup extends Controller
 
     private function setTransaction(Request $request)
     {
-        $saldoMember = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
+        $saldoMember = $this->apiGetBalance($request)["balance"];
 
         if ($request->ProductType == 3 || $request->ProductType == 7) {
             $cekTransaction = Transactions::where('transactionid', $request->TransactionId)->first();
@@ -698,9 +697,9 @@ class ApiBolaController_backup extends Controller
         if ($crteateStatusTransaction) {
             if ($request->ProductType == 3 && $cekTransaction || $request->ProductType == 7 && $cekTransaction) {
                 $amount = $request->Amount - $dataTransactions->amount;
-                $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "W", $amount, 1);
+                $transactionTransaction = $this->createSaldoTransaction($request->Username, $crteateStatusTransaction->id, $txnid, "W", $amount, 1);
             } else {
-                $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "W", $request->Amount, 1);
+                $transactionTransaction = $this->createSaldoTransaction($request->Username, $crteateStatusTransaction->id, $txnid, "W", $request->Amount, 1);
             }
 
             if ($transactionTransaction) {
@@ -715,13 +714,13 @@ class ApiBolaController_backup extends Controller
         }
     }
 
-    private function withdraw(Request $request, $txnid)
+    private function withdraw($username, $txnid, $amount)
     {
         $dataSaldo = [
-            "Username" => $request->Username,
+            "Username" => $username,
             "txnId" => $txnid,
             "IsFullAmount" => false,
-            "Amount" => $request->Amount,
+            "Amount" => $amount,
             "CompanyKey" => env('COMPANY_KEY'),
             "ServerId" => env('SERVERID')
         ];
@@ -751,7 +750,7 @@ class ApiBolaController_backup extends Controller
         return $results;
     }
 
-    private function createSaldoTransaction($transtatus_id, $txnid, $jenis, $amount, $urutan)
+    private function createSaldoTransaction($username, $transtatus_id, $txnid, $jenis, $amount, $urutan)
     {
         $results = TransactionSaldo::create([
             "transtatus_id" => $transtatus_id,
@@ -760,6 +759,13 @@ class ApiBolaController_backup extends Controller
             "amount" => $amount,
             "urutan" => $urutan
         ]);
+
+        if ($results) {
+            $requestApiWithdraw = $this->withdraw($username, $txnid, $amount);
+            if ($requestApiWithdraw["error"]["id"] !== 0) {
+            }
+        }
+
         return $results;
     }
 
@@ -904,15 +910,8 @@ class ApiBolaController_backup extends Controller
 
 
 
-    public function login(Request $request, $username, $iswap)
+    public function login($username, $iswap)
     {
-        $token = $request->bearerToken();
-        $expectedToken = env('BEARER_TOKEN');
-
-        if ($token !== $expectedToken) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
-        }
-
         try {
             $dataLogin['Username'] = $username;
             $dataLogin['CompanyKey'] = env('COMPANY_KEY');
@@ -920,9 +919,6 @@ class ApiBolaController_backup extends Controller
             $dataLogin['IsWapSports'] = $iswap;
             $dataLogin['ServerId'] = "YY-TEST";
             $getLogin = $this->requestApiLogin($dataLogin);
-            if ($getLogin["url"] !== "") {
-            }
-
             return $getLogin;
         } catch (\Exception $e) {
             return $this->errorResponse($username, 99, $e->getMessage());
@@ -949,7 +945,6 @@ class ApiBolaController_backup extends Controller
 
     public function register(Request $request)
     {
-
         $token = $request->bearerToken();
         $expectedToken = env('BEARER_TOKEN');
 
@@ -980,20 +975,6 @@ class ApiBolaController_backup extends Controller
         }
 
         if ($responseData["error"]["id"] === 0) {
-            Member::create([
-                'username' => $request->Username,
-                'balance' => 0,
-                'ip_reg' => $_SERVER['REMOTE_ADDR'],
-                'ip_log' => null,
-                'lastlogin' => null,
-                'domain' => null,
-                'lastlogin2' => null,
-                'domain2' => null,
-                'lastlogin3' => null,
-                'domain3' => null,
-                'status' => 0
-            ]);
-
             return response()->json([
                 'message' => 'Data berhasil disimpan.'
             ], 200);
@@ -1001,29 +982,6 @@ class ApiBolaController_backup extends Controller
             return response()->json([
                 'message' => $responseData["error"]["msg"] ?? 'Error tidak teridentifikasi.'
             ], 400);
-        }
-    }
-
-    public function historyLog(Request $request, $username)
-    {
-        $token = $request->bearerToken();
-        $expectedToken = env('BEARER_TOKEN');
-
-        if ($token !== $expectedToken) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
-        }
-
-        try {
-            $member = Member::where('username', $username)->firstOrFail();
-            $member->update([
-                'ip_log' => $_SERVER['REMOTE_ADDR'],
-                'lastlogin' => now(),
-                'domain' => $request->getHost()
-            ]);
-
-            return response()->json(['message' => 'Log berhasil tersimpan!']);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Terjadi kesalahan saat menyimpan log.'], 500);
         }
     }
 
