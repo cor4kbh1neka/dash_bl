@@ -32,11 +32,15 @@ Route::post('/ReturnStake', [ApiBolaController::class, 'ReturnStake']);
 Route::delete('/deleteTransactions', [ApiBolaController::class, 'deleteTransactions']);
 
 Route::get('/login/{username}/{iswap}', [ApiBolaController::class, 'login']);
+Route::get('/historylog/{username}', [ApiBolaController::class, 'historyLog']);
+
 Route::post('/register', [ApiBolaController::class, 'register']);
+
 Route::get('/get-recommend-matches', [ApiBolaController::class, 'getRecomMatch']);
 
 Route::post('/deposit', [DepoWdController::class, 'deposit']);
 Route::post('/withdrawal', [DepoWdController::class, 'withdrawal']);
+Route::get('/getHistoryDw/{username}', [DepoWdController::class, 'getHistoryDepoWd']);
 
 Route::get('/checkLastTransaction/{jenis}/{username}', [DepoWdController::class, 'getLastStatusTransaction']);
 Route::get('/checkBalance/{username}', [DepoWdController::class, 'getBalance']);
