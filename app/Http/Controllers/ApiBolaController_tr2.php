@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Cache;
 
 
-class ApiBolaController_backup extends Controller
+class ApiBolaController extends Controller
 {
     public function GetBalance(Request $request)
     {
@@ -31,7 +31,7 @@ class ApiBolaController_backup extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
+        $saldo = $this->apiGetBalance($request)["balance"];
 
         $response = [
             "AccountName" => $request->Username,
@@ -658,7 +658,7 @@ class ApiBolaController_backup extends Controller
 
     private function setTransaction(Request $request)
     {
-        $saldoMember = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
+        $saldoMember = $this->apiGetBalance($request)["balance"];
 
         if ($request->ProductType == 3 || $request->ProductType == 7) {
             $cekTransaction = Transactions::where('transactionid', $request->TransactionId)->first();
@@ -697,9 +697,9 @@ class ApiBolaController_backup extends Controller
         if ($crteateStatusTransaction) {
             if ($request->ProductType == 3 && $cekTransaction || $request->ProductType == 7 && $cekTransaction) {
                 $amount = $request->Amount - $dataTransactions->amount;
-                $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "W", $amount, 1);
+                $transactionTransaction = $this->createSaldoTransaction($request->Username, $crteateStatusTransaction->id, $txnid, "W", $amount, 1);
             } else {
-                $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "W", $request->Amount, 1);
+                $transactionTransaction = $this->createSaldoTransaction($request->Username, $crteateStatusTransaction->id, $txnid, "W", $request->Amount, 1);
             }
 
             if ($transactionTransaction) {
@@ -714,13 +714,13 @@ class ApiBolaController_backup extends Controller
         }
     }
 
-    private function withdraw(Request $request, $txnid)
+    private function withdraw($username, $txnid, $amount)
     {
         $dataSaldo = [
-            "Username" => $request->Username,
+            "Username" => $username,
             "txnId" => $txnid,
             "IsFullAmount" => false,
-            "Amount" => $request->Amount,
+            "Amount" => $amount,
             "CompanyKey" => env('COMPANY_KEY'),
             "ServerId" => env('SERVERID')
         ];
@@ -750,7 +750,7 @@ class ApiBolaController_backup extends Controller
         return $results;
     }
 
-    private function createSaldoTransaction($transtatus_id, $txnid, $jenis, $amount, $urutan)
+    private function createSaldoTransaction($username, $transtatus_id, $txnid, $jenis, $amount, $urutan)
     {
         $results = TransactionSaldo::create([
             "transtatus_id" => $transtatus_id,
@@ -759,6 +759,13 @@ class ApiBolaController_backup extends Controller
             "amount" => $amount,
             "urutan" => $urutan
         ]);
+
+        if ($results) {
+            $requestApiWithdraw = $this->withdraw($username, $txnid, $amount);
+            if ($requestApiWithdraw["error"]["id"] !== 0) {
+            }
+        }
+
         return $results;
     }
 
