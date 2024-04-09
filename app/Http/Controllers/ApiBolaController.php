@@ -947,7 +947,7 @@ class ApiBolaController extends Controller
         return ['url' => $responseData["url"]];
     }
 
-    public function register(Request $request)
+    public function register(Request $request, $ipaddress)
     {
 
         $token = $request->bearerToken();
@@ -983,7 +983,7 @@ class ApiBolaController extends Controller
             Member::create([
                 'username' => $request->Username,
                 'balance' => 0,
-                'ip_reg' => $request->getClientIp(),
+                'ip_reg' => $ipaddress,
                 'ip_log' => null,
                 'lastlogin' => null,
                 'domain' => null,
@@ -1004,7 +1004,7 @@ class ApiBolaController extends Controller
         }
     }
 
-    public function historyLog(Request $request, $username)
+    public function historyLog(Request $request, $username, $ipaddress)
     {
         $token = $request->bearerToken();
         $expectedToken = env('BEARER_TOKEN');
@@ -1016,7 +1016,7 @@ class ApiBolaController extends Controller
         try {
             $member = Member::where('username', $username)->firstOrFail();
             $member->update([
-                'ip_log' => $request->getClientIp(),
+                'ip_log' => $ipaddress,
                 'lastlogin' => now(),
                 'domain' => $request->getHost()
             ]);
