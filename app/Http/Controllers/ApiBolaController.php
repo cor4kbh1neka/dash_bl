@@ -904,8 +904,9 @@ class ApiBolaController extends Controller
 
 
 
-    public function login($username, $iswap)
+    public function login(Request $request, $username, $iswap)
     {
+        dd($request);
         try {
             $dataLogin['Username'] = $username;
             $dataLogin['CompanyKey'] = env('COMPANY_KEY');
