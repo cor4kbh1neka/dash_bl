@@ -906,6 +906,13 @@ class ApiBolaController extends Controller
 
     public function login(Request $request, $username, $iswap)
     {
+        $token = $request->bearerToken();
+        $expectedToken = env('BEARER_TOKEN');
+
+        if ($token !== $expectedToken) {
+            return response()->json(['message' => 'Unauthorized.'], 401);
+        }
+
         try {
             $dataLogin['Username'] = $username;
             $dataLogin['CompanyKey'] = env('COMPANY_KEY');
@@ -913,6 +920,10 @@ class ApiBolaController extends Controller
             $dataLogin['IsWapSports'] = $iswap;
             $dataLogin['ServerId'] = "YY-TEST";
             $getLogin = $this->requestApiLogin($dataLogin);
+            if ($getLogin["url"] !== "") {
+            }
+
+
             return $getLogin;
         } catch (\Exception $e) {
             return $this->errorResponse($username, 99, $e->getMessage());
@@ -939,6 +950,7 @@ class ApiBolaController extends Controller
 
     public function register(Request $request)
     {
+
         $token = $request->bearerToken();
         $expectedToken = env('BEARER_TOKEN');
 
@@ -972,7 +984,14 @@ class ApiBolaController extends Controller
             Member::create([
                 'username' => $request->Username,
                 'balance' => 0,
-                'ip_reg' => $request->ip()
+                'ip_reg' => $request->ip(),
+                'ip_log' => null,
+                'lastlogin' => null,
+                'domain' => null,
+                'lastlogin2' => null,
+                'domain2' => null,
+                'lastlogin3' => null,
+                'domain3' => null
             ]);
 
             return response()->json([
