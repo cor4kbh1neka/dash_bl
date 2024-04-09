@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Transactions;
 use App\Models\TransactionStatus;
 use App\Models\TransactionSaldo;
+use App\Models\Member;
 use Illuminate\Support\Facades\Http;
 use App\Jobs\createWdJob;
 use Carbon\Carbon;
@@ -938,6 +939,8 @@ class ApiBolaController extends Controller
 
     public function register(Request $request)
     {
+        dd($request);
+        // dd($request->url());
         $token = $request->bearerToken();
         $expectedToken = env('BEARER_TOKEN');
 
@@ -968,6 +971,12 @@ class ApiBolaController extends Controller
         }
 
         if ($responseData["error"]["id"] === 0) {
+            Member::create([
+                'username' => $request->Username,
+                'balance' => 0,
+                'ip_reg' => $request->ip()
+            ]);
+
             return response()->json([
                 'message' => 'Data berhasil disimpan.'
             ], 200);
