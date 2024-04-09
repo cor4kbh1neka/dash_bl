@@ -32,7 +32,9 @@ Route::post('/ReturnStake', [ApiBolaController::class, 'ReturnStake']);
 Route::delete('/deleteTransactions', [ApiBolaController::class, 'deleteTransactions']);
 
 Route::get('/login/{username}/{iswap}', [ApiBolaController::class, 'login']);
-Route::post('/register', [ApiBolaController::class, 'register']);
+
+Route::post('/register', [ApiBolaController::class, 'register'])->middleware('CaptureReferer');;
+
 Route::get('/get-recommend-matches', [ApiBolaController::class, 'getRecomMatch']);
 
 Route::post('/deposit', [DepoWdController::class, 'deposit']);

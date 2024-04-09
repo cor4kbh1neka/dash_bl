@@ -13,7 +13,7 @@ class Member extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['username', 'balance', 'ip_reg', 'ip_log', 'status'];
+    protected $fillable = ['username', 'balance', 'ip_reg', 'ip_log', 'lastlogin', 'domain', 'lastlogin2', 'domain2', 'lastlogin3', 'domain3', 'status'];
 
     protected $primaryKey = 'id';
 
