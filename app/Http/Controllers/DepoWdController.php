@@ -30,7 +30,7 @@ class DepoWdController extends Controller
                 'mbank' => 'required|max:100',
                 'mnamarek' => 'required|max:150',
                 'mnorek' => 'required|max:30',
-                'current_balance' => 'required|numeric',
+                'balance' => 'required|numeric',
             ]);
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()->all()]);
@@ -86,7 +86,7 @@ class DepoWdController extends Controller
                 'mbank' => 'required|max:100',
                 'mnamarek' => 'required|max:150',
                 'mnorek' => 'required|max:30',
-                'current_balance' => 'required|numeric',
+                'balance' => 'required|numeric',
             ]);
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()->all()]);
@@ -482,7 +482,9 @@ class DepoWdController extends Controller
 
     public function getHistoryDepoWd($username)
     {
-        $data = DepoWd::where('username', $username)->get();
+        $data = DepoWd::where('username', $username)
+            ->select('id', 'username', 'balance', 'amount', 'jenis', 'status', 'updated_at')
+            ->get();
 
         foreach ($data as $item) {
             if ($item['status'] == 1) {
