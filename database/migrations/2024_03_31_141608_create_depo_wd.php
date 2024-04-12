@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('mnamarek', 150)->nullable();
             $table->string('mnorek', 30)->nullable();
             $table->string('txnid', 50)->required();
+            $table->decimal('current_balance', 10, 2);
             $table->integer('status');
             $table->string('approved_by', 50)->nullable();
             $table->timestamps();

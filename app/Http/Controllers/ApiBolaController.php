@@ -32,7 +32,7 @@ class ApiBolaController extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
+        $saldo = $this->apiGetBalance($request)["balance"];
 
         $response = [
             "AccountName" => $request->Username,
@@ -152,14 +152,7 @@ class ApiBolaController extends Controller
         foreach ($dataTransactions as $index => $dataTransaction) {
             $results[] = $this->setSettle($request, $dataTransaction, $index);
         }
-        // $filterResults = [];
-        // foreach (array_reverse($results) as $item) {
-        //     $balance = $item->original['Balance'];
-        //     if ($balance > 0) {
-        //         $filterResults[] = $item;
-        //         break;
-        //     }
-        // }
+
         return reset($results);
     }
 
@@ -417,7 +410,11 @@ class ApiBolaController extends Controller
                     $jenis = 'W';
                     $rangeNumber = 10;
                     $txnid = $this->generateTxnid($jenis, $rangeNumber);
-                    $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, $jenis, $dataTransactions->amount, 1);
+
+                    $handleWithdrawal = $this->handleWithdrawal($request->Username, $txnid, $dataTransactions->amount);
+                    if ($handleWithdrawal["error"]["id"] === 0) {
+                        $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, $jenis, $dataTransactions->amount, 1);
+                    }
 
                     if ($last2ndStatus->status != 'Running' || $last2ndStatus->status != 'Rollback') {
                         if ($request->ProductType == 3 || $request->ProductType == 7) {
@@ -577,27 +574,22 @@ class ApiBolaController extends Controller
     /* ====================== Settle ======================= */
     private function setSettle(Request $request, $dataTransaction, $index)
     {
-        // $dataTransaction = Transactions::where('transactionid', $dataTransaction->transactionid)->first();
         $dataStatusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
 
         if ($dataStatusTransaction->status == 'Running' || $dataStatusTransaction->status == 'Rollback' || $dataStatusTransaction->status == 'ReturnStake') {
             $txnid = $this->generateTxnid('D', 17);
-            // $DpSaldo = $this->deposit($request, $txnid);
-
-            // if ($DpSaldo["error"]["id"] === 9720) {
-            //     return $this->errorResponse($request->Username, $DpSaldo["error"]["id"]);
-            // }
-
-            // if ($DpSaldo["error"]["id"] === 4404) {
-            //     return $this->errorResponse($request->Username, $DpSaldo["error"]["id"]);
-            // }
 
             $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Settled');
             if ($crteateStatusTransaction) {
                 $WinLoss = $index == 0 ? $request->WinLoss : 0;
-                $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $WinLoss, 1);
+
+                $handleDeposit = $this->handleDeposit($request->Username, $txnid, $WinLoss);
+                if ($handleDeposit["error"]["id"] === 0) {
+                    $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $WinLoss, 1);
+                }
+
                 if ($transactionTransaction) {
-                    $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
+                    $saldo = $this->apiGetBalance($request)["balance"];
                     return [
                         'AccountName' => $request->Username,
                         'Balance' => $saldo,
@@ -615,12 +607,33 @@ class ApiBolaController extends Controller
         }
     }
 
-    private function deposit(Request $request, $txnid)
+    private function handleDeposit($username, $txnid, $winloss)
+    {
+        $maxAttempts = 5;
+        $attempt = 0;
+        while ($attempt < $maxAttempts) {
+            $deductSaldo = $this->deposit($username, $txnid, $winloss);
+
+            if ($deductSaldo["error"]["id"] === 9720) {
+                sleep(5);
+            } elseif ($deductSaldo["error"]["id"] === 4404) {
+                $txnid = $this->generateTxnid('D', 10);
+            } else {
+                break;
+            }
+
+            $attempt++;
+        }
+
+        return $deductSaldo;
+    }
+
+    private function deposit($username, $txnid, $winloss)
     {
         $dataSaldo = [
-            "Username" => $request->Username,
+            "Username" => $username,
             "TxnId" => $txnid,
-            "Amount" => $request->WinLoss,
+            "Amount" => $winloss,
             "CompanyKey" => env('COMPANY_KEY'),
             "ServerId" => env('SERVERID')
         ];
@@ -678,15 +691,6 @@ class ApiBolaController extends Controller
 
         $txnid = $this->generateTxnid('W', 10);
 
-        // $WdSaldo = $this->withdraw($request, $txnid);
-
-        // if ($WdSaldo["error"]["id"] === 9720) {
-        //     $WdSaldo = $this->requestWitdraw9720($request, $txnid);
-        // }
-
-        // if ($WdSaldo["error"]["id"] === 4404) {
-        //     return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
-        // }
         if (($request->ProductType == 3 && $cekTransaction) || ($request->ProductType == 7 && $cekTransaction)) {
             $createTransaction = $cekTransaction;
             $crteateStatusTransaction = $cekLastStatus;
@@ -698,13 +702,20 @@ class ApiBolaController extends Controller
         if ($crteateStatusTransaction) {
             if ($request->ProductType == 3 && $cekTransaction || $request->ProductType == 7 && $cekTransaction) {
                 $amount = $request->Amount - $dataTransactions->amount;
-                $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "W", $amount, 1);
+
+                $handleWithdrawal = $this->handleWithdrawal($request->Username, $txnid, $amount);
+                if ($handleWithdrawal["error"]["id"] === 0) {
+                    $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "W", $amount, 1);
+                }
             } else {
-                $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "W", $request->Amount, 1);
+                $handleWithdrawal = $this->handleWithdrawal($request->Username, $txnid, $request->Amount);
+                if ($handleWithdrawal["error"]["id"] === 0) {
+                    $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "W", $request->Amount, 1);
+                }
             }
 
             if ($transactionTransaction) {
-                $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
+                $saldo = $this->apiGetBalance($request)["balance"];
                 return response()->json([
                     'AccountName' => $request->Username,
                     'Balance' => $saldo,
@@ -715,13 +726,34 @@ class ApiBolaController extends Controller
         }
     }
 
-    private function withdraw(Request $request, $txnid)
+    private function handleWithdrawal($username, $txnid, $amount)
+    {
+        $maxAttempts = 5;
+        $attempt = 0;
+        while ($attempt < $maxAttempts) {
+            $deductSaldo = $this->withdraw($username, $txnid, $amount);
+
+            if ($deductSaldo["error"]["id"] === 9720) {
+                sleep(5);
+            } elseif ($deductSaldo["error"]["id"] === 4404) {
+                $txnid = $this->generateTxnid('W', 10);
+            } else {
+                break;
+            }
+
+            $attempt++;
+        }
+
+        return $deductSaldo;
+    }
+
+    private function withdraw($username, $txnid, $amount)
     {
         $dataSaldo = [
-            "Username" => $request->Username,
+            "Username" => $username,
             "txnId" => $txnid,
             "IsFullAmount" => false,
-            "Amount" => $request->Amount,
+            "Amount" => $amount,
             "CompanyKey" => env('COMPANY_KEY'),
             "ServerId" => env('SERVERID')
         ];
@@ -884,6 +916,13 @@ class ApiBolaController extends Controller
     {
         $characters = '0123456789';
         $randomString = '';
+
+        if ($jenis == 'D') {
+            $length = 17;
+        } else {
+            $length = 10;
+        }
+
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, strlen($characters) - 1)];
         }

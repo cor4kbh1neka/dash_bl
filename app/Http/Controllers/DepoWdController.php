@@ -30,6 +30,7 @@ class DepoWdController extends Controller
                 'mbank' => 'required|max:100',
                 'mnamarek' => 'required|max:150',
                 'mnorek' => 'required|max:30',
+                'current_balance' => 'required|numeric',
             ]);
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()->all()]);
@@ -48,12 +49,14 @@ class DepoWdController extends Controller
             if ($txnid === null) {
                 return $this->errorResponse($request->username, 'Txnid error');
             }
+
             /* Request Ke Database Internal */
             $data = $request->all();
             $data["jenis"] = "DP";
             $data["txnid"] = $txnid;
             $data["status"] = 0;
             $data["approved_by"] = null;
+
             DepoWd::create($data);
 
             return response()->json([
@@ -83,6 +86,7 @@ class DepoWdController extends Controller
                 'mbank' => 'required|max:100',
                 'mnamarek' => 'required|max:150',
                 'mnorek' => 'required|max:30',
+                'current_balance' => 'required|numeric',
             ]);
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()->all()]);
