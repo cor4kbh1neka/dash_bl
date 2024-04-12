@@ -33,7 +33,7 @@ class DepoWdController extends Controller
                 'balance' => 'required|numeric',
             ]);
             if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()->all()]);
+                return response()->json(['errors' => $validator->errors()->all()], 400);
             }
 
             $dataDepoWd = DepoWd::where('username', $request->username)->where('jenis', 'DP')->where('status', '0')->first();
@@ -89,7 +89,7 @@ class DepoWdController extends Controller
                 'balance' => 'required|numeric',
             ]);
             if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()->all()]);
+                return response()->json(['errors' => $validator->errors()->all()], 400);
             }
 
             $checkBalance = $this->reqApiBalance($request->username);
@@ -99,7 +99,6 @@ class DepoWdController extends Controller
                     'message' => 'Balance tidak cukup'
                 ], 400);
             }
-
             if ($checkBalance["error"]["id"] !== 0) {
                 return response()->json([
                     'status' => 'Fail',
@@ -108,6 +107,7 @@ class DepoWdController extends Controller
             }
 
             $dataDepoWd = DepoWd::where('username', $request->username)->where('jenis', 'WD')->where('status', '0')->first();
+
             if ($dataDepoWd) {
                 return response()->json([
                     'status' => 'Fail',
@@ -294,7 +294,7 @@ class DepoWdController extends Controller
             'amount' => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()->all()]);
+            return response()->json(['errors' => $validator->errors()->all()], 400);
         } else {
             try {
                 $txnid = $this->generateTxnid('D');
@@ -496,9 +496,7 @@ class DepoWdController extends Controller
             }
 
             if ($item['jenis'] === 'DPM' || $item['jenis'] === 'DP') {
-                $item['balance'] = $item['status'] == 'accept' ?  floatval($item['balance']) + floatval($item['amount']) : $item['balance'];
-            } else {
-                $item['balance'] = $item['status'] == 'cancel' ?  floatval($item['balance']) + floatval($item['amount']) : $item['balance'] - $item['amount'];
+                $item['balance'] = $item['status'] == 'accept' ?  $item['balance'] + $item['amount'] : $item['balance'];
             }
         }
         return $data;
