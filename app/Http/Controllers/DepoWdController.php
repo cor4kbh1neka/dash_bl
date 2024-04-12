@@ -497,6 +497,8 @@ class DepoWdController extends Controller
 
             if ($item['jenis'] === 'DPM' || $item['jenis'] === 'DP') {
                 $item['balance'] = $item['status'] == 'accept' ?  $item['balance'] + $item['amount'] : $item['balance'];
+            } else {
+                $item['balance'] = $item['status'] == 'cancel' ?  $item['balance'] : $item['balance'] - $item['amount'];
             }
         }
         return $data;
