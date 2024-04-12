@@ -7,14 +7,15 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Transactions;
 use App\Models\TransactionStatus;
 use App\Models\TransactionSaldo;
+use App\Models\Member;
 use Illuminate\Support\Facades\Http;
 use App\Jobs\createWdJob;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Cache;
 
+class ApiBolaController extends Controller
 
-class ApiBolaController_backup extends Controller
 {
     public function GetBalance(Request $request)
     {
@@ -903,8 +904,15 @@ class ApiBolaController_backup extends Controller
 
 
 
-    public function login($username, $iswap)
+    public function login(Request $request, $username, $iswap)
     {
+        $token = $request->bearerToken();
+        $expectedToken = env('BEARER_TOKEN');
+
+        if ($token !== $expectedToken) {
+            return response()->json(['message' => 'Unauthorized.'], 401);
+        }
+
         try {
             $dataLogin['Username'] = $username;
             $dataLogin['CompanyKey'] = env('COMPANY_KEY');
@@ -912,6 +920,9 @@ class ApiBolaController_backup extends Controller
             $dataLogin['IsWapSports'] = $iswap;
             $dataLogin['ServerId'] = "YY-TEST";
             $getLogin = $this->requestApiLogin($dataLogin);
+            if ($getLogin["url"] !== "") {
+            }
+
             return $getLogin;
         } catch (\Exception $e) {
             return $this->errorResponse($username, 99, $e->getMessage());
@@ -936,8 +947,9 @@ class ApiBolaController_backup extends Controller
         return ['url' => $responseData["url"]];
     }
 
-    public function register(Request $request)
+    public function register(Request $request, $ipaddress)
     {
+
         $token = $request->bearerToken();
         $expectedToken = env('BEARER_TOKEN');
 
@@ -968,6 +980,20 @@ class ApiBolaController_backup extends Controller
         }
 
         if ($responseData["error"]["id"] === 0) {
+            Member::create([
+                'username' => $request->Username,
+                'balance' => 0,
+                'ip_reg' => $ipaddress,
+                'ip_log' => null,
+                'lastlogin' => null,
+                'domain' => null,
+                'lastlogin2' => null,
+                'domain2' => null,
+                'lastlogin3' => null,
+                'domain3' => null,
+                'status' => 0
+            ]);
+
             return response()->json([
                 'message' => 'Data berhasil disimpan.'
             ], 200);
@@ -975,6 +1001,29 @@ class ApiBolaController_backup extends Controller
             return response()->json([
                 'message' => $responseData["error"]["msg"] ?? 'Error tidak teridentifikasi.'
             ], 400);
+        }
+    }
+
+    public function historyLog(Request $request, $username, $ipaddress)
+    {
+        $token = $request->bearerToken();
+        $expectedToken = env('BEARER_TOKEN');
+
+        if ($token !== $expectedToken) {
+            return response()->json(['message' => 'Unauthorized.'], 401);
+        }
+
+        try {
+            $member = Member::where('username', $username)->firstOrFail();
+            $member->update([
+                'ip_log' => $ipaddress,
+                'lastlogin' => now(),
+                'domain' => $request->getHost()
+            ]);
+
+            return response()->json(['message' => 'Log berhasil tersimpan!']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Terjadi kesalahan saat menyimpan log.'], 500);
         }
     }
 
