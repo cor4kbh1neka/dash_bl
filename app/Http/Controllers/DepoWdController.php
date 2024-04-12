@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use App\Models\DepoWd;
+use App\Models\Member;
 use App\Models\Transactions;
 
 date_default_timezone_set('Asia/Jakarta');
@@ -302,6 +303,11 @@ class DepoWdController extends Controller
                     return $this->errorResponse($request->username, 'Txnid error');
                 }
 
+                $checkDataMember = Member::where('username', $request->username)->first();
+                if (!$checkDataMember) {
+                    return $this->errorResponse($request->username, 'Username tidak terdaftar');
+                }
+
                 $data = $request->all();
                 $data["bank"] = "";
                 $data["mbank"] = "";
@@ -309,6 +315,7 @@ class DepoWdController extends Controller
                 $data["mnorek"] = "";
                 $data["txnid"] = $txnid;
                 $data["status"] = 1;
+                $data["balance"] = $this->reqApiBalance($request->username)["balance"] + $this->saldoBerjalan($request->username);
                 $data["approved_by"] = Auth::user()->username;
                 $result = DepoWd::create($data);
 
@@ -360,7 +367,6 @@ class DepoWdController extends Controller
                     'message' => 'Gagal melakukan transaksi!'
                 ]);
             } catch (\Exception $e) {
-                // dd($e->getMessage());
                 return view('depowd.indexmanual', [
                     'title' => 'Proses Manual',
                     'totalnote' => 0,
