@@ -494,6 +494,12 @@ class DepoWdController extends Controller
             } elseif ($item['status'] == 0) {
                 $item['status'] = 'pending';
             }
+
+            if ($item['jenis'] === 'DPM' || $item['jenis'] === 'DP') {
+                $item['balance'] = $item['status'] == 1 ?  $item['balance'] + $item['amount'] : $item['balance'];
+            } else {
+                $item['balance'] = $item['balance'] - $item['amount'];
+            }
         }
         return $data;
     }
