@@ -496,9 +496,9 @@ class DepoWdController extends Controller
             }
 
             if ($item['jenis'] === 'DPM' || $item['jenis'] === 'DP') {
-                $item['balance'] = $item['status'] == 'accept' ?  $item['balance'] + $item['amount'] : $item['balance'];
+                $item['balance'] = $item['status'] == 'accept' ?  floatval($item['balance']) + floatval($item['amount']) : $item['balance'];
             } else {
-                $item['balance'] = $item['status'] == 'cancel' ?  $item['balance'] + $item['amount'] : $item['balance'] - $item['amount'];
+                $item['balance'] = $item['status'] == 'cancel' ?  floatval($item['balance']) + floatval($item['amount']) : $item['balance'] - $item['amount'];
             }
         }
         return $data;
