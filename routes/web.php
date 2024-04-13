@@ -13,6 +13,8 @@ use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\DepoWdController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BankController;
+use App\Http\Controllers\Menu1Controller;
+use App\Http\Controllers\Menu2Controller;
 use App\Models\Notes;
 
 
@@ -141,5 +143,13 @@ Route::middleware(['auth'])->group(function () {
 
     /*-- Bank --*/
     Route::get('/bank', [BankController::class, 'index']);
+
+    /*-- MENU 1 --*/
+    Route::get('/menu1', [Menu1Controller::class, 'index']);
+    Route::get('/menu1/add', [Menu1Controller::class, 'create']);
+
+    /*-- MENU 2 --*/
+    Route::get('/menu2', [Menu2Controller::class, 'index']);
+    Route::get('/menu2/add', [Menu2Controller::class, 'create']);
 });
 // });
