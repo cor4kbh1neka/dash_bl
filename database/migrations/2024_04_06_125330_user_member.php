@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('domain2')->nullable();
             $table->timestamp('lastlogin3')->nullable();
             $table->string('domain3')->nullable();
+            $table->string('keterangan')->nullable();
             $table->integer('status');
             $table->timestamps();
         });

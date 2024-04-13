@@ -265,9 +265,19 @@ class DepoWdController extends Controller
     }
 
 
-    public function indexhistory()
+    public function indexhistory($jenis, $username, $tipe, $agent, $tgldari, $tglsampai)
     {
-        $datHistory = DepoWd::whereIn('status', [1, 2])->orderBy('created_at', 'desc')->get();
+        $datHistory = DepoWd::whereIn('status', [1, 2])
+            ->when($jenis, function ($query) use ($jenis) {
+                return $query->where('jenis', $jenis);
+            })
+            ->when($username, function ($query) use ($username) {
+                return $query->where('username', $username);
+            })
+            ->when($tipe, function ($query) use ($tipe) {
+                return $query->where('tipe', $tipe);
+            })
+            ->orderBy('created_at', 'desc')->get();
         return view('depowd.indexhistory', [
             'title' => 'List History',
             'data' => $datHistory,
@@ -488,9 +498,18 @@ class DepoWdController extends Controller
 
     public function getHistoryDepoWd($username)
     {
+
         $data = DepoWd::where('username', $username)
             ->select('id', 'username', 'balance', 'amount', 'jenis', 'status', 'updated_at')
+            // ->when($jenis, function ($query) use ($jenis) {
+            //     return $query->where('jenis', $jenis);
+            // })
+            // ->whereDate('created_at', '>=', '2024-01-01')
+            // ->whereDate('created_at', '<=', '2024-01-31')
+            ->orderBy('created_at', 'desc')
+            ->limit(50)
             ->get();
+
 
         foreach ($data as $item) {
             if ($item['status'] == 1) {

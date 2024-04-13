@@ -36,6 +36,6 @@ class TransactionSaldo extends Model
 
     public function bettingstatus()
     {
-        return $this->belongsTo(TransactionStatus::class, 'id', 'transtatus_id');
+        return $this->belongsTo(TransactionStatus::class, 'transtatus_id');
     }
 }
