@@ -159,3 +159,75 @@ function getDataUrl(callback) {
     });
 }
 
+// full screen
+$(document).ready(function(){
+    var isFullscreen = false;
+
+    $('.fullscreen').click(function(){
+        if (!isFullscreen) {
+            $('.title_main_content, .sec_top_navbar, .sec_sidebar, .footer').css('display', 'none');
+
+            $('.content_body').css('max-height', '100vh');
+            $('.tabelproses').css('margin-bottom', '5vh');
+
+            $('.fullscreen svg').html('<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3m8 0v-3a2 2 0 0 1 2-2h3" /></svg>');
+            
+            isFullscreen = true;
+        } else {
+            $('.title_main_content, .sec_top_navbar, .sec_sidebar, .footer').css('display', '');
+
+            $('.content_body').css('max-height', '83vh');
+            $('.tabelproses').css('margin-bottom', '20vh');
+
+            $('.fullscreen svg').html('<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16"><path fill="currentColor" d="m5.3 6.7l1.4-1.4l-3-3L5 1H1v4l1.3-1.3zm1.4 4L5.3 9.3l-3 3L1 11v4h4l-1.3-1.3zm4-1.4l-1.4 1.4l3 3L11 15h4v-4l-1.3 1.3zM11 1l1.3 1.3l-3 3l1.4 1.4l3-3L15 5V1z" /></svg>');
+            
+            isFullscreen = false;
+        }
+    });
+});
+
+// Time dashboard
+function updateDateTime() {
+    var currentDate = new Date();
+    var day = currentDate.getDate();
+    var month = currentDate.toLocaleString('default', { month: 'long' });
+    var year = currentDate.getFullYear();
+
+    var hours = currentDate.getHours();
+    var minutes = currentDate.getMinutes();
+    var seconds = currentDate.getSeconds();
+    
+    hours = (hours < 10 ? "0" : "") + hours;
+    minutes = (minutes < 10 ? "0" : "") + minutes;
+    seconds = (seconds < 10 ? "0" : "") + seconds;
+
+    document.getElementById("root_bread").textContent = day + " " + month + " " + year + " | " + hours + ":" + minutes + ":" + seconds + " WIB";
+}
+updateDateTime();
+setInterval(updateDateTime, 1000);
+
+// histori coin
+$(document).ready(function(){
+    $(".toggleshowsidedata").click(function(){
+        $(".groupdataside").toggleClass("expanded");
+        $(".sec_container_utama").toggleClass("noexpand");
+    });
+});
+
+
+// show modal
+$(document).ready(function(){
+    $('.showmodal').click(function(){
+        var target = $(this).data('modal');
+        $('.modalhistory[data-target="' + target + '"]').css('display', 'flex');
+    });
+    $('.closetrigger').click(function(){
+        $('.modalhistory').css('display', 'none');
+    });
+    $(document).mouseup(function(e) {
+        var container = $(".secmodalhistory");
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            $('.modalhistory').css('display', 'none');
+        }
+    });
+});
