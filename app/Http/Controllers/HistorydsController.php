@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
-class Menu1Controller extends Controller
+class HistorydsController extends Controller
 {
     public function index()
     {
@@ -24,18 +24,9 @@ class Menu1Controller extends Controller
                 'tempatlahir' => 'sukajadi'
             ]
         ];
-        return view('menu1.index', [
-            'title' => 'Menu 1',
+        return view('historyds.index', [
+            'title' => 'History Transaksi',
             'data' => $data,
-            'totalnote' => 0,
-        ]);
-    }
-
-    public function create()
-    {
-
-        return view('menu1.create', [
-            'title' => 'Menu 1',
             'totalnote' => 0,
         ]);
     }
