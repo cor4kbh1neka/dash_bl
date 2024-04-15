@@ -123,7 +123,7 @@ Route::middleware(['auth'])->group(function () {
 
     /*-- Deposit --*/
     Route::get('/deposit', [DepoWdController::class, 'indexdeposit']);
-    Route::get('/history', [DepoWdController::class, 'indexhistory']);
+    Route::get('/history/{jenis?}', [DepoWdController::class, 'indexhistory'])->name('history');
     Route::get('/withdrawal', [DepoWdController::class, 'indexwithdrawal']);
     Route::post('/reject', [DepoWdController::class, 'reject']);
     Route::post('/approve', [DepoWdController::class, 'approve']);
@@ -133,7 +133,11 @@ Route::middleware(['auth'])->group(function () {
     /*-- Member --*/
     Route::get('/member', [MemberController::class, 'index']);
     Route::get('/member/add', [MemberController::class, 'create']);
+    Route::get('/member/edit/{id}', [MemberController::class, 'edit']);
     Route::post('/member/store', [MemberController::class, 'store']);
+    Route::post('/member/updatemember', [MemberController::class, 'updateMember']);
+    Route::post('/member/updatepassword', [MemberController::class, 'updatePassword']);
+    Route::post('/member/updateplayer', [MemberController::class, 'updatePlayer']);
 
 
     /*-- APK --*/

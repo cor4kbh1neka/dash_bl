@@ -265,11 +265,21 @@ class DepoWdController extends Controller
     }
 
 
-    public function indexhistory($jenis, $username, $tipe, $agent, $tgldari, $tglsampai)
+    public function indexhistory(Request $request, $jenis = "")
     {
+        $username = $request->query('search_username');
+        $tipe = $request->query('search_tipe');
+        $agent = $request->query('search_agent');
+        $tgldari = $request->query('search_tgl_dari') != '' ? date('Y-m-d 00:00:00', strtotime($request->query('search_tgl_dari'))) : $request->query('search_tgl_dari');
+        $tglsampai =  $request->query('tgldari') != '' ?  date('Y-m-d 23:59:59', strtotime($request->query('tgldari'))) : $request->query('tgldari');
+
         $datHistory = DepoWd::whereIn('status', [1, 2])
             ->when($jenis, function ($query) use ($jenis) {
-                return $query->where('jenis', $jenis);
+                if ($jenis === 'M') {
+                    return $query->whereIn('jenis', ['DPM', 'WDM']);
+                } else {
+                    return $query->where('jenis', $jenis);
+                }
             })
             ->when($username, function ($query) use ($username) {
                 return $query->where('username', $username);
@@ -277,11 +287,24 @@ class DepoWdController extends Controller
             ->when($tipe, function ($query) use ($tipe) {
                 return $query->where('tipe', $tipe);
             })
+            ->when($agent, function ($query) use ($agent) {
+                return $query->where('approved_by', $agent);
+            })
+            ->when($tgldari && $tglsampai, function ($query) use ($tgldari, $tglsampai) {
+                return $query->whereBetween('created_at', [$tgldari, $tglsampai]);
+            })
             ->orderBy('created_at', 'desc')->get();
+
         return view('depowd.indexhistory', [
             'title' => 'List History',
             'data' => $datHistory,
-            'totalnote' => 0
+            'totalnote' => 0,
+            'jenis' => $jenis,
+            'username' => $username,
+            'tipe' => $tipe,
+            'agent' => $agent,
+            'tgldari' => $tgldari != '' ? date("Y-m-d", strtotime($tgldari)) : $tgldari,
+            'tglsampai' => $tglsampai != '' ? date("Y-m-d", strtotime($tglsampai)) : $tglsampai,
         ]);
     }
 

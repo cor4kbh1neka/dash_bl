@@ -38,4 +38,9 @@ class TransactionSaldo extends Model
     {
         return $this->belongsTo(TransactionStatus::class, 'transtatus_id');
     }
+
+    public function status()
+    {
+        return $this->hasOne(TransactionStatus::class, 'id', 'transtatus_id');
+    }
 }

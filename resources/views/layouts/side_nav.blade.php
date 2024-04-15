@@ -262,7 +262,7 @@
                         <path d="M15 16l0 4"></path>
                         <path d="M8 12l3 -3l2 2l3 -3"></path>
                     </svg>
-                    <span class="nav_title1">Menu 1</span>
+                    <span class="nav_title1">History Game</span>
                 </a>
             </div>
             <div class="data_sidejsx">

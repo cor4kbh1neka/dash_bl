@@ -21,7 +21,10 @@ return new class extends Migration
             $table->timestamp('lastlogin3')->nullable();
             $table->string('domain3')->nullable();
             $table->string('keterangan')->nullable();
-            $table->integer('status');
+            $table->integer('min_bet')->default(0);
+            $table->integer('max_bet')->default(0);
+            $table->integer('status')->default(0);
+            $table->integer('isparam')->default(0);
             $table->timestamps();
         });
     }
