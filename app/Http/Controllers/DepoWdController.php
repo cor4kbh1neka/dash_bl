@@ -37,6 +37,14 @@ class DepoWdController extends Controller
                 return response()->json(['errors' => $validator->errors()->all()], 400);
             }
 
+            $dataMember = Member::where('username', $request->username)->first();
+            if (!$dataMember) {
+                return response()->json([
+                    'status' => 'Fail',
+                    'message' => 'Username tidak terdaftar'
+                ], 400);
+            }
+
             $dataDepoWd = DepoWd::where('username', $request->username)->where('jenis', 'DP')->where('status', '0')->first();
             if ($dataDepoWd) {
                 return response()->json([
@@ -45,16 +53,19 @@ class DepoWdController extends Controller
                 ], 400);
             }
 
-            /* Request API check transaction */
-            $txnid = $this->generateTxnid('D');
-            if ($txnid === null) {
-                return $this->errorResponse($request->username, 'Txnid error');
+            $dataDepoWd = DepoWd::where('username', $request->username)->where('jenis', 'DP')->where('status', '1')->first();
+            if (!$dataDepoWd) {
+                Member::where('username', $request->username)
+                    ->update([
+                        'status' => '9',
+                        'is_notnew' => true,
+                    ]);
             }
 
             /* Request Ke Database Internal */
             $data = $request->all();
             $data["jenis"] = "DP";
-            $data["txnid"] = $txnid;
+            $data["txnid"] = null;
             $data["status"] = 0;
             $data["approved_by"] = null;
 
@@ -417,6 +428,7 @@ class DepoWdController extends Controller
             $ids = $request->id;
             foreach ($ids as $id) {
                 $dataDepo = DepoWd::where('id', $id)->where('status', 0)->first();
+                $txnid = $this->generateTxnid('D');
 
                 if ($dataDepo) {
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
@@ -425,7 +437,7 @@ class DepoWdController extends Controller
                             /* Request Ke API SBO Depo*/
                             $dataAPI = [
                                 "Username" => $dataDepo->username,
-                                "TxnId" => $dataDepo->txnid,
+                                "TxnId" => $txnid,
                                 "Amount" => $dataDepo->amount,
                                 "CompanyKey" => env('COMPANY_KEY'),
                                 "ServerId" => env('SERVERID')
@@ -445,6 +457,18 @@ class DepoWdController extends Controller
                                     'status' => 'Error',
                                     'message' => $resultsApi["error"]["msg"]
                                 ], 500);
+                            } else if ($resultsApi["error"]["id"] === 0) {
+                                DepoWd::where('id', $id)->update(['txnid' => $txnid]);
+                                $dataMember = Member::where('username', $dataDepo->username)
+                                    ->where('status', 9)
+                                    ->where('is_notnew', true)
+                                    ->first();
+
+                                if ($dataMember) {
+                                    $dataMember->update([
+                                        'status' => 1
+                                    ]);
+                                }
                             }
                         }
                     }

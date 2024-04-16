@@ -22,6 +22,66 @@
             <input type="text" placeholder="Cari Tabel..." id="searchTabel" />
         </div>
     </div>
+
+    <a href="/dashboard" class="nav_group">
+        <div class="title_Nav singlemenu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                    d="M11 21H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h6zm2 0h6c1.1 0 2-.9 2-2v-7h-8zm8-11V5c0-1.1-.9-2-2-2h-6v7z" />
+            </svg>
+            <span class="text_Nav">dashboard</span>
+        </div>
+    </a>
+
+    <div class="nav_group">
+        <span class="title_Nav">TRANSACTION</span>
+        <div class="list_sidejsx">
+            <div class="data_sidejsx">
+                <a href="/depositds" id="Player">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512">
+                        <path fill="currentColor"
+                            d="M95.5 104h320a87.73 87.73 0 0 1 11.18.71a66 66 0 0 0-77.51-55.56L86 94.08h-.3a66 66 0 0 0-41.07 26.13A87.57 87.57 0 0 1 95.5 104m320 24h-320a64.07 64.07 0 0 0-64 64v192a64.07 64.07 0 0 0 64 64h320a64.07 64.07 0 0 0 64-64V192a64.07 64.07 0 0 0-64-64M368 320a32 32 0 1 1 32-32a32 32 0 0 1-32 32" />
+                        <path fill="currentColor"
+                            d="M32 259.5V160c0-21.67 12-58 53.65-65.87C121 87.5 156 87.5 156 87.5s23 16 4 16s-18.5 24.5 0 24.5s0 23.5 0 23.5L85.5 236Z" />
+                    </svg>
+                    <span class="nav_title1">deposit</span>
+                    <span class="countdatapend">40</span>
+                </a>
+            </div>
+            <div class="data_sidejsx">
+                <a href="/withdrawds" id="Player">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M16 12c2.76 0 5-2.24 5-5s-2.24-5-5-5s-5 2.24-5 5s2.24 5 5 5m5.45 5.6c-.39-.4-.88-.6-1.45-.6h-7l-2.08-.73l.33-.94L13 16h2.8c.35 0 .63-.14.86-.37s.34-.51.34-.82c0-.54-.26-.91-.78-1.12L8.95 11H7v9l7 2l8.03-3c.01-.53-.19-1-.58-1.4M5 11H.984v11H5z" />
+                    </svg>
+                    <span class="nav_title1">withdraw</span>
+                    <span class="countdatapend">8</span>
+                </a>
+            </div>
+            <div class="data_sidejsx">
+                <a href="/manualds" id="Player">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M20.7 7c-.3.4-.7.7-.7 1s.3.6.6 1c.5.5 1 .9.9 1.4c0 .5-.5 1-1 1.5L16.4 16L15 14.7l4.2-4.2l-1-1l-1.4 1.4L13 7.1l4-3.8c.4-.4 1-.4 1.4 0l2.3 2.3c.4.4.4 1.1 0 1.4M3 17.2l9.6-9.6l3.7 3.8L6.8 21H3zM7 2v3h3v2H7v3H5V7H2V5h3V2z" />
+                    </svg>
+                    <span class="nav_title1">Manual</span>
+                </a>
+            </div>
+            <div class="data_sidejsx">
+                <a href="/historyds" id="Player">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2">
+                            <path d="M3 12a9 9 0 1 0 9-9a9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                            <path d="M3 3v5h5m4-1v5l4 2" />
+                        </g>
+                    </svg>
+                    <span class="nav_title1">transaction history</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div class="nav_group">
         <span class="title_Nav">APK</span>
         <div class="list_sidejsx">
@@ -62,7 +122,8 @@
                 <a href="/notice" id="Notice">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-notification">
+                        stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-notification">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M10 6h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
                         <path d="M17 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
@@ -245,7 +306,9 @@
 
         </div>
     </div>
+
     <div class="nav_group">
+
         <span class="title_Nav">DESIGN</span>
 
         <div class="list_sidejsx">

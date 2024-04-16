@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('min_bet')->default(0);
             $table->integer('max_bet')->default(0);
             $table->integer('status')->default(0);
-            $table->integer('isparam')->default(0);
+            $table->boolean('is_notnew')->default(false);
             $table->timestamps();
         });
     }

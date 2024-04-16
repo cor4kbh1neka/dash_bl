@@ -13,7 +13,11 @@ use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\DepoWdController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BankController;
-use App\Http\Controllers\Menu1Controller;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepositdsController;
+use App\Http\Controllers\WithdrawdsController;
+use App\Http\Controllers\ManualdsController;
+use App\Http\Controllers\HistorydsController;
 use App\Http\Controllers\Menu2Controller;
 use App\Models\Notes;
 
@@ -148,9 +152,22 @@ Route::middleware(['auth'])->group(function () {
     /*-- Bank --*/
     Route::get('/bank', [BankController::class, 'index']);
 
-    /*-- MENU 1 --*/
-    Route::get('/menu1', [Menu1Controller::class, 'index']);
-    Route::get('/menu1/add', [Menu1Controller::class, 'create']);
+    /*-- Dashboard --*/
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    /*-- Despositds --*/
+    Route::get('/depositds', [DepositdsController::class, 'index']);
+    Route::get('/getDataHistory/{username}', [DepositdsController::class, 'getDataHistory']);
+
+
+    /*-- Withdrawds --*/
+    Route::get('/withdrawds', [WithdrawdsController::class, 'index']);
+
+    /*-- Manualds --*/
+    Route::get('/manualds', [ManualdsController::class, 'index']);
+
+    /*-- Historyds --*/
+    Route::get('/historyds', [HistorydsController::class, 'index']);
 
     /*-- MENU 2 --*/
     Route::get('/menu2', [Menu2Controller::class, 'index']);
