@@ -2119,7 +2119,6 @@ table svg.icon-tabler-x {
     border-radius: 6px;
     display: flex;
     justify-content: space-between;
-    cursor: pointer;
     border: 1px solid rgba(var(--rgba-primary), 0.1);
     transition: all 0.3s ease;
   }
@@ -2186,7 +2185,6 @@ table svg.icon-tabler-x {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    cursor: pointer;
     gap: 30px;
     border: 1px solid rgba(var(--rgba-primary), 0.1);
     transition: all 0.3s ease;

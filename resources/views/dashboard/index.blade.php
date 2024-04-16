@@ -25,7 +25,7 @@
         </div>
         <div class="secdashboard">
             <div class="listsecdashboard">
-                <a href="/depositds" class="groupdatalistdashboard deposit">
+                <div class="groupdatalistdashboard deposit">
                     <div class="listdatagroupls">
                         <span class="countdata">540</span>
                         <span class="textdetail">total deposit accepted 15 April 2024</span>
@@ -34,7 +34,7 @@
                         <path fill="currentColor" d="M95.5 104h320a87.73 87.73 0 0 1 11.18.71a66 66 0 0 0-77.51-55.56L86 94.08h-.3a66 66 0 0 0-41.07 26.13A87.57 87.57 0 0 1 95.5 104m320 24h-320a64.07 64.07 0 0 0-64 64v192a64.07 64.07 0 0 0 64 64h320a64.07 64.07 0 0 0 64-64V192a64.07 64.07 0 0 0-64-64M368 320a32 32 0 1 1 32-32a32 32 0 0 1-32 32" />
                         <path fill="currentColor" d="M32 259.5V160c0-21.67 12-58 53.65-65.87C121 87.5 156 87.5 156 87.5s23 16 4 16s-18.5 24.5 0 24.5s0 23.5 0 23.5L85.5 236Z" />
                     </svg>
-                </a>
+                </div>
                 <div class="groupdatalistdashboard deposit">
                     <div class="listdatagroupls">
                         <span class="countdata">Rp 35.877.089</span>
@@ -78,7 +78,7 @@
                 </div>
             </div>
             <div class="listsecdashboard">
-                <a href="/withdrawds" class="groupdatalistdashboard withdraw">
+                <div class="groupdatalistdashboard withdraw">
                     <div class="listdatagroupls">
                         <span class="countdata">188</span>
                         <span class="textdetail">total withdraw accepted 15 April 2024</span>
@@ -86,7 +86,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M16 12c2.76 0 5-2.24 5-5s-2.24-5-5-5s-5 2.24-5 5s2.24 5 5 5m5.45 5.6c-.39-.4-.88-.6-1.45-.6h-7l-2.08-.73l.33-.94L13 16h2.8c.35 0 .63-.14.86-.37s.34-.51.34-.82c0-.54-.26-.91-.78-1.12L8.95 11H7v9l7 2l8.03-3c.01-.53-.19-1-.58-1.4M5 11H.984v11H5z" />
                     </svg>
-                </a>
+                </div>
                 <div class="groupdatalistdashboard withdraw">
                     <div class="listdatagroupls">
                         <span class="countdata">Rp 29.473.506</span>
