@@ -2119,7 +2119,6 @@ table svg.icon-tabler-x {
     border-radius: 6px;
     display: flex;
     justify-content: space-between;
-    cursor: pointer;
     border: 1px solid rgba(var(--rgba-primary), 0.1);
     transition: all 0.3s ease;
   }
@@ -2186,7 +2185,6 @@ table svg.icon-tabler-x {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    cursor: pointer;
     gap: 30px;
     border: 1px solid rgba(var(--rgba-primary), 0.1);
     transition: all 0.3s ease;
@@ -2922,4 +2920,39 @@ table svg.icon-tabler-x {
   }
   .grouppaginationcc .numberpage.active {
     background: var(--primary-color);
+  }
+  .getdata {
+    position: absolute;
+    right: 0;
+    display: grid;
+    grid-template-columns: 0.6fr 1fr 0.5fr;
+    align-items: center;
+    gap: 5px;
+  }
+  .getdata select {
+    background: var(--bg-box-primary);
+    box-shadow: inset 5px 5px 5px rgba(var(--rgba-black), 0.25);
+    border-radius: unset;
+    color: rgba(var(--rgba-white));
+    border: 1px solid rgba(var(--rgba-primary), 0.2);
+    text-align: left;
+    padding: 5px 10px;
+  }
+  .getdata input[type="date"] {
+    display: none;
+    border-radius: 0;
+  }
+  .getdata input.show[type="date"] {
+    display: block;
+  }
+  .getdata .tombol {
+    height: 85%;
+    border-radius: 0 5px 5px 0;
+  }
+  .getdata .tombol span {
+    font-size: 12px;
+  }
+  .groupdatalistdashboard.bet .countdata,
+  .groupdatalistdashboard.bet svg {
+    color: var(--aqua-color);
   }
