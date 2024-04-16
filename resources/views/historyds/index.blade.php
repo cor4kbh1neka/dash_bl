@@ -33,11 +33,9 @@
                         <div class="listheadhistoryds bottom one">
                             <input type="text" id="" name="" placeholder="User ID">
                             <select name="type" id="type">
-                                <option value="" selected="" place="" style="color: #838383; font-style: italic;" disabled>Tipe Transaksi</option>
-                                <option value="DP">Accept Deposit</option>
-                                <option value="DPM">Deposit Manual</option>
-                                <option value="WD">Accept Withdraw</option>
-                                <option value="WDM">Withdraw Manual</option>
+                                <option value="" selected="" place="" style="color: #838383; font-style: italic;" disabled>Status</option>
+                                <option value="accept">Accepted</option>
+                                <option value="cancel">Rejected</option>
                             </select>
                             <select name="agent" id="agent">
                                 <option value="" selected="" place="" style="color: #838383; font-style: italic;" disabled>Pilih Agent</option>
