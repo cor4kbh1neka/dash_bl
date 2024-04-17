@@ -30,9 +30,9 @@
                 @include('layouts.top_nav')
             </div>
             <div class="sec_main_konten">
-                <div class="title_main_content">
+                <!-- <div class="title_main_content">
                     {{-- <h3>GLOBAL BOLA</h3> --}}
-                </div>
+                </div> -->
                 <div class="content_body">
                     <div class="aplay_code">
                         @yield('container')

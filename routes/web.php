@@ -18,6 +18,7 @@ use App\Http\Controllers\DepositdsController;
 use App\Http\Controllers\WithdrawdsController;
 use App\Http\Controllers\ManualdsController;
 use App\Http\Controllers\HistorydsController;
+use App\Http\Controllers\MemberlistdsController;
 use App\Http\Controllers\Menu2Controller;
 use App\Models\Notes;
 
@@ -162,6 +163,10 @@ Route::middleware(['auth'])->group(function () {
 
     /*-- Historyds --*/
     Route::get('/historyds', [HistorydsController::class, 'index']);
+
+    /*-- Memberlistds --*/
+    Route::get('/memberlistds', [MemberlistdsController::class, 'index']);
+    Route::get('/memberlistds/edit', [MemberlistdsController::class, 'update']);
 
     /*-- MENU 2 --*/
     Route::get('/menu2', [Menu2Controller::class, 'index']);
