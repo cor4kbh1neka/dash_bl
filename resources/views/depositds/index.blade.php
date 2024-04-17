@@ -127,7 +127,7 @@
                                             {{ $i + 1 }}
                                         </div>
                                     </td>
-                                    <td class="check_box" onclick="toggleCheckbox('myCheckbox-0')">
+                                    <td class="check_box">
                                         <input type="checkbox" id="myCheckbox-{{ $i }}"
                                             name="myCheckbox-{{ $i }}" data-id=" {{ $d->id }}">
                                     </td>
@@ -135,7 +135,7 @@
                                         <div class="splitcollum" title="{{ $d->ketmember }}">
                                             <span class="userpending">{{ $d->username }}</span>
                                             <span class="datadetailuser showmodal" data-modal="1"
-                                                data-username="{{ $d->username }}">Deposit</span>
+                                                data-username="{{ $d->username }}" data-jenis="DP">Deposit</span>
                                         </div>
                                     </td>
                                     <td>
@@ -145,20 +145,21 @@
                                         </div>
                                     </td>
                                     <td class="valuenominal">{{ $d->amount }}</td>
-                                    <td>{{ $d->mbank }}, {{ $d->mnamarek }}, {{ $d->mnorek }}</td>
+                                    <td class="valuebank">{{ $d->mbank }}, {{ $d->mnamarek }}, {{ $d->mnorek }}
+                                    </td>
                                     <td class="valuenominal">{{ $d->balance }}</td>
-                                    <td>BRI, DAMIANUS PARSI, 472501058193535</td>
-                                    <td>{{ $d->keterangan }}</td>
+                                    <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193535</td>
+                                    <td>{{ $d->keterangan == '' ? '{ Maksimal 20 karakter }' : $d->keterangan }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                     <div class="groupbuttonproses">
-                        <button class="tombol proses">
-                            <span class="texttombol" id="approve">PROSES</span>
+                        <button class="tombol proses" id="approve">
+                            <span class="texttombol">PROSES</span>
                         </button>
-                        <button class="tombol cancel">
-                            <span class="texttombol" id="reject">REJECT</span>
+                        <button class="tombol cancel" id="reject">
+                            <span class="texttombol">REJECT</span>
                         </button>
                     </div>
                 </div>
@@ -284,7 +285,7 @@
                         </table>
                         <div class="informasihistorycoin">
                             <span>*data yang di tampilkan saat ini, selengkapnya di menu <a
-                                    href="#">history</a></span>
+                                    href="/historyds">history</a></span>
                         </div>
                     </div>
                 </div>
@@ -333,7 +334,8 @@
                         </tbody>
                     </table>
                     <div class="informasihistorycoin">
-                        <span>*data yang di tampilkan saat ini, selengkapnya di menu <a href="#">history</a></span>
+                        <span>*data yang di tampilkan saat ini, selengkapnya di menu <a
+                                href="/historyds">history</a></span>
                     </div>
                 </div>
             </div>
@@ -416,7 +418,7 @@
                                     showConfirmButton: false,
                                     timer: 1500
                                 }).then(function() {
-                                    window.location.href = "/deposit";
+                                    window.location.href = "/depositds/DP";
                                 });
                             },
                             error: function(xhr) {
@@ -491,7 +493,7 @@
                                     showConfirmButton: false,
                                     timer: 1500
                                 }).then(function() {
-                                    window.location.href = "/deposit";
+                                    window.location.href = "/depositds/DP";
                                 });
                             },
                             error: function(xhr) {
@@ -511,6 +513,5 @@
                 });
             });
         });
-    </script>
     </script>
 @endsection

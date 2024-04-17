@@ -7,9 +7,9 @@ use GuzzleHttp\Psr7\Request;
 
 class DepositdsController extends Controller
 {
-    public function index()
+    public function index($jenis)
     {
-        $dataTransaksi = DepoWd::whereIn('status', [1, 2])->get()
+        $dataTransaksi = DepoWd::whereIn('status', [1, 2])->where('jenis', $jenis)->orderBy('updated_at', 'DESC')->get()
             ->map(function ($item) {
                 $timestamp = explode(' ', $item->created_at);
                 $item['date'] = date('d-m-Y', strtotime($timestamp[0]));
@@ -27,8 +27,8 @@ class DepositdsController extends Controller
         $data = DepoWd::join('member', 'depo_wd.username', '=', 'member.username')
             ->select('depo_wd.*', 'member.status as statususer', 'member.keterangan as ketmember')
             ->where('depo_wd.status', 0)
-            ->where('depo_wd.jenis', 'DP')
-            ->orderBy('depo_wd.created_at', 'desc')
+            ->where('depo_wd.jenis', $jenis)
+            ->orderBy('depo_wd.created_at', 'ASC')
             ->get()
             ->map(function ($item) {
                 $timestamp = explode(' ', $item->created_at);
@@ -65,9 +65,16 @@ class DepositdsController extends Controller
         $linkaja = $bankCounts->get('LINKAJA') == '' ? 0 : $bankCounts->get('LINKAJA');
         $totalBankcounts = $bankCounts->sum();
 
+        if ($jenis == 'WD') {
+            $path = 'withdrawds.index';
+            $title = 'Withdrawal';
+        } else {
+            $path = 'depositds.index';
+            $title = 'Deposit';
+        }
 
-        return view('depositds.index', [
-            'title' => 'Deposit',
+        return view($path, [
+            'title' => $title,
             'data' => $data,
             'bankCounts' => $bankCounts,
             'totalnote' => 0,
@@ -91,13 +98,9 @@ class DepositdsController extends Controller
         ]);
     }
 
-    public function proses(Request $request)
+    public function getDataHistory($username, $jenis)
     {
-    }
-
-    public function getDataHistory($username)
-    {
-        $dataHistory = DepoWd::where('username', $username)->whereIn('status', [1, 2])->get()
+        $dataHistory = DepoWd::where('username', $username)->whereIn('status', [1, 2])->where('jenis', $jenis)->get()
             ->map(function ($item) {
                 $item['amount'] = number_format($item->amount * 1000, 0, '.', ',');
                 return $item;

@@ -19,6 +19,7 @@ use App\Http\Controllers\WithdrawdsController;
 use App\Http\Controllers\ManualdsController;
 use App\Http\Controllers\HistorydsController;
 use App\Http\Controllers\Menu2Controller;
+use App\Models\DepoWd;
 use App\Models\Notes;
 
 
@@ -34,8 +35,12 @@ Route::get('/', function () {
 
 /* Dashboard */
 Route::get('/dashboard', function () {
+    $countDataWD = DepoWd::where('jenis', 'DP')->where('status', 0)->count();
+    $countDataDP = DepoWd::where('jenis', 'WD')->where('status', 0)->count();
     return view('layouts.index', [
         'title' => 'dashboard',
+        'countWD' => $countDataWD,
+        'countDP' => $countDataDP,
         'totalnote' => 0
     ]);
 })->middleware('auth');
@@ -156,18 +161,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
     /*-- Despositds --*/
-    Route::get('/depositds', [DepositdsController::class, 'index']);
-    Route::get('/getDataHistory/{username}', [DepositdsController::class, 'getDataHistory']);
+    Route::get('/depositds/{jenis}', [DepositdsController::class, 'index']);
+    Route::get('/getDataHistory/{username}/{jenis}', [DepositdsController::class, 'getDataHistory']);
+    Route::get('/getbalance/{username}', [DepoWdController::class, 'getBalancePlayer']);
 
 
     /*-- Withdrawds --*/
     Route::get('/withdrawds', [WithdrawdsController::class, 'index']);
 
     /*-- Manualds --*/
-    Route::get('/manualds', [ManualdsController::class, 'index']);
+    Route::get('/manualds', [ManualdsController::class, 'index'])->name('manualds');
 
     /*-- Historyds --*/
-    Route::get('/historyds', [HistorydsController::class, 'index']);
+    Route::get('/historyds/{jenis?}', [HistorydsController::class, 'index']);
 
     /*-- MENU 2 --*/
     Route::get('/menu2', [Menu2Controller::class, 'index']);

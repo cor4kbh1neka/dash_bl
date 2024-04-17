@@ -359,8 +359,14 @@ class DepoWdController extends Controller
                 $data["mnorek"] = "";
                 $data["txnid"] = $txnid;
                 $data["status"] = 1;
-                $data["balance"] = $this->reqApiBalance($request->username)["balance"] + $this->saldoBerjalan($request->username);
+                $data["balance"] = $data["saldo"];
                 $data["approved_by"] = Auth::user()->username;
+
+                if ($data["jenis"] == 'WDM') {
+                    if ($data["saldo"] < $data["amount"]) {
+                        return $this->errorResponse($request->username, 'Balance tidak mencukupi');
+                    }
+                }
                 $result = DepoWd::create($data);
 
                 if ($result) {
@@ -378,7 +384,7 @@ class DepoWdController extends Controller
                         $dataAPI["IsFullAmount"] = false;
                         $req = $this->requestApi('withdraw', $dataAPI);
                     } else {
-                        return view('depowd.indexmanual', [
+                        return redirect()->route('manualds')->with([
                             'title' => 'Proses Manual',
                             'totalnote' => 0,
                             'jenis' => $request->jenis,
@@ -387,7 +393,7 @@ class DepoWdController extends Controller
                         ]);
                     }
                     if ($req["error"]["id"] !== 0) {
-                        return view('depowd.indexmanual', [
+                        return redirect()->route('manualds')->with([
                             'title' => 'Proses Manual',
                             'totalnote' => 0,
                             'jenis' => $request->jenis,
@@ -395,7 +401,7 @@ class DepoWdController extends Controller
                             'message' => 'Gagal melakukan transaksi!'
                         ]);
                     }
-                    return view('depowd.indexmanual', [
+                    return redirect()->route('manualds')->with([
                         'title' => 'Proses Manual',
                         'totalnote' => 0,
                         'jenis' => $result->jenis,
@@ -403,7 +409,7 @@ class DepoWdController extends Controller
                         'message' => 'Transaksi berhasil!'
                     ]);
                 }
-                return view('depowd.indexmanual', [
+                return redirect()->route('manualds')->with([
                     'title' => 'Proses Manual',
                     'totalnote' => 0,
                     'jenis' => $request->jenis,
@@ -411,7 +417,7 @@ class DepoWdController extends Controller
                     'message' => 'Gagal melakukan transaksi!'
                 ]);
             } catch (\Exception $e) {
-                return view('depowd.indexmanual', [
+                return redirect()->route('manualds')->with([
                     'title' => 'Proses Manual',
                     'totalnote' => 0,
                     'jenis' => $request->jenis,
@@ -677,5 +683,18 @@ class DepoWdController extends Controller
             $transactionTransactions = $transactionTransactions->concat($transactions);
         }
         return $transactionTransactions;
+    }
+
+    public function getBalancePlayer($username)
+    {
+        try {
+            $apiBalance = $this->reqApiBalance($username)["balance"];
+            $saldoBerjalan = $this->saldoBerjalan($username);
+
+            return $apiBalance + $saldoBerjalan;
+        } catch (\Exception $e) {
+            $errorMessage = 'Terjadi kesalahan: ' . $e->getMessage();
+            return response()->json(['error' => $errorMessage], 500);
+        }
     }
 }

@@ -220,6 +220,7 @@ $(document).ready(function () {
     $('.showmodal').click(function () {
         var target = $(this).data('modal');
         var username = $(this).data('username');
+        var jenis = $(this).data('jenis');
 
         var title = "RIWAYAT DEPOSIT USER: " + username;
         $(".titlemodalhistory").text(title);
@@ -227,7 +228,7 @@ $(document).ready(function () {
         // Tampilkan indikator loading
         $("#loadingIndicator").show();
 
-        $.getJSON('/getDataHistory/' + username, function (data) {
+        $.getJSON('/getDataHistory/' + username + '/' + jenis, function (data) {
             $("#dataTableHistory").empty();
 
             $.each(data, function (index, response) {
@@ -239,7 +240,7 @@ $(document).ready(function () {
 
                 newRow.append("<td>" + response.username + "</td>");
                 newRow.append("<td class='hsjenistrans'>" + tanggal + "</td>");
-                newRow.append("<td class='hsjenistrans'>" + response.mbank + ", " + response.mnamarek + ", " + response.mnamabank + "</td>");
+                newRow.append("<td class='hsjenistrans'>" + response.mbank.toUpperCase() + ", " + response.mnamarek.toUpperCase() + ", " + response.mnorek.toUpperCase() + "</td>");
                 newRow.append("<td>" + response.amount + "</td>");
                 newRow.append("<td class='hsjenistrans' data-proses='" + (response.status == 1 ? "accept" : "cancel") + "'>" + (response.status == 1 ? "Accept Deposit" : "Reject Deposit") + "</td>");
 
@@ -261,10 +262,44 @@ $(document).ready(function () {
     $('.closetrigger').click(function () {
         $('.modalhistory').css('display', 'none');
     });
+
+
     $(document).mouseup(function (e) {
         var container = $(".secmodalhistory");
         if (!container.is(e.target) && container.has(e.target).length === 0) {
             $('.modalhistory').css('display', 'none');
         }
     });
+
+    $(document).ready(function () {
+        $('.listbankproses input[type="checkbox"]').on('click', function () {
+            var checkedIds = [];
+
+            $('.listbankproses input[type="checkbox"]:checked').each(function () {
+                var checkboxId = $(this).attr('id');
+                var idWithoutCheckbox = checkboxId.split('Checkbox')[0];
+                checkedIds.push(idWithoutCheckbox);
+            });
+
+            if (checkedIds.length === 0) {
+                $('.tabelproses tr').show();
+            } else {
+                $('.tabelproses tr').each(function () {
+                    if ($(this).hasClass('hdtable')) {
+                        return true;
+                    }
+
+                    var dataBank = $(this).data('bank');
+                    if (checkedIds.includes(dataBank)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                        $(this).find('input[type="checkbox"]').prop('checked', false);
+                    }
+                });
+            }
+        });
+    });
+
 });
+
