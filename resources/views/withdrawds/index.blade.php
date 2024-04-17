@@ -121,7 +121,7 @@
                                 </td>
                                 <td class="valuenominal">100,000</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193535</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193535</td>
                             </tr>
                             <tr>
                                 <td>
@@ -144,7 +144,7 @@
                                 </td>
                                 <td class="valuenominal">100,00,000</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                             </tr>
                             <tr>
                                 <td>
@@ -167,7 +167,7 @@
                                 </td>
                                 <td class="valuenominal">100,00,000</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                             </tr>
                             <tr>
                                 <td>
@@ -190,7 +190,7 @@
                                 </td>
                                 <td class="valuenominal">100,00,000</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                             </tr>
                             <tr>
                                 <td>
@@ -213,7 +213,7 @@
                                 </td>
                                 <td class="valuenominal">100,00,000</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                             </tr>
                             <tr>
                                 <td>
@@ -236,7 +236,7 @@
                                 </td>
                                 <td class="valuenominal">100,00,000</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                             </tr>
                             <tr>
                                 <td>
@@ -259,7 +259,7 @@
                                 </td>
                                 <td class="valuenominal">100,00,000</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                             </tr>
                             <tr>
                                 <td>
@@ -282,7 +282,7 @@
                                 </td>
                                 <td class="valuenominal">100,00,000</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                             </tr>
                             <tr>
                                 <td>
@@ -305,7 +305,7 @@
                                 </td>
                                 <td class="valuenominal">100,00,000</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                             </tr>
                             <tr>
                                 <td>
@@ -328,7 +328,7 @@
                                 </td>
                                 <td class="valuenominal">100,00,000</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                             </tr>
                             <tr>
                                 <td>
@@ -351,7 +351,7 @@
                                 </td>
                                 <td class="valuenominal">100,00,000</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                             </tr>
                             <tr>
                                 <td>
@@ -374,7 +374,7 @@
                                 </td>
                                 <td class="valuenominal">100,00,000</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                             </tr>
                             <tr>
                                 <td>
@@ -397,7 +397,7 @@
                                 </td>
                                 <td class="valuenominal">100,00,000</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                             </tr>
                             <tr>
                                 <td>
@@ -420,7 +420,7 @@
                                 </td>
                                 <td class="valuenominal">100,00,000</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                             </tr>
                             <tr>
                                 <td>
@@ -443,7 +443,7 @@
                                 </td>
                                 <td class="valuenominal">100,00,000</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                             </tr>
                         </tbody>
                     </table>
