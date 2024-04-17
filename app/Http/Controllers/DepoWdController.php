@@ -697,4 +697,17 @@ class DepoWdController extends Controller
             return response()->json(['error' => $errorMessage], 500);
         }
     }
+
+    public function getCountDataDPW()
+    {
+        $countDataWD = DepoWd::where('jenis', 'DP')->where('status', 0)->count();
+        $countDataDP = DepoWd::where('jenis', 'WD')->where('status', 0)->count();
+
+        $data = [
+            'dataWD' => $countDataWD,
+            'dataDP' => $countDataDP
+        ];
+
+        return $data;
+    }
 }

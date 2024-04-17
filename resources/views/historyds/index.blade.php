@@ -133,8 +133,8 @@
                             <span class="numberpage">3</span>
                             <span class="numberpage">4</span>
                             <span class="numberpage">5</span>
-                            {{-- <span class="numberpage">...</span>
-                            <span class="numberpage">12</span> --}}
+                            <span class="numberpage">...</span>
+                            <span class="numberpage">12</span>
                         </div>
                     </div>
 
@@ -175,7 +175,7 @@
                 var currentPage = getCurrentPageNumber();
                 var prevPage = currentPage - 1;
                 if (prevPage >= 1) {
-                    window.location.href = "/historyds?page=" + prevPage;
+                    updatePageQuery(prevPage);
                 }
             });
 
@@ -183,21 +183,26 @@
                 var currentPage = getCurrentPageNumber();
                 var nextPage = currentPage + 1;
                 if (nextPage <= 5) {
-                    window.location.href = "/historyds?page=" + nextPage;
+                    updatePageQuery(nextPage);
                 }
             });
 
             function getCurrentPageNumber() {
-                var url = window.location.href;
-                var pageNumber = url.match(/[?&]page=(\d+)/);
-                return pageNumber ? parseInt(pageNumber[1]) :
-                    1;
+                var urlParams = new URLSearchParams(window.location.search);
+                return parseInt(urlParams.get("page")) || 1;
             }
 
             $(".numberpage").click(function() {
                 var pageNumber = $(this).text();
-                window.location.href = "?page=" + pageNumber;
+                updatePageQuery(pageNumber);
             });
+
+            function updatePageQuery(pageNumber) {
+                var url = new URL(window.location.href);
+                var searchParams = url.searchParams;
+                searchParams.set("page", pageNumber);
+                window.location.href = url.toString();
+            }
         });
 
         $(document).ready(function() {

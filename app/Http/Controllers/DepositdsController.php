@@ -100,11 +100,20 @@ class DepositdsController extends Controller
 
     public function getDataHistory($username, $jenis)
     {
-        $dataHistory = DepoWd::where('username', $username)->whereIn('status', [1, 2])->where('jenis', $jenis)->get()
-            ->map(function ($item) {
-                $item['amount'] = number_format($item->amount * 1000, 0, '.', ',');
-                return $item;
-            });
+        if ($jenis == "ALL") {
+            $dataHistory = DepoWd::where('username', $username)->whereIn('status', [1, 2])->get()
+                ->map(function ($item) {
+                    $item['amount'] = number_format($item->amount * 1000, 0, '.', ',');
+                    return $item;
+                });
+        } else {
+            $dataHistory = DepoWd::where('username', $username)->whereIn('status', [1, 2])->where('jenis', $jenis)->get()
+                ->map(function ($item) {
+                    $item['amount'] = number_format($item->amount * 1000, 0, '.', ',');
+                    return $item;
+                });
+        }
+
 
         return $dataHistory;
     }

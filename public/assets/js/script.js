@@ -229,22 +229,42 @@ $(document).ready(function () {
         $("#loadingIndicator").show();
 
         $.getJSON('/getDataHistory/' + username + '/' + jenis, function (data) {
-            $("#dataTableHistory").empty();
+            // Mengosongkan elemen-elemen di bawah baris "hdtable" (tetapi tidak termasuk baris itu sendiri)
+            $(".hdtable").nextUntil(":not(.hdtable)").remove();
 
             $.each(data, function (index, response) {
-                var newRow = $("<tr>");
+                if (jenis != 'ALL') {
+                    var newRow = $("<tr class='hdtable'>");
 
-                var date = new Date(response.created_at);
-                var options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-                var tanggal = date.toLocaleString('id-ID', options);
+                    var date = new Date(response.created_at);
+                    var options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+                    var tanggal = date.toLocaleString('id-ID', options);
 
-                newRow.append("<td>" + response.username + "</td>");
-                newRow.append("<td class='hsjenistrans'>" + tanggal + "</td>");
-                newRow.append("<td class='hsjenistrans'>" + response.mbank.toUpperCase() + ", " + response.mnamarek.toUpperCase() + ", " + response.mnorek.toUpperCase() + "</td>");
-                newRow.append("<td>" + response.amount + "</td>");
-                newRow.append("<td class='hsjenistrans' data-proses='" + (response.status == 1 ? "accept" : "cancel") + "'>" + (response.status == 1 ? "Accept Deposit" : "Reject Deposit") + "</td>");
+                    newRow.append("<td>" + response.username + "</td>");
+                    newRow.append("<td class='hsjenistrans'>" + tanggal + "</td>");
+                    newRow.append("<td class='hsjenistrans'>" + response.mbank.toUpperCase() + ", " + response.mnamarek.toUpperCase() + ", " + response.mnorek.toUpperCase() + "</td>");
+                    newRow.append("<td>" + response.amount + "</td>");
+                    newRow.append("<td class='hsjenistrans' data-proses='" + (response.status == 1 ? "accept" : "cancel") + "'>" + (response.status == 1 ? "Accept Deposit" : "Reject Deposit") + "</td>");
 
-                $("#dataTableHistory").append(newRow);
+                    $("#dataTableHistory").append(newRow);
+                } else {
+                    var newRow = $("<tr class='hdtable'>");
+
+                    var date = new Date(response.created_at);
+                    var options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+                    var tanggal = date.toLocaleString('id-ID', options);
+
+                    newRow.append("<td class='hsjenistrans'>" + (index + 1) + "</td>");
+                    newRow.append("<td class='hsjenistrans'>" + tanggal + "</td>");
+                    newRow.append("<td class='hsjenistrans' data-proses='" + (response.status == 1 ? "accept" : "cancel") + "'>" + (response.status == 1 ? "Accept Deposit" : "Reject Deposit") + "</td>");
+                    newRow.append("<td>" + response.approved_by + "</td>");
+                    newRow.append("<td>" + response.amount + "</td>");
+                    newRow.append("<td>" + response.balance + "</td>");
+
+
+
+                    $("#dataTableHistory").append(newRow);
+                }
             });
 
             $("#loadingIndicator").hide();

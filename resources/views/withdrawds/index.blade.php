@@ -111,7 +111,8 @@
                                 <th class="bagnominal">Sisa Saldo</th>
                                 <th>Transfer ke</th>
                             </tr>
-                            @foreach ($data as $i => $d)
+
+                            {{-- @foreach ($data as $i => $d)
                                 <tr data-bank="{{ $d->bank }}">
                                     <td>
                                         <div class="statusmember" data-status="{{ $d->statususer }}">{{ $i + 1 }}
@@ -137,6 +138,36 @@
                                     <td class="valuenominal">{{ $d->amount }}</td>
                                     <td class="valuenominal">{{ $d->balance }}</td>
                                     <td>{{ $d->mbank }}, {{ $d->mnamarek }}, {{ $d->mnorek }}</td>
+                                </tr>
+                            @endforeach --}}
+
+                            @foreach ($data as $i => $d)
+                                <tr>
+                                    <td>
+                                        <div class="statusmember" data-status="{{ $d->statususer }}">{{ $i + 1 }}
+                                        </div>
+                                    </td>
+                                    <td class="check_box" onclick="toggleCheckbox('myCheckbox-{{ $i }}')">
+                                        <input type="checkbox" id="myCheckbox-{{ $i }}"
+                                            name="myCheckbox-{{ $i }}" data-id="{{ $d->id }}">
+                                    </td>
+                                    <td>
+                                        <div class="splitcollum" title="{{ $d->ketmember }}">
+                                            <span class="userpending">{{ $d->username }}</span>
+                                            <span class="datadetailuser showmodal" data-modal="1"
+                                                data-username="{{ $d->username }}" data-jenis="WD">Withdraw</span>
+                                        </div>
+                                    </td>
+                                    <td class="splitcollum">
+                                        <div class="splitcollum">
+                                            <span class="tanggal">{{ $d->date }} </span>
+                                            <span class="waktu">{{ $d->time }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="valuenominal">{{ $d->amount }}</td>
+                                    <td class="valuenominal">{{ $d->balance }}</td>
+                                    <td class="valuebank">{{ $d->mbank }}, {{ $d->mnamarek }}, {{ $d->mnorek }}
+                                    </td>
                                 </tr>
                             @endforeach
 
@@ -164,56 +195,6 @@
                                     <th class="bagnominal">jumlah</th>
                                     <th>status</th>
                                 </tr>
-                                <tr>
-                                    <td>thanos989898</td>
-                                    <td class="hsjenistrans">2024-04-05 21:09:03</td>
-                                    <td class="hsjenistrans">BRI, DAMIANUS PARSI, 472501058193536</td>
-                                    <td>100,000</td>
-                                    <td class="hsjenistrans" data-proses="accept">Accept Withdraw</td>
-                                </tr>
-                                <tr>
-                                    <td>thanos989898</td>
-                                    <td class="hsjenistrans">2024-04-05 21:08:03</td>
-                                    <td class="hsjenistrans">BRI, DAMIANUS PARSI, 472501058193536</td>
-                                    <td>100,000</td>
-                                    <td class="hsjenistrans" data-proses="cancel">Reject Withdraw</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="informasihistorycoin">
-                            <span>*data yang di tampilkan saat ini, selengkapnya di menu <a
-                                    href="/historyds">history</a></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="modalhistory" data-target="2">
-                    <div class="secmodalhistory">
-                        <span class="closetrigger">x</span>
-                        <span class="titlemodalhistory">RIWAYAT WITHDRAW USER : lontong989898</span>
-                        <table>
-                            <tbody>
-                                <tr class="hdtable">
-                                    <th class="baguser">user</th>
-                                    <th class="bagtanggal">tanggal</th>
-                                    <th class="transfer">transfer dari</th>
-                                    <th class="bagnominal">jumlah</th>
-                                    <th>status</th>
-                                </tr>
-                                <tr>
-                                    <td>lontong989898</td>
-                                    <td class="hsjenistrans">2024-04-05 21:09:03</td>
-                                    <td class="hsjenistrans">BRI, DAMIANUS PARSI, 472501058193536</td>
-                                    <td>100,000</td>
-                                    <td class="hsjenistrans" data-proses="accept">Accept Withdraw</td>
-                                </tr>
-                                <tr>
-                                    <td>lontong989898</td>
-                                    <td class="hsjenistrans">2024-04-05 21:08:03</td>
-                                    <td class="hsjenistrans">BRI, DAMIANUS PARSI, 472501058193536</td>
-                                    <td>100,000</td>
-                                    <td class="hsjenistrans" data-proses="cancel">Reject Withdraw</td>
-                                </tr>
-
                             </tbody>
                         </table>
                         <div class="informasihistorycoin">

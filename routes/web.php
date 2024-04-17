@@ -18,6 +18,7 @@ use App\Http\Controllers\DepositdsController;
 use App\Http\Controllers\WithdrawdsController;
 use App\Http\Controllers\ManualdsController;
 use App\Http\Controllers\HistorydsController;
+use App\Http\Controllers\MemberlistdsController;
 use App\Http\Controllers\Menu2Controller;
 use App\Models\DepoWd;
 use App\Models\Notes;
@@ -35,12 +36,8 @@ Route::get('/', function () {
 
 /* Dashboard */
 Route::get('/dashboard', function () {
-    $countDataWD = DepoWd::where('jenis', 'DP')->where('status', 0)->count();
-    $countDataDP = DepoWd::where('jenis', 'WD')->where('status', 0)->count();
     return view('layouts.index', [
         'title' => 'dashboard',
-        'countWD' => $countDataWD,
-        'countDP' => $countDataDP,
         'totalnote' => 0
     ]);
 })->middleware('auth');
@@ -148,7 +145,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/member/updatepassword', [MemberController::class, 'updatePassword']);
     Route::post('/member/updateplayer', [MemberController::class, 'updatePlayer']);
 
-
     /*-- APK --*/
     Route::get('/setting', [SettingsController::class, 'indexsetting']);
     Route::get('/event', [SettingsController::class, 'indexevent']);
@@ -164,6 +160,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/depositds/{jenis}', [DepositdsController::class, 'index']);
     Route::get('/getDataHistory/{username}/{jenis}', [DepositdsController::class, 'getDataHistory']);
     Route::get('/getbalance/{username}', [DepoWdController::class, 'getBalancePlayer']);
+    Route::get('/datacountwdp', [DepoWdController::class, 'getCountDataDPW']);
 
 
     /*-- Withdrawds --*/
@@ -174,6 +171,11 @@ Route::middleware(['auth'])->group(function () {
 
     /*-- Historyds --*/
     Route::get('/historyds/{jenis?}', [HistorydsController::class, 'index']);
+
+    /*-- Memberlistds --*/
+    Route::get('/memberlistds', [MemberlistdsController::class, 'index']);
+    Route::get('/memberlistds/edit/{id}', [MemberlistdsController::class, 'update']);
+    Route::post('/user/update', [MemberController::class, 'updateUser']);
 
     /*-- MENU 2 --*/
     Route::get('/menu2', [Menu2Controller::class, 'index']);
