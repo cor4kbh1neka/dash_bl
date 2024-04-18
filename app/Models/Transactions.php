@@ -38,4 +38,10 @@ class Transactions extends Model
     {
         return $this->hasMany(TransactionStatus::class, 'trans_id', 'id');
     }
+
+    // public function latestStatus()
+    // {
+    //     return $this->hasOne(TransactionStatus::class, 'trans_id', 'id')
+    //         ->latest('created_at');
+    // }
 }

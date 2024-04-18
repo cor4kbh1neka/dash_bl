@@ -13,8 +13,14 @@ use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\DepoWdController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BankController;
-use App\Http\Controllers\Menu1Controller;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepositdsController;
+use App\Http\Controllers\WithdrawdsController;
+use App\Http\Controllers\ManualdsController;
+use App\Http\Controllers\HistorydsController;
+use App\Http\Controllers\MemberlistdsController;
 use App\Http\Controllers\Menu2Controller;
+use App\Models\DepoWd;
 use App\Models\Notes;
 
 
@@ -23,7 +29,7 @@ use App\Models\Notes;
 
 Route::get('/', function () {
     if (Auth::check()) {
-        return redirect()->intended('/dashboard');
+        return redirect()->intended('/deposit');
     }
     return redirect()->intended('/login');
 });
@@ -123,7 +129,7 @@ Route::middleware(['auth'])->group(function () {
 
     /*-- Deposit --*/
     Route::get('/deposit', [DepoWdController::class, 'indexdeposit']);
-    Route::get('/history', [DepoWdController::class, 'indexhistory']);
+    Route::get('/history/{jenis?}', [DepoWdController::class, 'indexhistory'])->name('history');
     Route::get('/withdrawal', [DepoWdController::class, 'indexwithdrawal']);
     Route::post('/reject', [DepoWdController::class, 'reject']);
     Route::post('/approve', [DepoWdController::class, 'approve']);
@@ -133,8 +139,11 @@ Route::middleware(['auth'])->group(function () {
     /*-- Member --*/
     Route::get('/member', [MemberController::class, 'index']);
     Route::get('/member/add', [MemberController::class, 'create']);
+    Route::get('/member/edit/{id}', [MemberController::class, 'edit']);
     Route::post('/member/store', [MemberController::class, 'store']);
-
+    Route::post('/member/updatemember', [MemberController::class, 'updateMember']);
+    Route::post('/member/updatepassword', [MemberController::class, 'updatePassword']);
+    Route::post('/member/updateplayer', [MemberController::class, 'updatePlayer']);
 
     /*-- APK --*/
     Route::get('/setting', [SettingsController::class, 'indexsetting']);
@@ -144,9 +153,29 @@ Route::middleware(['auth'])->group(function () {
     /*-- Bank --*/
     Route::get('/bank', [BankController::class, 'index']);
 
-    /*-- MENU 1 --*/
-    Route::get('/menu1', [Menu1Controller::class, 'index']);
-    Route::get('/menu1/add', [Menu1Controller::class, 'create']);
+    /*-- Dashboard --*/
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    /*-- Despositds --*/
+    Route::get('/depositds/{jenis}', [DepositdsController::class, 'index']);
+    Route::get('/getDataHistory/{username}/{jenis}', [DepositdsController::class, 'getDataHistory']);
+    Route::get('/getbalance/{username}', [DepoWdController::class, 'getBalancePlayer']);
+    Route::get('/datacountwdp', [DepoWdController::class, 'getCountDataDPW']);
+
+
+    /*-- Withdrawds --*/
+    Route::get('/withdrawds', [WithdrawdsController::class, 'index']);
+
+    /*-- Manualds --*/
+    Route::get('/manualds', [ManualdsController::class, 'index'])->name('manualds');
+
+    /*-- Historyds --*/
+    Route::get('/historyds/{jenis?}', [HistorydsController::class, 'index']);
+
+    /*-- Memberlistds --*/
+    Route::get('/memberlistds', [MemberlistdsController::class, 'index']);
+    Route::get('/memberlistds/edit/{id}', [MemberlistdsController::class, 'update']);
+    Route::post('/memberlistds/updateuser', [MemberlistdsController::class, 'updateUser']);
 
     /*-- MENU 2 --*/
     Route::get('/menu2', [Menu2Controller::class, 'index']);
