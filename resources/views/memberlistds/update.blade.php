@@ -18,7 +18,9 @@
         <div class="seceditmemberds">
             <div class="groupseceditmemberds">
                 <spann class="titleeditmemberds">player information</spann>
-                <form class="groupplayerinfo" data-statusakun="9">
+                <form action="/memberlistds/updateuser" method="POST" class="groupplayerinfo" data-statusakun="9"
+                    id="form-user">
+                    @csrf
                     <div class="listgroupplayerinfo left">
                         <div class="listplayerinfo">
                             <label for="xyusernamexxy">username</label>
@@ -37,9 +39,9 @@
                             </div>
                         </div>
                         <div class="listplayerinfo">
-                            <label for="namarek">nama rekening</label>
+                            <label for="xybankuserxy">nama rekening</label>
                             <div class="groupeditinput">
-                                <input type="text" readonly id="namarek" name="namarek"
+                                <input type="text" readonly id="xybankuserxy" name="xybankuserxy"
                                     value="{{ $datauser['xybankuserxy'] }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                                     <path fill="currentColor"
@@ -48,9 +50,9 @@
                             </div>
                         </div>
                         <div class="listplayerinfo">
-                            <label for="nomorrek">nomor rekening</label>
+                            <label for="xxybanknumberxy">nomor rekening</label>
                             <div class="groupeditinput">
-                                <input type="text" readonly id="nomorrek" name="nomorrek"
+                                <input type="text" readonly id="xxybanknumberxy" name="xxybanknumberxy"
                                     value="{{ $datauser['xxybanknumberxy'] }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                                     <path fill="currentColor"
@@ -59,19 +61,20 @@
                             </div>
                         </div>
                         <div class="listplayerinfo">
-                            <label for="email">email</label>
-                            <input class="nosabel" readonly type="text" id="email" name="email"
+                            <label for="xyx11xuser_mailxxyy">xyx11xuser_mailxxyy</label>
+                            <input class="nosabel" readonly type="text" id="xyx11xuser_mailxxyy"
+                                name="xyx11xuser_mailxxyy"
                                 value="{{ substr_replace($datauser['xyx11xuser_mailxxyy'], str_repeat('*', 5), 0, 5) }}">
                         </div>
                         <div class="listplayerinfo">
-                            <label for="nomorhp">nomor hp</label>
-                            <input class="nosabel" readonly type="text" id="nomorhp" name="nomorhp"
+                            <label for="xynumbphonexyyy">nomor hp</label>
+                            <input class="nosabel" readonly type="text" id="xynumbphonexyyy" name="xynumbphonexyyy"
                                 value="{{ substr_replace($datauser['xynumbphonexyyy'], str_repeat('*', 5), 0, 5) }}">
                         </div>
                         <div class="listplayerinfogrp">
                             <div class="datalistplayerinfogrp">
-                                <label for="groupdp">group bank deposit</label>
-                                <select name="groupdp" id="groupdp" value="groupbank1">
+                                <label for="group">group bank deposit</label>
+                                <select name="group" id="group">
                                     <option value="" place="" style="color: #838383; font-style: italic;"
                                         disabled="">pilih group</option>
                                     <option value="groupbank1" {{ $datauser['group'] == 'groupbank1' ? 'selected' : '' }}>
@@ -86,7 +89,7 @@
                             </div>
                             <div class="datalistplayerinfogrp">
                                 <label for="groupwd">group bank withdraw</label>
-                                <select name="groupwd" id="groupwd" value="groupbank1">
+                                <select name="groupwd" id="groupwd">
                                     <option value="" place="" style="color: #838383; font-style: italic;"
                                         disabled="">pilih group</option>
                                     <option value="groupbank1"
@@ -116,7 +119,7 @@
                 </form>
                 <spann class="titleeditmemberds change">cange data player</spann>
                 <div class="groupchangedataplayer">
-                    <div class="listchangedataplayer">
+                    <form class="listchangedataplayer" id="form-password">
                         <div class="groupinputchangedataplayer">
                             <label for="changepassword">CHANGE PASSWORD</label>
                             <input type="password" id="changepassword" name="changepassword"
@@ -129,9 +132,9 @@
                                 <span class="texttombol">SAVE DATA</span>
                             </button>
                         </div>
-                    </div>
+                    </form>
                     <div class="centerborder"></div>
-                    <div class="listchangedataplayer">
+                    <form class="listchangedataplayer" id="form-password">
                         <label for="changepassword">CHANGE INFORMATION</label>
                         <input type="text" id="informasiplayer" name="informasiplayer"
                             placeholder="masukkan informasi player">
@@ -164,7 +167,7 @@
                                 <span class="texttombol">SAVE DATA</span>
                             </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
-use GuzzleHttp\Psr7\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 
@@ -65,45 +65,60 @@ class MemberlistdsController extends Controller
     public function updateUser(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required',
-            'password' => 'required',
-            'usergroup' => 'required',
-            'agentid' => 'required',
+            'xybanknamexyy' => 'required',
+            'xybankuserxy' => 'required',
+            'group' => 'required',
+            'groupwd' => 'required',
+            'xxybanknumberxy' => 'required'
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()->all()]);
+            return redirect()->back()->withErrors($validator)->withInput();
         } else {
             try {
-                $dataAgent = Agents::where('id', $request->agentid)->first();
-                $dataRegisterPlayer = [
-                    "Username" => $request->username,
-                    "UserGroup" => $request->usergroup,
-                    "Agent" => $dataAgent->username,
-                    "CompanyKey" => $dataAgent->companykey,
-                    "ServerId" => $dataAgent->serverid
+                $data = [
+                    "xybanknamexyy" => $request->xybanknamexyy,
+                    "xybankuserxy" => $request->xybankuserxy,
+                    "group" => $request->group,
+                    "groupwd" => $request->groupwd,
+                    "xxybanknumberxy" => $request->xxybanknumberxy,
                 ];
-                $reqRegisterPlayer = $this->reqRegisterPlayer($dataRegisterPlayer);
+                $updateUser = $this->reqApiUpdateUser($data, $request->xyusernamexxy);
 
-                if ($reqRegisterPlayer["error"]["id"] === 0) {
-                    $data = $request->all();
-                    $data['id'] = Str::uuid()->toString();
-                    $data['password'] = bcrypt($data['password']);
+                if ($updateUser["status"] === 'success') {
+                    Member::where('username', $request->xyusernamexxy)->update([
+                        'bank' => $request->xybanknamexyy,
+                        'namarek' => $request->xybankuserxy,
+                        'norek' => $request->xxybanknumberxy
+                    ]);
 
-                    Players::create($data);
-
-                    return response()->json(['message' => 'Player baru berhasil dibuat.',]);
+                    return redirect()->back()->with('success', 'Update data member berhasil.');
                 }
 
-                return response()->json(['errors' => [$reqRegisterPlayer["error"]["msg"]]], 400);
+                return redirect()->back()->with('error', $updateUser["status"]);
             } catch (\Exception $e) {
                 dd($e->getMessage());
-                return response()->json(['errors' => ['Terjadi kesalahan saat menyimpan data.']]);
+                return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan data.');
             }
         }
+    }
 
-        return response()->json([
-            'message' => 'Data berhasil disimpan.',
-        ]);
+    private function reqApiUpdateUser($data, $username)
+    {
+        $url = 'https://back-staging.bosraka.com/users/' . $username;
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json; charset=UTF-8',
+        ])->put($url, $data);
+
+        if ($response->successful()) {
+            $responseData = $response->json();
+        } else {
+            $statusCode = $response->status();
+            $errorMessage = $response->body();
+            // $responseData = "Error: $statusCode - $errorMessage";
+            $responseData = $response->json();
+        }
+
+        return $responseData;
     }
 }

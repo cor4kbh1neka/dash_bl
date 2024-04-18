@@ -29,7 +29,7 @@ use App\Models\Notes;
 
 Route::get('/', function () {
     if (Auth::check()) {
-        return redirect()->intended('/dashboard');
+        return redirect()->intended('/deposit');
     }
     return redirect()->intended('/login');
 });
@@ -175,7 +175,7 @@ Route::middleware(['auth'])->group(function () {
     /*-- Memberlistds --*/
     Route::get('/memberlistds', [MemberlistdsController::class, 'index']);
     Route::get('/memberlistds/edit/{id}', [MemberlistdsController::class, 'update']);
-    Route::post('/user/update', [MemberController::class, 'updateUser']);
+    Route::post('/memberlistds/updateuser', [MemberlistdsController::class, 'updateUser']);
 
     /*-- MENU 2 --*/
     Route::get('/menu2', [Menu2Controller::class, 'index']);
