@@ -15,54 +15,61 @@
         </div>
         <div class="secmemberlist">
             <div class="grouphistoryds memberlist">
-                <div class="groupheadhistoryds">
+                <form class="groupheadhistoryds" method="GET" action="/memberlistds">
                     <div class="listmembergroup">
                         <div class="listinputmember">
                             <label for="username">username</label>
-                            <input type="text" id="username" name="username" placeholder="username">
+                            <input type="text" id="username" name="username" placeholder="username"
+                                value="{{ $username }}">
                         </div>
                         <div class="listinputmember">
                             <label for="norek">nomor rekening</label>
-                            <input type="text" id="norek" name="norek" placeholder="nomor rekening">
+                            <input type="text" id="norek" name="norek" placeholder="nomor rekening"
+                                value="{{ $norek }}">
                         </div>
                         <div class="listinputmember">
                             <label for="namerek">nama rekening</label>
-                            <input type="text" id="namerek" name="namerek" placeholder="nama rekening">
+                            <input type="text" id="namerek" name="namerek" placeholder="nama rekening"
+                                value="{{ $namerek }}">
                         </div>
                         <div class="listinputmember">
                             <label for="bank">bank</label>
-                            <input type="text" id="bank" name="bank" placeholder="bank">
+                            <input type="text" id="bank" name="bank" placeholder="bank"
+                                value="{{ $bank }}">
                         </div>
                         <div class="listinputmember">
                             <label for="nope">nomor handphone</label>
-                            <input type="text" id="nope" name="nope" placeholder="nomor handphone">
+                            <input type="text" id="nope" name="nope" placeholder="nomor handphone"
+                                value="{{ $nope }}">
                         </div>
                     </div>
                     <div class="listmembergroup">
                         <div class="listinputmember">
                             <label for="referral">referral</label>
-                            <input type="text" id="referral" name="referral" placeholder="referral">
+                            <input type="text" id="referral" name="referral" placeholder="referral"
+                                value="{{ $referral }}">
                         </div>
                         <div class="listinputmember">
                             <label for="gabungdari">tanggal gabung dari</label>
-                            <input type="date" id="gabungdari" name="gabungdari" placeholder="tanggal gabung dari">
+                            <input type="date" id="gabungdari" name="gabungdari" placeholder="tanggal gabung dari"
+                                value="{{ $gabungdari }}">
                         </div>
                         <div class="listinputmember">
                             <label for="gabunghingga">tanggal gabung hingga</label>
-                            <input type="date" id="gabunghingga" name="tanggal gabung hingga"
-                                placeholder="nama rekening">
+                            <input type="date" id="gabunghingga" name="gabunghingga" placeholder="tanggal gabung hingga"
+                                value="{{ $gabunghingga }}">
                         </div>
                         <div class="listinputmember">
                             <label for="status">bank</label>
                             <select name="status" id="status">
                                 <option value="" selected="" place=""
-                                    style="color: #838383; font-style: italic;" disabled="">Status</option>
-                                <option value="9">new member</option>
-                                <option value="1">default</option>
-                                <option value="2">VVIP</option>
-                                <option value="3">bandar</option>
-                                <option value="4">warning</option>
-                                <option value="5">suspend</option>
+                                    style="color: #838383; font-style: italic;">Pilih status</option>
+                                <option value="9" {{ $status == 9 ? 'selected' : '' }}>new member</option>
+                                <option value="1" {{ $status == 1 ? 'selected' : '' }}>default</option>
+                                <option value="2" {{ $status == 2 ? 'selected' : '' }}>VVIP</option>
+                                <option value="3" {{ $status == 3 ? 'selected' : '' }}>bandar</option>
+                                <option value="4" {{ $status == 4 ? 'selected' : '' }}>warning</option>
+                                <option value="5" {{ $status == 5 ? 'selected' : '' }}>suspend</option>
                             </select>
                         </div>
                         <div class="listinputmember">
@@ -78,7 +85,7 @@
                             </svg>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div class="tabelproses">
                     <table>
                         <tbody>
@@ -220,29 +227,13 @@
                                     </tr> --}}
                                 </tbody>
                             </table>
-                            <div class="grouppagination">
+                            {{-- <div class="grouppagination">
                                 <div class="grouppaginationcc">
                                     <div class="trigger left">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                            viewBox="0 0 24 24">
-                                            <g fill="none" fill-rule="evenodd">
-                                                <path
-                                                    d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
-                                                <path fill="currentColor"
-                                                    d="M7.94 13.06a1.5 1.5 0 0 1 0-2.12l5.656-5.658a1.5 1.5 0 1 1 2.121 2.122L11.122 12l4.596 4.596a1.5 1.5 0 1 1-2.12 2.122l-5.66-5.658Z" />
-                                            </g>
-                                        </svg>
+
                                     </div>
                                     <div class="trigger right">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                            viewBox="0 0 24 24">
-                                            <g fill="none" fill-rule="evenodd">
-                                                <path
-                                                    d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
-                                                <path fill="currentColor"
-                                                    d="M16.06 10.94a1.5 1.5 0 0 1 0 2.12l-5.656 5.658a1.5 1.5 0 1 1-2.121-2.122L12.879 12L8.283 7.404a1.5 1.5 0 0 1 2.12-2.122l5.658 5.657Z" />
-                                            </g>
-                                        </svg>
+
                                     </div>
                                     <span class="numberpage active">1</span>
                                     <span class="numberpage">2</span>
@@ -252,7 +243,7 @@
                                     <span class="numberpage">...</span>
                                     <span class="numberpage">12</span>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="informasihistorycoin">
                                 <span>*data yang di tampilkan saat ini, selengkapnya di menu <a
                                         href="/historyds">history</a></span>
@@ -283,7 +274,7 @@
                                     </g>
                                 </svg>
                             </div>
-                            <span class="numberpage active">1</span>
+                            <span class="numberpage">1</span>
                             <span class="numberpage">2</span>
                             <span class="numberpage">3</span>
                             <span class="numberpage">4</span>
@@ -297,6 +288,31 @@
         </div>
     </div>
 
+    @if (session('success'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}',
+                    timer: 3000
+                });
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: '{{ session('error') }}',
+                    timer: 3000
+                });
+            });
+        </script>
+    @endif
 
     <script>
         $(document).ready(function() {
@@ -376,6 +392,65 @@
 
                 $(this).text(text);
             });
+        });
+
+        $(document).ready(function() {
+            // Menambahkan kelas active ke nomor halaman saat ini
+            var currentPage = getCurrentPageNumber();
+            $(".numberpage").eq(currentPage - 1).addClass("active");
+
+            $(".numberpage").click(function() {
+                $(".numberpage").removeClass("active");
+                $(this).addClass("active");
+                var pageNumber = $(this).text();
+                updateUrlWithPage(pageNumber);
+            });
+
+            $(".trigger.left").click(function() {
+                var currentPage = getCurrentPageNumber();
+                var prevPage = currentPage - 1;
+                if (prevPage >= 1) {
+                    updateUrlWithPage(prevPage);
+                }
+            });
+
+            $(".trigger.right").click(function() {
+                var currentPage = getCurrentPageNumber();
+                var nextPage = currentPage + 1;
+                updateUrlWithPage(nextPage);
+            });
+
+            function getCurrentPageNumber() {
+                var url = window.location.href;
+                var pageNumber = url.match(/[?&]page=(\d+)/);
+                return pageNumber ? parseInt(pageNumber[1]) : 1;
+            }
+
+            function updateUrlWithPage(pageNumber) {
+                var username = $("#username").val();
+                var norek = $("#norek").val();
+                var namerek = $("#namerek").val();
+                var bank = $("#bank").val();
+                var nope = $("#nope").val();
+                var referral = $("#referral").val();
+                var gabungdari = $("#gabungdari").val();
+                var gabunghingga = $("#gabunghingga").val();
+                var status = $("#status").val();
+
+                var newUrl = "/memberlistds?";
+                newUrl += "username=" + username + "&";
+                newUrl += "norek=" + norek + "&";
+                newUrl += "namerek=" + namerek + "&";
+                newUrl += "bank=" + bank + "&";
+                newUrl += "nope=" + nope + "&";
+                newUrl += "referral=" + referral + "&";
+                newUrl += "gabungdari=" + gabungdari + "&";
+                newUrl += "gabunghingga=" + gabunghingga + "&";
+                newUrl += "status=" + status + "&";
+                newUrl += "page=" + pageNumber;
+
+                window.location.href = newUrl;
+            }
         });
     </script>
 @endsection

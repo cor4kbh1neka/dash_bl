@@ -109,18 +109,22 @@
                         </div>
                     </div>
                     <div class="listgroupplayerinfo right">
-                        <button class="tombol cancel">
+                        <button class="tombol cancel" type="button" id="suspend">
                             <span class="texttombol">SUSPEND PLAYER</span>
                         </button>
-                        <button class="tombol primary">
+                        <button class="tombol primary" type="submit">
                             <span class="texttombol">SAVE DATA</span>
                         </button>
                     </div>
                 </form>
                 <spann class="titleeditmemberds change">cange data player</spann>
                 <div class="groupchangedataplayer">
-                    <form class="listchangedataplayer" id="form-password">
+                    <form action="/memberlistds/updatepassword" class="listchangedataplayer" method="POST"
+                        id="form-password">
+                        @csrf
                         <div class="groupinputchangedataplayer">
+                            <input type="hidden" id="xyusernamexxy" name="xyusernamexxy"
+                                value="{{ $datauser['xyusernamexxy'] }}">
                             <label for="changepassword">CHANGE PASSWORD</label>
                             <input type="password" id="changepassword" name="changepassword"
                                 placeholder="masukkan password baru">
@@ -128,42 +132,46 @@
                                 placeholder="konsfirmasi password baru">
                         </div>
                         <div class="groupbuttonplayer">
-                            <button class="tombol primary">
+                            <button class="tombol primary" type="submit">
                                 <span class="texttombol">SAVE DATA</span>
                             </button>
                         </div>
                     </form>
                     <div class="centerborder"></div>
-                    <form class="listchangedataplayer" id="form-password">
+                    <form action="/memberlistds/updateinfomember/{{ $id }}" class="listchangedataplayer"
+                        method="POST" id="form-infomember">
+                        @csrf
                         <label for="changepassword">CHANGE INFORMATION</label>
                         <input type="text" id="informasiplayer" name="informasiplayer"
-                            placeholder="masukkan informasi player">
+                            placeholder="masukkan informasi player" value="{{ $data->keterangan }}">
                         <div class="groupstatuspl">
                             <label for="statuspl">STATUS</label>
                             <select name="status" id="status" value="9">
                                 <option value="" place="" style="color: #838383; font-style: italic;"
                                     disabled="">PILIH STATUS</option>
-                                <option value="9">new member</option>
-                                <option value="1">default</option>
-                                <option value="2">VVIP</option>
-                                <option value="3">bandar</option>
-                                <option value="4">warning</option>
-                                <option value="5">suspend</option>
+                                <option value="9" {{ $data->status == 9 ? 'selected' : '' }}>new member</option>
+                                <option value="1" {{ $data->status == 1 ? 'selected' : '' }}>default</option>
+                                <option value="2" {{ $data->status == 2 ? 'selected' : '' }}>VVIP</option>
+                                <option value="3" {{ $data->status == 3 ? 'selected' : '' }}>bandar</option>
+                                <option value="4" {{ $data->status == 4 ? 'selected' : '' }}>warning</option>
+                                <option value="5" {{ $data->status == 5 ? 'selected' : '' }}>suspend</option>
                             </select>
                         </div>
                         <div class="groupdatbetpl">
                             <span class="labelbetpl">BET</span>
                             <div class="groupdatabet">
                                 <label for="minbet">minimal</label>
-                                <input type="text" id="minbet" name="minbet" value="10">
+                                <input type="number" id="minbet" name="minbet"
+                                    value={{ $data->min_bet == '' ? 10 : $data->min_bet }}>
                             </div>
                             <div class="groupdatabet">
                                 <label for="maxbet">minimal</label>
-                                <input type="text" id="maxbet" name="maxbet" value="50000">
+                                <input type="number" id="maxbet" name="maxbet"
+                                    value={{ $data->min_bet == '' ? 50000 : $data->min_bet }}>
                             </div>
                         </div>
                         <div class="groupbuttonplayer">
-                            <button class="tombol primary">
+                            <button class="tombol primary" type="submit">
                                 <span class="texttombol">SAVE DATA</span>
                             </button>
                         </div>
@@ -173,12 +181,83 @@
         </div>
     </div>
 
+    @if (session('success'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}',
+                    timer: 3000
+                });
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: '{{ session('error') }}',
+                    timer: 3000
+                });
+            });
+        </script>
+    @endif
+
     <script>
         $(document).ready(function() {
             $('.groupeditinput svg').click(function() {
                 $(this).closest('.groupeditinput').toggleClass('edit');
                 $(this).siblings('input').prop('readonly', function(_, val) {
                     return !val;
+                });
+            });
+        });
+
+        $(document).ready(function() {
+            $('#form-password').submit(function(e) {
+                e.preventDefault();
+
+                var password = $('#changepassword').val();
+                var repassword = $('#repassword').val();
+
+                if (password !== repassword) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Password dan konfirmasi password tidak cocok!',
+                        timer: 3000
+                    });
+                    return;
+                }
+
+                this.submit();
+            });
+        });
+
+        $(document).ready(function() {
+            $("#suspend").click(function() {
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: "Anda yakin ingin menonaktifkan pemain?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, nonaktifkan!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Lakukan tindakan nonaktifkan pemain di sini
+                        Swal.fire(
+                            'Nonaktifkan!',
+                            'Pemain telah dinonaktifkan.',
+                            'success'
+                        );
+                    }
                 });
             });
         });
