@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\DepoWd;
 use App\Models\Member;
 use App\Models\Transactions;
+use App\Models\TransactionStatus;
+use App\Models\TransactionSaldo;
 
 date_default_timezone_set('Asia/Jakarta');
 
@@ -46,6 +48,7 @@ class DepoWdController extends Controller
             }
 
             $dataDepoWd = DepoWd::where('username', $request->username)->where('jenis', 'DP')->where('status', '0')->first();
+
             if ($dataDepoWd) {
                 return response()->json([
                     'status' => 'Fail',
@@ -708,6 +711,24 @@ class DepoWdController extends Controller
             'dataDP' => $countDataDP
         ];
 
+        return $data;
+    }
+
+    public function getTransactions()
+    {
+        $data = Transactions::orderBy('created_at', 'desc')->get();
+        return $data;
+    }
+
+    public function getTransactionStatus()
+    {
+        $data = TransactionStatus::orderBy('created_at', 'desc')->get();
+        return $data;
+    }
+
+    public function getTransactionSaldo()
+    {
+        $data = TransactionSaldo::orderBy('created_at', 'desc')->get();
         return $data;
     }
 }

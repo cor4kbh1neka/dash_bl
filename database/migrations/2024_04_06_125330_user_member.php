@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('bank');
             $table->string('namarek');
             $table->string('norek');
+            $table->string('nohp');
             $table->decimal('balance', 10, 2);
             $table->string('keterangan')->nullable();
             $table->string('ip_reg')->nullable();

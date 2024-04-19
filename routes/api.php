@@ -49,3 +49,9 @@ Route::get('/getHistoryDw/{username}', [DepoWdController::class, 'getHistoryDepo
 
 Route::get('/checkLastTransaction/{jenis}/{username}', [DepoWdController::class, 'getLastStatusTransaction']);
 Route::get('/checkBalance/{username}', [DepoWdController::class, 'getBalance']);
+
+
+
+Route::get('/getTransactions', [DepoWdController::class, 'getTransactions']);
+Route::get('/getTransactionStatus', [DepoWdController::class, 'getTransactionStatus']);
+Route::get('/getTransactionSaldo', [DepoWdController::class, 'getTransactionSaldo']);

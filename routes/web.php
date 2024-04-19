@@ -173,9 +173,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/historyds/{jenis?}', [HistorydsController::class, 'index']);
 
     /*-- Memberlistds --*/
-    Route::get('/memberlistds', [MemberlistdsController::class, 'index']);
+    Route::get('/memberlistds', [MemberlistdsController::class, 'index'])->name('memberlistds');
     Route::get('/memberlistds/edit/{id}', [MemberlistdsController::class, 'update']);
     Route::post('/memberlistds/updateuser', [MemberlistdsController::class, 'updateUser']);
+    Route::post('/memberlistds/updatepassword', [MemberlistdsController::class, 'updatePassowrd']);
+    Route::post('/memberlistds/updateinfomember/{id}', [MemberlistdsController::class, 'updateMember']);
 
     /*-- MENU 2 --*/
     Route::get('/menu2', [Menu2Controller::class, 'index']);
