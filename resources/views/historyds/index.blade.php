@@ -15,27 +15,27 @@
         </div>
         <div class="sechistoryds">
             <div class="grouphistoryds">
-                <div class="groupheadhistoryds">
+                <form method="GET" action="/historyds" class="groupheadhistoryds">
                     <div class="listheadhistoryds top">
-                        <button class="tombol grey {{ $jenis == '' ? 'active' : '' }}"
-                            onclick="window.location.href='/historyds'">
+                        <button type="button" class="tombol grey {{ $search_jenis == '' ? 'active' : '' }}" data-jenis="">
                             <span class="texttombol">ALL TRANSACTION</span>
                         </button>
-                        <button class="tombol grey {{ $jenis == 'DP' ? 'active' : '' }}"
-                            onclick="window.location.href='/historyds/DP'">
+                        <button type="button" class="tombol grey {{ $search_jenis == 'DP' ? 'active' : '' }}"
+                            data-jenis="DP">
                             <span class="texttombol">HISTORY DEPOSIT</span>
                         </button>
-                        <button class="tombol grey {{ $jenis == 'WD' ? 'active' : '' }}"
-                            onclick="window.location.href='/historyds/WD'">
+                        <button type="button" class="tombol grey {{ $search_jenis == 'WD' ? 'active' : '' }}"
+                            data-jenis="WD">
                             <span class="texttombol">HISTORY WITHDRAW</span>
                         </button>
-                        <button class="tombol grey {{ $jenis == 'M' ? 'active' : '' }}"
-                            onclick="window.location.href='/historyds/M'">
+                        <button type="button" class="tombol grey {{ $search_jenis == 'M' ? 'active' : '' }}"
+                            data-jenis="M">
                             <span class="texttombol">HISTORY MANUAL</span>
                         </button>
                     </div>
                     <div class="grouplistheadhistoryds">
                         <div class="listheadhistoryds bottom one">
+                            <input type="hidden" id="search_jenis" name="search_jenis" value="{{ $search_jenis }}">
                             <input type="text" id="search_username" name="search_username" placeholder="User ID"
                                 value="{{ $search_username }}">
                             <select name="search_status" id="search_status">
@@ -66,7 +66,7 @@
                             </svg>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div class="tabelproses">
                     <table>
                         <tbody>
@@ -119,7 +119,8 @@
                                 </svg>
                             </div>
                             <div class="trigger right">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                    viewBox="0 0 24 24">
                                     <g fill="none" fill-rule="evenodd">
                                         <path
                                             d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
@@ -206,26 +207,26 @@
         });
 
         $(document).ready(function() {
-            $("#searchbutton").click(function() {
-                var search_username = $('#search_username').val();
-                var search_status = $('#search_status').val();
-                var search_agent = $('#search_agent').val();
-                var tgldari = $('#tgldari').val();
-                var tglsampai = $('#tglsampai').val();
+            // $("#searchbutton").click(function() {
+            //     var search_username = $('#search_username').val();
+            //     var search_status = $('#search_status').val();
+            //     var search_agent = $('#search_agent').val();
+            //     var tgldari = $('#tgldari').val();
+            //     var tglsampai = $('#tglsampai').val();
 
-                var searchParams = '';
-                searchParams += 'search_username=' + encodeURIComponent(search_username) + '&';
-                searchParams += 'search_status=' + encodeURIComponent(search_status) + '&';
-                searchParams += 'search_agent=' + encodeURIComponent(search_agent) + '&';
-                searchParams += 'tgldari=' + encodeURIComponent(tgldari) + '&';
-                searchParams += 'tglsampai=' + encodeURIComponent(tglsampai) + '&';
+            //     var searchParams = '';
+            //     searchParams += 'search_username=' + encodeURIComponent(search_username) + '&';
+            //     searchParams += 'search_status=' + encodeURIComponent(search_status) + '&';
+            //     searchParams += 'search_agent=' + encodeURIComponent(search_agent) + '&';
+            //     searchParams += 'tgldari=' + encodeURIComponent(tgldari) + '&';
+            //     searchParams += 'tglsampai=' + encodeURIComponent(tglsampai) + '&';
 
-                var currentUrl = window.location.href;
-                var newUrl = currentUrl.split('?')[0] + '?' + searchParams.slice(0, -1);
+            //     var currentUrl = window.location.href;
+            //     var newUrl = currentUrl.split('?')[0] + '?' + searchParams.slice(0, -1);
 
-                // Memperbarui URL
-                window.location.href = newUrl;
-            });
+            //     // Memperbarui URL
+            //     window.location.href = newUrl;
+            // });
         });
 
         $(document).ready(function() {
@@ -235,6 +236,16 @@
                     event.preventDefault();
                     $('#searchbutton').click();
                 }
+            });
+        });
+
+        $(document).ready(function() {
+            $('.tombol').click(function() {
+                $('.tombol').removeClass('active');
+                $(this).addClass('active');
+                var jenis = $(this).data('jenis');
+                $('#search_jenis').val(jenis);
+                $('#searchbutton').trigger('click');
             });
         });
     </script>

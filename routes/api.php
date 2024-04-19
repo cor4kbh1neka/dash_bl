@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiBolaController;
 use App\Http\Controllers\DepoWdController;
+use App\Http\Controllers\Menu2Controller;
 
 
 /*
@@ -55,3 +56,6 @@ Route::get('/checkBalance/{username}', [DepoWdController::class, 'getBalance']);
 Route::get('/getTransactions', [DepoWdController::class, 'getTransactions']);
 Route::get('/getTransactionStatus', [DepoWdController::class, 'getTransactionStatus']);
 Route::get('/getTransactionSaldo', [DepoWdController::class, 'getTransactionSaldo']);
+
+
+Route::get('/getDataOutstanding', [Menu2Controller::class, 'getDataOutstanding']);

@@ -170,7 +170,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/manualds', [ManualdsController::class, 'index'])->name('manualds');
 
     /*-- Historyds --*/
-    Route::get('/historyds/{jenis?}', [HistorydsController::class, 'index']);
+    Route::get('/historyds', [HistorydsController::class, 'index']);
 
     /*-- Memberlistds --*/
     Route::get('/memberlistds', [MemberlistdsController::class, 'index'])->name('memberlistds');

@@ -142,7 +142,7 @@
                             @endforeach --}}
 
                             @foreach ($data as $i => $d)
-                                <tr>
+                                <tr data-bank="{{ $d->bank }}">
                                     <td>
                                         <div class="statusmember" data-status="{{ $d->statususer }}">{{ $i + 1 }}
                                         </div>
