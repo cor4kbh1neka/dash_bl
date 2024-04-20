@@ -45,7 +45,7 @@ class HistorydsController extends Controller
                 return $query->whereBetween('created_at', [$tgldari, $tglsampai]);
             })
             ->orderBy('created_at', 'desc')
-            ->paginate(10) // Panggil paginate(10) di sini
+            ->paginate(10)
             ->map(function ($item) {
                 if ($item['jenis'] == 'DPM') {
                     $item['jenis'] = 'Deposit Manual';

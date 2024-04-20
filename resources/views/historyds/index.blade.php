@@ -15,7 +15,7 @@
         </div>
         <div class="sechistoryds">
             <div class="grouphistoryds">
-                <form method="GET" action="/historyds" class="groupheadhistoryds">
+                <form method="GET" action="/historyds" class="groupheadhistoryds" id="from-search">
                     <div class="listheadhistoryds top">
                         <button type="button" class="tombol grey {{ $search_jenis == '' ? 'active' : '' }}" data-jenis="">
                             <span class="texttombol">ALL TRANSACTION</span>
@@ -241,11 +241,13 @@
 
         $(document).ready(function() {
             $('.tombol').click(function() {
+                var jenis = $('#search_jenis').val();
                 $('.tombol').removeClass('active');
                 $(this).addClass('active');
-                var jenis = $(this).data('jenis');
+                var jenis = typeof $(this).data('jenis') == 'undefined' ? jenis : $(this).data('jenis');
                 $('#search_jenis').val(jenis);
-                $('#searchbutton').trigger('click');
+                // Submit form
+                $('#from-search').submit();
             });
         });
     </script>
