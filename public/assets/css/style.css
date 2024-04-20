@@ -13,6 +13,7 @@
     --rgba-black: 0, 0, 0;
     --rgba-aqua:0, 255, 255;
     --rgba-grey: 207, 207, 207;
+    --rgba-blue: 52, 150, 255;
 
     --primary-color: rgba(var(--rgba-primary));
     --secondary-color: rgba(var(--rgba-secondary));
@@ -23,6 +24,7 @@
     --black-color: rgba(var(--rgba-black));
     --aqua-color: rgba(var(--rgba-aqua));
     --grey-color: rgba(var(--rgba-grey));
+    --blue-color: rgba(var(--rgba-blue));
 
     --green-color: #65E080;
     --red-color: #F34040;
@@ -427,6 +429,7 @@ svg {
 .data_sidejsx a svg {
     width: 25px;
     height: 25px;
+    stroke: unset;
 }
 .data_sidejsx .arrow_side {
     display: flex;
@@ -1137,12 +1140,6 @@ input[type="checkbox"]:checked::before {
     position: relative;
     border-radius: 0 6px 6px 0;
     overflow: hidden;
-}
-form {
-    width: 100%;
-    overflow-y: auto;
-    max-height: 83vh;
-    padding-bottom: 100px;
 }
 .list_form {
     width: 100%;
@@ -2259,6 +2256,10 @@ table svg.icon-tabler-x {
     font-size: 18px;
     border-radius: 5px;
   }
+  .countpendingdata.outstanding {
+    background: var(--aqua-color);
+    color: rgba(var(--rgba-black));
+  }
   .tombol {
     padding: 10px;
     display: flex;
@@ -2447,6 +2448,53 @@ table svg.icon-tabler-x {
   }
   .tabelproses .statusakun {
     width: 12%;
+  }
+  .tabelproses .bagnomorinvoice {
+    width: 15%;
+  }
+  .tabelproses .bagdetail {
+    width: 25%;
+  }
+  .tabelproses .bagodds {
+    width: 15%;
+  }
+  .tabelproses .detailbetingan {
+    color: var(--aqua-color);
+    transition: all 0.3s ease;
+  }
+  .tabelproses .detailbetingan:hover {
+    color: rgba(var(--rgba-white));
+  }
+  .tabelproses .detailbetingan .klikdetail {
+    color: var(--primary-color);
+    text-transform: capitalize;
+    transition: all 0.3s ease;
+  }
+  .tabelproses .detailbetingan .texttypebet {
+    text-transform: capitalize;
+  }
+  .tabelproses .detailbetingan:hover .klikdetail {
+    color: rgba(var(--rgba-white));
+  }
+  .tabelproses .textstatusbet {
+    font-size: 18px;
+    text-transform: capitalize;
+  }
+  .tabelproses .textstatusbet[data-status="lose"],
+  .tabelproses .winLost[data-status="lose"] {
+    color: var(--red-color);
+  }
+  .tabelproses .textstatusbet[data-status="won"],
+  .tabelproses .winLost[data-status="won"] {
+    color: var(--green-color);
+  }
+  .tabelproses .textstatusbet[data-status="running"],
+  .tabelproses .winLost[data-status="running"] {
+    color: var(--yellow-color);
+  }
+  .tabelproses .textstatusbet[data-status="draw"],
+  .tabelproses .winLost[data-status="draw"] {
+    color: var(--aqua-color);
   }
   .splitcollum {
     width: 100%;
@@ -2874,8 +2922,10 @@ table svg.icon-tabler-x {
   }
   .groupheadhistoryds #tgldari::-webkit-calendar-picker-indicator,
   .groupheadhistoryds #tglhingga::-webkit-calendar-picker-indicator,
-  .groupheadhistoryds #gabungdari::-webkit-calendar-picker-indicator,
-  .groupheadhistoryds #gabunghingga::-webkit-calendar-picker-indicator {
+  .listinputmember #gabungdari::-webkit-calendar-picker-indicator,
+  .listinputmember #gabunghingga::-webkit-calendar-picker-indicator,
+  .listinputmember #startDate::-webkit-calendar-picker-indicator,
+  .listinputmember #endDate::-webkit-calendar-picker-indicator {
     filter: invert(1);
     cursor: pointer;
   }
@@ -3013,7 +3063,10 @@ table svg.icon-tabler-x {
     text-transform: capitalize;
   }
   .listinputmember .tombol {
-    width: 50%;
+    width: unset;
+  }
+  .memberlist .listinputmember .tombol {
+    width: 60%;
   }
   .memberlist .tabelproses .valuenominal {
     display: flex;
@@ -3345,4 +3398,329 @@ table svg.icon-tabler-x {
   }
   .modalhistory .grouppaginationcc .numberpage:hover {
     background: var(--primary-color);
+  }
+  .sechistorygame {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    padding: 10px 20px;
+  }
+  .groupsechistorygame {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .groupheadhistorygame {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2fr 2fr 0.5fr;
+    gap: 50px;
+    position: relative;
+  }
+  .headhistorygame {
+    width: 100%;
+    display: grid;
+    gap: 10px;
+  }
+  .headhistorygame.one {
+    grid-template-columns: 1fr 0.8fr 0.8fr 0.8fr;
+  }
+  .headhistorygame.two {
+    grid-template-columns: 1fr 0.8fr 0.8fr 0.8fr;
+  }
+  .groupheadhistorygame input,
+  .groupheadhistorygame select {
+    background: var(--bg-box-primary);
+    border: 1px solid rgba(var(--rgba-primary), 0.2);
+    color: rgba(var(--rgba-white));
+    box-shadow: inset 5px 5px 5px rgba(var(--rgba-black), 0.25);
+    padding: 10px 10px 10px 20px;
+    text-align: left;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  .groupheadhistorygame input:focus,
+  .groupheadhistorygame select:focus {
+    border: 1px solid rgba(var(--rgba-primary), 0.8);
+    box-shadow: unset;
+  }
+  .required {
+    color: var(--red-color);
+  }
+  .groupheadhistorygame .listinputmember .tombol {
+    width: unset;
+  }
+  .groupsechistorygame .tabelproses td {
+    font-size: 15px;
+  }
+  .groupsechistorygame .tabelproses .bagtanggal {
+    width: 15%;
+  }
+  .body_openwindow {
+    width: 100%;
+    height: 100vh;
+    background: rgba(var(--rgba-white));
+    color: rgba(var(--rgba-black), 0.8);
+    scroll-behavior: smooth;
+    position: relative;
+    overflow-x: hidden;
+  }
+  .sec_openwindow {
+    width: 100%;
+    max-width: 400px;
+    min-height: 100%;
+    border-right: 1px solid rgba(var(--rgba-black), 0.2);
+    border-left: 1px solid rgba(var(--rgba-black), 0.2);
+    margin: auto;
+    padding: 10px;
+  }
+  .groupdetailhistorygameds {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .headdetailhistorygameds {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .listheaddetail {
+    display: grid;
+    grid-template-columns: 0.5fr 0.05fr 1fr;
+  }
+  .listheaddetail span {
+    font-size: 12px;
+  }
+  .listheaddetail .label {
+    font-weight: bold;
+  }
+  .table_detailhistorygameds {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+  .table_detailhistorygameds table,
+  .table_detailhistorygameds tbody {
+    background: transparent;
+    color: rgba(var(--rgba-black), 0.8);
+    border: 1px solid rgba(var(--rgba-black), 0.2);
+  }
+  .table_detailhistorygameds tr:nth-child(odd) {
+    background: rgba(var(--rgba-black), 0.05);
+  }
+  .table_detailhistorygameds tr {
+    cursor: unset;
+  }
+  .table_detailhistorygameds tr:hover {
+    background: rgba(var(--rgba-aqua), 0.1);
+  }
+  .table_detailhistorygameds td {
+    border: 1px solid rgba(var(--rgba-black), 0.2);
+    padding: 5px;
+    white-space: unset;
+    overflow: unset;
+    text-overflow: unset;
+  }
+  .table_detailhistorygameds .bagnomor {
+    width: 4%;
+    text-align: center;
+  }
+  .groupdetailmatch {
+    display: flex;
+    flex-direction: column;
+  }
+  .groupdetailmatch .namaliga {
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  .groupdetailmatch .allscore {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+  .groupdetailmatch .detailbetting {
+    margin-top: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  .groupdetailmatch .htft {
+    color: var(--success-color);
+    text-decoration: underline;
+  }
+  .groupdetailmatch .htft[data-isHalfWonLose="true"] {
+    color: var(--primary-color);
+  }
+  .allscore .listscore {
+    display: flex;
+    flex-direction: row;
+    gap: 5px
+  }
+  .listdetailbettting {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+  .dddetailbetting .valuebet {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--success-color);
+  }
+  .dddetailbetting .valuebet.odds {
+    color: var(--blue-color);
+  }
+  .dddetailbetting .valuebet.betOption {
+    color: var(--blue-color);
+  }
+  .dddetailbetting .valuebet.odds[data-valueodds^="-"] {
+    color: var(--red-color);
+  }
+  .dddetailbetting .valuebet.status[data-statusbet="lose"] {
+    color: var(--red-color);
+  }
+  .dddetailbetting .valuebet.status[data-statusbet="won"] {
+    color: var(--green-color);
+  }
+  .dddetailbetting .valuebet.status[data-statusbet="draw"] {
+    color: var(--yellow-color);
+  }
+  .listheaddetail .valuenominal.winLost {
+    color: var(--green-color);
+  }
+  .listheaddetail .valuenominal.winLost[data-winLost^="-"] {
+    color: var(--red-color);
+  }
+  .listheaddetail .valuenominal.winLost[data-winLost^="0"] {
+    color: var(--yellow-color);
+  }
+  .dddetailbetting .subBet-hdp[data-hdp^="-"] {
+    color: var(--red-color);
+  }
+  .listheaddetail .grouphasilpertandingan .statusgame {
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  .listheaddetail .grouphasilpertandingan .statusgame[data-status="lose"] {
+    color: var(--red-color);
+  }
+  .listheaddetail .grouphasilpertandingan .statusgame[data-status="draw"] {
+    color: var(--yellow-color);
+  }
+  .listheaddetail .grouphasilpertandingan .statusgame[data-status="won"] {
+    color: var(--green-color);
+  }
+  .secoutstandingds {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    padding: 10px 20px;
+  }
+  .groupoutstandingds {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .groupheadoutstandingds {
+    width: 100%;
+    position: relative;
+  }
+  .groupheadoutstandingds .listinputmember {
+    width: 200px;
+  }
+  .groupheadoutstandingds input{
+    width: unset;
+    background: var(--bg-box-primary);
+    border: 1px solid rgba(var(--rgba-primary), 0.2);
+    color: rgba(var(--rgba-white));
+    box-shadow: inset 5px 5px 5px rgba(var(--rgba-black), 0.25);
+    padding: 10px 10px 10px 20px;
+    text-align: left;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  .groupdataoutstanding {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.4fr 1fr;
+    gap: 20px;
+  }
+  .groupdataoutstanding .tabelproses th {
+    font-size: 11px;
+  }
+  .groupdataoutstanding .bagcountoutstand {
+    width: 15%;
+  }
+  .groupdataoutstanding .tabelproses .bagdetail {
+    width: 30%;
+  }
+  .groupdataoutstanding .tabelproses .bagtanggal {
+    width: 20%;
+  }
+  .groupdataoutstanding .tabelproses .bagstatusbet {
+    width: 15%;
+  }
+  .groupdataoutstanding .valuenominal,
+  .groupdataoutstanding .textstatusbet {
+    font-size: 12px;
+  }
+  .groupdataoutstanding .groupcountout {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .groupdataoutstanding .groupcountout:hover .selengkapnyaout {
+    color: var(--aqua-color);
+  }
+  .groupdataoutstanding .groupcountout .countdataout {
+    color: var(--aqua-color);
+    transition: all 0.3s ease;
+  }
+  .groupcountout .selengkapnyaout {
+    display: flex;
+    align-items: center;
+  }
+  .groupcountout .selengkapnyaout svg {
+    position: relative;
+    right: 0;
+    margin-right: 5px;
+    transition: all 0.3s ease;
+  }
+  .groupcountout .selengkapnyaout:hover svg {
+    right: -5px;
+  }
+  .secreferralds {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    padding: 10px 20px;
+  }
+  .groupsecreferralds {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .secbankds {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    padding: 10px 20px;
+  }
+  .groupsecbankds {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .headsecbankds {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+  }
+  .headsecbankds .tombol {
+    width: 100%;
+    padding: 20px;
   }

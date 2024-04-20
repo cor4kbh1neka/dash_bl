@@ -19,6 +19,17 @@ use App\Http\Controllers\WithdrawdsController;
 use App\Http\Controllers\ManualdsController;
 use App\Http\Controllers\HistorydsController;
 use App\Http\Controllers\MemberlistdsController;
+use App\Http\Controllers\HistorygamedsController;
+use App\Http\Controllers\OutstandingdsController;
+use App\Http\Controllers\ReferraldsController;
+use App\Http\Controllers\BankdsController;
+use App\Http\Controllers\MemodsController;
+use App\Http\Controllers\AgentdsController;
+use App\Http\Controllers\EventdsController;
+use App\Http\Controllers\ApksettingdsController;
+use App\Http\Controllers\AllowedipdsController;
+use App\Http\Controllers\MemotouserdsController;
+use App\Http\Controllers\UsermanagementdsController;
 use App\Http\Controllers\Menu2Controller;
 use App\Models\Notes;
 
@@ -167,6 +178,45 @@ Route::middleware(['auth'])->group(function () {
     /*-- Memberlistds --*/
     Route::get('/memberlistds', [MemberlistdsController::class, 'index']);
     Route::get('/memberlistds/edit', [MemberlistdsController::class, 'update']);
+
+    /*-- Historygameds --*/
+    Route::get('/historygameds', [HistorygamedsController::class, 'index']);
+    Route::get('/historygameds/detail/{invoice}', [HistorygamedsController::class, 'detail']);
+
+    /*-- Outstandingds --*/
+    Route::get('/outstandingds', [OutstandingdsController::class, 'index']);
+
+    /*-- Referralds --*/
+    Route::get('/referralds', [ReferraldsController::class, 'index']);
+
+    /*-- Bankds --*/
+    Route::get('/bankds', [BankdsController::class, 'index']);
+    Route::get('/bankds/setbankmaster', [BankdsController::class, 'setbankmaster']);
+    Route::get('/bankds/addbank', [BankdsController::class, 'addbank']);
+    Route::get('/bankds/listmaster', [BankdsController::class, 'listmaster']);
+    Route::get('/bankds/listgroup', [BankdsController::class, 'listgroup']);
+    Route::get('/bankds/listbank', [BankdsController::class, 'listbank']);
+
+    /*-- Memods --*/
+    Route::get('/memods', [MemodsController::class, 'index']);
+
+    /*-- Agentds --*/
+    Route::get('/agentds', [AgentdsController::class, 'index']);
+
+    /*-- Eventds --*/
+    Route::get('/eventds', [EventdsController::class, 'index']);
+    
+    /*-- Apksettingds --*/
+    Route::get('/apksettingds', [ApksettingdsController::class, 'index']);
+
+    /*-- Allowedipds --*/
+    Route::get('/allowedipds', [AllowedipdsController::class, 'index']);
+
+    /*-- Memotouserds --*/
+    Route::get('/memotouserds', [MemotouserdsController::class, 'index']);
+
+    /*-- Usermanagementds --*/
+    Route::get('/usermanagementds', [UsermanagementdsController::class, 'index']);
 
     /*-- MENU 2 --*/
     Route::get('/menu2', [Menu2Controller::class, 'index']);
