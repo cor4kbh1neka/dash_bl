@@ -149,6 +149,7 @@ class ApiBolaController extends Controller
         if ($dataTransactions->isEmpty()) {
             return $this->errorResponse($request->Username, 6);
         }
+
         foreach ($dataTransactions as $index => $dataTransaction) {
             $results[] = $this->setSettle($request, $dataTransaction, $index);
         }
