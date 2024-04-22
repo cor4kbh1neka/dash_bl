@@ -250,5 +250,49 @@
                 $('#from-search').submit();
             });
         });
+
+        $(document).ready(function() {
+            $('#tglsampai').change(function() {
+                var tgldari = new Date($('#tgldari').val());
+                var tglsampai = new Date($(this).val());
+
+                if (tglsampai < tgldari) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Tanggal akhir harus lebih besar atau sama dengan tanggal awal',
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    });
+                    $(this).val(''); // Mengosongkan nilai tglsampai jika tidak valid
+                }
+            });
+        });
+
+        $('#tgldari').change(function() {
+            var today = new Date();
+            var refNo = $('#refNo').val();
+            var tgldari = new Date($('#tgldari').val());
+
+            // Menghitung tanggal 60 hari yang lalu
+            var maxDate = new Date(today);
+            maxDate.setDate(maxDate.getDate() - 60);
+
+            if (refNo == '') {
+                if (tgldari < maxDate) {
+                    // Format tanggal 60 hari yang lalu menjadi string
+                    var maxDateString = maxDate.toLocaleDateString('en-GB');
+
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Tanggal awal tidak boleh kurang dari ' + maxDateString,
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    });
+                    $(this).val('');
+                }
+            }
+        });
     </script>
 @endsection

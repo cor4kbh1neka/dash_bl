@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Transactions;
 use App\Models\TransactionStatus;
 use App\Models\TransactionSaldo;
+use App\Models\ProductType;
 use App\Models\Member;
+use App\Models\Outstanding;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 
@@ -310,7 +312,20 @@ class ApiBolaController extends Controller
 
 
 
+    /* ======================= OUTSTANDING ======================= */
+    private function createOutstanding($data)
+    {
+        $dataOutstanding = Outstanding::where('transactionid', $data["transactionid"])->first();
+        if (!$dataOutstanding) {
+            return Outstanding::create($data);
+        }
+        return [];
+    }
 
+    private function deleteOutstanding($transfercode)
+    {
+        return Outstanding::where('transfercode', $transfercode)->delete();
+    }
 
 
     /* ====================== Validasi SBO ======================= */
@@ -374,6 +389,16 @@ class ApiBolaController extends Controller
             $txnid = $this->generateTxnid('W', 10);
 
             if ($crteateStatusTransaction) {
+                $this->createOutstanding([
+                    "transactionid" => $dataTransaction->transactionid,
+                    "transfercode" => $dataTransaction->transfercode,
+                    "username" => $dataTransaction->username,
+                    "portfolio" => ProductType::where('id', $request->ProductType)->first()->portfolio,
+                    "gametype" => ($request->ProductType == 5 || $request->ProductType == 1) ? $request->ExtraInfo['sportType'] : ProductType::where('id', $request->ProductType)->first()->productsname,
+                    "status" => 'Running',
+                    "amount" => $totalAmount
+                ]);
+
                 $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "W", $totalAmount, 3);
 
                 if ($transactionTransaction) {
@@ -404,6 +429,10 @@ class ApiBolaController extends Controller
             ->first();
 
         if ($lastStatus->status != 'Cancel') {
+            if ($lastStatus->status == 'Running' || $lastStatus->status == 'Rollback') {
+                $this->deleteOutstanding($request->TransferCode);
+            }
+
             $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Cancel');
 
             if ($crteateStatusTransaction) {
@@ -547,6 +576,7 @@ class ApiBolaController extends Controller
         $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Rollback');
         if ($crteateStatusTransaction) {
             $dataTransactions = TransactionSaldo::where('transtatus_id', $lastStatus->id)->first();
+
             $jenis = 'W';
             $rangeNumber = 10;
             $txnid = $this->generateTxnid($jenis, $rangeNumber);
@@ -591,6 +621,8 @@ class ApiBolaController extends Controller
 
             $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Settled');
             if ($crteateStatusTransaction) {
+                $this->deleteOutstanding($request->TransferCode);
+
                 $WinLoss = $index == 0 ? $request->WinLoss : 0;
                 $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $WinLoss, 1);
                 if ($transactionTransaction) {
@@ -675,15 +707,6 @@ class ApiBolaController extends Controller
 
         $txnid = $this->generateTxnid('W', 10);
 
-        // $WdSaldo = $this->withdraw($request, $txnid);
-
-        // if ($WdSaldo["error"]["id"] === 9720) {
-        //     $WdSaldo = $this->requestWitdraw9720($request, $txnid);
-        // }
-
-        // if ($WdSaldo["error"]["id"] === 4404) {
-        //     return $this->errorResponse($request->Username, $WdSaldo["error"]["id"]);
-        // }
         if (($request->ProductType == 3 && $cekTransaction) || ($request->ProductType == 7 && $cekTransaction)) {
             $createTransaction = $cekTransaction;
             $crteateStatusTransaction = $cekLastStatus;
@@ -701,6 +724,17 @@ class ApiBolaController extends Controller
             }
 
             if ($transactionTransaction) {
+
+                $this->createOutstanding([
+                    "transactionid" => $request->TransactionId,
+                    "transfercode" => $request->TransferCode,
+                    "username" => $request->Username,
+                    "portfolio" => ProductType::where('id', $request->ProductType)->first()->portfolio,
+                    "gametype" => ($request->ProductType == 5 || $request->ProductType == 1) ? $request->ExtraInfo['sportType'] : ProductType::where('id', $request->ProductType)->first()->productsname,
+                    "status" => 'Running',
+                    "amount" => $request->Amount
+                ]);
+
                 $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
                 return response()->json([
                     'AccountName' => $request->Username,

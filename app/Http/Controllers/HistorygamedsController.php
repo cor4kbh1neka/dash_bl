@@ -63,6 +63,32 @@ class HistorygamedsController extends Controller
             }
         }
 
+        if ($portfolio == 'SportsBook') {
+            $data_filter_sportsTypes = array_unique(array_column($data, 'sportsType'));
+        } else if ($portfolio == 'VirtualSports' || $portfolio == 'Games') {
+            $data_filter_sportsTypes = array_unique(array_column($data, 'productType'));
+        } else {
+            $data_filter_sportsTypes = [];
+        }
+
+        // dd($data);
+        if ($sportsType != '') {
+            $data = array_filter($data, function ($item) use ($portfolio, $sportsType) {
+                if ($portfolio == 'SportsBook') {
+                    return $item['sportsType'] === $sportsType;
+                } else if ($portfolio == 'VirtualSports' || $portfolio == 'Games') {
+                    return $item['productType'] === $sportsType;
+                }
+            });
+        }
+
+        if ($status != '') {
+            $data = array_filter($data, function ($item) use ($status) {
+                return $item['status'] === $status;
+            });
+        }
+
+
         //DATA SPORT TYPE   
         $dataSportType = [
             'Football', 'Basketball', 'American Football', 'Ice Hockey', 'Badminton', 'Pool/Snooker', 'Motor Sport', 'Tennis', 'Baseball', 'Volleyball', 'Others', 'Golf', 'Boxing', 'Cricket', 'Table Tennis', 'Rugby', 'Handball', 'Cycling', 'Athletics', 'Beach Soccer', 'Futsal', 'Special'
@@ -79,7 +105,8 @@ class HistorygamedsController extends Controller
             'sportsType' => $sportsType,
             'status' => $status,
             'dataSportType' => $dataSportType,
-            'Message' => $Message
+            'Message' => $Message,
+            'data_filter_sportsTypes' => $data_filter_sportsTypes
         ]);
     }
 
@@ -96,7 +123,8 @@ class HistorygamedsController extends Controller
         return view('historygameds.detail', [
             'title' => 'detail invoice',
             'totalnote' => 0,
-            'data' => $data
+            'data' => $data,
+            'portfolio' => $portfolio
         ]);
     }
 

@@ -55,19 +55,18 @@
                             <label for="sportsType">type bet</label>
                             <select name="sportsType" id="sportsType">
                                 <option value="">show all</option>
-                                <option value="Mix Parlay" {{ $sportsType == 'Mix Parlay' ? 'selected' : '' }}>Mix Parlay
-                                </option>
-                                <option value="Football" {{ $sportsType == 'Football' ? 'selected' : '' }}>Football
-                                </option>
-                                <option value="Basketball" {{ $sportsType == 'Basketball' ? 'selected' : '' }}>Basketball
-                                </option>
+                                @foreach ($data_filter_sportsTypes as $dt_filter)
+                                    <option value="{{ $dt_filter }}" {{ $sportsType == $dt_filter ? 'selected' : '' }}>
+                                        {{ $dt_filter }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="listinputmember">
                             <label for="status">pilih status</label>
                             <select name="status" id="status">
                                 <option value="">show all</option>
-                                <option value="running">running</option>
+                                {{-- <option value="running">running</option> --}}
                                 <option value="won">won</option>
                                 <option value="lose">lose</option>
                                 <option value="draw">draw</option>
@@ -108,15 +107,20 @@
                                     <td>{{ date('d-m-Y H:i:s', strtotime($d['orderTime'])) }}</td>
                                     <td class="data refNo">{{ $d['refNo'] }}</td>
                                     <td>
-                                        <a href="/historygameds/detail/{{ $d['refNo'] }}/{{ $portfolio }}"
-                                            target="_blank" class="detailbetingan">
+                                        @if ($portfolio != 'Games')
+                                            <a href="/historygameds/detail/{{ $d['refNo'] }}/{{ $portfolio }}"
+                                                target="_blank" class="detailbetingan">
+                                                <span
+                                                    class="texttypebet sportsType">{{ $portfolio == 'SportsBook' ? $d['sportsType'] : $d['productType'] }}</span>
+                                                <span class="klikdetail">(selengkapnya)</span>
+                                            </a>
+                                        @else
                                             <span
                                                 class="texttypebet sportsType">{{ $portfolio == 'SportsBook' ? $d['sportsType'] : $d['productType'] }}</span>
-                                            <span class="klikdetail">(selengkapnya)</span>
-                                        </a>
+                                        @endif
                                     </td>
                                     <td class="valuenominal odds"
-                                        data-odds="{{ $portfolio !== 'Games' ? $d['odds'] : '-' }}"></td>
+                                        data-odds="{{ $portfolio !== 'Games' ? $d['odds'] : 0.1 }}"></td>
                                     <td class="valuenominal stake" data-stake="{{ $d['stake'] }}"></td>
                                     <td class="valuenominal winLost" data-winLost="{{ $d['winLost'] }}"
                                         data-status="{{ $d['status'] }}"></td>
@@ -336,6 +340,94 @@
             $('#portfolio').change(function() {
                 $(this).removeClass('borderPulse');
             });
+        });
+
+        $(document).ready(function() {
+            $('#form-historygameds').submit(function(event) {
+                event.preventDefault();
+                var today = new Date();
+                var refNo = $('#refNo').val();
+                var startDate = new Date($('#startDate').val());
+                var timeDifferenceStart = Math.abs(today - startDate);
+                var daysDifferenceStart = Math.ceil(timeDifferenceStart / (1000 * 60 * 60 *
+                    24));
+                if (refNo == '') {
+                    if (daysDifferenceStart > 60) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Warning',
+                            text: "Rentang tanggal tidak dapat lebih dari 60 hari terhitung dari hari ini"
+                        });
+                    } else {
+                        $(this).unbind('submit').submit();
+                    }
+                } else {
+                    $(this).unbind('submit').submit();
+                }
+
+            });
+        });
+
+        $(document).ready(function() {
+            $('#endDate').change(function() {
+                var startDate = new Date($('#startDate').val());
+                var endDate = new Date($(this).val());
+
+                if (endDate < startDate) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Tanggal akhir harus lebih besar atau sama dengan tanggal awal',
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    });
+                    $(this).val(''); // Mengosongkan nilai endDate jika tidak valid
+                }
+            });
+        });
+
+        // $(document).ready(function() {
+        //     $('#endDate').change(function() {
+        //         var startDate = new Date($('#startDate').val());
+        //         var endDate = new Date($(this).val());
+
+        //         if (endDate < startDate) {
+        //             Swal.fire({
+        //                 title: 'Error',
+        //                 text: 'Tanggal akhir harus lebih besar dari tanggal awal',
+        //                 icon: 'error',
+        //                 confirmButtonColor: '#3085d6',
+        //                 confirmButtonText: 'OK'
+        //             });
+        //             $(this).val(''); // Mengosongkan nilai endDate jika tidak valid
+        //         }
+        //     });
+        // });
+
+        $('#startDate').change(function() {
+            var today = new Date();
+            var refNo = $('#refNo').val();
+            var startDate = new Date($('#startDate').val());
+
+            // Menghitung tanggal 60 hari yang lalu
+            var maxDate = new Date(today);
+            maxDate.setDate(maxDate.getDate() - 60);
+
+            if (refNo == '') {
+                if (startDate < maxDate) {
+                    // Format tanggal 60 hari yang lalu menjadi string
+                    var maxDateString = maxDate.toLocaleDateString('en-GB');
+
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Tanggal awal tidak boleh kurang dari ' + maxDateString,
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    });
+                    $(this).val('');
+                }
+            }
         });
     </script>
 @endsection

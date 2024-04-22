@@ -38,7 +38,8 @@
                 <div class="listheaddetail">
                     <span class="label">Game Type</span>
                     <span class="gap">:</span>
-                    <span class="value sportsType">{{ $data['sportsType'] }}</span>
+                    <span
+                        class="value sportsType">{{ $portfolio == 'SportsBook' ? $data['sportsType'] : $data['productType'] }}</span>
                 </div>
                 <div class="listheaddetail">
                     <span class="label">Odds Bet</span>
@@ -69,7 +70,9 @@
                             <td class="bagnomor">{{ $i + 1 }}</td>
                             <td>
                                 <div class="groupdetailmatch">
-                                    <span class="namaliga subBet-league">{{ $d['league'] }}</span>
+                                    @if (isset($d['league']))
+                                        <span class="namaliga subBet-league">{{ $d['league'] }}</span>
+                                    @endif
                                     <span class="pertandingan subBet-match">{{ $d['match'] }}</span>
                                     <div class="allscore">
                                         <div class="listscore">
@@ -81,13 +84,17 @@
                                             <span class="valuescore subBet-ftScore">{{ $d['ftScore'] }}</span>
                                         </div>
                                     </div>
-                                    <span class="detailbetting">detail bet : <span class="htft isHalfWonLose"
-                                            data-isHalfWonLose="{{ $d['isHalfWonLose'] }}"></span></span>
+                                    @if (isset($d['isHalfWonLose']))
+                                        <span class="detailbetting">detail bet : <span class="htft isHalfWonLose"
+                                                data-isHalfWonLose="{{ $d['isHalfWonLose'] }}"></span></span>
+                                    @endif
                                     <div class="listdetailbettting">
                                         <div class="dddetailbetting">
                                             <span class="labelbet">type :</span>
                                             <span class="valuebet subBet-marketType_sportType">{{ $d['marketType'] }}
-                                                ({{ $d['sportType'] }})
+                                                @if (isset($d['sportType']))
+                                                    ({{ $d['sportType'] }})
+                                                @endif
                                             </span>
                                         </div>
                                         <div class="dddetailbetting">

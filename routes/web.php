@@ -195,7 +195,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/historygameds/detail/{invoice}/{portfolio}', [HistorygamedsController::class, 'detail']);
 
     /*-- Outstandingds --*/
-    Route::get('/outstandingds', [OutstandingdsController::class, 'index']);
+    Route::get('/outstandingds/{username?}', [OutstandingdsController::class, 'index']);
 
     /*-- Referralds --*/
     Route::get('/referralds', [ReferraldsController::class, 'index']);
