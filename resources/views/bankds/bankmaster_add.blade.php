@@ -43,9 +43,9 @@
                         <div class="groupplayerinfo">
                             <div class="listgroupplayerinfo left">
                                 <div class="listplayerinfo">
-                                    <label for="namabank">nama nank</label>
+                                    <label for="bankmaster">nama nank</label>
                                     <div class="groupeditinput">
-                                        <input type="text" id="namabank" name="namabank" value="" placeholder="nama bank (isi menggunakan huruf kecil semua)">
+                                        <input type="text" id="bankmaster" name="bankmaster" value="" placeholder="nama bank (isi menggunakan huruf kecil semua)">
                                     </div>
                                 </div>
                                 <div class="listplayerinfo">

@@ -43,9 +43,9 @@
                         <div class="groupplayerinfo">
                             <div class="listgroupplayerinfo left">
                                 <div class="listplayerinfo">
-                                    <label for="groupbank">group</label>
+                                    <label for="masterbank">pilih master</label>
                                     <div class="groupeditinput">
-                                        <select id="groupbank" name="groupbank" value="groupdepo1">
+                                        <select id="masterbank" name="masterbank" value="bca">
                                             <option value="groupdepo1">groupdepo1</option>
                                             <option value="groupdepo2">groupdepo2</option>
                                             <option value="groupdepo3">groupdepo3</option>
