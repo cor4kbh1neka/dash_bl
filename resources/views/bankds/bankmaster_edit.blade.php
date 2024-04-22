@@ -43,9 +43,9 @@
                         <div class="groupplayerinfo">
                             <div class="listgroupplayerinfo left">
                                 <div class="listplayerinfo">
-                                    <label for="groupbank">nama bank</label>
+                                    <label for="bankmaster">nama bank</label>
                                     <div class="groupeditinput">
-                                        <select id="groupbank" name="groupbank" value="bca">
+                                        <select id="bankmaster" name="bankmaster" value="bca">
                                             <option value="bca">bca</option>
                                             <option value="bni">bni</option>
                                             <option value="bri">bri</option>
