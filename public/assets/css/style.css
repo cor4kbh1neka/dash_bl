@@ -2343,6 +2343,7 @@ table svg.icon-tabler-x {
     align-items: center;
     padding: 20px;
     background: var(--bg-box-primary);
+    border: 1px solid rgba(var(--rgba-primary), 0.2);
     border-radius: 5px 5px 0 0;
     gap: 50px;
   }
@@ -2403,6 +2404,8 @@ table svg.icon-tabler-x {
     gap: 20px;
     border-radius: 5px;
     margin-bottom: 20vh;
+    padding: 0 0 20px 0;
+    border: 1px solid rgba(var(--rgba-primary), 0.2);
   }
   .tabelproses tbody {
     border: 5px solid transparent;
@@ -2751,6 +2754,7 @@ table svg.icon-tabler-x {
     flex-direction: column;
     background: var(--bg-box-primary);
     border-radius: 6px 6px 0 0;
+    border: 1px solid rgba(var(--rgba-primary), 0.2);
     overflow: hidden;
   }
   .groupform {
@@ -3807,6 +3811,7 @@ table svg.icon-tabler-x {
     text-align: center;
     font-size: 13px;
     border: 1px solid rgba(var(--rgba-primary), 0.2);
+    overflow: unset;
   }
   .grouptablebank .bkadlist {
     width: 2.5%;
@@ -3821,8 +3826,14 @@ table svg.icon-tabler-x {
   .grouptablebank .check_box {
     width: 10%;
   }
+  .grouptablebank .bkactionss {
+    width: 10%;
+  }
   .grouptablebank .thead {
     background: var(--bg-box-primary-dark);
+  }
+  .grouptablebank .bkbarcode {
+    width: 10%;
   }
   .grouptablebank select {
     background: transparent;
@@ -4016,4 +4027,102 @@ table svg.icon-tabler-x {
   }
   .groupeditinput #urllogo {
     text-transform: unset;
+  }
+  .listplayerinfo .groupnamabank {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 10px;
+  }
+  input#urlbarcode {
+    text-transform: lowercase;
+  }
+  .groupactions {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  .grouplistaction {
+    padding: 10px;
+    background: red;
+    position: absolute;
+    bottom: -60px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .grouptablebank .kolom_action {
+    justify-content: center;
+  }
+  .grouptablebank .action_crud {
+    left: unset;
+  }
+  .grouptablebank.frinput td {
+    padding: 5px;
+  }
+  .grouptablebank.frinput .listbanksd th {
+    font-size: 13px;
+  }
+  .grouptablebank.frinput .inputnew {
+    width: 100%;
+    background: var(--bg-box-primary);
+    color: rgba(var(--rgba-white));
+    border: 1px solid rgba(var(--rgba-primary), 0.5);
+    box-shadow: inset 5px 5px 5px rgba(var(--rgba-black), 0.25);
+    padding: 10px 10px 10px 20px;
+    text-align: left;
+    border-radius: 0;
+    transition: all 0.3s ease;
+  }
+  .grouptablebank.frinput .inputnew:focus {
+    border: 1px solid rgba(var(--rgba-aqua), 0.5);
+  }
+  .grouptablebank.frinput .inputnew.smallfont {
+    font-size: 13px;
+  }
+  .inputtablebank {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 0.1fr 1fr;
+    align-items: center;
+    gap: 3px;
+  }
+  .inputtablebank.single {
+    display: unset;
+  }
+  .inputtablebank.single .inputnew {
+    font-size: 20px;
+    padding: 5px;
+  }
+  .inputtablebank .textparam {
+    font-size: 10px;
+    color: var(--primary-color);
+  }
+  .listinputtablebank {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .inputtablebank .gapcount {
+    padding-bottom: 15px;
+  }
+  .grouptablebank.frinput .listinputtablebank input {
+    text-align: center;
+  }
+  .grouptablebank.frinput .check_box {
+    width: 5%;
+  }
+  .xurlbarcode input[type="checkbox"] {
+    width: 25px;
+    height: 25px;
+    border: 2px solid var(--success-color);
+  }
+  .xurlbarcode input[type="checkbox"]:checked::before {
+    background-color: var(--success-color);
+  }
+  .swal2-icon.swal2-info {
+    border-color: var(--primary-color) !important;
+  }
+  .swal2-icon.swal2-info {
+    color: var(--primary-color) !important;
   }

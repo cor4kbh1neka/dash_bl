@@ -45,58 +45,65 @@
                                 <div class="listplayerinfo">
                                     <label for="masterbank">pilih master</label>
                                     <div class="groupeditinput">
-                                        <select id="masterbank" name="masterbank" value="bca">
-                                            <option value="groupdepo1">groupdepo1</option>
-                                            <option value="groupdepo2">groupdepo2</option>
-                                            <option value="groupdepo3">groupdepo3</option>
-                                            <option value="groupdepo4">groupdepo4</option>
+                                        <select id="bankmaster" name="bankmaster" value="bca">
+                                            <option value="bca">bca</option>
+                                            <option value="bni">bni</option>
+                                            <option value="bri">bri</option>
+                                            <option value="mandiri">mandiri</option>
+                                            <option value="cimb">cimb</option>
+                                            <option value="danamon">danamon</option>
+                                            <option value="panin">panin</option>
+                                            <option value="cimb">cimb</option>
+                                            <option value="permata">permata</option>
+                                            <option value="bsi">bsi</option>
+                                            <option value="dana">dana</option>
+                                            <option value="gopay">gopay</option>
+                                            <option value="ovo">ovo</option>
+                                            <option value="pulsa">pulsa</option>
+                                            <option value="linkaja">linkaja</option>
+                                            <option value="qris">qris</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="listplayerinfo">
-                                    <span class="labelbetpl">GROUP TYPE</span>
-                                    <div class="groupradiooption" data-chekced="1">
-                                        <div class="listgrpstatusbank">
-                                            <input class="status_primary" type="radio" id="deposit" name="group_type" value="1">
-                                            <label for="deposit">deposit</label>
+                                    <label for="bankname">nama bank</label>
+                                    <div class="groupnamabank">
+                                        <div class="groupeditinput">
+                                            <input type="text" readonly id="bankname" name="bankname" value="bca1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                                            </svg>
                                         </div>
-                                        <div class="listgrpstatusbank">
-                                            <input class="status_primary" type="radio" id="withdraw" name="group_type" value="2">
-                                            <label for="withdraw">withdraw</label>
+                                        <div class="groupeditinput">
+                                            <select id="methode" name="methode" value="bank">
+                                                <option value="bank">bank</option>
+                                                <option value="ewallet">ewallet</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="listplayerinfo">
-                                    <label for="groupbank">minimal deposit</label>
+                                    <label for="namarek">nama rekening</label>
                                     <div class="groupeditinput">
-                                        <input type="text" readonly id="mindepo" name="mindepo" value="10">
+                                        <input type="text" readonly id="namarek" name="namarek" value="florensia sitanggang">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                                             <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
                                         </svg>
                                     </div>
                                 </div>
                                 <div class="listplayerinfo">
-                                    <label for="groupbank">maksimal deposit</label>
+                                    <label for="nomorrek">nomor rekening</label>
                                     <div class="groupeditinput">
-                                        <input type="text" readonly id="maxdepo" name="maxdepo" value="100000">
+                                        <input type="text" readonly id="nomorrek" name="nomorrek" value="03559178112">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                                             <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
                                         </svg>
                                     </div>
                                 </div>
                                 <div class="listplayerinfo">
-                                    <label for="groupbank">minimal withdraw</label>
+                                    <label for="urlbarcode">url barcode</label>
                                     <div class="groupeditinput">
-                                        <input type="text" readonly id="minwd" name="minwd" value="10">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                            <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="listplayerinfo">
-                                    <label for="groupbank">maksimal withdraw</label>
-                                    <div class="groupeditinput">
-                                        <input type="text" readonly id="maxwd" name="maxwd" value="100000">
+                                        <input type="text" readonly id="urlbarcode" name="urlbarcode" value="https://i.ibb.co/n671yNG/Screenshot-44.png">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                                             <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
                                         </svg>
@@ -117,7 +124,7 @@
                                             </defs>
                                             <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSAdd0)" />
                                         </svg>
-                                        GROUP BANK
+                                        REKENING BANK
                                     </span>
                                 </a>
                                 <button class="tombol primary">
@@ -173,8 +180,33 @@
 
         // dropdown selected
         $(document).ready(function(){
-        var selectedValue = $('#groupbank').val();
-        $('#groupbank option[value="' + selectedValue + '"]').attr('selected', 'selected');
-    });
+            var selectedValue = $('#groupbank').val();
+            $('#groupbank option[value="' + selectedValue + '"]').attr('selected', 'selected');
+        });
+
+        //format value norek
+        $(document).ready(function(){
+            var nomorRekValue = $('#nomorrek').val();
+            var formattedNomorRek = nomorRekValue.replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5-$6-$7')
+                                                .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5-$6')
+                                                .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5')
+                                                .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4')
+                                                .replace(/^(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
+                                                .replace(/^(\d{3})(\d{4})/, '$1-$2');
+            $('#nomorrek').val(formattedNomorRek);
+
+            $('#nomorrek').on('input', function(){
+                var nomorRekValue = $(this).val();
+                var cleanNomorRek = nomorRekValue.replace(/\D/g, '');
+                var formattedNomorRek = cleanNomorRek.replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5-$6-$7')
+                                                    .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5-$6')
+                                                    .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5')
+                                                    .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4')
+                                                    .replace(/^(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
+                                                    .replace(/^(\d{3})(\d{4})/, '$1-$2');
+                $(this).val(formattedNomorRek);
+            });
+        });
+
     </script>
 @endsection
