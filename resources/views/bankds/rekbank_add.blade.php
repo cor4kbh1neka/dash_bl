@@ -18,10 +18,13 @@
                     <a href="/bankds" class="tombol grey">
                         <span class="texttombol">ACTIVE BANK</span>
                     </a>
-                    <a href="/bankds/setbankmaster" class="tombol grey active">
-                        <span class="texttombol">SET BANK MASTER</span>
+                    <a href="/bankds/addbankmaster" class="tombol grey">
+                        <span class="texttombol">ADD & SET MASTER</span>
                     </a>
-                    <a href="/bankds/addbank" class="tombol grey">
+                    <a href="/bankds/addgroupbank" class="tombol grey">
+                        <span class="texttombol">ADD & SET GROUP</span>
+                    </a>
+                    <a href="/bankds/addbank" class="tombol grey active">
                         <span class="texttombol">ADD & SET BANK</span>
                     </a>
                     <a href="/bankds/listmaster" class="tombol grey">
@@ -35,7 +38,7 @@
                     </a>
                 </div>
                 <div class="secgroupdatabankds">
-                    ini hasil data
+                    ini hasil data add  bank
                 </div>
             </div>
         </div>

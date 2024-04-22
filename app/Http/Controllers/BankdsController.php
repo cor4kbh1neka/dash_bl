@@ -34,8 +34,44 @@ class BankdsController extends Controller
     public function setbankmaster()
     {
 
-        return view('bankds.setbankmaster', [
+        return view('bankds.bankmaster_edit', [
             'title' => 'Set Bank Master',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function addbankmaster()
+    {
+
+        return view('bankds.bankmaster_add', [
+            'title' => 'Set Bank Master',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function setgroupbank()
+    {
+
+        return view('bankds.groupbank_edit', [
+            'title' => 'Set Bank Master',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function addgroupbank()
+    {
+
+        return view('bankds.groupbank_add', [
+            'title' => 'Set Bank Master',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function setbank()
+    {
+
+        return view('bankds.rekbank_edit', [
+            'title' => 'Add & Set Bank',
             'totalnote' => 0,
         ]);
     }
@@ -43,7 +79,7 @@ class BankdsController extends Controller
     public function addbank()
     {
 
-        return view('bankds.addbank', [
+        return view('bankds.rekbank_add', [
             'title' => 'Add & Set Bank',
             'totalnote' => 0,
         ]);

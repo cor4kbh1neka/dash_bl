@@ -951,29 +951,29 @@ input[type="checkbox"] {
     background-color: transparent;
     transition: all 0.3s ease;
   }
-input[type="checkbox" i]:hover {
-    border: 2px solid var(--primary-color);
-    box-shadow: 0 0 10px var(--primary-color);
-}
-input[type="checkbox"]:checked {
-    background-color: var(--primary-color);
-    position: relative;
-    overflow: hidden;
-}
-input[type="checkbox"]:checked::before {
-    content: "✓";
-    position: absolute;
-    background-color: var(--primary-color);
-    color: white;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    top: 0;
-    left: 0;
-    border-radius: 6px;
-}
+    input[type="checkbox" i]:hover {
+        border: 2px solid var(--primary-color);
+        box-shadow: 0 0 10px var(--primary-color);
+    }
+    input[type="checkbox"]:checked {
+        background-color: var(--primary-color);
+        position: relative;
+        overflow: hidden;
+    }
+    input[type="checkbox"]:checked::before {
+        content: "✓";
+        position: absolute;
+        background-color: var(--primary-color);
+        color: white;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        top: 0;
+        left: 0;
+        border-radius: 6px;
+    }
 
 .check_box {
     width: 10%;
@@ -2106,7 +2106,7 @@ table svg.icon-tabler-x {
     display: grid;
     grid-template-columns: 2fr 2fr 1.5fr;
     gap: 15px;
-    padding: 10px 20px;
+    padding: 10px 20px 120px 20px;
   }
   .listsecdashboard {
     width: 100%;
@@ -2284,6 +2284,10 @@ table svg.icon-tabler-x {
   .tombol .texttombol {
     font-family:'myFont1';
     font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
   }
   .tombol.proses {
     background: var(--success-color);
@@ -2324,7 +2328,7 @@ table svg.icon-tabler-x {
     display: flex;
     flex-direction: row;
     gap: 10px;
-    padding: 10px 20px;
+    padding: 10px 20px 10px 20px;
   }
   .groupdatamaster {
     width: 100%;
@@ -2730,7 +2734,7 @@ table svg.icon-tabler-x {
     display: flex;
     flex-direction: row;
     gap: 10px;
-    padding: 10px 20px;
+    padding: 10px 20px 120px 20px;
   }
   .groupsecmanualds {
     width: 100%;
@@ -2808,6 +2812,9 @@ table svg.icon-tabler-x {
   .listcatatan #readCheckbox {
     animation: 1s ease-out 0s infinite normal none running borderPulse;
   }
+  .borderPulse {
+    animation: 1s ease-out 0s infinite normal none running borderPulse;
+  }
   @keyframes borderPulse {
     0% {
       box-shadow:
@@ -2836,7 +2843,7 @@ table svg.icon-tabler-x {
     display: flex;
     flex-direction: row;
     gap: 10px;
-    padding: 10px 20px;
+    padding: 10px 20px 10px 20px;
   }
   .grouphistoryds {
     width: 100%;
@@ -3185,13 +3192,25 @@ table svg.icon-tabler-x {
     border: 1px solid rgba(var(--rgba-primary), 0.8);
     box-shadow: unset;
   }
+  .secgroupdatabankds input:focus,
+  .secgroupdatabankds select:focus {
+    border: 1px solid rgba(var(--rgba-primary), 0.8);
+    box-shadow: unset;
+  }
   .groupseceditmemberds input::placeholder {
+    text-transform: capitalize;
+  }
+  .secgroupdatabankds input::placeholder {
     text-transform: capitalize;
   }
   .groupseceditmemberds select {
     text-transform: capitalize;
   }
-  .groupseceditmemberds input.nosabel {
+  .secgroupdatabankds select {
+    text-transform: capitalize;
+  }
+  .groupseceditmemberds input.nosabel,
+  .secgroupdatabankds input.nosabel {
     background: transparent;
     box-shadow: unset;
     border: unset;
@@ -3199,7 +3218,17 @@ table svg.icon-tabler-x {
     padding: 10px 10px 10px 0;
     cursor: unset;
   }
-  .groupseceditmemberds .groupeditinput {
+  .secgroupdatabankds input.nosabel,
+  .secgroupdatabankds input.nosabel {
+    background: transparent;
+    box-shadow: unset;
+    border: unset;
+    border-radius: unset;
+    padding: 10px 10px 10px 0;
+    cursor: unset;
+  }
+  .groupseceditmemberds .groupeditinput,
+  .secgroupdatabankds .groupeditinput {
     display: flex;
     justify-content: center;
     background: var(--bg-box-primary);
@@ -3211,25 +3240,32 @@ table svg.icon-tabler-x {
     border-radius: 5px;
     transition: all 0.3s ease;
   }
-  .groupseceditmemberds .groupeditinput:focus {
+  .groupseceditmemberds .groupeditinput:focus,
+  .secgroupdatabankds .groupeditinput:focus {
     border: 1px solid rgba(var(--rgba-primary), 0.8);
   }
-  .groupseceditmemberds .groupeditinput.edit {
+  .groupseceditmemberds .groupeditinput.edit,
+  .secgroupdatabankds .groupeditinput.edit {
     background: rgba(var(--rgba-white));
     box-shadow: unset;
   }
-  .groupseceditmemberds .groupeditinput.edit input {
+  .groupseceditmemberds .groupeditinput.edit input,
+  .secgroupdatabankds .groupeditinput.edit input {
     color: rgba(var(--rgba-black));
   }
-  .groupseceditmemberds .groupeditinput svg {
+  .groupseceditmemberds .groupeditinput svg,
+  .secgroupdatabankds .groupeditinput svg {
     cursor: pointer;
     transition: all 0.3s ease;
   }
-  .groupseceditmemberds .groupeditinput svg:hover {
+  .groupseceditmemberds .groupeditinput svg:hover,
+  .secgroupdatabankds .groupeditinput svg:hover {
     filter: drop-shadow(0 0 5px var(--primary-color));
     transform: scale(1.2);
   }
-  .groupseceditmemberds .groupeditinput input {
+  .groupseceditmemberds .groupeditinput input,
+  .secgroupdatabankds .groupeditinput input,
+  .secgroupdatabankds .groupeditinput select {
     padding: unset;
     background: transparent;
     box-shadow: unset;
@@ -3262,7 +3298,7 @@ table svg.icon-tabler-x {
     width: 100%;
     display: flex;
     gap: 10px;
-    padding: 10px 20px;
+    padding: 10px 20px 120px 20px;
   }
   .groupplayerinfo::before {
     content: '';
@@ -3302,7 +3338,7 @@ table svg.icon-tabler-x {
     justify-content: space-between;
   }
   .listchangedataplayer label,
-  .groupdatbetpl .labelbetpl {
+  .labelbetpl {
     text-transform: uppercase;
     color: rgba(var(--rgba-white), 0.8);
   }
@@ -3403,7 +3439,7 @@ table svg.icon-tabler-x {
     width: 100%;
     display: flex;
     gap: 10px;
-    padding: 10px 20px;
+    padding: 10px 20px 10px 20px;
   }
   .groupsechistorygame {
     width: 100%;
@@ -3600,7 +3636,7 @@ table svg.icon-tabler-x {
   }
   .listheaddetail .grouphasilpertandingan .statusgame {
     text-transform: uppercase;
-    font-weight: bold;
+    font-weight: bold; 
   }
   .listheaddetail .grouphasilpertandingan .statusgame[data-status="lose"] {
     color: var(--red-color);
@@ -3615,7 +3651,7 @@ table svg.icon-tabler-x {
     width: 100%;
     display: flex;
     gap: 10px;
-    padding: 10px 20px;
+    padding: 10px 20px 10px 20px;
   }
   .groupoutstandingds {
     display: flex;
@@ -3696,7 +3732,7 @@ table svg.icon-tabler-x {
     width: 100%;
     display: flex;
     gap: 10px;
-    padding: 10px 20px;
+    padding: 10px 20px 120px 20px;
   }
   .groupsecreferralds {
     display: flex;
@@ -3707,20 +3743,277 @@ table svg.icon-tabler-x {
     width: 100%;
     display: flex;
     gap: 10px;
-    padding: 10px 20px;
+    padding: 10px 20px 120px 20px;
   }
   .groupsecbankds {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 30px;
   }
   .headsecbankds {
-    width: 100%;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     gap: 10px;
   }
   .headsecbankds .tombol {
     width: 100%;
     padding: 20px;
+  }
+  .secgroupdatabankds {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .groupactivebank {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .listgroupbank {
+    width: 100%;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-box-primary);
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid rgba(var(--rgba-primary), 0.2);
+  }
+  .titlelistgroupbank {
+    width: 100%;
+  }
+  .titlelistgroupbank .texttitle {
+    font-size: 20px;
+    font-weight: bold;
+    color: rgba(var(--rgba-white));
+  }
+  .grouptablebank {
+    height: 100%;
+  }
+  .grouptablebank th {
+    text-align: center;
+    padding: 10px 5px;
+    border-bottom: none;
+    font-size: 16px;
+    border: 1px solid rgba(var(--rgba-primary), 0.2);
+  }
+  .grouptablebank .titlelistgroupbank th {
+    border: unset;
+  }
+  .grouptablebank td {
+    text-align: center;
+    font-size: 13px;
+    border: 1px solid rgba(var(--rgba-primary), 0.2);
+  }
+  .grouptablebank .bkadlist {
+    width: 2.5%;
+  }
+  .grouptablebank .titlelistgroupbank {
+    background: var(--bg-box-primary);
+    width: 97%;
+  }
+  .grouptablebank .bknomor {
+    width: 5%;
+  }
+  .grouptablebank .check_box {
+    width: 10%;
+  }
+  .grouptablebank .thead {
+    background: var(--bg-box-primary-dark);
+  }
+  .grouptablebank select {
+    background: transparent;
+    border-radius: unset;
+    text-transform: uppercase;
+    font-size: 15px;
+  }
+  .grouptablebank option {
+    background: rgba(var(--rgba-primary-bg-color));
+  }
+  .grpstatusbank {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+  }
+  .listgrpstatusbank {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+  }
+  .listgrpstatusbank input[type="radio"]:focus {
+    border: unset;
+  }
+  .listgrpstatusbank input[type="radio"] {
+    width: unset;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    appearance: none;
+    outline: none;
+    transition: all 0.3s ease;
+    padding: 7px;
+    box-shadow: none;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 5px;
+    background: transparent;
+    transition: all 0.3s ease;
+  }
+  .listgrpstatusbank input[type="radio"]:checked {
+    position: relative;
+    padding: 5px;
+    overflow: hidden;
+  }
+  .listgrpstatusbank input[type="radio"]:checked::before {
+    content: "";
+    position: absolute;
+    color: white;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+  }
+  .listgrpstatusbank input.status_online[type="radio"] {
+    border: 1px solid var(--green-color);
+  }
+  .listgrpstatusbank input.status_online[type="radio"]:checked::before {
+    background-color: var(--green-color);
+  }
+  .listgrpstatusbank input.status_online[type="radio" i]:hover {
+    border: 2px solid var(--green-color);
+  }
+  .listgrpstatusbank input.status_online[type="radio" i]:hover {
+    box-shadow: 0 0 10px var(--green-color);
+  }
+  .listgrpstatusbank input.status_online[type="radio"]:checked {
+    background-color: var(--green-color);
+    position: relative;
+    border: 2px solid white;
+    box-shadow: 0px 0px 5px var(--green-color);
+    overflow: hidden;
+  }
+  .listgrpstatusbank input.status_offline[type="radio"] {
+    border: 1px solid var(--red-color);
+  }
+  .listgrpstatusbank input.status_offline[type="radio"]:checked::before {
+    background-color: var(--red-color);
+  }
+  .listgrpstatusbank input.status_offline[type="radio" i]:hover {
+    border: 2px solid var(--red-color);
+  }
+  .listgrpstatusbank input.status_offline[type="radio" i]:hover {
+    box-shadow: 0 0 10px var(--red-color);
+  }
+  .listgrpstatusbank input.status_offline[type="radio"]:checked {
+    background-color: var(--red-color);
+    position: relative;
+    border: 2px solid white;
+    box-shadow: 0px 0px 5px var(--red-color);
+    overflow: hidden;
+  }
+  .listgrpstatusbank input.status_trouble[type="radio"] {
+    border: 1px solid var(--yellow-color);
+  }
+  .listgrpstatusbank input.status_trouble[type="radio"]:checked::before {
+    background-color: var(--yellow-color);
+  }
+  .listgrpstatusbank input.status_trouble[type="radio" i]:hover {
+    border: 2px solid var(--yellow-color);
+  }
+  .listgrpstatusbank input.status_trouble[type="radio" i]:hover {
+    box-shadow: 0 0 10px var(--yellow-color);
+  }
+  .listgrpstatusbank input.status_trouble[type="radio"]:checked {
+    background-color: var(--yellow-color);
+    position: relative;
+    border: 2px solid white;
+    box-shadow: 0px 0px 5px var(--yellow-color);
+    overflow: hidden;
+  }
+  .listgrpstatusbank input.status_primary[type="radio"] {
+    border: 1px solid var(--primary-color);
+  }
+  .listgrpstatusbank input.status_primary[type="radio"]:checked::before {
+    background-color: var(--primary-color);
+  }
+  .listgrpstatusbank input.status_primary[type="radio" i]:hover {
+    border: 2px solid var(--primary-color);
+  }
+  .listgrpstatusbank input.status_primary[type="radio" i]:hover {
+    box-shadow: 0 0 10px var(--primary-color);
+  }
+  .listgrpstatusbank input.status_primary[type="radio"]:checked {
+    background-color: var(--primary-color);
+    position: relative;
+    border: 2px solid white;
+    box-shadow: 0px 0px 5px var(--primary-color);
+    overflow: hidden;
+  }
+  .addlist svg {
+    width: 25px;
+    height: 25px;
+    transition: all 0.3s ease;
+  }
+  .addlist:hover svg {
+    transform: scale(1.1);
+  }
+  .listgrpstatusbank label {
+    text-transform: capitalize;
+  }
+  .listgroupbank .tombol {
+    width: 100%;
+    border-radius: unset;
+  }
+  .grouptablebank input[type="checkbox"] {
+    background: transparent;
+  }
+  .grouptablebank td.tdnamabank {
+    text-transform: uppercase;
+    padding: 10px;
+    color: rgba(var(--rgba-white));
+    font-size: 18px;
+  }
+  .secgroupdatabankds .listgroupplayerinfo {
+    padding: unset;
+  }
+  .groupsetbankmaster {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .titlebankmaster {
+    font-size: 20px;
+    text-transform: uppercase;
+    text-align: center;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(var(--rgba-primary), 0.2);
+    color: rgba(var(--rgba-white), 0.8);
+    font-family: myFont1;
+  }
+  .secgroupdatabankds input {
+    color: rgba(var(--rgba-white));
+  }
+  .groupradiooption {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .secgroupdatabankds option {
+    background: rgba(var(--rgba-primary-bg-color));
+  }
+  .listgroupplayerinfo.right.solo {
+    justify-content: flex-end;
+  }
+  .groupeditinput #urllogo {
+    text-transform: unset;
   }

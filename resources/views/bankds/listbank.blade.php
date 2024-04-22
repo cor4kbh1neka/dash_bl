@@ -18,8 +18,11 @@
                     <a href="/bankds" class="tombol grey">
                         <span class="texttombol">ACTIVE BANK</span>
                     </a>
-                    <a href="/bankds/setbankmaster" class="tombol grey">
-                        <span class="texttombol">SET BANK MASTER</span>
+                    <a href="/bankds/addbankmaster" class="tombol grey">
+                        <span class="texttombol">ADD & SET MASTER</span>
+                    </a>
+                    <a href="/bankds/addgroupbank" class="tombol grey">
+                        <span class="texttombol">ADD & SET GROUP</span>
                     </a>
                     <a href="/bankds/addbank" class="tombol grey">
                         <span class="texttombol">ADD & SET BANK</span>
