@@ -203,15 +203,25 @@ Route::middleware(['auth'])->group(function () {
     /*-- Bankds --*/
     Route::get('/bankds', [BankdsController::class, 'index'])->name('bankds');
     Route::post('/storemaster', [BankdsController::class, 'storemaster']);
+    Route::post('/storegroupbank', [BankdsController::class, 'storegroupbank']);
+    Route::post('/changestatusbank/{jenis?}', [BankdsController::class, 'changeStatusBank']);
 
     Route::get('/bankds/setbankmaster', [BankdsController::class, 'setbankmaster']);
     Route::get('/bankds/addbankmaster', [BankdsController::class, 'addbankmaster']);
     Route::get('/bankds/setgroupbank', [BankdsController::class, 'setgroupbank']);
     Route::get('/bankds/addgroupbank', [BankdsController::class, 'addgroupbank']);
     Route::get('/bankds/setbank', [BankdsController::class, 'setbank']);
+
     Route::get('/bankds/addbank', [BankdsController::class, 'addbank']);
+    Route::post('/storebank', [BankdsController::class, 'storebank']);
+
     Route::get('/bankds/listmaster', [BankdsController::class, 'listmaster']);
-    Route::get('/bankds/listgroup', [BankdsController::class, 'listgroup']);
+
+    Route::get('/bankds/listgroup', [BankdsController::class, 'listgroup'])->name('listgroup');
+    Route::post('/updatelistgroup/{jenis}', [BankdsController::class, 'updatelistgroup']);
+    Route::delete('/deletelistgroup/{id}', [BankdsController::class, 'deletelistgroup']);
+
+
     Route::get('/bankds/listbank', [BankdsController::class, 'listbank']);
 
     /*-- Memods --*/

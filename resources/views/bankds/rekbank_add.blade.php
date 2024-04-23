@@ -8,7 +8,8 @@
             <h2>{{ $title }}</h2>
             <div class="fullscreen">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
-                    <path fill="currentColor" d="m5.3 6.7l1.4-1.4l-3-3L5 1H1v4l1.3-1.3zm1.4 4L5.3 9.3l-3 3L1 11v4h4l-1.3-1.3zm4-1.4l-1.4 1.4l3 3L11 15h4v-4l-1.3 1.3zM11 1l1.3 1.3l-3 3l1.4 1.4l3-3L15 5V1z" />
+                    <path fill="currentColor"
+                        d="m5.3 6.7l1.4-1.4l-3-3L5 1H1v4l1.3-1.3zm1.4 4L5.3 9.3l-3 3L1 11v4h4l-1.3-1.3zm4-1.4l-1.4 1.4l3 3L11 15h4v-4l-1.3 1.3zM11 1l1.3 1.3l-3 3l1.4 1.4l3-3L15 5V1z" />
                 </svg>
             </div>
         </div>
@@ -38,10 +39,83 @@
                     </a>
                 </div>
                 <div class="secgroupdatabankds">
-                    ini hasil data add  bank
+                    <form method="POST" action="/storebank" class="groupsetbankmaster">
+                        @csrf
+                        <span class="titlebankmaster">Add Detail Bank</span>
+                        <div class="listgroupplayerinfo left">
+                            <div class="listplayerinfo">
+                                <label for="masterbank">pilih master</label>
+                                <div class="groupeditinput">
+                                    <select id="bankmaster" name="masterbnkxyxt" value="bca" required>
+                                        <option value="bca">bca</option>
+                                        <option value="bni">bni</option>
+                                        <option value="bri">bri</option>
+                                        <option value="mandiri">mandiri</option>
+                                        <option value="cimb">cimb</option>
+                                        <option value="danamon">danamon</option>
+                                        <option value="panin">panin</option>
+                                        <option value="cimb">cimb</option>
+                                        <option value="permata">permata</option>
+                                        <option value="bsi">bsi</option>
+                                        <option value="dana">dana</option>
+                                        <option value="gopay">gopay</option>
+                                        <option value="ovo">ovo</option>
+                                        <option value="pulsa">pulsa</option>
+                                        <option value="linkaja">linkaja</option>
+                                        <option value="qris">qris</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="listplayerinfo">
+                                <label for="bankname">nama bank</label>
+                                <div class="groupnamabank">
+                                    <div class="groupeditinput">
+                                        <input type="text" id="bankname" name="namebankxxyy" value=""
+                                            placeholder="masukkan nama bank" required>
+                                    </div>
+                                    <div class="groupeditinput">
+                                        <select id="methode" name="yyxxmethod" value="bank" required>
+                                            <option value="" selected="" place=""
+                                                style="color: #838383; font-style: italic;" disabled="">pilih methode
+                                            </option>
+                                            <option value="bank">bank</option>
+                                            <option value="ewallet">ewallet</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="listplayerinfo">
+                                <label for="namarek">nama rekening</label>
+                                <div class="groupeditinput">
+                                    <input type="text" id="namarek" name="xynamarekx" value=""
+                                        placeholder="masukkan nama rekening" required>
+                                </div>
+                            </div>
+                            <div class="listplayerinfo">
+                                <label for="nomorrek">nomor rekening</label>
+                                <div class="groupeditinput">
+                                    <input type="text" id="nomorrek" name="norekxyxy" value=""
+                                        placeholder="masukkan nomor rekening" required>
+                                </div>
+                            </div>
+                            <div class="listplayerinfo">
+                                <label for="urlbarcode">url barcode</label>
+                                <div class="groupeditinput">
+                                    <input type="text" id="urlbarcode" name="barcodexrxr" value=""
+                                        placeholder="isi data untuk show barcode" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="listgroupplayerinfo right solo">
+                            <button class="tombol primary">
+                                <span class="texttombol">SAVE DATA</span>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 
@@ -64,6 +138,57 @@
                 }
             });
 
+        });
+
+        // clear readonly
+        $(document).ready(function() {
+            $('.groupeditinput svg').click(function() {
+                $(this).closest('.groupeditinput').toggleClass('edit');
+                $(this).siblings('input').prop('readonly', function(_, val) {
+                    return !val;
+                });
+            });
+        });
+
+        // checked radio button berdasarkan value dari status bank 1, 2, 3
+        $(document).ready(function() {
+            $('.groupradiooption[data-chekced]').each(function() {
+                var checkedBankValue = $(this).attr('data-chekced');
+                $(this).find('.listgrpstatusbank input[type="radio"][value="' + checkedBankValue + '"]')
+                    .prop('checked', true);
+            });
+        });
+
+        // dropdown selected
+        $(document).ready(function() {
+            var selectedValue = $('#groupbank').val();
+            $('#groupbank option[value="' + selectedValue + '"]').attr('selected', 'selected');
+        });
+
+        //format value norek
+        $(document).ready(function() {
+            var nomorRekValue = $('#nomorrek').val();
+            var formattedNomorRek = nomorRekValue.replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})/,
+                    '$1-$2-$3-$4-$5-$6-$7')
+                .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5-$6')
+                .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5')
+                .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4')
+                .replace(/^(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
+                .replace(/^(\d{3})(\d{4})/, '$1-$2');
+            $('#nomorrek').val(formattedNomorRek);
+
+            $('#nomorrek').on('input', function() {
+                var nomorRekValue = $(this).val();
+                var cleanNomorRek = nomorRekValue.replace(/\D/g, '');
+                var formattedNomorRek = cleanNomorRek.replace(
+                        /^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5-$6-$7')
+                    .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5-$6')
+                    .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5')
+                    .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4')
+                    .replace(/^(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
+                    .replace(/^(\d{3})(\d{4})/, '$1-$2');
+                $(this).val(formattedNomorRek);
+            });
         });
     </script>
 @endsection

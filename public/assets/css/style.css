@@ -2806,7 +2806,7 @@ table svg.icon-tabler-x {
 }
 
 .tabelproses .baguser {
-  width: 12%;
+  width: 15%;
 }
 
 .tabelproses .bagtanggal {
@@ -2893,6 +2893,7 @@ table svg.icon-tabler-x {
 
 .splitcollum .userpending {
   font-size: 15px;
+  display: flex;
 }
 
 .splitcollum .datadetailuser {
@@ -3638,7 +3639,7 @@ table svg.icon-tabler-x {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px 20px 120px 20px;
+  padding: 20px;
 }
 
 .groupseceditmemberds {
@@ -3673,7 +3674,7 @@ table svg.icon-tabler-x {
 }
 
 .listgroupplayerinfo {
-  width: 70%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -3811,13 +3812,13 @@ table svg.icon-tabler-x {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 50px;
+  gap: 30px;
 }
 
 .datalistplayerinfogrp {
   width: 100%;
   display: grid;
-  grid-template-columns: 0.8fr 1fr;
+  grid-template-columns: 0.7fr 1fr;
   align-items: center;
 }
 
@@ -3904,7 +3905,7 @@ table svg.icon-tabler-x {
 }
 
 .groupstatuspl {
-  width: 50%;
+  width: 100%;
   display: grid;
   grid-template-columns: 0.5fr 1fr;
   align-items: center;
@@ -3912,7 +3913,7 @@ table svg.icon-tabler-x {
 }
 
 .groupdatbetpl {
-  width: 50%;
+  width: 100%;
   display: grid;
   grid-template-columns: 0.5fr 1fr 1fr;
   align-items: end;
@@ -3923,10 +3924,6 @@ table svg.icon-tabler-x {
   width: 100%;
   display: flex;
   justify-content: flex-end;
-}
-
-.listchangedataplayer .tombol {
-  width: 20%;
 }
 
 .groupdatabet {
@@ -4835,6 +4832,11 @@ input#urlbarcode {
   border: 2px solid var(--success-color);
 }
 
+.xurlbarcode input[type="checkbox"]:hover {
+  border: 2px solid var(--success-color);
+  box-shadow: 0 0 10px var(--success-color);
+}
+
 .xurlbarcode input[type="checkbox"]:checked::before {
   background-color: var(--success-color);
 }
@@ -4845,4 +4847,31 @@ input#urlbarcode {
 
 .swal2-icon.swal2-info {
   color: var(--primary-color) !important;
+}
+
+.listinputmember label[for="username"] {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.listinputmember label[for="username"] input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+@media screen and (max-width: 800px) {
+
+  .listplayerinfo label,
+  .datalistplayerinfogrp label,
+  .listchangedataplayer label,
+  .labelbetpl {
+    font-size: 1.5vw;
+  }
+
+  .tombol .texttombol {
+    font-size: 1.5vw;
+  }
 }

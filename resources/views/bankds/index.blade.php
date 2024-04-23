@@ -41,7 +41,8 @@
                 <div class="secgroupdatabankds">
                     <span class="titlebankmaster">ACTIVE BANK</span>
                     <div class="groupactivebank">
-                        <div class="listgroupbank">
+                        <form method="POST" action="changestatusbank" id="form-depo" class="listgroupbank">
+                            @csrf
                             <div class="grouptablebank">
                                 <table>
                                     <tbody>
@@ -63,15 +64,21 @@
                                             </th>
                                         </tr>
                                         @foreach ($data as $i => $d)
-                                            <tr data-chekcedbank="2" class="chekcedbank">
+                                            <tr data-chekcedbank="{{ $d['statusxyxyy'] }}" class="chekcedbank">
                                                 <td>{{ $i + 1 }}</td>
-                                                <td class="tdnamabank">{{ $d['bnkmstrxyxyx'] }}</td>
+                                                <td class="tdnamabank">{{ $d['bnkmstrxyxyx'] }}
+                                                    <input type="hidden" name="wdstatusxyxyy_{{ $d['bnkmstrxyxyx'] }}"
+                                                        value="{{ $d['wdstatusxyxyy'] }}">
+                                                    <input type="hidden" name="bnkmstrxyxyx_{{ $d['bnkmstrxyxyx'] }}"
+                                                        value="{{ $d['bnkmstrxyxyx'] }}">
+                                                    <input type="hidden" name="urllogoxxyx_{{ $d['bnkmstrxyxyx'] }}"
+                                                        value="{{ $d['urllogoxxyx'] }}">
+                                                </td>
                                                 <td>
                                                     <div class="listgrpstatusbank">
                                                         <input class="status_online" type="radio"
                                                             id="depo_online_{{ $d['bnkmstrxyxyx'] }}"
-                                                            name="statusdepo_{{ $d['bnkmstrxyxyx'] }}" value="1"
-                                                            {{ $d['statusxyxyy'] == 1 ? 'checked' : '' }}>
+                                                            name="statusdepo_{{ $d['bnkmstrxyxyx'] }}" value=1>
                                                         <label for="depo_online_{{ $d['bnkmstrxyxyx'] }}">online</label>
                                                     </div>
                                                 </td>
@@ -79,8 +86,7 @@
                                                     <div class="listgrpstatusbank">
                                                         <input class="status_offline" type="radio"
                                                             id="depo_offline_{{ $d['bnkmstrxyxyx'] }}"
-                                                            name="statusdepo_{{ $d['bnkmstrxyxyx'] }}" value="2"
-                                                            {{ $d['statusxyxyy'] == 2 ? 'checked' : '' }}>
+                                                            name="statusdepo_{{ $d['bnkmstrxyxyx'] }}" value=2>
                                                         <label for="depo_offline_{{ $d['bnkmstrxyxyx'] }}">offline</label>
                                                     </div>
                                                 </td>
@@ -88,16 +94,15 @@
                                                     <div class="listgrpstatusbank">
                                                         <input class="status_trouble" type="radio"
                                                             id="depo_trouble_{{ $d['bnkmstrxyxyx'] }}"
-                                                            name="statusdepo_{{ $d['bnkmstrxyxyx'] }}" value="3"
-                                                            {{ $d['statusxyxyy'] == 3 ? 'checked' : '' }}>
+                                                            name="statusdepo_{{ $d['bnkmstrxyxyx'] }}" value=3>
                                                         <label for="depo_trouble_{{ $d['bnkmstrxyxyx'] }}">trouble</label>
                                                     </div>
                                                 </td>
                                                 <td class="check_box"
-                                                    onclick="toggleCheckbox('myCheckboxDeposit-{{ $i }}')">
-                                                    <input type="checkbox" id="myCheckboxDeposit-{{ $i }}"
-                                                        name="myCheckboxDeposit-{{ $i }}"
-                                                        data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
+                                                    onclick="toggleCheckbox('myCheckboxDeposit-{{ $d['bnkmstrxyxyx'] }}')">
+                                                    <input type="checkbox" id="myCheckboxDeposit-{{ $d['bnkmstrxyxyx'] }}"
+                                                        name="myCheckboxDeposit-{{ $d['bnkmstrxyxyx'] }}"
+                                                        data-id="{{ $d['bnkmstrxyxyx'] }}">
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -107,9 +112,10 @@
                             <button class="tombol primary">
                                 <span class="texttombol">UPDATE</span>
                             </button>
-                        </div>
+                        </form>
 
-                        <div class="listgroupbank">
+                        <form method="POST" action="changestatusbank/WD" id="form-wd" class="listgroupbank">
+                            @csrf
                             <div class="grouptablebank">
                                 <table>
                                     <tbody>
@@ -131,15 +137,21 @@
                                             </th>
                                         </tr>
                                         @foreach ($data as $i => $d)
-                                            <tr data-chekcedbank="1" class="chekcedbank">
+                                            <tr data-chekcedbank="{{ $d['wdstatusxyxyy'] }}" class="chekcedbank">
                                                 <td>{{ $i + 1 }}</td>
-                                                <td class="tdnamabank">{{ $d['bnkmstrxyxyx'] }}</td>
+                                                <td class="tdnamabank">{{ $d['bnkmstrxyxyx'] }}
+                                                    <input type="hidden" name="statusxyxyy_{{ $d['bnkmstrxyxyx'] }}"
+                                                        value="{{ $d['statusxyxyy'] }}" value="{{ $d['statusxyxyy'] }}">
+                                                    <input type="hidden" name="bnkmstrxyxyx_{{ $d['bnkmstrxyxyx'] }}"
+                                                        value="{{ $d['bnkmstrxyxyx'] }}">
+                                                    <input type="hidden" name="urllogoxxyx_{{ $d['bnkmstrxyxyx'] }}"
+                                                        value="{{ $d['urllogoxxyx'] }}">
+                                                </td>
                                                 <td>
                                                     <div class="listgrpstatusbank">
                                                         <input class="status_online" type="radio"
                                                             id="wd_online_{{ $d['bnkmstrxyxyx'] }}"
-                                                            name="statuswd_{{ $d['bnkmstrxyxyx'] }}" value="1"
-                                                            {{ $d['statusxyxyy'] == 1 ? 'checked' : '' }}>
+                                                            name="statuswd_{{ $d['bnkmstrxyxyx'] }}" value=1>
                                                         <label for="wd_online_{{ $d['bnkmstrxyxyx'] }}">online</label>
                                                     </div>
                                                 </td>
@@ -147,8 +159,7 @@
                                                     <div class="listgrpstatusbank">
                                                         <input class="status_offline" type="radio"
                                                             id="wd_offline_{{ $d['bnkmstrxyxyx'] }}"
-                                                            name="statuswd_{{ $d['bnkmstrxyxyx'] }}" value="2"
-                                                            {{ $d['statusxyxyy'] == 2 ? 'checked' : '' }}>
+                                                            name="statuswd_{{ $d['bnkmstrxyxyx'] }}" value=2>
                                                         <label for="wd_offline_{{ $d['bnkmstrxyxyx'] }}">offline</label>
                                                     </div>
                                                 </td>
@@ -156,15 +167,15 @@
                                                     <div class="listgrpstatusbank">
                                                         <input class="status_trouble" type="radio"
                                                             id="wd_trouble_{{ $d['bnkmstrxyxyx'] }}"
-                                                            name="statuswd_{{ $d['bnkmstrxyxyx'] }}" value="3"
-                                                            {{ $d['statusxyxyy'] == 1 ? 'checked' : '' }}>
+                                                            name="statuswd_{{ $d['bnkmstrxyxyx'] }}" value=3>
                                                         <label for="wd_trouble_{{ $d['bnkmstrxyxyx'] }}">trouble</label>
                                                     </div>
                                                 </td>
                                                 <td class="check_box"
-                                                    onclick="toggleCheckbox('myCheckboxWithdraw-{{ $i }}')">
-                                                    <input type="checkbox" id="myCheckboxWithdraw-{{ $i }}"
-                                                        name="myCheckboxWithdraw-{{ $i }}"
+                                                    onclick="toggleCheckbox('myCheckboxWithdraw-{{ $d['bnkmstrxyxyx'] }}')">
+                                                    <input type="checkbox"
+                                                        id="myCheckboxWithdraw-{{ $d['bnkmstrxyxyx'] }}"
+                                                        name="myCheckboxWithdraw-{{ $d['bnkmstrxyxyx'] }}"
                                                         data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                                 </td>
                                             </tr>
@@ -176,7 +187,7 @@
                             <button class="tombol primary">
                                 <span class="texttombol">UPDATE</span>
                             </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

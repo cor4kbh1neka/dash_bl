@@ -717,7 +717,7 @@ class DepoWdController extends Controller
                 'count' => $count,
             ];
         });
-        dd($dataOuts);
+        // dd($dataOuts);
         $data = [
             'dataWD' => $countDataWD,
             'dataDP' => $countDataDP
