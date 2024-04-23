@@ -38,28 +38,14 @@
                     </a>
                 </div>
                 <div class="secgroupdatabankds">
+                    <span class="titlebankmaster">LIST BANK MASTER</span>
                     <div class="groupactivebank">
                         <div class="listgroupbank">
                             <div class="grouptablebank">
                                 <table>
                                     <tbody>
                                         <tr class="titlelistgroupbank">
-                                            <th colspan="5" class="texttitle">DEPOSIT</th>
-                                            <th class="bkadlist">
-                                                <a href="/bankds/addbankmaster" class="addlist">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
-                                                        <defs>
-                                                            <mask id="ipSAdd0">
-                                                                <g fill="none" stroke-linejoin="round" stroke-width="4">
-                                                                    <rect width="36" height="36" x="6" y="6" fill="#fff" stroke="#fff" rx="3" />
-                                                                    <path stroke="#000" stroke-linecap="round" d="M24 16v16m-8-8h16" />
-                                                                </g>
-                                                            </mask>
-                                                        </defs>
-                                                        <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSAdd0)" />
-                                                    </svg>
-                                                </a>
-                                            </th>
+                                            <th colspan="6" class="texttitle">LIST BANK</th>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -68,503 +54,521 @@
                                         <tr class="thead">
                                             <th class="bknomor">#</th>
                                             <th class="bknama">nama bank</th>
-                                            <th class="bkonline">online bank</th>
-                                            <th class="bkonline">offline bank</th>
-                                            <th class="bkonline">trouble bank</th>
-                                            <th class="check_box">
-                                                <input type="checkbox" id="myCheckboxDeposit" name="myCheckboxDeposit">
-                                            </th>
+                                            <th class="bkactionss">actions</th>
                                         </tr>
-                                        <tr data-chekcedbank="2" class="chekcedbank">
+                                        <tr>
                                             <td>1</td>
+                                            <td class="tdnamabank">bca</td>
                                             <td>
-                                                <select id="depo_bca" name="depo_bca" value="bca">
-                                                    <option value="bca" selected>bca</option>
-                                                    <option value="bni">bni</option>
-                                                    <option value="bri">bri</option>
-                                                    <option value="mandiri">mandiri</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="danamon">danamon</option>
-                                                    <option value="panin">panin</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="permata">permata</option>
-                                                    <option value="bsi">bsi</option>
-                                                    <option value="dana">dana</option>
-                                                    <option value="gopay">gopay</option>
-                                                    <option value="ovo">ovo</option>
-                                                    <option value="pulsa">pulsa</option>
-                                                    <option value="linkaja">linkaja</option>
-                                                    <option value="qris">qris</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_online" type="radio" id="depo_online_bca" name="statusdepo_bca" value="1">
-                                                    <label for="depo_online_bca">online</label>
+                                                <div class="kolom_action">
+                                                    <div class="dot_action">
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                    </div>
+                                                    <div class="action_crud">
+                                                        <a href="/bankds/setbankmaster">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Edit</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" >
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                </svg>
+                                                                <span>delete</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_offline" type="radio" id="depo_offline_bca" name="statusdepo_bca" value="2">
-                                                    <label for="depo_offline_bca">offline</label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_trouble" type="radio" id="depo_trouble_bca" name="statusdepo_bca" value="3">
-                                                    <label for="depo_trouble_bca">trouble</label>
-                                                </div>
-                                            </td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-                                                <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
                                         </tr>
-                                        <tr data-chekcedbank="3" class="chekcedbank">
+                                        <tr>
                                             <td>2</td>
+                                            <td class="tdnamabank">bni</td>
                                             <td>
-                                                <select id="depo_bni" name="depo_bni" value="bni">
-                                                    <option value="bca">bca</option>
-                                                    <option value="bni" selected>bni</option>
-                                                    <option value="bri">bri</option>
-                                                    <option value="mandiri">mandiri</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="danamon">danamon</option>
-                                                    <option value="panin">panin</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="permata">permata</option>
-                                                    <option value="bsi">bsi</option>
-                                                    <option value="dana">dana</option>
-                                                    <option value="gopay">gopay</option>
-                                                    <option value="ovo">ovo</option>
-                                                    <option value="pulsa">pulsa</option>
-                                                    <option value="linkaja">linkaja</option>
-                                                    <option value="qris">qris</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_online" type="radio" id="depo_online_bni" name="statusdepo_bni" value="1">
-                                                    <label for="depo_online_bni">online</label>
+                                                <div class="kolom_action">
+                                                    <div class="dot_action">
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                    </div>
+                                                    <div class="action_crud">
+                                                        <a href="/bankds/setbankmaster">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Edit</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" >
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                </svg>
+                                                                <span>delete</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_offline" type="radio" id="depo_offline_bni" name="statusdepo_bni" value="2">
-                                                    <label for="depo_offline_bni">offline</label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_trouble" type="radio" id="depo_trouble_bni" name="statusdepo_bni" value="3">
-                                                    <label for="depo_trouble_bni">trouble</label>
-                                                </div>
-                                            </td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-                                                <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
                                         </tr>
-                                        <tr data-chekcedbank="1" class="chekcedbank">
+                                        <tr>
                                             <td>3</td>
+                                            <td class="tdnamabank">bri</td>
                                             <td>
-                                                <select id="depo_bri" name="depo_bri" value="bri">
-                                                    <option value="bca">bca</option>
-                                                    <option value="bni">bni</option>
-                                                    <option value="bri" selected>bri</option>
-                                                    <option value="mandiri">mandiri</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="danamon">danamon</option>
-                                                    <option value="panin">panin</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="permata">permata</option>
-                                                    <option value="bsi">bsi</option>
-                                                    <option value="dana">dana</option>
-                                                    <option value="gopay">gopay</option>
-                                                    <option value="ovo">ovo</option>
-                                                    <option value="pulsa">pulsa</option>
-                                                    <option value="linkaja">linkaja</option>
-                                                    <option value="qris">qris</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_online" type="radio" id="depo_online_bri" name="statusdepo_bri" value="1">
-                                                    <label for="depo_online_bri">online</label>
+                                                <div class="kolom_action">
+                                                    <div class="dot_action">
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                    </div>
+                                                    <div class="action_crud">
+                                                        <a href="/bankds/setbankmaster">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Edit</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" >
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                </svg>
+                                                                <span>delete</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_offline" type="radio" id="depo_offline_bri" name="statusdepo_bri" value="2">
-                                                    <label for="depo_offline_bri">offline</label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_trouble" type="radio" id="depo_trouble_bri" name="statusdepo_bri" value="3">
-                                                    <label for="depo_trouble_bri">trouble</label>
-                                                </div>
-                                            </td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-                                                <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
                                         </tr>
-                                        <tr data-chekcedbank="1" class="chekcedbank">
+                                        <tr>
                                             <td>4</td>
+                                            <td class="tdnamabank">mandiri</td>
                                             <td>
-                                                <select id="depo_mandiri" name="depo_mandiri" value="mandiri">
-                                                    <option value="bca">bca</option>
-                                                    <option value="bni">bni</option>
-                                                    <option value="bri">bri</option>
-                                                    <option value="mandiri" selected>mandiri</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="danamon">danamon</option>
-                                                    <option value="panin">panin</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="permata">permata</option>
-                                                    <option value="bsi">bsi</option>
-                                                    <option value="dana">dana</option>
-                                                    <option value="gopay">gopay</option>
-                                                    <option value="ovo">ovo</option>
-                                                    <option value="pulsa">pulsa</option>
-                                                    <option value="linkaja">linkaja</option>
-                                                    <option value="qris">qris</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_online" type="radio" id="depo_online_mandiri" name="statusdepo_mandiri" value="1">
-                                                    <label for="depo_online_mandiri">online</label>
+                                                <div class="kolom_action">
+                                                    <div class="dot_action">
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                    </div>
+                                                    <div class="action_crud">
+                                                        <a href="/bankds/setbankmaster">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Edit</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" >
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                </svg>
+                                                                <span>delete</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_offline" type="radio" id="depo_offline_mandiri" name="statusdepo_mandiri" value="2">
-                                                    <label for="depo_offline_mandiri">offline</label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_trouble" type="radio" id="depo_trouble_mandiri" name="statusdepo_mandiri" value="3">
-                                                    <label for="depo_trouble_mandiri">trouble</label>
-                                                </div>
-                                            </td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-                                                <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
                                         </tr>
-                                        <tr data-chekcedbank="1" class="chekcedbank">
+                                        <tr>
                                             <td>5</td>
+                                            <td class="tdnamabank">cimb</td>
                                             <td>
-                                                <select id="depo_cimb" name="depo_cimb" value="cimb">
-                                                    <option value="bca">bca</option>
-                                                    <option value="bni">bni</option>
-                                                    <option value="bri">bri</option>
-                                                    <option value="mandiri">mandiri</option>
-                                                    <option value="cimb" selected>cimb</option>
-                                                    <option value="danamon">danamon</option>
-                                                    <option value="panin">panin</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="permata">permata</option>
-                                                    <option value="bsi">bsi</option>
-                                                    <option value="dana">dana</option>
-                                                    <option value="gopay">gopay</option>
-                                                    <option value="ovo">ovo</option>
-                                                    <option value="pulsa">pulsa</option>
-                                                    <option value="linkaja">linkaja</option>
-                                                    <option value="qris">qris</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_online" type="radio" id="depo_online_cimb" name="statusdepo_cimb" value="1">
-                                                    <label for="depo_online_cimb">online</label>
+                                                <div class="kolom_action">
+                                                    <div class="dot_action">
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                    </div>
+                                                    <div class="action_crud">
+                                                        <a href="/bankds/setbankmaster">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Edit</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" >
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                </svg>
+                                                                <span>delete</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td class="tdnamabank">danamon</td>
                                             <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_offline" type="radio" id="depo_offline_cimb" name="statusdepo_cimb" value="2">
-                                                    <label for="depo_offline_cimb">offline</label>
+                                                <div class="kolom_action">
+                                                    <div class="dot_action">
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                    </div>
+                                                    <div class="action_crud">
+                                                        <a href="/bankds/setbankmaster">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Edit</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" >
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                </svg>
+                                                                <span>delete</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td>
+                                            <td class="tdnamabank">panin</td>
                                             <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_trouble" type="radio" id="depo_trouble_cimb" name="statusdepo_cimb" value="3">
-                                                    <label for="depo_trouble_cimb">trouble</label>
+                                                <div class="kolom_action">
+                                                    <div class="dot_action">
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                    </div>
+                                                    <div class="action_crud">
+                                                        <a href="/bankds/setbankmaster">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Edit</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" >
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                </svg>
+                                                                <span>delete</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-                                                <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
+                                        </tr>
+                                        <tr>
+                                            <td>8</td>
+                                            <td class="tdnamabank">permata</td>
+                                            <td>
+                                                <div class="kolom_action">
+                                                    <div class="dot_action">
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                    </div>
+                                                    <div class="action_crud">
+                                                        <a href="/bankds/setbankmaster">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Edit</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" >
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                </svg>
+                                                                <span>delete</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>9</td>
+                                            <td class="tdnamabank">bsi</td>
+                                            <td>
+                                                <div class="kolom_action">
+                                                    <div class="dot_action">
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                    </div>
+                                                    <div class="action_crud">
+                                                        <a href="/bankds/setbankmaster">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Edit</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" >
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                </svg>
+                                                                <span>delete</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>10</td>
+                                            <td class="tdnamabank">dana</td>
+                                            <td>
+                                                <div class="kolom_action">
+                                                    <div class="dot_action">
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                    </div>
+                                                    <div class="action_crud">
+                                                        <a href="/bankds/setbankmaster">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Edit</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" >
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                </svg>
+                                                                <span>delete</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>11</td>
+                                            <td class="tdnamabank">gopay</td>
+                                            <td>
+                                                <div class="kolom_action">
+                                                    <div class="dot_action">
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                    </div>
+                                                    <div class="action_crud">
+                                                        <a href="/bankds/setbankmaster">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Edit</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" >
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                </svg>
+                                                                <span>delete</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>12</td>
+                                            <td class="tdnamabank">ovo</td>
+                                            <td>
+                                                <div class="kolom_action">
+                                                    <div class="dot_action">
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                    </div>
+                                                    <div class="action_crud">
+                                                        <a href="/bankds/setbankmaster">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Edit</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" >
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                </svg>
+                                                                <span>delete</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>13</td>
+                                            <td class="tdnamabank">pulsa</td>
+                                            <td>
+                                                <div class="kolom_action">
+                                                    <div class="dot_action">
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                    </div>
+                                                    <div class="action_crud">
+                                                        <a href="/bankds/setbankmaster">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Edit</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" >
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                </svg>
+                                                                <span>delete</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>14</td>
+                                            <td class="tdnamabank">linkaja</td>
+                                            <td>
+                                                <div class="kolom_action">
+                                                    <div class="dot_action">
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                    </div>
+                                                    <div class="action_crud">
+                                                        <a href="/bankds/setbankmaster">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Edit</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" >
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                </svg>
+                                                                <span>delete</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>15</td>
+                                            <td class="tdnamabank">qris</td>
+                                            <td>
+                                                <div class="kolom_action">
+                                                    <div class="dot_action">
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                    </div>
+                                                    <div class="action_crud">
+                                                        <a href="/bankds/setbankmaster">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Edit</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#" >
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                </svg>
+                                                                <span>delete</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <button class="tombol primary">
-                                <span class="texttombol">UPDATE</span>
-                            </button>
-                        </div>
-
-                        <div class="listgroupbank">
-                            <div class="grouptablebank">
-                                <table>
-                                    <tbody>
-                                        <tr class="titlelistgroupbank">
-                                            <th colspan="5" class="texttitle">WITHDRAW</th>
-                                            <th class="bkadlist">
-                                                <a href="/bankds/addbankmaster" class="addlist">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
-                                                        <defs>
-                                                            <mask id="ipSAdd0">
-                                                                <g fill="none" stroke-linejoin="round" stroke-width="4">
-                                                                    <rect width="36" height="36" x="6" y="6" fill="#fff" stroke="#fff" rx="3" />
-                                                                    <path stroke="#000" stroke-linecap="round" d="M24 16v16m-8-8h16" />
-                                                                </g>
-                                                            </mask>
-                                                        </defs>
-                                                        <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSAdd0)" />
-                                                    </svg>
-                                                </a>
-                                            </th>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table>
-                                    <tbody>
-                                        <tr class="thead">
-                                            <th class="bknomor">#</th>
-                                            <th class="bknama">nama bank</th>
-                                            <th class="bkonline">online bank</th>
-                                            <th class="bkonline">offline bank</th>
-                                            <th class="bkonline">trouble bank</th>
-                                            <th class="check_box">
-                                                <input type="checkbox" id="myCheckboxWithdraw" name="myCheckboxWithdraw">
-                                            </th>
-                                        </tr>
-                                        <tr data-chekcedbank="1" class="chekcedbank">
-                                            <td>1</td>
-                                            <td>
-                                                <select id="wd_bca" name="wd_bca" value="bca">
-                                                    <option value="bca" selected>bca</option>
-                                                    <option value="bni">bni</option>
-                                                    <option value="bri">bri</option>
-                                                    <option value="mandiri">mandiri</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="danamon">danamon</option>
-                                                    <option value="panin">panin</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="permata">permata</option>
-                                                    <option value="bsi">bsi</option>
-                                                    <option value="dana">dana</option>
-                                                    <option value="gopay">gopay</option>
-                                                    <option value="ovo">ovo</option>
-                                                    <option value="pulsa">pulsa</option>
-                                                    <option value="linkaja">linkaja</option>
-                                                    <option value="qris">qris</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_online" type="radio" id="wd_online_bca" name="statuswd_bca" value="1">
-                                                    <label for="wd_online_bca">online</label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_offline" type="radio" id="wd_offline_bca" name="statuswd_bca" value="2">
-                                                    <label for="wd_offline_bca">offline</label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_trouble" type="radio" id="wd_trouble_bca" name="statuswd_bca" value="3">
-                                                    <label for="wd_trouble_bca">trouble</label>
-                                                </div>
-                                            </td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
-                                                <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                            </td>
-                                        </tr>
-                                        <tr data-chekcedbank="1" class="chekcedbank">
-                                            <td>2</td>
-                                            <td>
-                                                <select id="wd_bni" name="wd_bni" value="bni">
-                                                    <option value="bca">bca</option>
-                                                    <option value="bni" selected>bni</option>
-                                                    <option value="bri">bri</option>
-                                                    <option value="mandiri">mandiri</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="danamon">danamon</option>
-                                                    <option value="panin">panin</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="permata">permata</option>
-                                                    <option value="bsi">bsi</option>
-                                                    <option value="dana">dana</option>
-                                                    <option value="gopay">gopay</option>
-                                                    <option value="ovo">ovo</option>
-                                                    <option value="pulsa">pulsa</option>
-                                                    <option value="linkaja">linkaja</option>
-                                                    <option value="qris">qris</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_online" type="radio" id="wd_online_bni" name="statuswd_bni" value="1">
-                                                    <label for="wd_online_bni">online</label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_offline" type="radio" id="wd_offline_bni" name="statuswd_bni" value="2">
-                                                    <label for="wd_offline_bni">offline</label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_trouble" type="radio" id="wd_trouble_bni" name="statuswd_bni" value="3">
-                                                    <label for="wd_trouble_bni">trouble</label>
-                                                </div>
-                                            </td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
-                                                <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                            </td>
-                                        </tr>
-                                        <tr data-chekcedbank="1" class="chekcedbank">
-                                            <td>3</td>
-                                            <td>
-                                                <select id="wd_bri" name="wd_bri" value="bri">
-                                                    <option value="bca">bca</option>
-                                                    <option value="bni">bni</option>
-                                                    <option value="bri" selected>bri</option>
-                                                    <option value="mandiri">mandiri</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="danamon">danamon</option>
-                                                    <option value="panin">panin</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="permata">permata</option>
-                                                    <option value="bsi">bsi</option>
-                                                    <option value="dana">dana</option>
-                                                    <option value="gopay">gopay</option>
-                                                    <option value="ovo">ovo</option>
-                                                    <option value="pulsa">pulsa</option>
-                                                    <option value="linkaja">linkaja</option>
-                                                    <option value="qris">qris</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_online" type="radio" id="wd_online_bri" name="statuswd_bri" value="1">
-                                                    <label for="wd_online_bri">online</label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_offline" type="radio" id="wd_offline_bri" name="statuswd_bri" value="2">
-                                                    <label for="wd_offline_bri">offline</label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_trouble" type="radio" id="wd_trouble_bri" name="statuswd_bri" value="3">
-                                                    <label for="wd_trouble_bri">trouble</label>
-                                                </div>
-                                            </td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
-                                                <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                            </td>
-                                        </tr>
-                                        <tr data-chekcedbank="2" class="chekcedbank">
-                                            <td>4</td>
-                                            <td>
-                                                <select id="wd_mandiri" name="wd_mandiri" value="mandiri">
-                                                    <option value="bca">bca</option>
-                                                    <option value="bni">bni</option>
-                                                    <option value="bri">bri</option>
-                                                    <option value="mandiri" selected>mandiri</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="danamon">danamon</option>
-                                                    <option value="panin">panin</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="permata">permata</option>
-                                                    <option value="bsi">bsi</option>
-                                                    <option value="dana">dana</option>
-                                                    <option value="gopay">gopay</option>
-                                                    <option value="ovo">ovo</option>
-                                                    <option value="pulsa">pulsa</option>
-                                                    <option value="linkaja">linkaja</option>
-                                                    <option value="qris">qris</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_online" type="radio" id="wd_online_mandiri" name="statuswd_mandiri" value="1">
-                                                    <label for="wd_online_mandiri">online</label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_offline" type="radio" id="wd_offline_mandiri" name="statuswd_mandiri" value="2">
-                                                    <label for="wd_offline_mandiri">offline</label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_trouble" type="radio" id="wd_trouble_mandiri" name="statuswd_mandiri" value="3">
-                                                    <label for="wd_trouble_mandiri">trouble</label>
-                                                </div>
-                                            </td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
-                                                <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                            </td>
-                                        </tr>
-                                        <tr data-chekcedbank="3" class="chekcedbank">
-                                            <td>5</td>
-                                            <td>
-                                                <select id="wd_cimb" name="wd_cimb" value="cimb">
-                                                    <option value="bca">bca</option>
-                                                    <option value="bni">bni</option>
-                                                    <option value="bri">bri</option>
-                                                    <option value="mandiri">mandiri</option>
-                                                    <option value="cimb" selected>cimb</option>
-                                                    <option value="danamon">danamon</option>
-                                                    <option value="panin">panin</option>
-                                                    <option value="cimb">cimb</option>
-                                                    <option value="permata">permata</option>
-                                                    <option value="bsi">bsi</option>
-                                                    <option value="dana">dana</option>
-                                                    <option value="gopay">gopay</option>
-                                                    <option value="ovo">ovo</option>
-                                                    <option value="pulsa">pulsa</option>
-                                                    <option value="linkaja">linkaja</option>
-                                                    <option value="qris">qris</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_online" type="radio" id="wd_online_cimb" name="statuswd_cimb" value="1">
-                                                    <label for="wd_online_cimb">online</label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_offline" type="radio" id="wd_offline_cimb" name="statuswd_cimb" value="2">
-                                                    <label for="wd_offline_cimb">offline</label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="listgrpstatusbank">
-                                                    <input class="status_trouble" type="radio" id="wd_trouble_cimb" name="statuswd_cimb" value="3">
-                                                    <label for="wd_trouble_cimb">trouble</label>
-                                                </div>
-                                            </td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
-                                                <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <button class="tombol primary">
-                                <span class="texttombol">UPDATE</span>
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -575,16 +579,15 @@
 
     <script>
         $(document).ready(function() {
-            $('#myCheckbox').change(function() {
+            $('#myCheckboxDeposit').change(function() {
                 var isChecked = $(this).is(':checked');
 
-                $('tbody tr:not([style="display: none;"]) [id^="myCheckbox-"]').prop('checked', isChecked);
+                $('tbody tr:not([style="display: none;"]) [id^="myCheckboxDeposit-"]').prop('checked', isChecked);
             });
         });
-
         $(document).ready(function() {
-            $('#myCheckbox, [id^="myCheckbox-"]').change(function() {
-                var isChecked = $('#myCheckbox:checked, [id^="myCheckbox-"]:checked').length > 0;
+            $('#myCheckboxDeposit, [id^="myCheckboxDeposit-"]').change(function() {
+                var isChecked = $('#myCheckboxDeposit:checked, [id^="myCheckboxDeposit-"]:checked').length > 0;
                 if (isChecked) {
                     $('.all_act_butt').css('display', 'flex');
                 } else {
@@ -592,6 +595,33 @@
                 }
             });
 
+        });
+
+        $(document).ready(function() {
+            $('#myCheckboxWithdraw').change(function() {
+                var isChecked = $(this).is(':checked');
+
+                $('tbody tr:not([style="display: none;"]) [id^="myCheckboxWithdraw-"]').prop('checked', isChecked);
+            });
+        });
+        $(document).ready(function() {
+            $('#myCheckboxWithdraw, [id^="myCheckboxWithdraw-"]').change(function() {
+                var isChecked = $('#myCheckboxWithdraw:checked, [id^="myCheckboxWithdraw-"]:checked').length > 0;
+                if (isChecked) {
+                    $('.all_act_butt').css('display', 'flex');
+                } else {
+                    $('.all_act_butt').hide();
+                }
+            });
+
+        });
+
+        // checked radio button berdasarkan value dari status bank 1, 2, 3
+        $(document).ready(function(){
+            $('tr[data-chekcedbank]').each(function(){
+                var checkedBankValue = $(this).attr('data-chekcedbank');
+                $(this).find('.listgrpstatusbank input[type="radio"][value="' + checkedBankValue + '"]').prop('checked', true);
+            });
         });
     </script>
 @endsection

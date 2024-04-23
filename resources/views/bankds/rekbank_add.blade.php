@@ -38,7 +38,74 @@
                     </a>
                 </div>
                 <div class="secgroupdatabankds">
-                    ini hasil data add  bank
+                    <div class="groupsetbankmaster">
+                        <span class="titlebankmaster">Add Detail Bank</span>
+                        <div class="groupplayerinfo">
+                            <div class="listgroupplayerinfo left">
+                                <div class="listplayerinfo">
+                                    <label for="masterbank">pilih master</label>
+                                    <div class="groupeditinput">
+                                        <select id="bankmaster" name="bankmaster" value="bca">
+                                            <option value="bca">bca</option>
+                                            <option value="bni">bni</option>
+                                            <option value="bri">bri</option>
+                                            <option value="mandiri">mandiri</option>
+                                            <option value="cimb">cimb</option>
+                                            <option value="danamon">danamon</option>
+                                            <option value="panin">panin</option>
+                                            <option value="cimb">cimb</option>
+                                            <option value="permata">permata</option>
+                                            <option value="bsi">bsi</option>
+                                            <option value="dana">dana</option>
+                                            <option value="gopay">gopay</option>
+                                            <option value="ovo">ovo</option>
+                                            <option value="pulsa">pulsa</option>
+                                            <option value="linkaja">linkaja</option>
+                                            <option value="qris">qris</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="listplayerinfo">
+                                    <label for="bankname">nama bank</label>
+                                    <div class="groupnamabank">
+                                        <div class="groupeditinput">
+                                            <input type="text" id="bankname" name="bankname" value="" placeholder="masukkan nama bank">
+                                        </div>
+                                        <div class="groupeditinput">
+                                            <select id="methode" name="methode" value="bank">
+                                                <option value="" selected="" place="" style="color: #838383; font-style: italic;" disabled="">pilih methode</option>
+                                                <option value="bank">bank</option>
+                                                <option value="ewallet">ewallet</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="listplayerinfo">
+                                    <label for="namarek">nama rekening</label>
+                                    <div class="groupeditinput">
+                                        <input type="text" id="namarek" name="namarek" value="" placeholder="masukkan nama rekening">
+                                    </div>
+                                </div>
+                                <div class="listplayerinfo">
+                                    <label for="nomorrek">nomor rekening</label>
+                                    <div class="groupeditinput">
+                                        <input type="text" id="nomorrek" name="nomorrek" value="" placeholder="masukkan nomor rekening">
+                                    </div>
+                                </div>
+                                <div class="listplayerinfo">
+                                    <label for="urlbarcode">url barcode</label>
+                                    <div class="groupeditinput">
+                                        <input type="text" id="urlbarcode" name="urlbarcode" value="" placeholder="isi data untuk show barcode">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="listgroupplayerinfo right solo">
+                                <button class="tombol primary">
+                                    <span class="texttombol">SAVE DATA</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -65,5 +132,54 @@
             });
 
         });
+
+        // clear readonly
+        $(document).ready(function() {
+            $('.groupeditinput svg').click(function() {
+                $(this).closest('.groupeditinput').toggleClass('edit');
+                $(this).siblings('input').prop('readonly', function(_, val) {
+                    return !val;
+                });
+            });
+        });
+
+        // checked radio button berdasarkan value dari status bank 1, 2, 3
+        $(document).ready(function(){
+            $('.groupradiooption[data-chekced]').each(function(){
+                var checkedBankValue = $(this).attr('data-chekced');
+                $(this).find('.listgrpstatusbank input[type="radio"][value="' + checkedBankValue + '"]').prop('checked', true);
+            });
+        });
+
+        // dropdown selected
+        $(document).ready(function(){
+            var selectedValue = $('#groupbank').val();
+            $('#groupbank option[value="' + selectedValue + '"]').attr('selected', 'selected');
+        });
+
+        //format value norek
+        $(document).ready(function(){
+            var nomorRekValue = $('#nomorrek').val();
+            var formattedNomorRek = nomorRekValue.replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5-$6-$7')
+                                                .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5-$6')
+                                                .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5')
+                                                .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4')
+                                                .replace(/^(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
+                                                .replace(/^(\d{3})(\d{4})/, '$1-$2');
+            $('#nomorrek').val(formattedNomorRek);
+
+            $('#nomorrek').on('input', function(){
+                var nomorRekValue = $(this).val();
+                var cleanNomorRek = nomorRekValue.replace(/\D/g, '');
+                var formattedNomorRek = cleanNomorRek.replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5-$6-$7')
+                                                    .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5-$6')
+                                                    .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4-$5')
+                                                    .replace(/^(\d{3})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4')
+                                                    .replace(/^(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
+                                                    .replace(/^(\d{3})(\d{4})/, '$1-$2');
+                $(this).val(formattedNomorRek);
+            });
+        });
+
     </script>
 @endsection
