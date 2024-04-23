@@ -2412,173 +2412,7 @@ table svg.icon-tabler-x {
   display: grid;
   grid-template-columns: 2fr 2fr 1.5fr;
   gap: 15px;
-  padding: 10px 20px;
-}
-
-.listsecdashboard {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.listsecdashboard a {
-  width: 100%;
-}
-
-.groupdatalistdashboard {
-  width: 100%;
-  min-height: 110px;
-  padding: 20px;
-  background: var(--bg-box-primary);
-  border-radius: 6px;
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid rgba(var(--rgba-primary), 0.1);
-  transition: all 0.3s ease;
-}
-
-.groupdatalistdashboard:hover {
-  border: 1px solid rgba(var(--rgba-primary), 0.5);
-}
-
-.groupdatalistdashboard svg {
-  width: 30px;
-  height: 30px;
-  color: white;
-  stroke: unset;
-}
-
-.listdatagroupls {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.countdata {
-  color: rgba(var(--rgba-white), 0.9);
-  font-family: 'myFont1';
-  font-size: 50px;
-}
-
-.deposit svg,
-.deposit .countdata,
-.deposit .countdetail {
-  stroke: unset;
-  color: var(--green-color);
-}
-
-.withdraw svg,
-.withdraw .countdata,
-.withdraw .countdetail {
-  stroke: unset;
-  color: var(--red-color);
-}
-
-.textdetail {
-  text-transform: capitalize;
-}
-
-.groupdatalistdashboard .chart-custom {
-  width: 50px;
-  height: 50px;
-}
-
-.listdatagrouplsmid {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 5px;
-}
-
-.listdatagrouplsmid .detailtitle {
-  font-family: 'myFont1';
-  text-transform: uppercase;
-  color: rgba(var(--rgba-white), 0.9);
-}
-
-.listdatagrouplsmid .countdetail {
-  font-family: 'myFont1';
-  font-size: 25px;
-}
-
-.listsecdashboard.group {
-  width: 100%;
-  padding: 20px;
-  background: var(--bg-box-primary);
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 30px;
-  border: 1px solid rgba(var(--rgba-primary), 0.1);
-  transition: all 0.3s ease;
-}
-
-.listsecdashboard.group .groupdatalistdashboard {
-  width: 100%;
-  background: rgba(var(--rgba-primary-bg-color));
-  box-shadow: var(--shadow-shoft);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  position: relative;
-}
-
-.listsecdashboard.group .countdata {
-  font-size: 30px;
-}
-
-.listsecdashboard.group svg {
-  width: 25px;
-  height: 25px;
-  color: var(--green-color);
-  stroke: unset;
-  position: absolute;
-  top: 15px;
-  right: 15px;
-}
-
-.titlegrp {
-  color: rgba(var(--rgba-white), 0.9);
-  font-family: 'myFont1';
-  text-transform: uppercase;
-  font-size: 20px;
-}
-
-.groupboxlist {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
-
-.secgrouptitle {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 20px;
-  padding: 15px 15px 17px 15px;
-  background: var(--bg-box-primary);
-  border-bottom: 1px solid rgba(var(--rgba-primary), 0.2);
-  position: relative;
-}
-
-.secgrouptitle h2 {
-  padding-bottom: unset;
-  border-bottom: none;
-}
-
-.secdashboard {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 2fr 2fr 1.5fr;
-  gap: 15px;
-  padding: 10px 20px;
+  padding: 10px 20px 120px 20px;
 }
 
 .listsecdashboard {
@@ -2784,6 +2618,10 @@ table svg.icon-tabler-x {
 .tombol .texttombol {
   font-family: 'myFont1';
   font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 }
 
 .tombol.proses {
@@ -2833,7 +2671,7 @@ table svg.icon-tabler-x {
   display: flex;
   flex-direction: row;
   gap: 10px;
-  padding: 10px 20px;
+  padding: 10px 20px 10px 20px;
 }
 
 .groupdatamaster {
@@ -2850,6 +2688,7 @@ table svg.icon-tabler-x {
   align-items: center;
   padding: 20px;
   background: var(--bg-box-primary);
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
   border-radius: 5px 5px 0 0;
   gap: 50px;
 }
@@ -2920,6 +2759,8 @@ table svg.icon-tabler-x {
   gap: 20px;
   border-radius: 5px;
   margin-bottom: 20vh;
+  padding: 0 0 20px 0;
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
 }
 
 .tabelproses tbody {
@@ -3320,7 +3161,7 @@ table svg.icon-tabler-x {
   display: flex;
   flex-direction: row;
   gap: 10px;
-  padding: 10px 20px;
+  padding: 10px 20px 120px 20px;
 }
 
 .groupsecmanualds {
@@ -3340,6 +3181,7 @@ table svg.icon-tabler-x {
   flex-direction: column;
   background: var(--bg-box-primary);
   border-radius: 6px 6px 0 0;
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
   overflow: hidden;
 }
 
@@ -3413,6 +3255,10 @@ table svg.icon-tabler-x {
   animation: 1s ease-out 0s infinite normal none running borderPulse;
 }
 
+.borderPulse {
+  animation: 1s ease-out 0s infinite normal none running borderPulse;
+}
+
 @keyframes borderPulse {
   0% {
     box-shadow:
@@ -3444,7 +3290,7 @@ table svg.icon-tabler-x {
   display: flex;
   flex-direction: row;
   gap: 10px;
-  padding: 10px 20px;
+  padding: 10px 20px 10px 20px;
 }
 
 .grouphistoryds {
@@ -3865,7 +3711,17 @@ table svg.icon-tabler-x {
   box-shadow: unset;
 }
 
+.secgroupdatabankds input:focus,
+.secgroupdatabankds select:focus {
+  border: 1px solid rgba(var(--rgba-primary), 0.8);
+  box-shadow: unset;
+}
+
 .groupseceditmemberds input::placeholder {
+  text-transform: capitalize;
+}
+
+.secgroupdatabankds input::placeholder {
   text-transform: capitalize;
 }
 
@@ -3873,7 +3729,12 @@ table svg.icon-tabler-x {
   text-transform: capitalize;
 }
 
-.groupseceditmemberds input.nosabel {
+.secgroupdatabankds select {
+  text-transform: capitalize;
+}
+
+.groupseceditmemberds input.nosabel,
+.secgroupdatabankds input.nosabel {
   background: transparent;
   box-shadow: unset;
   border: unset;
@@ -3882,7 +3743,18 @@ table svg.icon-tabler-x {
   cursor: unset;
 }
 
-.groupseceditmemberds .groupeditinput {
+.secgroupdatabankds input.nosabel,
+.secgroupdatabankds input.nosabel {
+  background: transparent;
+  box-shadow: unset;
+  border: unset;
+  border-radius: unset;
+  padding: 10px 10px 10px 0;
+  cursor: unset;
+}
+
+.groupseceditmemberds .groupeditinput,
+.secgroupdatabankds .groupeditinput {
   display: flex;
   justify-content: center;
   background: var(--bg-box-primary);
@@ -3895,30 +3767,37 @@ table svg.icon-tabler-x {
   transition: all 0.3s ease;
 }
 
-.groupseceditmemberds .groupeditinput:focus {
+.groupseceditmemberds .groupeditinput:focus,
+.secgroupdatabankds .groupeditinput:focus {
   border: 1px solid rgba(var(--rgba-primary), 0.8);
 }
 
-.groupseceditmemberds .groupeditinput.edit {
+.groupseceditmemberds .groupeditinput.edit,
+.secgroupdatabankds .groupeditinput.edit {
   background: rgba(var(--rgba-white));
   box-shadow: unset;
 }
 
-.groupseceditmemberds .groupeditinput.edit input {
+.groupseceditmemberds .groupeditinput.edit input,
+.secgroupdatabankds .groupeditinput.edit input {
   color: rgba(var(--rgba-black));
 }
 
-.groupseceditmemberds .groupeditinput svg {
+.groupseceditmemberds .groupeditinput svg,
+.secgroupdatabankds .groupeditinput svg {
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.groupseceditmemberds .groupeditinput svg:hover {
+.groupseceditmemberds .groupeditinput svg:hover,
+.secgroupdatabankds .groupeditinput svg:hover {
   filter: drop-shadow(0 0 5px var(--primary-color));
   transform: scale(1.2);
 }
 
-.groupseceditmemberds .groupeditinput input {
+.groupseceditmemberds .groupeditinput input,
+.secgroupdatabankds .groupeditinput input,
+.secgroupdatabankds .groupeditinput select {
   padding: unset;
   background: transparent;
   box-shadow: unset;
@@ -3956,7 +3835,7 @@ table svg.icon-tabler-x {
   width: 100%;
   display: flex;
   gap: 10px;
-  padding: 10px 20px;
+  padding: 10px 20px 120px 20px;
 }
 
 .groupplayerinfo::before {
@@ -4006,7 +3885,7 @@ table svg.icon-tabler-x {
 }
 
 .listchangedataplayer label,
-.groupdatbetpl .labelbetpl {
+.labelbetpl {
   text-transform: uppercase;
   color: rgba(var(--rgba-white), 0.8);
 }
@@ -4131,7 +4010,7 @@ table svg.icon-tabler-x {
   width: 100%;
   display: flex;
   gap: 10px;
-  padding: 10px 20px;
+  padding: 10px 20px 10px 20px;
 }
 
 .groupsechistorygame {
@@ -4392,7 +4271,7 @@ table svg.icon-tabler-x {
   width: 100%;
   display: flex;
   gap: 10px;
-  padding: 10px 20px;
+  padding: 10px 20px 10px 20px;
 }
 
 .groupoutstandingds {
@@ -4491,7 +4370,7 @@ table svg.icon-tabler-x {
   width: 100%;
   display: flex;
   gap: 10px;
-  padding: 10px 20px;
+  padding: 10px 20px 120px 20px;
 }
 
 .groupsecreferralds {
@@ -4504,19 +4383,19 @@ table svg.icon-tabler-x {
   width: 100%;
   display: flex;
   gap: 10px;
-  padding: 10px 20px;
+  padding: 10px 20px 120px 20px;
 }
 
 .groupsecbankds {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 30px;
 }
 
 .headsecbankds {
-  width: 100%;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   gap: 10px;
 }
 
@@ -4525,6 +4404,445 @@ table svg.icon-tabler-x {
   padding: 20px;
 }
 
-.borderPulse {
-  animation: 1s ease-out 0s infinite normal none running borderPulse;
+.secgroupdatabankds {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.groupactivebank {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.listgroupbank {
+  width: 100%;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-box-primary);
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
+}
+
+.titlelistgroupbank {
+  width: 100%;
+}
+
+.titlelistgroupbank .texttitle {
+  font-size: 20px;
+  font-weight: bold;
+  color: rgba(var(--rgba-white));
+}
+
+.grouptablebank {
+  height: 100%;
+}
+
+.grouptablebank th {
+  text-align: center;
+  padding: 10px 5px;
+  border-bottom: none;
+  font-size: 16px;
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
+}
+
+.grouptablebank .titlelistgroupbank th {
+  border: unset;
+}
+
+.grouptablebank td {
+  text-align: center;
+  font-size: 13px;
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
+  overflow: unset;
+}
+
+.grouptablebank .bkadlist {
+  width: 2.5%;
+}
+
+.grouptablebank .titlelistgroupbank {
+  background: var(--bg-box-primary);
+  width: 97%;
+}
+
+.grouptablebank .bknomor {
+  width: 5%;
+}
+
+.grouptablebank .check_box {
+  width: 10%;
+}
+
+.grouptablebank .bkactionss {
+  width: 10%;
+}
+
+.grouptablebank .thead {
+  background: var(--bg-box-primary-dark);
+}
+
+.grouptablebank .bkbarcode {
+  width: 10%;
+}
+
+.grouptablebank select {
+  background: transparent;
+  border-radius: unset;
+  text-transform: uppercase;
+  font-size: 15px;
+}
+
+.grouptablebank option {
+  background: rgba(var(--rgba-primary-bg-color));
+}
+
+.grpstatusbank {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.listgrpstatusbank {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.listgrpstatusbank input[type="radio"]:focus {
+  border: unset;
+}
+
+.listgrpstatusbank input[type="radio"] {
+  width: unset;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  appearance: none;
+  outline: none;
+  transition: all 0.3s ease;
+  padding: 7px;
+  box-shadow: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 5px;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.listgrpstatusbank input[type="radio"]:checked {
+  position: relative;
+  padding: 5px;
+  overflow: hidden;
+}
+
+.listgrpstatusbank input[type="radio"]:checked::before {
+  content: "";
+  position: absolute;
+  color: white;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+}
+
+.listgrpstatusbank input.status_online[type="radio"] {
+  border: 1px solid var(--green-color);
+}
+
+.listgrpstatusbank input.status_online[type="radio"]:checked::before {
+  background-color: var(--green-color);
+}
+
+.listgrpstatusbank input.status_online[type="radio" i]:hover {
+  border: 2px solid var(--green-color);
+}
+
+.listgrpstatusbank input.status_online[type="radio" i]:hover {
+  box-shadow: 0 0 10px var(--green-color);
+}
+
+.listgrpstatusbank input.status_online[type="radio"]:checked {
+  background-color: var(--green-color);
+  position: relative;
+  border: 2px solid white;
+  box-shadow: 0px 0px 5px var(--green-color);
+  overflow: hidden;
+}
+
+.listgrpstatusbank input.status_offline[type="radio"] {
+  border: 1px solid var(--red-color);
+}
+
+.listgrpstatusbank input.status_offline[type="radio"]:checked::before {
+  background-color: var(--red-color);
+}
+
+.listgrpstatusbank input.status_offline[type="radio" i]:hover {
+  border: 2px solid var(--red-color);
+}
+
+.listgrpstatusbank input.status_offline[type="radio" i]:hover {
+  box-shadow: 0 0 10px var(--red-color);
+}
+
+.listgrpstatusbank input.status_offline[type="radio"]:checked {
+  background-color: var(--red-color);
+  position: relative;
+  border: 2px solid white;
+  box-shadow: 0px 0px 5px var(--red-color);
+  overflow: hidden;
+}
+
+.listgrpstatusbank input.status_trouble[type="radio"] {
+  border: 1px solid var(--yellow-color);
+}
+
+.listgrpstatusbank input.status_trouble[type="radio"]:checked::before {
+  background-color: var(--yellow-color);
+}
+
+.listgrpstatusbank input.status_trouble[type="radio" i]:hover {
+  border: 2px solid var(--yellow-color);
+}
+
+.listgrpstatusbank input.status_trouble[type="radio" i]:hover {
+  box-shadow: 0 0 10px var(--yellow-color);
+}
+
+.listgrpstatusbank input.status_trouble[type="radio"]:checked {
+  background-color: var(--yellow-color);
+  position: relative;
+  border: 2px solid white;
+  box-shadow: 0px 0px 5px var(--yellow-color);
+  overflow: hidden;
+}
+
+.listgrpstatusbank input.status_primary[type="radio"] {
+  border: 1px solid var(--primary-color);
+}
+
+.listgrpstatusbank input.status_primary[type="radio"]:checked::before {
+  background-color: var(--primary-color);
+}
+
+.listgrpstatusbank input.status_primary[type="radio" i]:hover {
+  border: 2px solid var(--primary-color);
+}
+
+.listgrpstatusbank input.status_primary[type="radio" i]:hover {
+  box-shadow: 0 0 10px var(--primary-color);
+}
+
+.listgrpstatusbank input.status_primary[type="radio"]:checked {
+  background-color: var(--primary-color);
+  position: relative;
+  border: 2px solid white;
+  box-shadow: 0px 0px 5px var(--primary-color);
+  overflow: hidden;
+}
+
+.addlist svg {
+  width: 25px;
+  height: 25px;
+  transition: all 0.3s ease;
+}
+
+.addlist:hover svg {
+  transform: scale(1.1);
+}
+
+.listgrpstatusbank label {
+  text-transform: capitalize;
+}
+
+.listgroupbank .tombol {
+  width: 100%;
+  border-radius: unset;
+}
+
+.grouptablebank input[type="checkbox"] {
+  background: transparent;
+}
+
+.grouptablebank td.tdnamabank {
+  text-transform: uppercase;
+  padding: 10px;
+  color: rgba(var(--rgba-white));
+  font-size: 18px;
+}
+
+.secgroupdatabankds .listgroupplayerinfo {
+  padding: unset;
+}
+
+.groupsetbankmaster {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.titlebankmaster {
+  font-size: 20px;
+  text-transform: uppercase;
+  text-align: center;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(var(--rgba-primary), 0.2);
+  color: rgba(var(--rgba-white), 0.8);
+  font-family: myFont1;
+}
+
+.secgroupdatabankds input {
+  color: rgba(var(--rgba-white));
+}
+
+.groupradiooption {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.secgroupdatabankds option {
+  background: rgba(var(--rgba-primary-bg-color));
+}
+
+.listgroupplayerinfo.right.solo {
+  justify-content: flex-end;
+}
+
+.groupeditinput #urllogo {
+  text-transform: unset;
+}
+
+.listplayerinfo .groupnamabank {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 10px;
+}
+
+input#urlbarcode {
+  text-transform: lowercase;
+}
+
+.groupactions {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.grouplistaction {
+  padding: 10px;
+  background: red;
+  position: absolute;
+  bottom: -60px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.grouptablebank .kolom_action {
+  justify-content: center;
+}
+
+.grouptablebank .action_crud {
+  left: unset;
+}
+
+.grouptablebank.frinput td {
+  padding: 5px;
+}
+
+.grouptablebank.frinput .listbanksd th {
+  font-size: 13px;
+}
+
+.grouptablebank.frinput .inputnew {
+  width: 100%;
+  background: var(--bg-box-primary);
+  color: rgba(var(--rgba-white));
+  border: 1px solid rgba(var(--rgba-primary), 0.5);
+  box-shadow: inset 5px 5px 5px rgba(var(--rgba-black), 0.25);
+  padding: 10px 10px 10px 20px;
+  text-align: left;
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+
+.grouptablebank.frinput .inputnew:focus {
+  border: 1px solid rgba(var(--rgba-aqua), 0.5);
+}
+
+.grouptablebank.frinput .inputnew.smallfont {
+  font-size: 13px;
+}
+
+.inputtablebank {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 0.1fr 1fr;
+  align-items: center;
+  gap: 3px;
+}
+
+.inputtablebank.single {
+  display: unset;
+}
+
+.inputtablebank.single .inputnew {
+  font-size: 20px;
+  padding: 5px;
+}
+
+.inputtablebank .textparam {
+  font-size: 10px;
+  color: var(--primary-color);
+}
+
+.listinputtablebank {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.inputtablebank .gapcount {
+  padding-bottom: 15px;
+}
+
+.grouptablebank.frinput .listinputtablebank input {
+  text-align: center;
+}
+
+.grouptablebank.frinput .check_box {
+  width: 5%;
+}
+
+.xurlbarcode input[type="checkbox"] {
+  width: 25px;
+  height: 25px;
+  border: 2px solid var(--success-color);
+}
+
+.xurlbarcode input[type="checkbox"]:checked::before {
+  background-color: var(--success-color);
+}
+
+.swal2-icon.swal2-info {
+  border-color: var(--primary-color) !important;
+}
+
+.swal2-icon.swal2-info {
+  color: var(--primary-color) !important;
 }

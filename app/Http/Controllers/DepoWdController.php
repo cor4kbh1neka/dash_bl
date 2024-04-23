@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use App\Models\DepoWd;
 use App\Models\Member;
+use App\Models\Outstanding;
 use App\Models\Transactions;
 use App\Models\TransactionStatus;
 use App\Models\TransactionSaldo;
@@ -706,6 +707,17 @@ class DepoWdController extends Controller
         $countDataWD = DepoWd::where('jenis', 'DP')->where('status', 0)->count();
         $countDataDP = DepoWd::where('jenis', 'WD')->where('status', 0)->count();
 
+        $dataOuts = Outstanding::get();
+        $dataOuts = $dataOuts->groupBy('username')->map(function ($group) {
+            $totalAmount = $group->sum('amount');
+            $count = $group->count();
+            return [
+                'username' => $group->first()['username'],
+                'totalAmount' => $totalAmount,
+                'count' => $count,
+            ];
+        });
+        dd($dataOuts);
         $data = [
             'dataWD' => $countDataWD,
             'dataDP' => $countDataDP

@@ -14,16 +14,11 @@ class BankdsController extends Controller
 {
     public function index()
     {
-        $data = [
-            [
-                'id' => '1',
-                'nama' => 'Waantos',
-                'alamat' => 'Pekanbaru',
-                'notelp' => '0778007711',
-                'tgllhir' => '12-09-1996',
-                'tempatlahir' => 'sukajadi'
-            ]
-        ];
+        $data = $this->requestApi('master');
+        if ($data["status"] == 'success') {
+            $data = $data["data"];
+        }
+
         return view('bankds.index', [
             'title' => 'Bank Setting',
             'data' => $data,
@@ -31,11 +26,81 @@ class BankdsController extends Controller
         ]);
     }
 
+    public function storemaster(Request $request)
+    {
+        $validatedData = $request->validate([
+            'bnkmstrxyxyx' => 'required',
+            'urllogoxxyx' => 'required',
+            'statusxyxyy' => 'required',
+        ]);
+        $validatedData["statusxyxyy"] = intval($validatedData["statusxyxyy"]);
+        $apiUrl = 'https://back-staging.bosraka.com/banks/master';
+
+        $response = Http::post($apiUrl, $validatedData);
+        if ($response->successful()) {
+            return redirect()->route('bankds')->with('success', 'Master Bank berhasil ditambahkan');
+        } else {
+            return back()->withInput()->with('error', $response->json()["message"]);
+        }
+    }
+
+    private function requestApi($endpoint)
+    {
+        $url = 'https://back-staging.bosraka.com/banks/' . $endpoint;
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json; charset=UTF-8',
+        ])->get($url);
+
+        if ($response->successful()) {
+            $responseData = $response->json();
+        } else {
+            $responseData = $response->json();
+        }
+
+        return $responseData;
+    }
+
     public function setbankmaster()
     {
 
-        return view('bankds.setbankmaster', [
+        return view('bankds.bankmaster_edit', [
             'title' => 'Set Bank Master',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function addbankmaster()
+    {
+
+        return view('bankds.bankmaster_add', [
+            'title' => 'Set Bank Master',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function setgroupbank()
+    {
+
+        return view('bankds.groupbank_edit', [
+            'title' => 'Set Bank Master',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function addgroupbank()
+    {
+
+        return view('bankds.groupbank_add', [
+            'title' => 'Set Bank Master',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function setbank()
+    {
+
+        return view('bankds.rekbank_edit', [
+            'title' => 'Add & Set Bank',
             'totalnote' => 0,
         ]);
     }
@@ -43,7 +108,7 @@ class BankdsController extends Controller
     public function addbank()
     {
 
-        return view('bankds.addbank', [
+        return view('bankds.rekbank_add', [
             'title' => 'Add & Set Bank',
             'totalnote' => 0,
         ]);

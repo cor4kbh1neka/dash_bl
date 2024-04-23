@@ -201,8 +201,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/referralds', [ReferraldsController::class, 'index']);
 
     /*-- Bankds --*/
-    Route::get('/bankds', [BankdsController::class, 'index']);
+    Route::get('/bankds', [BankdsController::class, 'index'])->name('bankds');
+    Route::post('/storemaster', [BankdsController::class, 'storemaster']);
+
     Route::get('/bankds/setbankmaster', [BankdsController::class, 'setbankmaster']);
+    Route::get('/bankds/addbankmaster', [BankdsController::class, 'addbankmaster']);
+    Route::get('/bankds/setgroupbank', [BankdsController::class, 'setgroupbank']);
+    Route::get('/bankds/addgroupbank', [BankdsController::class, 'addgroupbank']);
+    Route::get('/bankds/setbank', [BankdsController::class, 'setbank']);
     Route::get('/bankds/addbank', [BankdsController::class, 'addbank']);
     Route::get('/bankds/listmaster', [BankdsController::class, 'listmaster']);
     Route::get('/bankds/listgroup', [BankdsController::class, 'listgroup']);

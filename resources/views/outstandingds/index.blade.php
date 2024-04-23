@@ -46,7 +46,8 @@
                                         <td>{{ $d['username'] }}</td>
                                         <td>{{ $d['totalAmount'] }}</td>
                                         <td>
-                                            <a href="/outstandingds/{{ $d['username'] }}">
+                                            <a
+                                                href="/outstandingds/{{ $d['username'] }}{{ $username == '' ? '' : '?username=' . $username }}">
                                                 <div class="groupcountout">
                                                     <span class="countdataout">{{ $d['count'] }}</span>
                                                     <spaCn class="selengkapnyaout">
