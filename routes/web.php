@@ -206,11 +206,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/storegroupbank', [BankdsController::class, 'storegroupbank']);
     Route::post('/changestatusbank/{jenis?}', [BankdsController::class, 'changeStatusBank']);
 
-    Route::get('/bankds/setbankmaster', [BankdsController::class, 'setbankmaster']);
+    Route::get('/bankds/setbankmaster/{bank}', [BankdsController::class, 'setbankmaster']);
     Route::get('/bankds/addbankmaster', [BankdsController::class, 'addbankmaster']);
-    Route::get('/bankds/setgroupbank', [BankdsController::class, 'setgroupbank']);
+    Route::get('/bankds/setgroupbank/{namagroup}', [BankdsController::class, 'setgroupbank']);
+    Route::post('/updategroupbank/{namagroup}', [BankdsController::class, 'updategroupbank']);
+
     Route::get('/bankds/addgroupbank', [BankdsController::class, 'addgroupbank']);
     Route::get('/bankds/setbank', [BankdsController::class, 'setbank']);
+    Route::post('/updatesetbank/{bank}', [BankdsController::class, 'updatesetbank']);
+
 
     Route::get('/bankds/addbank', [BankdsController::class, 'addbank']);
     Route::post('/storebank', [BankdsController::class, 'storebank']);
@@ -219,7 +223,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/bankds/listgroup', [BankdsController::class, 'listgroup'])->name('listgroup');
     Route::post('/updatelistgroup/{jenis}', [BankdsController::class, 'updatelistgroup']);
-    Route::delete('/deletelistgroup/{id}', [BankdsController::class, 'deletelistgroup']);
+    Route::delete('/deletelistgroup/{id}', [BankdsController::class, 'deletelistgroup'])->name('deletelistgroup');
+
 
 
     Route::get('/bankds/listbank', [BankdsController::class, 'listbank']);

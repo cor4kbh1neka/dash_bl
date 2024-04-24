@@ -12,8 +12,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('group');
             $table->string('jenis');
-            $table->string('min');
-            $table->string('max');
+            $table->integer('min');
+            $table->integer('max');
             $table->timestamps();
         });
     }

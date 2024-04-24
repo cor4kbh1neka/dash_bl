@@ -434,6 +434,11 @@ svg {
   color: var(--black-color);
 }
 
+.data_sidejsx .countdatapend.memo {
+  background: var(--yellow-color);
+  color: var(--black-color);
+}
+
 .noexpand .data_sidejsx .countdatapend {
   width: 22px;
   height: 22px;
@@ -1156,7 +1161,7 @@ input[type="checkbox"]:checked::before {
 
 .action_crud {
   position: absolute;
-  top: 37px;
+  top: 27px;
   left: -8px;
   background: rgba(var(--rgba-white));
   box-shadow: 3px 5px 5px rgba(var(--rgba-black), 0.3);
@@ -2111,10 +2116,6 @@ option.sec_selected {
   transition: all 1s ease;
 }
 
-.sec_table a {
-  width: max-content;
-}
-
 table svg.icon-tabler-check {
   stroke: var(--success-color);
 }
@@ -2592,6 +2593,11 @@ table svg.icon-tabler-x {
   color: rgba(var(--rgba-black));
 }
 
+.countpendingdata.memo {
+  background: var(--yellow-color);
+  color: rgba(var(--rgba-black));
+}
+
 .tombol {
   padding: 10px;
   display: flex;
@@ -2834,6 +2840,30 @@ table svg.icon-tabler-x {
 }
 
 .tabelproses .bagodds {
+  width: 15%;
+}
+
+.tabelproses .bagidms {
+  width: 17%;
+}
+
+.tabelproses .bgkontak {
+  width: 15%;
+}
+
+.tabelproses .bagsubject {
+  width: 30%;
+}
+
+.tabelproses .bagtanggalinbox {
+  width: 25%;
+}
+
+.tabelproses .bagstatusinbox {
+  width: 10%;
+}
+
+.tabelproses .bagaction {
   width: 15%;
 }
 
@@ -3372,7 +3402,9 @@ table svg.icon-tabler-x {
 }
 
 .groupheadhistoryds input,
-.groupheadhistoryds select {
+.groupheadhistoryds select,
+.groupsecmemods select,
+.groupsecmemods input {
   background: var(--bg-box-primary);
   border: 1px solid rgba(var(--rgba-primary), 0.2);
   color: rgba(var(--rgba-white));
@@ -3384,7 +3416,9 @@ table svg.icon-tabler-x {
 }
 
 .groupheadhistoryds input:focus,
-.groupheadhistoryds select:focus {
+.groupheadhistoryds select:focus,
+.groupsecmemods select:focus,
+.groupsecmemods input:focus {
   border: 1px solid rgba(var(--rgba-primary), 0.8);
   box-shadow: unset;
 }
@@ -3684,7 +3718,7 @@ table svg.icon-tabler-x {
 .listplayerinfo {
   width: 100%;
   display: grid;
-  grid-template-columns: 0.5fr 2fr;
+  grid-template-columns: 0.8fr 2fr;
   align-items: center;
 }
 
@@ -3755,7 +3789,8 @@ table svg.icon-tabler-x {
 }
 
 .groupseceditmemberds .groupeditinput,
-.secgroupdatabankds .groupeditinput {
+.secgroupdatabankds .groupeditinput,
+.groupsecmemods .groupeditinput {
   display: flex;
   justify-content: center;
   background: var(--bg-box-primary);
@@ -3774,13 +3809,15 @@ table svg.icon-tabler-x {
 }
 
 .groupseceditmemberds .groupeditinput.edit,
-.secgroupdatabankds .groupeditinput.edit {
+.secgroupdatabankds .groupeditinput.edit,
+.groupsecmemods .groupeditinput.edit {
   background: rgba(var(--rgba-white));
   box-shadow: unset;
 }
 
 .groupseceditmemberds .groupeditinput.edit input,
-.secgroupdatabankds .groupeditinput.edit input {
+.secgroupdatabankds .groupeditinput.edit input,
+.groupsecmemods .groupeditinput.edit input {
   color: rgba(var(--rgba-black));
 }
 
@@ -3798,7 +3835,9 @@ table svg.icon-tabler-x {
 
 .groupseceditmemberds .groupeditinput input,
 .secgroupdatabankds .groupeditinput input,
-.secgroupdatabankds .groupeditinput select {
+.secgroupdatabankds .groupeditinput select,
+.groupsecmemods .groupeditinput input,
+.groupsecmemods .groupeditinput textarea {
   padding: unset;
   background: transparent;
   box-shadow: unset;
@@ -3825,11 +3864,6 @@ table svg.icon-tabler-x {
 .datalistplayerinfogrp label {
   text-transform: uppercase;
   color: rgba(var(--rgba-white), 0.8);
-}
-
-.listgroupplayerinfo.right {
-  width: auto;
-  justify-content: space-between;
 }
 
 .secmemberlist {
@@ -4380,7 +4414,7 @@ table svg.icon-tabler-x {
   width: 100%;
   display: flex;
   gap: 10px;
-  padding: 10px 20px 120px 20px;
+  padding: 10px 20px 170px 20px;
 }
 
 .groupsecbankds {
@@ -4683,6 +4717,15 @@ table svg.icon-tabler-x {
   padding: unset;
 }
 
+.listgroupplayerinfo.left {
+  width: 70%;
+}
+
+.listgroupplayerinfo.right {
+  width: unset;
+  justify-content: space-between;
+}
+
 .groupsetbankmaster {
   width: 100%;
   display: flex;
@@ -4860,6 +4903,258 @@ input#urlbarcode {
   height: 15px;
   padding: 5px;
   border-radius: 3px;
+}
+
+.memberlist .tombol .texttombol {
+  font-size: 13px;
+}
+
+.secmemods {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px 20px 20px;
+}
+
+.groupsecmemods {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.groupsecmemods .tombol {
+  position: relative;
+}
+
+.headgroupsecmemods {
+  width: 40%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.groupsecmemods .listgroupplayerinfo.left {
+  width: 50%;
+}
+
+.groupsecmemods .groupplayerinfo {
+  justify-content: flex-start;
+}
+
+.headgroupsecmemods .tombol {
+  width: 100%;
+  text-align: center;
+}
+
+.groupsecmemods .groupeditinput input,
+.groupsecmemods .groupeditinput textarea {
+  color: rgba(var(--rgba-white));
+  text-transform: unset;
+}
+
+.groupsecmemods .groupradiooption {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.groupsecmemods .listplayerinfo {
+  align-items: start;
+  grid-template-columns: 0.5fr 2fr;
+}
+
+.groupsecmemods .listplayerinfo.xusername {
+  display: none;
+  opacity: 0;
+  height: 0;
+  transition: all 0.3s ease;
+}
+
+.groupsecmemods .listplayerinfo.xusername.show {
+  display: grid;
+  animation: showinput 0.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes showinput {
+  0% {
+    opacity: 0;
+    height: 0;
+    display: none;
+  }
+
+  50% {
+    display: grid;
+    opacity: 1;
+    height: 40px;
+  }
+
+  100% {
+    display: grid;
+    opacity: 1;
+    height: 40px;
+  }
+}
+
+.groupsecmemods .inbox {
+  width: 60%;
+}
+
+.groupsecmemods .listgroupplayerinfo.right.solo {
+  width: 15%;
+}
+
+.tabelproses .xstatus {
+  text-transform: capitalize;
+}
+
+.tabelproses tr.dataxstatus[data-status="0"] {
+  background: var(--primary-color);
+  color: rgba(var(--rgba-black));
+}
+
+.tabelproses tr.dataxstatus[data-status="0"]:hover .dot_action {
+  border: 1px solid var(--black-color);
+  color: var(--black-color);
+}
+
+.headfilter {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+}
+
+.headfilter .listinputmember {
+  width: unset;
+}
+
+.headfilter .groupinputfilter {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.groupdatamemo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feedback {
+  background: rgba(var(--rgba-primary-bg-color));
+  color: var(--white-color);
+}
+
+.feedback .sec_openwindow {
+  max-width: 800px;
+  background: var(--bg-box-primary);
+}
+
+.headfeedback {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 10px 20px 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(var(--rgba-primary), 0.2);
+}
+
+.feedback .datainbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.headfeedback .namauser {
+  text-transform: capitalize;
+  font-size: 20px;
+  color: rgba(var(--rgba-white));
+}
+
+.detailfeedback {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.listdetailfeedback {
+  display: grid;
+  grid-template-columns: 0.5fr 0.03fr 1fr;
+  align-items: center;
+}
+
+.listdetailfeedback.top {
+  align-items: start;
+}
+
+.listdetailfeedback .labeldetail {
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.listdetailfeedback .valuedetail {
+  font-size: 14px;
+}
+
+.listdetailfeedback .groupvaluedetail {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.listdetailfeedback .groupvaluedetail a {
+  width: unset;
+  padding: 5px;
+  border-radius: 5px;
+  background: var(--primary-color);
+  color: black;
+  border: 1px solid transparent;
+  font-size: 10px;
+  transition: all 0.3s ease;
+}
+
+.listdetailfeedback .groupvaluedetail a:hover {
+  background: transparent;
+  border: 1px solid var(--primary-color);
+  color: unset;
+}
+
+.listdetailfeedback img {
+  width: 20%;
+}
+
+.grouphandlepesan {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.unreadmessage {
+  width: 30px;
+  height: 30px;
+  padding: 3px;
+  background: var(--yellow-color);
+  color: var(--black-color);
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
+  box-shadow: 2px 3px 3px #000000ab, 0 0 10px var(--yellow-color);
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+}
+
+.groupsecbankds .listgroupplayerinfo.left {
+  width: 50%;
+}
+
+.groupsecbankds .listgroupplayerinfo.right {
+  width: 12%;
 }
 
 @media screen and (max-width: 800px) {

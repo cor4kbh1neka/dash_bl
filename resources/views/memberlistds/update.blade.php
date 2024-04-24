@@ -36,6 +36,13 @@
                             value="{{ $datauser['xyusernamexxy'] }}">
                     </div>
                     <div class="listplayerinfo">
+                        <label for="isverified">verified status</label>
+                        <select name="isverified" id="isverified" value="0">
+                            <option value="0" selected>not verified</option>
+                            <option value="1">verified</option>
+                        </select>
+                    </div>
+                    <div class="listplayerinfo">
                         <label for="xybanknamexyy">nama bank</label>
                         <div class="groupeditinput">
                             <input type="text" readonly id="xybanknamexyy" name="xybanknamexyy"

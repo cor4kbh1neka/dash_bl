@@ -41,7 +41,8 @@
                 <div class="secgroupdatabankds">
                     <span class="titlebankmaster">LIST GROUP BANK</span>
                     <div class="groupactivebank">
-                        <form method="POST" action="/updatelistgroup/dp" class="listgroupbank">
+                        <form method="POST" action="/updatelistgroup/dp" class="listgroupbank"
+                            onsubmit="return validateForm()">
                             @csrf
                             <div class="grouptablebank frinput">
                                 <table>
@@ -66,33 +67,30 @@
                                             @if ($bank !== 'nongroup')
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td class="tdnamabank">{{ $bank }}</td>
+                                                    <td class="tdnamabank">{{ $d->group }}
+                                                    </td>
                                                     <td>
                                                         <div class="inputtablebank">
                                                             <div class="listinputtablebank">
                                                                 <input type="number" class="inputnew" id="mincount_grp1"
-                                                                    name="min_dp_{{ $d['idgroup'] }}"
-                                                                    value="{{ $d['min_dp'] }}">
-                                                                <input type="hidden" name="min_wd_{{ $d['idgroup'] }}"
-                                                                    value="{{ $d['min_wd'] }}">
+                                                                    name="min_{{ $d->id }}"
+                                                                    value="{{ $d->min }}">
                                                                 <label for="mincount_grp1" class="textparam">Minimal</label>
                                                             </div>
                                                             <div class="gapcount">-</div>
                                                             <div class="listinputtablebank">
                                                                 <input type="number" class="inputnew" id="maxcount_grp1"
-                                                                    name="max_dp_{{ $d['idgroup'] }}"
-                                                                    value="{{ $d['max_dp'] }}">
-                                                                <input type="hidden" name="max_wd_{{ $d['idgroup'] }}"
-                                                                    value="{{ $d['max_wd'] }}">
+                                                                    name="max_{{ $d->id }}"
+                                                                    value="{{ $d->max }}">
                                                                 <label for="maxcount_grp1"
                                                                     class="textparam">Maksimal</label>
                                                             </div>
                                                         </div>
                                                     </td>
                                                     <td class="check_box"
-                                                        onclick="toggleCheckbox('myCheckboxDeposit-{{ $d['idgroup'] }}')">
-                                                        <input type="checkbox" id="myCheckboxDeposit-{{ $d['idgroup'] }}"
-                                                            name="myCheckboxDeposit-{{ $d['idgroup'] }}"
+                                                        onclick="toggleCheckbox('myCheckboxDeposit-{{ $d->id }}')">
+                                                        <input type="checkbox" id="myCheckboxDeposit-{{ $d->id }}"
+                                                            name="myCheckboxDeposit-{{ $d->id }}"
                                                             data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                                     </td>
                                                     <td>
@@ -104,7 +102,7 @@
                                                                     <span>•</span>
                                                                 </div>
                                                                 <div class="action_crud">
-                                                                    <a href="/bankds/setbankmaster">
+                                                                    <a href="/bankds/setgroupbank/{{ $d->group }}">
                                                                         <div class="list_action">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 width="1em" height="1em"
@@ -163,7 +161,9 @@
                                 <span class="texttombol">UPDATE</span>
                             </button>
                         </form>
-                        <form method="POST" action="/updatelistgroup/wd" class="listgroupbank">
+                        <form method="POST" action="/updatelistgroup/wd" class="listgroupbank"
+                            onsubmit="return validateForm()">
+                            @csrf
                             <div class="grouptablebank frinput">
                                 <table>
                                     <tbody>
@@ -186,34 +186,30 @@
                                         @foreach ($datawd as $bank => $d)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td class="tdnamabank">{{ $bank }}</td>
+                                                <td class="tdnamabank">{{ $d->group }}
+                                                </td>
                                                 <td>
                                                     <div class="inputtablebank">
                                                         <div class="listinputtablebank">
                                                             <input type="number" class="inputnew" id="mincount_grp1"
-                                                                name="min_wd_{{ $d['idgroup'] }}" name="min_wd"
-                                                                value="{{ $d['min_wd'] }}">
-                                                            <input type="hidden" name="min_dp_{{ $d['idgroup'] }}"
-                                                                value="{{ $d['min_dp'] }}">
+                                                                name="min_{{ $d->id }}"
+                                                                value="{{ $d->min }}">
                                                             <label for="mincount_grp1" class="textparam">Minimal</label>
                                                         </div>
                                                         <div class="gapcount">-</div>
                                                         <div class="listinputtablebank">
                                                             <input type="number" class="inputnew" id="maxcount_grp1"
-                                                                name="max_wd_{{ $d['idgroup'] }}" name="max_wd"
-                                                                value="{{ $d['max_wd'] }}">
-                                                            <input type="hidden" name="max_dp"
-                                                                name="max_dp_{{ $d['idgroup'] }}"
-                                                                value="{{ $d['max_dp'] }}">
+                                                                name="max_{{ $d->id }}"
+                                                                value="{{ $d->max }}">
                                                             <label for="maxcount_grp1" class="textparam">Maksimal</label>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td class="check_box"
-                                                    onclick="toggleCheckbox('myCheckboxWithdraw-{{ $d['idgroup'] }}')">
-                                                    <input type="checkbox" id="myCheckboxWithdraw-{{ $d['idgroup'] }}"
-                                                        name="myCheckboxWithdraw-{{ $d['idgroup'] }}"
-                                                        data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
+                                                    onclick="toggleCheckbox('myCheckboxWithdraw-{{ $d->id }}')">
+                                                    <input type="checkbox" id="myCheckboxWithdraw-{{ $d->id }}"
+                                                        name="myCheckboxWithdraw-{{ $d->id }}"
+                                                        data-id="{{ $d->id }}">
                                                 </td>
                                                 <td>
                                                     <div class="kolom_action">
@@ -224,7 +220,7 @@
                                                                 <span>•</span>
                                                             </div>
                                                             <div class="action_crud">
-                                                                <a href="/bankds/setbankmaster">
+                                                                <a href="//bankds/setgroupbank/{{ $d->group }}">
                                                                     <div class="list_action">
                                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                                             width="1em" height="1em"
@@ -331,7 +327,6 @@
 
         });
 
-        // checked radio button berdasarkan value dari status bank 1, 2, 3
         $(document).ready(function() {
             $('tr[data-chekcedbank]').each(function() {
                 var checkedBankValue = $(this).attr('data-chekcedbank');
@@ -340,4 +335,28 @@
             });
         });
     </script>
+
+    @if (session('success'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses!',
+                    text: '{{ session('success') }}',
+                });
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '{{ session('error') }}',
+                });
+            });
+        </script>
+    @endif
 @endsection
