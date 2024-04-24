@@ -17,7 +17,12 @@
                 <div class="groupheadhistoryds">
                     <div class="listmembergroup">
                         <div class="listinputmember">
-                            <label for="username">username</label>
+                            <label for="username">
+                                username
+                                <div class="check_box">
+                                    <input type="checkbox" id="checkusername" name="checkusername">
+                                </div>
+                            </label>
                             <input type="text" id="username" name="username" placeholder="username">
                         </div>
                         <div class="listinputmember">
@@ -105,7 +110,7 @@
                                 <td>2024-04-06 22:35:20</td>
                                 <td>
                                     <div class="grouptools">
-                                        <a href="/memberlistds/edit" class="tombol grey">
+                                        <a href="/memberlistds/edit" target="_blank" class="tombol grey openviewport">
                                             <span class="texttombol">EDIT</span>
                                         </a>
                                         <button class="tombol grey showmodal" data-modal="1">
@@ -129,7 +134,7 @@
                                 <td>2024-04-06 22:35:20</td>
                                 <td>
                                     <div class="grouptools">
-                                        <a href="/memberlistds/edit" class="tombol grey">
+                                        <a href="/memberlistds/edit" target="_blank" class="tombol grey openviewport">
                                             <span class="texttombol">EDIT</span>
                                         </a>
                                         <button class="tombol grey showmodal" data-modal="2">
@@ -153,7 +158,7 @@
                                 <td>2024-04-06 22:35:20</td>
                                 <td>
                                     <div class="grouptools">
-                                        <a href="/memberlistds/edit" class="tombol grey">
+                                        <a href="/memberlistds/edit" target="_blank" class="tombol grey openviewport">
                                             <span class="texttombol">EDIT</span>
                                         </a>
                                         <button class="tombol grey showmodal" data-modal="3">
@@ -177,7 +182,7 @@
                                 <td>2024-04-06 22:35:20</td>
                                 <td>
                                     <div class="grouptools">
-                                        <a href="/memberlistds/edit" class="tombol grey">
+                                        <a href="/memberlistds/edit" target="_blank" class="tombol grey openviewport">
                                             <span class="texttombol">EDIT</span>
                                         </a>
                                         <button class="tombol grey showmodal" data-modal="4">
@@ -201,7 +206,7 @@
                                 <td>2024-04-06 22:35:20</td>
                                 <td>
                                     <div class="grouptools">
-                                        <a href="/memberlistds/edit" class="tombol grey">
+                                        <a href="/memberlistds/edit" target="_blank" class="tombol grey openviewport">
                                             <span class="texttombol">EDIT</span>
                                         </a>
                                         <button class="tombol grey showmodal" data-modal="5">
@@ -225,7 +230,7 @@
                                 <td>2024-04-06 22:35:20</td>
                                 <td>
                                     <div class="grouptools">
-                                        <a href="/memberlistds/edit" class="tombol grey">
+                                        <a href="/memberlistds/edit" target="_blank" class="tombol grey openviewport">
                                             <span class="texttombol">EDIT</span>
                                         </a>
                                         <button class="tombol grey showmodal" data-modal="6">
@@ -444,38 +449,52 @@
         });
 
         $(document).ready(function(){
-    $('.hsjenisakun').each(function(){
-        var status = $(this).data('statusakun');
-        var text = '';
-        
-        switch(status){
-            case 1:
-                text = 'default';
-                break;
-            case 2:
-                text = 'vvip';
-                break;
-            case 3:
-                text = 'bandar';
-                break;
-            case 4:
-                text = 'warning';
-                break;
-            case 5:
-                text = 'suspend';
-                break;
-            case 9:
-                text = 'new member';
-                break;
-            default:
-                text = 'unknown';
-                break;
-        }
-        
-        $(this).text(text);
-    });
-});
+            $('.hsjenisakun').each(function(){
+                var status = $(this).data('statusakun');
+                var text = '';
+                
+                switch(status){
+                    case 1:
+                        text = 'default';
+                        break;
+                    case 2:
+                        text = 'vvip';
+                        break;
+                    case 3:
+                        text = 'bandar';
+                        break;
+                    case 4:
+                        text = 'warning';
+                        break;
+                    case 5:
+                        text = 'suspend';
+                        break;
+                    case 9:
+                        text = 'new member';
+                        break;
+                    default:
+                        text = 'unknown';
+                        break;
+                }
+                
+                $(this).text(text);
+            });
+        });
 
+        //open jendela detail
+        $(document).ready(function() {
+            $(".openviewport").click(function(event) {
+                event.preventDefault();
+
+                var url = $(this).attr("href");
+                var windowWidth = 700;
+                var windowHeight = $(window).height() * 0.6;
+                var windowLeft = ($(window).width() - windowWidth) / 1.5;
+                var windowTop = ($(window).height() - windowHeight) / 1.5;
+
+                window.open(url, "_blank", "width=" + windowWidth + ", height=" + windowHeight + ", left=" + windowLeft + ", top=" + windowTop);
+            });
+        });
 
     </script>
 @endsection

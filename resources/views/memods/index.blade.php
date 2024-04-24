@@ -12,9 +12,77 @@
                 </svg>
             </div>
         </div>
-        <div class="secreferralds">
-            <div class="groupsecreferralds">
-                ini halaman memo
+        <div class="secmemods">
+            <div class="groupsecmemods">
+                <div class="headgroupsecmemods">
+                    <a href="/memods" class="tombol grey active">
+                        <span class="texttombol">create</span>
+                    </a>
+                    <a href="/memods/delivered" class="tombol grey">
+                        <span class="texttombol">delivered</span>
+                    </a>
+                    <a href="/memods/viewinbox" class="tombol grey">
+                        <span class="texttombol">inbox</span>
+                        <span class="unreadmessage">2</span>
+                    </a>
+                    <a href="/memods/archiveinbox" class="tombol grey">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <g fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 6h10M7 9h10m-8 8h6" />
+                                <path d="M3 12h-.4a.6.6 0 0 0-.6.6v8.8a.6.6 0 0 0 .6.6h18.8a.6.6 0 0 0 .6-.6v-8.8a.6.6 0 0 0-.6-.6H21M3 12V2.6a.6.6 0 0 1 .6-.6h16.8a.6.6 0 0 1 .6.6V12M3 12h18" />
+                            </g>
+                        </svg>
+                        <span class="texttombol">archive</span>
+                    </a>
+                </div>
+                <div class="groupdatamemo">
+                    <div class="groupplayerinfo">
+                        <div class="listgroupplayerinfo left">
+                            <div class="listplayerinfo">
+                                <span class="labelbetpl">to user</span>
+                                <div class="groupradiooption">
+                                    <div class="listgrpstatusbank">
+                                        <input class="status_primary" type="radio" id="allplayer" name="memoplayer" value="1">
+                                        <label for="allplayer">all player</label>
+                                    </div>
+                                    <div class="listgrpstatusbank">
+                                        <input class="status_primary" type="radio" id="oneplayer" name="memoplayer" value="2">
+                                        <label for="oneplayer">to user</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="listplayerinfo xusername">
+                                <label for="username">username</label>
+                                <div class="groupeditinput">
+                                    <input type="text" id="username" name="username" value="" placeholder="isi username user">
+                                </div>
+                            </div>
+                            <div class="listplayerinfo">
+                                <label for="pengirim">pengirim</label>
+                                <div class="groupeditinput">
+                                    <input type="text" id="pengirim" name="pengirim" value="" placeholder="isi admin pengirim">
+                                </div>
+                            </div>
+                            <div class="listplayerinfo">
+                                <label for="subject">subject</label>
+                                <div class="groupeditinput">
+                                    <input type="text" id="subject" name="subject" value="" placeholder="isi subject">
+                                </div>
+                            </div>
+                            <div class="listplayerinfo">
+                                <label for="textmemo">memo</label>
+                                <div class="groupeditinput">
+                                    <textarea name="textmemo" id="textmemo" cols="30" rows="10" placeholder="isi keterangan memo"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="listgroupplayerinfo right solo">
+                            <button class="tombol primary">
+                                <span class="texttombol">SEND</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -39,6 +107,31 @@
                 }
             });
 
+        });
+
+        // clear readonly
+        $(document).ready(function() {
+            $('.groupeditinput svg').click(function() {
+                $(this).closest('.groupeditinput').toggleClass('edit');
+                $(this).siblings('input').prop('readonly', function(_, val) {
+                    return !val;
+                });
+            });
+        });
+
+        //show username for option to user
+        $(document).ready(function(){
+            // Menggunakan event change untuk menangani perubahan pada radio button
+            $('input[name="memoplayer"]').change(function(){
+                // Memeriksa apakah radio button yang dipilih memiliki nilai "2"
+                if($(this).val() === "2") {
+                    // Jika ya, tambahkan kelas 'show' pada elemen '.listplayerinfo.xusername'
+                    $('.listplayerinfo.xusername').addClass('show');
+                } else {
+                    // Jika tidak, hapus kelas 'show' dari elemen '.listplayerinfo.xusername'
+                    $('.listplayerinfo.xusername').removeClass('show');
+                }
+            });
         });
     </script>
 @endsection
