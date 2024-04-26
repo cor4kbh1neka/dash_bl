@@ -1,17 +1,26 @@
-@extends('layouts.index')
-
-@section('container')
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1"></script>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" href="{{ asset('img/utama/g21-icon.ico') }}" />
+    <title>Dashboard | L21</title>
+    <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/design.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/custom_dash.css') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/themes/prism.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1"></script>
+
+    <script>
+        $(document).ready(function() {
+            adjustElementSize();
+        });
+    </script>
+</head>
     <div class="sec_table">
         <div class="secgrouptitle">
             <h2>{{ $title }} </h2>
-            <a href="/memberlistds" class="kembali">
-                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
-                    <path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="4" d="M44 40.836c-4.893-5.973-9.238-9.362-13.036-10.168c-3.797-.805-7.412-.927-10.846-.365V41L4 23.545L20.118 7v10.167c6.349.05 11.746 2.328 16.192 6.833c4.445 4.505 7.009 10.117 7.69 16.836Z" clip-rule="evenodd" />
-                </svg>
-                <span class="textkembali">Kembali</span>
-            </a>
         </div>
         <div class="seceditmemberds">
             <div class="groupseceditmemberds">
@@ -21,6 +30,13 @@
                         <div class="listplayerinfo">
                             <label for="username">username</label>
                             <input class="nosabel" readonly type="text" id="username" name="username" value="lontong6969">
+                        </div>
+                        <div class="listplayerinfo">
+                            <label for="isverified">verified status</label>
+                            <select name="isverified" id="isverified" value="0">
+                                <option value="0" selected>not verified</option>
+                                <option value="1">verified</option>
+                            </select>
                         </div>
                         <div class="listplayerinfo">
                             <label for="namabank">nama bank</label>
@@ -151,5 +167,3 @@
             });
         });
     </script>
-
-@endsection

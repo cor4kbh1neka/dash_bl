@@ -1115,7 +1115,10 @@
             $('.ceonorek').each(function(){
                 var nomorRekElement = $(this);
                 var nomorRekValue = nomorRekElement.text();
-                var formattedNomorRek = nomorRekValue.replace(/^(\d{3})(\d{4})(\d{4})(\d{4})/, '$1-$2-$3-$4');
+                
+                var formattedNomorRek = nomorRekValue.replace(/^(\d{3})(\d{4})(\d{4})$/, '$1-$2-$3');
+                formattedNomorRek = formattedNomorRek.replace(/^(\d{3})(\d{4})(\d{4})(\d{4})$/, '$1-$2-$3-$4');
+                
                 nomorRekElement.text(formattedNomorRek);
             });
         });
