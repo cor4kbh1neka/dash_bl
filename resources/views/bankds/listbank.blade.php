@@ -107,11 +107,12 @@
                                                             <div class="listinputmember">
                                                                 <select class="inputnew smallfont" name="namabank"
                                                                     id="namabank">
-                                                                    @foreach ($dt['data_bank'] as $dbank => $dtb)
-                                                                        <option id="pertama"
-                                                                            value="{{ $dtb['namebankxxyy'] }}">
-                                                                            {{ $dtb['namebankxxyy'] }}</option>
-                                                                    @endforeach
+                                                                    {{-- @foreach ($dbank as $dtb)
+                                                                        @dd($dtb) --}}
+                                                                    <option id="pertama"
+                                                                        value="{{ $dbank['namebankxxyy'] }}">
+                                                                        {{ $dbank['namebankxxyy'] }}</option>
+                                                                    {{-- @endforeach --}}
                                                                 </select>
                                                             </div>
 
