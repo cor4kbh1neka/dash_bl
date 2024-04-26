@@ -86,85 +86,89 @@
                                         </tr>
                                         @foreach ($listbankdp as $group => $d)
                                             @foreach ($d as $bank => $dt)
-                                                <tr>
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td>
-                                                        <div class="listinputmember">
-                                                            <select class="inputnew smallfont" name="bankmaster"
-                                                                id="bankmaster_{{ $loop->iteration }}" data-jenis="1">
-                                                                @foreach ($listmasterbank as $d)
-                                                                    <option value="{{ $d['bnkmstrxyxyx'] }}"
-                                                                        {{ $d['bnkmstrxyxyx'] == $bank ? 'selected' : '' }}>
-                                                                        {{ $d['bnkmstrxyxyx'] }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="listinputmember">
-                                                            <select class="inputnew smallfont" name="namabank"
-                                                                id="namabank">
-                                                                @foreach ($dt['data_bank'] as $dbank => $dtb)
-                                                                    <option id="pertama"
-                                                                        value="{{ $dtb['namebankxxyy'] }}">
-                                                                        {{ $dtb['namebankxxyy'] }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-
-                                                    </td>
-                                                    <td>florensia sitanggang</td>
-                                                    <td class="ceonorek">03559178112</td>
-                                                    <td class="check_box xurlbarcode">
-                                                        <input type="checkbox" id="urlbarcode" name="urlbarcode"
-                                                            data-barcode="" disabled>
-                                                    </td>
-                                                    <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-                                                        <input type="checkbox" id="myCheckboxDeposit-0"
-                                                            name="myCheckboxDeposit-0" data-id="">
-                                                    </td>
-                                                    <td>
-                                                        <div class="kolom_action">
-                                                            <div class="dot_action">
-                                                                <span>•</span>
-                                                                <span>•</span>
-                                                                <span>•</span>
+                                                @foreach ($dt['data_bank'] as $dbank)
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>
+                                                            <div class="listinputmember">
+                                                                <select class="inputnew smallfont" name="bankmaster"
+                                                                    id="bankmaster_{{ $loop->iteration }}" data-jenis="1">
+                                                                    @foreach ($listmasterbank as $d)
+                                                                        <option value="{{ $d['bnkmstrxyxyx'] }}"
+                                                                            {{ $d['bnkmstrxyxyx'] == $bank ? 'selected' : '' }}>
+                                                                            {{ $d['bnkmstrxyxyx'] }}</option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
-                                                            <div class="action_crud">
-                                                                <a href="/bankds/setbank">
-                                                                    <div class="list_action">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            width="1em" height="1em"
-                                                                            viewBox="0 0 24 24">
-                                                                            <g fill="none" stroke="currentColor"
-                                                                                stroke-linecap="round"
-                                                                                stroke-linejoin="round" stroke-width="2">
-                                                                                <path
-                                                                                    d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                                                                <path
-                                                                                    d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-                                                                            </g>
-                                                                        </svg>
-                                                                        <span>Edit</span>
-                                                                    </div>
-                                                                </a>
-                                                                <a href="#">
-                                                                    <div class="list_action">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            width="1em" height="1em"
-                                                                            viewBox="0 0 24 24">
-                                                                            <path fill="currentColor"
-                                                                                d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                                                                        </svg>
-                                                                        <span>delete</span>
-                                                                    </div>
-                                                                </a>
+
+                                                        </td>
+
+                                                        <td>
+                                                            <div class="listinputmember">
+                                                                <select class="inputnew smallfont" name="namabank"
+                                                                    id="namabank">
+                                                                    @foreach ($dt['data_bank'] as $dbank => $dtb)
+                                                                        <option id="pertama"
+                                                                            value="{{ $dtb['namebankxxyy'] }}">
+                                                                            {{ $dtb['namebankxxyy'] }}</option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+
+                                                        </td>
+                                                        <td>florensia sitanggang</td>
+                                                        <td class="ceonorek">03559178112</td>
+                                                        <td class="check_box xurlbarcode">
+                                                            <input type="checkbox" id="urlbarcode" name="urlbarcode"
+                                                                data-barcode="" disabled>
+                                                        </td>
+                                                        <td class="check_box"
+                                                            onclick="toggleCheckbox('myCheckboxDeposit-0')">
+                                                            <input type="checkbox" id="myCheckboxDeposit-0"
+                                                                name="myCheckboxDeposit-0" data-id="">
+                                                        </td>
+                                                        <td>
+                                                            <div class="kolom_action">
+                                                                <div class="dot_action">
+                                                                    <span>•</span>
+                                                                    <span>•</span>
+                                                                    <span>•</span>
+                                                                </div>
+                                                                <div class="action_crud">
+                                                                    <a href="/bankds/setbank">
+                                                                        <div class="list_action">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="1em" height="1em"
+                                                                                viewBox="0 0 24 24">
+                                                                                <g fill="none" stroke="currentColor"
+                                                                                    stroke-linecap="round"
+                                                                                    stroke-linejoin="round"
+                                                                                    stroke-width="2">
+                                                                                    <path
+                                                                                        d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                                    <path
+                                                                                        d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                                </g>
+                                                                            </svg>
+                                                                            <span>Edit</span>
+                                                                        </div>
+                                                                    </a>
+                                                                    <a href="#">
+                                                                        <div class="list_action">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="1em" height="1em"
+                                                                                viewBox="0 0 24 24">
+                                                                                <path fill="currentColor"
+                                                                                    d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                            </svg>
+                                                                            <span>delete</span>
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             @endforeach
                                         @endforeach
 

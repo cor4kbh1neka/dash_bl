@@ -107,7 +107,6 @@ class BankdsController extends Controller
             'max_dp' => 'required',
             'min_wd' => 'required',
             'max_wd' => 'required'
-
         ]);
 
         $validatedData["namegroupxyzt"] = strtolower($validatedData["namegroupxyzt"]);
@@ -121,7 +120,12 @@ class BankdsController extends Controller
 
         $response = Http::post($apiUrl, $validatedData);
         if ($response->successful()) {
-            $this->compareData();
+            Groupbank::create([
+                'group' => $validatedData["namegroupxyzt"],
+                'jenis' => $validatedData["grouptype"] == 1 ? 'dp' : 'wd',
+                'min' => 0,
+                'max' => 0
+            ]);
             return redirect()->route('listgroup')->with('success', 'Master Bank berhasil ditambahkan');
         } else {
             return back()->withInput()->with('error', $response->json()["message"]);
@@ -132,6 +136,7 @@ class BankdsController extends Controller
     {
         $response = Http::delete('https://back-staging.bosraka.com/banks/group/' . $id);
         if ($response->successful()) {
+            // Groupbank::where('')
             return redirect()->route('listgroup')->with('success', 'List group berhasil dihapus');
         } else {
             return back()->withInput()->with('error', $response->json()["message"]);
@@ -244,6 +249,9 @@ class BankdsController extends Controller
         $response = Http::put('https://back-staging.bosraka.com/banks/group/' . $namagroup, $data);
 
         if ($response->successful()) {
+            Groupbank::where('group', $namagroup)->update([
+                'group' => $data['namegroupxyzt']
+            ]);
             return redirect()->route('listgroup')->with('success', 'List group berhasil dihapus');
         } else {
             return back()->withInput()->with('error', $response->json()["message"]);
@@ -335,30 +343,30 @@ class BankdsController extends Controller
         ]);
     }
 
-    public function compareData()
-    {
-        $response = Http::get('https://back-staging.bosraka.com/banks/group');
-        $data = $response->json();
-        if ($data['status'] == 'success') {
-            $data = $data["data"];
-        } else {
-            $data = [];
-        }
+    // public function compareData()
+    // {
+    //     $response = Http::get('https://back-staging.bosraka.com/banks/group');
+    //     $data = $response->json();
+    //     if ($data['status'] == 'success') {
+    //         $data = $data["data"];
+    //     } else {
+    //         $data = [];
+    //     }
 
-        foreach ($data as $bank => $d) {
-            $dataGroup = Groupbank::where('group', $bank)->first();
-            if (!$dataGroup && $bank != 'nongroup') {
-                Groupbank::create([
-                    'group' => $bank,
-                    'jenis' => $d["grouptype"] == 1 ? 'dp' : 'wd',
-                    'min' => 0,
-                    'max' => 0
-                ]);
-            }
-        }
+    //     foreach ($data as $bank => $d) {
+    //         $dataGroup = Groupbank::where('group', $bank)->first();
+    //         if (!$dataGroup && $bank != 'nongroup') {
+    //             Groupbank::create([
+    //                 'group' => $bank,
+    //                 'jenis' => $d["grouptype"] == 1 ? 'dp' : 'wd',
+    //                 'min' => 0,
+    //                 'max' => 0
+    //             ]);
+    //         }
+    //     }
 
-        return response()->json(['success' => true, 'message' => 'Data comparison successful']);
-    }
+    //     return response()->json(['success' => true, 'message' => 'Data comparison successful']);
+    // }
 
     public function updatelistgroup(Request $request, $jenis)
     {
