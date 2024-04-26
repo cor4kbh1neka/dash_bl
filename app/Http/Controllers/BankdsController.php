@@ -132,14 +132,28 @@ class BankdsController extends Controller
         }
     }
 
-    public function deletelistgroup($id)
+    public function deletelistgroup($group)
     {
+        $responseGetGroup = Http::get('https://back-staging.bosraka.com/banks/group');
+        if ($responseGetGroup->failed()) {
+            return back()->withInput()->with('error', 'Gagal mengambil data grup');
+        }
+
+        $resultGetGroup = $responseGetGroup->json();
+
+        if (!isset($resultGetGroup['data'][$group])) {
+            return back()->withInput()->with('error', 'Grup tidak ditemukan');
+        }
+
+        $id = $resultGetGroup['data'][$group]["idgroup"];
+
         $response = Http::delete('https://back-staging.bosraka.com/banks/group/' . $id);
         if ($response->successful()) {
-            // Groupbank::where('')
-            return redirect()->route('listgroup')->with('success', 'List group berhasil dihapus');
+            Groupbank::where('group', $group)->delete();
+
+            return response()->json(['success' => true, 'message' => 'List group berhasil dihapus']);
         } else {
-            return back()->withInput()->with('error', $response->json()["message"]);
+            return response()->json(['success' => false, 'message' => $response->json()["message"]]);
         }
     }
 
@@ -331,6 +345,7 @@ class BankdsController extends Controller
 
     public function listgroup()
     {
+        $this->compareData();
         $data = Groupbank::get();
         $datadp = $data->where('jenis', 'dp');
         $datawd = $data->where('jenis', 'wd');
@@ -343,30 +358,30 @@ class BankdsController extends Controller
         ]);
     }
 
-    // public function compareData()
-    // {
-    //     $response = Http::get('https://back-staging.bosraka.com/banks/group');
-    //     $data = $response->json();
-    //     if ($data['status'] == 'success') {
-    //         $data = $data["data"];
-    //     } else {
-    //         $data = [];
-    //     }
+    public function compareData()
+    {
+        $response = Http::get('https://back-staging.bosraka.com/banks/group');
+        $data = $response->json();
+        if ($data['status'] == 'success') {
+            $data = $data["data"];
+        } else {
+            $data = [];
+        }
 
-    //     foreach ($data as $bank => $d) {
-    //         $dataGroup = Groupbank::where('group', $bank)->first();
-    //         if (!$dataGroup && $bank != 'nongroup') {
-    //             Groupbank::create([
-    //                 'group' => $bank,
-    //                 'jenis' => $d["grouptype"] == 1 ? 'dp' : 'wd',
-    //                 'min' => 0,
-    //                 'max' => 0
-    //             ]);
-    //         }
-    //     }
+        foreach ($data as $bank => $d) {
+            $dataGroup = Groupbank::where('group', $bank)->first();
+            if (!$dataGroup && $bank != 'nongroup') {
+                Groupbank::create([
+                    'group' => $bank,
+                    'jenis' => $d["grouptype"] == 1 ? 'dp' : 'wd',
+                    'min' => 0,
+                    'max' => 0
+                ]);
+            }
+        }
 
-    //     return response()->json(['success' => true, 'message' => 'Data comparison successful']);
-    // }
+        return response()->json(['success' => true, 'message' => 'Data comparison successful']);
+    }
 
     public function updatelistgroup(Request $request, $jenis)
     {
@@ -525,5 +540,14 @@ class BankdsController extends Controller
         // dd($uniqueNamebankxxyy);
 
         // dd($bcaData);
+    }
+
+    public function xdata()
+    {
+
+        return view('bankds.xdata', [
+            'title' => 'X Data',
+            'totalnote' => 0,
+        ]);
     }
 }

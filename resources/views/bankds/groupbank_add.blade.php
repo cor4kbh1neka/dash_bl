@@ -37,6 +37,9 @@
                     <a href="/bankds/listbank/0/0" class="tombol grey">
                         <span class="texttombol">LIST BANK</span>
                     </a>
+                    <a href="/bankds/xdata" class="tombol grey">
+                        <span class="texttombol">X DATA</span>
+                    </a>
                 </div>
                 <div class="secgroupdatabankds">
                     <div class="groupsetbankmaster">
@@ -56,12 +59,12 @@
                                     <div class="groupradiooption">
                                         <div class="listgrpstatusbank">
                                             <input class="status_primary" type="radio" id="deposit" name="grouptype"
-                                                value="1">
+                                                value="1" required>
                                             <label for="deposit">deposit</label>
                                         </div>
                                         <div class="listgrpstatusbank">
                                             <input class="status_primary" type="radio" id="withdraw" name="grouptype"
-                                                value="2">
+                                                value="2" required>
                                             <label for="withdraw">withdraw</label>
                                         </div>
                                     </div>

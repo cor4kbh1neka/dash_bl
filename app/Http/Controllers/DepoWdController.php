@@ -752,30 +752,30 @@ class DepoWdController extends Controller
         }
     }
 
-    public function getCountDataDPW()
-    {
-        $countDataDP = Xdpwd::where('jenis', 'DP')->where('status', 0)->count();
-        $countDataWD = Xdpwd::where('jenis', 'WD')->where('status', 0)->count();
+    // public function getCountDataDPW()
+    // {
+    //     $countDataDP = Xdpwd::where('jenis', 'DP')->where('status', 0)->count();
+    //     $countDataWD = Xdpwd::where('jenis', 'WD')->where('status', 0)->count();
 
-        $dataOuts = Outstanding::get();
-        $dataOuts = $dataOuts->groupBy('username')->map(function ($group) {
-            $totalAmount = $group->sum('amount');
-            $count = $group->count();
-            return [
-                'username' => $group->first()['username'],
-                'totalAmount' => $totalAmount,
-                'count' => $count,
-            ];
-        });
+    //     $dataOuts = Outstanding::get();
+    //     $dataOuts = $dataOuts->groupBy('username')->map(function ($group) {
+    //         $totalAmount = $group->sum('amount');
+    //         $count = $group->count();
+    //         return [
+    //             'username' => $group->first()['username'],
+    //             'totalAmount' => $totalAmount,
+    //             'count' => $count,
+    //         ];
+    //     });
 
-        $data = [
-            'dataWD' => $countDataWD,
-            'dataDP' => $countDataDP,
-            'dataOuts' => $dataOuts->count()
-        ];
+    //     $data = [
+    //         'dataWD' => $countDataWD,
+    //         'dataDP' => $countDataDP,
+    //         'dataOuts' => $dataOuts->count()
+    //     ];
 
-        return $data;
-    }
+    //     return $data;
+    // }
 
     public function getTransactions()
     {

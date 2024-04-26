@@ -37,6 +37,9 @@
                     <a href="/bankds/listbank/0/0" class="tombol grey">
                         <span class="texttombol">LIST BANK</span>
                     </a>
+                    <a href="/bankds/xdata" class="tombol grey">
+                        <span class="texttombol">X DATA</span>
+                    </a>
                 </div>
                 <div class="secgroupdatabankds">
                     <div class="groupsetbankmaster">
@@ -47,7 +50,7 @@
                                 <div class="listplayerinfo">
                                     <label for="groupbank">group</label>
                                     <div class="groupeditinput">
-                                        <select id="groupbank" name="namegroupxyzt" value="groupdepo1">
+                                        <select id="groupbank" name="namegroupxyzt2" value="groupdepo1" disabled>
                                             @foreach ($listgroup as $group => $d)
                                                 <option value="{{ $group }}"
                                                     {{ $groupbank == $group ? 'selected' : '' }}>{{ $group }}
@@ -57,6 +60,7 @@
                                             <option value="groupdepo3">groupdepo3</option>
                                             <option value="groupdepo4">groupdepo4</option> --}}
                                         </select>
+                                        <input type="hidden" name="namegroupxyzt" value="{{ $group }}">
                                     </div>
                                 </div>
                                 <div class="listplayerinfo">

@@ -2628,6 +2628,7 @@ table svg.icon-tabler-x {
   justify-content: center;
   align-items: center;
   gap: 5px;
+  text-align: center;
 }
 
 .tombol.proses {
@@ -2646,6 +2647,18 @@ table svg.icon-tabler-x {
 .tombol.cancel:hover {
   background: transparent;
   border: 1px solid var(--red-color);
+}
+
+.tombol.cancel.border {
+  color: var(--red-color);
+  background: transparent;
+  border: 1px solid var(--red-color);
+}
+
+.tombol.cancel.border:hover {
+  color: rgba(var(--rgba-white));
+  background: var(--red-color);
+  border: 1px solid transparent;
 }
 
 .tombol.grey {
@@ -2864,6 +2877,26 @@ table svg.icon-tabler-x {
 }
 
 .tabelproses .bagaction {
+  width: 15%;
+}
+
+.tabelproses .baglogininfo {
+  width: 20%;
+}
+
+.tabelproses .bagiplogin {
+  width: 15%;
+}
+
+.tabelproses .bagaccagent {
+  width: 15%;
+}
+
+.groupdatasecagentds .tabelproses .action {
+  width: 15%;
+}
+
+.tabelproses .bagbalance {
   width: 15%;
 }
 
@@ -4430,7 +4463,7 @@ table svg.icon-tabler-x {
 
 .headsecbankds {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   gap: 10px;
 }
 
@@ -4896,13 +4929,13 @@ input#urlbarcode {
   color: var(--primary-color) !important;
 }
 
-.listinputmember label[for="username"] {
+.listinputmember label {
   display: flex;
   align-items: flex-end;
   gap: 10px;
 }
 
-.listinputmember label[for="username"] input[type="checkbox"] {
+.listinputmember label input[type="checkbox"] {
   width: 15px;
   height: 15px;
   padding: 5px;
@@ -4946,6 +4979,11 @@ input#urlbarcode {
   justify-content: flex-start;
 }
 
+.groupplayerinfo .labelbetpl,
+.groupplayerinfo .listplayerinfo label {
+  text-transform: capitalize;
+}
+
 .headgroupsecmemods .tombol {
   width: 100%;
   text-align: center;
@@ -4959,7 +4997,6 @@ input#urlbarcode {
 
 .groupsecmemods .groupradiooption {
   align-items: flex-start;
-  flex-direction: column;
   gap: 10px;
 }
 
@@ -5159,6 +5196,129 @@ input#urlbarcode {
 
 .groupsecbankds .listgroupplayerinfo.right {
   width: unset;
+}
+
+.secagentds {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px 120px 20px;
+}
+
+.groupsecagentds {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.headgroupsecagentds {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.listheadsecagentds {
+  width: 400px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.headgroupsecagentds .tombol {
+  width: 100%;
+}
+
+.listheadsecagentds.bottom {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.listheadsecagentds.bottom .tombol.proses {
+  width: unset;
+}
+
+.groupsecagentds .grubsearchnav {
+  border-radius: 5px;
+  padding: 7px;
+  background: var(--bg-box-primary);
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
+  box-shadow: inset 5px 5px 5px rgba(var(--rgba-black), 0.25);
+  transition: all 0.3s ease;
+}
+
+.groupsecagentds .grubsearchnav input {
+  border: unset;
+  background: transparent;
+  box-shadow: unset;
+  padding: 3px;
+  transition: all 0.3s ease;
+}
+
+.groupsearchagentds {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.groupsearchagentds .tombol {
+  width: unset;
+}
+
+.groupdatasecagentds .grouptools {
+  grid-template-columns: 1fr 1fr;
+}
+
+.groupdatasecagentds .tabelproses td {
+  text-transform: capitalize;
+}
+
+.groupdatasecagentds .tabelproses td.statusagent {
+  text-transform: uppercase;
+}
+
+.groupdatasecagentds .tabelproses .tombol {
+  padding: 5px;
+}
+
+.groupdatasecagentds .statusagent[data-status="1"] {
+  color: var(--green-color);
+}
+
+.groupdatasecagentds .statusagent[data-status="2"] {
+  color: var(--yellow-color);
+}
+
+.groupdatasecagentds .statusagent[data-status="3"] {
+  color: var(--red-color);
+}
+
+.groupdatasecagentds .action {
+  text-align: center;
+}
+
+.secgroupdatabankds .listinputmember select,
+.secgroupdatabankds .listinputmember option {
+  text-transform: uppercase;
+}
+
+.secgroupdatabankds .listmembergroup {
+  width: 90%;
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.totalcountxdata span {
+  font-weight: bold;
+}
+
+.totalcountxdata .countxdata {
+  color: var(--primary-color);
+}
+
+.totalcountxdata .totaluser {
+  color: var(--aqua-color);
 }
 
 @media screen and (max-width: 800px) {

@@ -37,6 +37,9 @@
                     <a href="/bankds/listbank/0/0" class="tombol grey">
                         <span class="texttombol">LIST BANK</span>
                     </a>
+                    <a href="/bankds/xdata" class="tombol grey">
+                        <span class="texttombol">X DATA</span>
+                    </a>
                 </div>
                 <div class="secgroupdatabankds">
                     <span class="titlebankmaster">LIST GROUP BANK</span>
@@ -117,7 +120,8 @@
                                                                             <span>Edit</span>
                                                                         </div>
                                                                     </a>
-                                                                    {{-- <a href="#">
+                                                                    <a href="#"
+                                                                        onclick="confirmDelete('{{ $d->group }}')">
                                                                         <div class="list_action">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 width="1em" height="1em"
@@ -127,15 +131,15 @@
                                                                             </svg>
                                                                             <span>delete</span>
                                                                         </div>
-                                                                    </a> --}}
+                                                                    </a>
 
-                                                                    <form id="deleteForm"
-                                                                        action="/deletelistmaster/{{ $d['idbnkmaster'] }}"
+                                                                    {{-- <form id="deleteForm"
+                                                                        action="/deletelistgroup/{{ $d->group }}"
                                                                         method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
                                                                         <button type="submit"
-                                                                            onclick="confirmDelete('{{ $d['idbnkmaster'] }}')">
+                                                                            onclick="confirmDelete('{{ $d->group }}')">
                                                                             <div class="list_action">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                                     width="1em" height="1em"
@@ -146,7 +150,7 @@
                                                                                 <span>delete</span>
                                                                             </div>
                                                                         </button>
-                                                                    </form>
+                                                                    </form> --}}
 
                                                                 </div>
                                                             @endif
@@ -179,7 +183,9 @@
                                 <span class="texttombol">UPDATE</span>
                             </button>
                         </form>
-                        <div class="listgroupbank">
+                        <form method="POST" action="/updatelistgroup/wd" id="form-listgroupbankwd"
+                            class="listgroupbank">
+                            @csrf
                             <div class="grouptablebank frinput">
                                 <table>
                                     <tbody>
@@ -251,7 +257,8 @@
                                                                         <span>Edit</span>
                                                                     </div>
                                                                 </a>
-                                                                <a href="#">
+                                                                <a href="#"
+                                                                    onclick="confirmDeleteWd('{{ $d->group }}')">
                                                                     <div class="list_action">
                                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                                             width="1em" height="1em"
@@ -287,14 +294,14 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <button class="tombol primary">
+                            <button class="tombol primary" id="updateButton-wd">
                                 <span class="texttombol">UPDATE</span>
                             </button>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 
@@ -354,7 +361,7 @@
             $('#updateButton').click(function(event) {
                 event.preventDefault();
 
-                var checkboxes = $('input[type="checkbox"]');
+                var checkboxes = $('input[type="checkbox"][id^="myCheckboxDeposit-"]');
                 var checked = false;
 
                 checkboxes.each(function() {
@@ -375,7 +382,137 @@
                     $('#form-listgroupbank').submit();
                 }
             });
+
+            $('#updateButton-wd').click(function(event) {
+                event.preventDefault();
+
+                var checkboxes = $('input[type="checkbox"][id^="myCheckboxWithdraw-"]');
+                var checked = false;
+
+                checkboxes.each(function() {
+                    if ($(this).is(':checked')) {
+                        checked = true;
+                        return false;
+                    }
+                });
+
+                if (!checked) {
+                    Swal.fire({
+                        title: 'Warning',
+                        text: 'Anda harus melakukan centang untuk update data!',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    $('#form-listgroupbankwd').submit();
+                }
+            });
         });
+
+        // function confirmDelete(group) {
+        //     event.preventDefault();
+
+        //     Swal.fire({
+        //         title: 'Konfirmasi',
+        //         text: 'Apakah Anda yakin ingin menghapus data ini?',
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonText: 'Ya',
+        //         cancelButtonText: 'Batal'
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             // Lanjutkan dengan mengirimkan form dengan ID yang tepat
+        //             document.getElementById('deleteForm').action = '/deletelistgroup/' + group
+        //             document.getElementById('deleteForm').submit();
+        //         }
+        //     });
+        // }
+
+        function confirmDelete(group) {
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Apakah Anda yakin ingin menghapus data ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteGroup(group);
+                }
+            });
+        }
+
+        function deleteGroup(group) {
+            $.ajax({
+                url: '/deletelistgroup/' + group,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log(response);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sukses!',
+                        text: 'Data berhasil dihapus.'
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Terjadi kesalahan saat menghapus data.'
+                    });
+                }
+            });
+        }
+
+        function confirmDeleteWd(group) {
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Apakah Anda yakin ingin menghapus data ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteGroupWd(group);
+                }
+            });
+        }
+
+        function deleteGroupWd(group) {
+            $.ajax({
+                url: '/deletelistgroup/' + group,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log(response);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sukses!',
+                        text: 'Data berhasil dihapus.'
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Terjadi kesalahan saat menghapus data.'
+                    });
+                }
+            });
+        }
     </script>
 
     @if (session('success'))

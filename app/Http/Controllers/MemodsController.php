@@ -24,6 +24,7 @@ class MemodsController extends Controller
                 'tempatlahir' => 'sukajadi'
             ]
         ];
+
         return view('memods.index', [
             'title' => 'Memo',
             'data' => $data,
@@ -74,5 +75,9 @@ class MemodsController extends Controller
             'title' => 'Delivered',
             'totalnote' => 0,
         ]);
+    }
+
+    public function storememo(Request $request)
+    {
     }
 }

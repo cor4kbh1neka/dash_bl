@@ -45,7 +45,7 @@
                             d="M32 259.5V160c0-21.67 12-58 53.65-65.87C121 87.5 156 87.5 156 87.5s23 16 4 16s-18.5 24.5 0 24.5s0 23.5 0 23.5L85.5 236Z" />
                     </svg>
                     <span class="nav_title1">deposit</span>
-                    <span class="countdatapend" id="countdp">40</span>
+                    <span class="countdatapend" id="countdp">{{ $dataCount['countDP'] }}</span>
                 </a>
             </div>
             <div class="data_sidejsx">
@@ -55,7 +55,7 @@
                             d="M16 12c2.76 0 5-2.24 5-5s-2.24-5-5-5s-5 2.24-5 5s2.24 5 5 5m5.45 5.6c-.39-.4-.88-.6-1.45-.6h-7l-2.08-.73l.33-.94L13 16h2.8c.35 0 .63-.14.86-.37s.34-.51.34-.82c0-.54-.26-.91-.78-1.12L8.95 11H7v9l7 2l8.03-3c.01-.53-.19-1-.58-1.4M5 11H.984v11H5z" />
                     </svg>
                     <span class="nav_title1">withdraw</span>
-                    <span class="countdatapend" id="countwd">8</span>
+                    <span class="countdatapend" id="countwd">{{ $dataCount['countWD'] }}</span>
                 </a>
             </div>
             <div class="data_sidejsx">
@@ -122,7 +122,7 @@
                             d="M4 20h12v2H4c-1.1 0-2-.9-2-2V7h2m18-3v12c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2M12 8h-2v6h2m3-8h-2v8h2m3-3h-2v3h2Z" />
                     </svg>
                     <span class="nav_title1">member outstanding</span>
-                    <span class="countdatapend outstanding" id="countouts">40</span>
+                    <span class="countdatapend outstanding" id="countouts">{{ $dataCount['countOuts'] }}</span>
                 </a>
             </div>
         </div>
@@ -151,7 +151,7 @@
                             d="M480 512h192c21.33 0 32-10.67 32-32s-10.67-32-32-32H480c-21.33 0-32 10.67-32 32s10.67 32 32 32m0 192h192c21.33 0 32-10.67 32-32s-10.67-32-32-32H480c-21.33 0-32 10.67-32 32s10.67 32 32 32" />
                     </svg>
                     <span class="nav_title1">memo</span>
-                    <span class="countdatapend memo">2</span>
+                    <span class="countdatapend memo">{{ $dataCount['countMemo'] }}</span>
                 </a>
             </div>
         </div>
@@ -475,16 +475,3 @@
     </div>
 
 </div>
-<script>
-    $(document).ready(function() {
-        $.get("/datacountwdp", function(data, status) {
-            if (status === "success") {
-                $("#countdp").text(data.dataDP);
-                $("#countwd").text(data.dataWD);
-                $("#countouts").text(data.dataOuts);
-            } else {
-                console.error("Gagal memuat data:", status);
-            }
-        });
-    });
-</script>

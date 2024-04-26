@@ -31,6 +31,8 @@ use App\Http\Controllers\AllowedipdsController;
 use App\Http\Controllers\MemotouserdsController;
 use App\Http\Controllers\UsermanagementdsController;
 use App\Http\Controllers\Menu2Controller;
+use App\Models\Xdpwd;
+use App\Models\Outstanding;
 use App\Models\DepoWd;
 use App\Models\Notes;
 
@@ -40,7 +42,7 @@ use App\Models\Notes;
 
 Route::get('/', function () {
     if (Auth::check()) {
-        return redirect()->intended('/deposit');
+        return redirect()->intended('/depositds/DP');
     }
     return redirect()->intended('/login');
 });
@@ -224,10 +226,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/bankds/listgroup', [BankdsController::class, 'listgroup'])->name('listgroup');
     Route::post('/updatelistgroup/{jenis}', [BankdsController::class, 'updatelistgroup']);
-    Route::delete('/deletelistgroup/{id}', [BankdsController::class, 'deletelistgroup'])->name('deletelistgroup');
+    Route::delete('/deletelistgroup/{group}', [BankdsController::class, 'deletelistgroup'])->name('deletelistgroup');
 
     Route::get('/bankds/listbank/{group}/{groupwd}', [BankdsController::class, 'listbank']);
     Route::get('/getGroupBank/{bank}/{jenis}', [BankdsController::class, 'getGroupBank']);
+
+    Route::get('/bankds/xdata', [BankdsController::class, 'xdata']);
+
+
 
     /*-- Memods --*/
     Route::get('/memods', [MemodsController::class, 'index']);
@@ -236,6 +242,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/memods/archiveinbox', [MemodsController::class, 'archiveinbox']);
     Route::get('/memods/delivered', [MemodsController::class, 'delivered']);
     Route::get('/memods/readdelivered', [MemodsController::class, 'readdelivered']);
+    Route::post('/storememo', [MemodsController::class, 'storememo']);
 
     /*-- Agentds --*/
     Route::get('/agentds', [AgentdsController::class, 'index']);
