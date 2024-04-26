@@ -323,3 +323,22 @@ $(document).ready(function () {
 
 });
 
+// display none notifikasi data h2
+$(document).ready(function () {
+    checkCountPendingData();
+
+    function checkCountPendingData() {
+        $('.countpendingdata, .countdatapend').each(function () {
+            var countValue = $(this).text().trim();
+            if (countValue === '' || countValue === '0') {
+                $(this).css('display', 'none');
+            } else {
+                $(this).css('display', '');
+            }
+        });
+    }
+
+    $('.countpendingdata').bind('DOMSubtreeModified', function () {
+        checkCountPendingData();
+    });
+});

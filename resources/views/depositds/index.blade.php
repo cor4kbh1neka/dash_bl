@@ -451,5 +451,21 @@
                 });
             });
         });
+
+        //open jendela detail
+        $(document).ready(function() {
+            $(".openviewport").click(function(event) {
+                event.preventDefault();
+
+                var url = $(this).attr("href");
+                var windowWidth = 700;
+                var windowHeight = $(window).height() * 0.6;
+                var windowLeft = ($(window).width() - windowWidth) / 2.3;
+                var windowTop = ($(window).height() - windowHeight) / 1.5;
+
+                window.open(url, "_blank", "width=" + windowWidth + ", height=" + windowHeight + ", left=" +
+                    windowLeft + ", top=" + windowTop);
+            });
+        });
     </script>
 @endsection

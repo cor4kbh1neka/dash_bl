@@ -2690,7 +2690,7 @@ table svg.icon-tabler-x {
 .groupdeposittopbar {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 7fr;
+  grid-template-columns: 1.1fr 7fr;
   align-items: center;
   padding: 20px;
   background: var(--bg-box-primary);
@@ -4424,6 +4424,10 @@ table svg.icon-tabler-x {
   gap: 30px;
 }
 
+.groupsecbankds .groupplayerinfo {
+  justify-content: flex-start;
+}
+
 .headsecbankds {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -5002,7 +5006,7 @@ input#urlbarcode {
 }
 
 .groupsecmemods .listgroupplayerinfo.right.solo {
-  width: 15%;
+  width: unset;
 }
 
 .tabelproses .xstatus {
@@ -5154,7 +5158,7 @@ input#urlbarcode {
 }
 
 .groupsecbankds .listgroupplayerinfo.right {
-  width: 12%;
+  width: unset;
 }
 
 @media screen and (max-width: 800px) {

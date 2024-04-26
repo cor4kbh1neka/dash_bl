@@ -25,8 +25,53 @@ class MemodsController extends Controller
             ]
         ];
         return view('memods.index', [
-            'title' => 'Memo To Player',
+            'title' => 'Memo',
             'data' => $data,
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function viewinbox()
+    {
+
+        return view('memods.inbox_memo', [
+            'title' => 'Inbox',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function readinbox()
+    {
+
+        return view('memods.inbox_read', [
+            'title' => 'Read Inbox',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function archiveinbox()
+    {
+
+        return view('memods.inbox_archive', [
+            'title' => 'Archive Inbox',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function delivered()
+    {
+
+        return view('memods.delivered_memo', [
+            'title' => 'Delivered',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function readdelivered()
+    {
+
+        return view('memods.delivered_read', [
+            'title' => 'Delivered',
             'totalnote' => 0,
         ]);
     }

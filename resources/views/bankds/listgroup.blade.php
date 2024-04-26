@@ -66,8 +66,7 @@
                                             @if ($bank !== 'nongroup')
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td class="tdnamabank">{{ $d->group }}
-                                                    </td>
+                                                    <td class="tdnamabank">{{ $d->group }}</td>
                                                     <td>
                                                         <div class="inputtablebank">
                                                             <div class="listinputtablebank">
@@ -93,14 +92,14 @@
                                                     </td>
                                                     <td>
                                                         <div class="kolom_action">
-                                                            @if ($bank !== 'groupbank1')
+                                                            @if ($d->group !== 'groupbank1')
                                                                 <div class="dot_action">
                                                                     <span>•</span>
                                                                     <span>•</span>
                                                                     <span>•</span>
                                                                 </div>
                                                                 <div class="action_crud">
-                                                                    <a href="/bankds/setgroupbank/{{ $d->group }}/">
+                                                                    <a href="/bankds/setgroupbank/{{ $d->group }}">
                                                                         <div class="list_action">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 width="1em" height="1em"
@@ -118,7 +117,7 @@
                                                                             <span>Edit</span>
                                                                         </div>
                                                                     </a>
-                                                                    {{-- <a href="#">
+                                                                    <a href="#">
                                                                         <div class="list_action">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 width="1em" height="1em"
@@ -128,26 +127,7 @@
                                                                             </svg>
                                                                             <span>delete</span>
                                                                         </div>
-                                                                    </a> --}}
-
-                                                                    <form id="deleteForm"
-                                                                        action="/deletelistmaster/{{ $d['idbnkmaster'] }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <button type="submit"
-                                                                            onclick="confirmDelete('{{ $d['idbnkmaster'] }}')">
-                                                                            <div class="list_action">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                    width="1em" height="1em"
-                                                                                    viewBox="0 0 24 24">
-                                                                                    <path fill="currentColor"
-                                                                                        d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                                                                                </svg>
-                                                                                <span>delete</span>
-                                                                            </div>
-                                                                        </button>
-                                                                    </form>
+                                                                    </a>
                                                                 </div>
                                                             @endif
                                                         </div>
@@ -163,7 +143,8 @@
                                                     <div class="listinputtablebank">
                                                         <input type="text" class="inputnew" id="toplevel" disabled
                                                             value="∞">
-                                                        <label for="toplevel" class="textparam">> dari count maksimal
+                                                        <label for="toplevel" class="textparam">> dari count
+                                                            maksimal
                                                             xdeposit</label>
                                                     </div>
                                                 </div>
@@ -178,9 +159,7 @@
                                 <span class="texttombol">UPDATE</span>
                             </button>
                         </form>
-                        <form method="POST" action="/updatelistgroup/wd" class="listgroupbank"
-                            onsubmit="return validateForm()">
-                            @csrf
+                        <div class="listgroupbank">
                             <div class="grouptablebank frinput">
                                 <table>
                                     <tbody>
@@ -203,8 +182,7 @@
                                         @foreach ($datawd as $bank => $d)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td class="tdnamabank">{{ $d->group }}
-                                                </td>
+                                                <td class="tdnamabank">{{ $d->group }}</td>
                                                 <td>
                                                     <div class="inputtablebank">
                                                         <div class="listinputtablebank">
@@ -225,18 +203,18 @@
                                                 <td class="check_box">
                                                     <input type="checkbox" id="myCheckboxWithdraw-{{ $d->id }}"
                                                         name="myCheckboxWithdraw-{{ $d->id }}"
-                                                        data-id="{{ $d->id }}">
+                                                        data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                                 </td>
                                                 <td>
                                                     <div class="kolom_action">
-                                                        @if ($bank !== 'groupbankwd1')
+                                                        @if ($d->group !== 'groupbankwd1')
                                                             <div class="dot_action">
                                                                 <span>•</span>
                                                                 <span>•</span>
                                                                 <span>•</span>
                                                             </div>
                                                             <div class="action_crud">
-                                                                <a href="//bankds/setgroupbank/{{ $d->group }}">
+                                                                <a href="/bankds/setgroupbank/{{ $d->group }}/">
                                                                     <div class="list_action">
                                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                                             width="1em" height="1em"
@@ -292,7 +270,7 @@
                             <button class="tombol primary">
                                 <span class="texttombol">UPDATE</span>
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -343,6 +321,7 @@
 
         });
 
+        // checked radio button berdasarkan value dari status bank 1, 2, 3
         $(document).ready(function() {
             $('tr[data-chekcedbank]').each(function() {
                 var checkedBankValue = $(this).attr('data-chekcedbank');

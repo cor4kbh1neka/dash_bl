@@ -231,6 +231,11 @@ Route::middleware(['auth'])->group(function () {
 
     /*-- Memods --*/
     Route::get('/memods', [MemodsController::class, 'index']);
+    Route::get('/memods/viewinbox', [MemodsController::class, 'viewinbox']);
+    Route::get('/memods/readinbox', [MemodsController::class, 'readinbox']);
+    Route::get('/memods/archiveinbox', [MemodsController::class, 'archiveinbox']);
+    Route::get('/memods/delivered', [MemodsController::class, 'delivered']);
+    Route::get('/memods/readdelivered', [MemodsController::class, 'readdelivered']);
 
     /*-- Agentds --*/
     Route::get('/agentds', [AgentdsController::class, 'index']);
