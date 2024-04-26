@@ -34,7 +34,7 @@
                     <a href="/bankds/listgroup" class="tombol grey">
                         <span class="texttombol">LIST GROUP</span>
                     </a>
-                    <a href="/bankds/listbank" class="tombol grey">
+                    <a href="/bankds/listbank/0/0" class="tombol grey">
                         <span class="texttombol">LIST BANK</span>
                     </a>
                 </div>
@@ -47,7 +47,7 @@
                                 <div class="listplayerinfo">
                                     <label for="bankmaster">nama bank</label>
                                     <div class="groupeditinput">
-                                        <select id="bankmaster" name="bankmaster" value="bca">
+                                        <select id="bankmaster" name="bnkmstrxyxyx" value="bca">
                                             @foreach ($listbank as $d)
                                                 <option value="{{ $d['bnkmstrxyxyx'] }}"
                                                     {{ $data['bnkmstrxyxyx'] == $d['bnkmstrxyxyx'] ? 'selected' : '' }}>
@@ -58,29 +58,31 @@
                                     </div>
                                 </div>
                                 <div class="listplayerinfo">
-                                    <span class="labelbetpl">STATUS</span>
-                                    <div class="groupradiooption" data-chekced="{{ $data['statusxyxyy'] }}">
+                                    {{-- <span class="labelbetpl">STATUS</span> --}}
+                                    {{-- <div class="groupradiooption" data-chekced="{{ $data['statusxyxyy'] }}">
                                         <div class="listgrpstatusbank">
                                             <input class="status_online" type="radio" id="depo_online_bca"
-                                                name="statusdepo_bca" value="1">
+                                                name="statusxyxyy" value="1">
                                             <label for="depo_online_bca">online</label>
                                         </div>
                                         <div class="listgrpstatusbank">
                                             <input class="status_offline" type="radio" id="depo_offline_bca"
-                                                name="statusdepo_bca" value="2">
+                                                name="statusxyxyy" value="2">
                                             <label for="depo_offline_bca">offline</label>
                                         </div>
                                         <div class="listgrpstatusbank">
                                             <input class="status_trouble" type="radio" id="depo_trouble_bca"
-                                                name="statusdepo_bca" value="3">
+                                                name="statusxyxyy" value="3">
                                             <label for="depo_trouble_bca">trouble</label>
                                         </div>
-                                    </div>
+                                    </div> --}}
+                                    <input type="hidden" name="statusxyxyy" value="{{ $data['statusxyxyy'] }}">
+                                    <input type="hidden" name="wdstatusxyxyy" value="{{ $data['wdstatusxyxyy'] }}">
                                 </div>
                                 <div class="listplayerinfo">
                                     <label for="urllogo">url logo</label>
                                     <div class="groupeditinput">
-                                        <input type="text" readonly id="urllogo" name="urllogo"
+                                        <input type="text" readonly id="urllogo" name="urllogoxxyx"
                                             value="{{ $data['statusxyxyy'] }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
                                             viewBox="0 0 24 24">
@@ -100,8 +102,7 @@
                                                     <g fill="none" stroke-linejoin="round" stroke-width="4">
                                                         <rect width="36" height="36" x="6" y="6" fill="#fff"
                                                             stroke="#fff" rx="3" />
-                                                        <path stroke="#000" stroke-linecap="round"
-                                                            d="M24 16v16m-8-8h16" />
+                                                        <path stroke="#000" stroke-linecap="round" d="M24 16v16m-8-8h16" />
                                                     </g>
                                                 </mask>
                                             </defs>

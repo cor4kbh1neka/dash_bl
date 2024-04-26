@@ -34,15 +34,14 @@
                     <a href="/bankds/listgroup" class="tombol grey active">
                         <span class="texttombol">LIST GROUP</span>
                     </a>
-                    <a href="/bankds/listbank" class="tombol grey">
+                    <a href="/bankds/listbank/0/0" class="tombol grey">
                         <span class="texttombol">LIST BANK</span>
                     </a>
                 </div>
                 <div class="secgroupdatabankds">
                     <span class="titlebankmaster">LIST GROUP BANK</span>
                     <div class="groupactivebank">
-                        <form method="POST" action="/updatelistgroup/dp" class="listgroupbank"
-                            onsubmit="return validateForm()">
+                        <form method="POST" action="/updatelistgroup/dp" id="form-listgroupbank" class="listgroupbank">
                             @csrf
                             <div class="grouptablebank frinput">
                                 <table>
@@ -87,8 +86,7 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td class="check_box"
-                                                        onclick="toggleCheckbox('myCheckboxDeposit-{{ $d->id }}')">
+                                                    <td class="check_box">
                                                         <input type="checkbox" id="myCheckboxDeposit-{{ $d->id }}"
                                                             name="myCheckboxDeposit-{{ $d->id }}"
                                                             data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
@@ -102,7 +100,7 @@
                                                                     <span>•</span>
                                                                 </div>
                                                                 <div class="action_crud">
-                                                                    <a href="/bankds/setgroupbank/{{ $d->group }}">
+                                                                    <a href="/bankds/setgroupbank/{{ $d->group }}/">
                                                                         <div class="list_action">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 width="1em" height="1em"
@@ -120,7 +118,7 @@
                                                                             <span>Edit</span>
                                                                         </div>
                                                                     </a>
-                                                                    <a href="#">
+                                                                    {{-- <a href="#">
                                                                         <div class="list_action">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 width="1em" height="1em"
@@ -130,7 +128,26 @@
                                                                             </svg>
                                                                             <span>delete</span>
                                                                         </div>
-                                                                    </a>
+                                                                    </a> --}}
+
+                                                                    <form id="deleteForm"
+                                                                        action="/deletelistmaster/{{ $d['idbnkmaster'] }}"
+                                                                        method="POST">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit"
+                                                                            onclick="confirmDelete('{{ $d['idbnkmaster'] }}')">
+                                                                            <div class="list_action">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                    width="1em" height="1em"
+                                                                                    viewBox="0 0 24 24">
+                                                                                    <path fill="currentColor"
+                                                                                        d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                                </svg>
+                                                                                <span>delete</span>
+                                                                            </div>
+                                                                        </button>
+                                                                    </form>
                                                                 </div>
                                                             @endif
                                                         </div>
@@ -157,7 +174,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <button class="tombol primary">
+                            <button class="tombol primary" id="updateButton">
                                 <span class="texttombol">UPDATE</span>
                             </button>
                         </form>
@@ -205,8 +222,7 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td class="check_box"
-                                                    onclick="toggleCheckbox('myCheckboxWithdraw-{{ $d->id }}')">
+                                                <td class="check_box">
                                                     <input type="checkbox" id="myCheckboxWithdraw-{{ $d->id }}"
                                                         name="myCheckboxWithdraw-{{ $d->id }}"
                                                         data-id="{{ $d->id }}">
@@ -332,6 +348,33 @@
                 var checkedBankValue = $(this).attr('data-chekcedbank');
                 $(this).find('.listgrpstatusbank input[type="radio"][value="' + checkedBankValue + '"]')
                     .prop('checked', true);
+            });
+        });
+
+        $(document).ready(function() {
+            $('#updateButton').click(function(event) {
+                event.preventDefault();
+
+                var checkboxes = $('input[type="checkbox"]');
+                var checked = false;
+
+                checkboxes.each(function() {
+                    if ($(this).is(':checked')) {
+                        checked = true;
+                        return false;
+                    }
+                });
+
+                if (!checked) {
+                    Swal.fire({
+                        title: 'Warning',
+                        text: 'Anda harus melakukan centang untuk update data!',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    $('#form-listgroupbank').submit();
+                }
             });
         });
     </script>

@@ -38,7 +38,7 @@
                     <a href="/bankds/listgroup" class="tombol grey">
                         <span class="texttombol">LIST GROUP</span>
                     </a>
-                    <a href="/bankds/listbank" class="tombol grey active">
+                    <a href="/bankds/listbank/0/0" class="tombol grey active">
                         <span class="texttombol">LIST BANK</span>
                     </a>
                 </div>
@@ -59,12 +59,11 @@
                                                         <option value="" selected="" place=""
                                                             style="color: #838383; font-style: italic;" disabled="">pilih
                                                             group</option>
-                                                        <option value="groupdepo1">groupdepo1</option>
-                                                        <option value="groupdepo2">groupdepo1</option>
-                                                        <option value="groupdepo3">groupdepo1</option>
-                                                        <option value="groupdepo4">groupdepo1</option>
-                                                        <option value="groupdepo5">groupdepo1</option>
-                                                        <option value="default">default</option>
+                                                        @foreach ($listgroupdp as $bank => $d)
+                                                            <option value="{{ $bank }}"
+                                                                {{ $bank == $group ? 'selected' : '' }}>
+                                                                {{ $bank }}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </th>
@@ -82,6 +81,138 @@
                                             <th class="bkbarcode">barcode</th>
                                             <th class="check_box">
                                                 <input type="checkbox" id="myCheckboxDeposit" name="myCheckboxDeposit">
+                                            </th>
+                                            <th class="bkactionss">actions</th>
+                                        </tr>
+                                        @foreach ($listbankdp as $group => $d)
+                                            @foreach ($d as $bank => $dt)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>
+                                                        <div class="listinputmember">
+                                                            <select class="inputnew smallfont" name="bankmaster"
+                                                                id="bankmaster_{{ $loop->iteration }}" data-jenis="1">
+                                                                @foreach ($listmasterbank as $d)
+                                                                    <option value="{{ $d['bnkmstrxyxyx'] }}"
+                                                                        {{ $d['bnkmstrxyxyx'] == $bank ? 'selected' : '' }}>
+                                                                        {{ $d['bnkmstrxyxyx'] }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+
+                                                    </td>
+
+                                                    <td>
+                                                        <div class="listinputmember">
+                                                            <select class="inputnew smallfont" name="namabank"
+                                                                id="namabank">
+                                                                @foreach ($dt['data_bank'] as $dbank => $dtb)
+                                                                    <option id="pertama"
+                                                                        value="{{ $dtb['namebankxxyy'] }}">
+                                                                        {{ $dtb['namebankxxyy'] }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+
+                                                    </td>
+                                                    <td>florensia sitanggang</td>
+                                                    <td class="ceonorek">03559178112</td>
+                                                    <td class="check_box xurlbarcode">
+                                                        <input type="checkbox" id="urlbarcode" name="urlbarcode"
+                                                            data-barcode="" disabled>
+                                                    </td>
+                                                    <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
+                                                        <input type="checkbox" id="myCheckboxDeposit-0"
+                                                            name="myCheckboxDeposit-0" data-id="">
+                                                    </td>
+                                                    <td>
+                                                        <div class="kolom_action">
+                                                            <div class="dot_action">
+                                                                <span>•</span>
+                                                                <span>•</span>
+                                                                <span>•</span>
+                                                            </div>
+                                                            <div class="action_crud">
+                                                                <a href="/bankds/setbank">
+                                                                    <div class="list_action">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="1em" height="1em"
+                                                                            viewBox="0 0 24 24">
+                                                                            <g fill="none" stroke="currentColor"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round" stroke-width="2">
+                                                                                <path
+                                                                                    d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                                <path
+                                                                                    d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                            </g>
+                                                                        </svg>
+                                                                        <span>Edit</span>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="#">
+                                                                    <div class="list_action">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="1em" height="1em"
+                                                                            viewBox="0 0 24 24">
+                                                                            <path fill="currentColor"
+                                                                                d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                        </svg>
+                                                                        <span>delete</span>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endforeach
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button class="tombol primary">
+                                <span class="texttombol">UPDATE</span>
+                            </button>
+                        </div>
+
+                        <div class="listgroupbank">
+                            <div class="grouptablebank frinput">
+                                <table>
+                                    <tbody>
+                                        <tr class="titlelistgroupbank">
+                                            <th colspan="6" class="texttitle">WITHDRAW</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="6">
+                                                <div class="listinputmember">
+                                                    <select class="inputnew" name="groupbank" id="groupbankwd">
+                                                        <option value="" selected="" place=""
+                                                            style="color: #838383; font-style: italic;" disabled="">
+                                                            pilih group
+                                                        </option>
+                                                        @foreach ($listgroupwd as $bank => $d)
+                                                            <option value="{{ $bank }}"
+                                                                {{ $bank == $groupwd ? 'selected' : '' }}>
+                                                                {{ $bank }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table>
+                                    <tbody>
+                                        <tr class="thead listbanksd">
+                                            <th class="bknomor">#</th>
+                                            <th class="bkmaster">master</th>
+                                            <th class="bknamabank">nama bank</th>
+                                            <th class="bknamarek">nama rekening</th>
+                                            <th class="bknomorrek">nomor rekening</th>
+                                            <th class="bkbarcode">barcode</th>
+                                            <th class="check_box">
+                                                <input type="checkbox" id="myCheckboxWithdraw" name="myCheckboxWithdraw">
                                             </th>
                                             <th class="bkactionss">actions</th>
                                         </tr>
@@ -108,15 +239,98 @@
                                                         <option value="qris">qris</option>
                                                     </select>
                                                 </div>
+                                            </td>
+                                            <td>
+                                                <div class="listinputmember">
+                                                    <select class="inputnew smallfont" name="namabank" id="namabank">
+                                                        <option value="bca1">bca1</option>
+                                                        <option value="bca2" selected>bca2</option>
+                                                        <option value="bca3">bca3</option>
+                                                        <option value="bca4">bca4</option>
+                                                    </select>
+                                                </div>
+
+                                            </td>
+                                            <td>florensia sitanggang</td>
+                                            <td class="ceonorek">03559178112</td>
+                                            <td class="check_box xurlbarcode">
+                                                <input type="checkbox" id="urlbarcode" name="urlbarcode" data-barcode=""
+                                                    disabled>
+                                            </td>
+                                            <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
+                                                <input type="checkbox" id="myCheckboxWithdraw-0"
+                                                    name="myCheckboxWithdraw-0" data-id="">
+                                            </td>
+                                            <td>
+                                                <div class="kolom_action">
+                                                    <div class="dot_action">
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                        <span>•</span>
+                                                    </div>
+                                                    <div class="action_crud">
+                                                        <a href="/bankds/setbank">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                                    height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2">
+                                                                        <path
+                                                                            d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path
+                                                                            d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span>Edit</span>
+                                                            </div>
+                                                        </a>
+                                                        <a href="#">
+                                                            <div class="list_action">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                                    height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor"
+                                                                        d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                </svg>
+                                                                <span>delete</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>
+                                                <div class="listinputmember">
+                                                    <select class="inputnew smallfont" name="bankmaster" id="bankmaster">
+                                                        <option value="bca">bca</option>
+                                                        <option value="bni" selected>bni</option>
+                                                        <option value="bri">bri</option>
+                                                        <option value="mandiri">mandiri</option>
+                                                        <option value="cimb">cimb</option>
+                                                        <option value="danamon">danamon</option>
+                                                        <option value="panin">panin</option>
+                                                        <option value="cimb">cimb</option>
+                                                        <option value="permata">permata</option>
+                                                        <option value="bsi">bsi</option>
+                                                        <option value="dana">dana</option>
+                                                        <option value="gopay">gopay</option>
+                                                        <option value="ovo">ovo</option>
+                                                        <option value="pulsa">pulsa</option>
+                                                        <option value="linkaja">linkaja</option>
+                                                        <option value="qris">qris</option>
+                                                    </select>
+                                                </div>
                             </div>
                             </td>
                             <td>
                                 <div class="listinputmember">
                                     <select class="inputnew smallfont" name="namabank" id="namabank">
-                                        <option value="bca1">bca1</option>
-                                        <option value="bca2" selected>bca2</option>
-                                        <option value="bca3">bca3</option>
-                                        <option value="bca4">bca4</option>
+                                        <option value="bni1">bni1</option>
+                                        <option value="bni2">bni2</option>
+                                        <option value="bni3">bni3</option>
+                                        <option value="bni4" selected>bni4</option>
                                     </select>
                                 </div>
                         </div>
@@ -126,8 +340,8 @@
                         <td class="check_box xurlbarcode">
                             <input type="checkbox" id="urlbarcode" name="urlbarcode" data-barcode="" disabled>
                         </td>
-                        <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-                            <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id="">
+                        <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
+                            <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id="">
                         </td>
                         <td>
                             <div class="kolom_action">
@@ -166,13 +380,13 @@
                         </td>
                         </tr>
                         <tr>
-                            <td>2</td>
+                            <td>3</td>
                             <td>
                                 <div class="listinputmember">
                                     <select class="inputnew smallfont" name="bankmaster" id="bankmaster">
                                         <option value="bca">bca</option>
-                                        <option value="bni" selected>bni</option>
-                                        <option value="bri">bri</option>
+                                        <option value="bni">bni</option>
+                                        <option value="bri" selected>bri</option>
                                         <option value="mandiri">mandiri</option>
                                         <option value="cimb">cimb</option>
                                         <option value="danamon">danamon</option>
@@ -193,10 +407,10 @@
                     <td>
                         <div class="listinputmember">
                             <select class="inputnew smallfont" name="namabank" id="namabank">
-                                <option value="bni1">bni1</option>
-                                <option value="bni2">bni2</option>
-                                <option value="bni3">bni3</option>
-                                <option value="bni4" selected>bni4</option>
+                                <option value="bri1" selected>bri1</option>
+                                <option value="bri2">bri2</option>
+                                <option value="bri3">bri3</option>
+                                <option value="bri4">bri4</option>
                             </select>
                         </div>
                 </div>
@@ -206,8 +420,8 @@
                 <td class="check_box xurlbarcode">
                     <input type="checkbox" id="urlbarcode" name="urlbarcode" data-barcode="" disabled>
                 </td>
-                <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-                    <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id="">
+                <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
+                    <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id="">
                 </td>
                 <td>
                     <div class="kolom_action">
@@ -246,14 +460,14 @@
                 </td>
                 </tr>
                 <tr>
-                    <td>3</td>
+                    <td>4</td>
                     <td>
                         <div class="listinputmember">
                             <select class="inputnew smallfont" name="bankmaster" id="bankmaster">
                                 <option value="bca">bca</option>
                                 <option value="bni">bni</option>
-                                <option value="bri" selected>bri</option>
-                                <option value="mandiri">mandiri</option>
+                                <option value="bri">bri</option>
+                                <option value="mandiri" selected>mandiri</option>
                                 <option value="cimb">cimb</option>
                                 <option value="danamon">danamon</option>
                                 <option value="panin">panin</option>
@@ -273,10 +487,10 @@
             <td>
                 <div class="listinputmember">
                     <select class="inputnew smallfont" name="namabank" id="namabank">
-                        <option value="bri1" selected>bri1</option>
-                        <option value="bri2">bri2</option>
-                        <option value="bri3">bri3</option>
-                        <option value="bri4">bri4</option>
+                        <option value="mandiri1">mandiri1</option>
+                        <option value="mandiri2" selected>mandiri2</option>
+                        <option value="mandiri3">mandiri3</option>
+                        <option value="mandiri4">mandiri4</option>
                     </select>
                 </div>
         </div>
@@ -286,8 +500,8 @@
         <td class="check_box xurlbarcode">
             <input type="checkbox" id="urlbarcode" name="urlbarcode" data-barcode="" disabled>
         </td>
-        <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-            <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id="">
+        <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
+            <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id="">
         </td>
         <td>
             <div class="kolom_action">
@@ -324,15 +538,15 @@
         </td>
         </tr>
         <tr>
-            <td>4</td>
+            <td>5</td>
             <td>
                 <div class="listinputmember">
                     <select class="inputnew smallfont" name="bankmaster" id="bankmaster">
                         <option value="bca">bca</option>
                         <option value="bni">bni</option>
                         <option value="bri">bri</option>
-                        <option value="mandiri" selected>mandiri</option>
-                        <option value="cimb">cimb</option>
+                        <option value="mandiri">mandiri</option>
+                        <option value="cimb" selected>cimb</option>
                         <option value="danamon">danamon</option>
                         <option value="panin">panin</option>
                         <option value="cimb">cimb</option>
@@ -351,298 +565,16 @@
     <td>
         <div class="listinputmember">
             <select class="inputnew smallfont" name="namabank" id="namabank">
-                <option value="mandiri1">mandiri1</option>
-                <option value="mandiri2" selected>mandiri2</option>
-                <option value="mandiri3">mandiri3</option>
-                <option value="mandiri4">mandiri4</option>
+                <option value="cimb1" selected>cimb1</option>
+                <option value="cimb2">cimb2</option>
+                <option value="cimb3">cimb3</option>
+                <option value="cimb4">cimb4</option>
             </select>
         </div>
         </div>
     </td>
     <td>florensia sitanggang</td>
-    <td class="ceonorek">03559178112</td>
-    <td class="check_box xurlbarcode">
-        <input type="checkbox" id="urlbarcode" name="urlbarcode" data-barcode="" disabled>
-    </td>
-    <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-        <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id="">
-    </td>
-    <td>
-        <div class="kolom_action">
-            <div class="dot_action">
-                <span>•</span>
-                <span>•</span>
-                <span>•</span>
-            </div>
-            <div class="action_crud">
-                <a href="/bankds/setbank">
-                    <div class="list_action">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2">
-                                <path
-                                    d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-                            </g>
-                        </svg>
-                        <span>Edit</span>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="list_action">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                        </svg>
-                        <span>delete</span>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </td>
-    </tr>
-    <tr>
-        <td>5</td>
-        <td>
-            <div class="listinputmember">
-                <select class="inputnew smallfont" name="bankmaster" id="bankmaster">
-                    <option value="bca">bca</option>
-                    <option value="bni">bni</option>
-                    <option value="bri">bri</option>
-                    <option value="mandiri">mandiri</option>
-                    <option value="cimb" selected>cimb</option>
-                    <option value="danamon">danamon</option>
-                    <option value="panin">panin</option>
-                    <option value="cimb">cimb</option>
-                    <option value="permata">permata</option>
-                    <option value="bsi">bsi</option>
-                    <option value="dana">dana</option>
-                    <option value="gopay">gopay</option>
-                    <option value="ovo">ovo</option>
-                    <option value="pulsa">pulsa</option>
-                    <option value="linkaja">linkaja</option>
-                    <option value="qris">qris</option>
-                </select>
-            </div>
-            </div>
-        </td>
-        <td>
-            <div class="listinputmember">
-                <select class="inputnew smallfont" name="namabank" id="namabank">
-                    <option value="cimb1" selected>cimb1</option>
-                    <option value="cimb2">cimb2</option>
-                    <option value="cimb3">cimb3</option>
-                    <option value="cimb4">cimb4</option>
-                </select>
-            </div>
-            </div>
-        </td>
-        <td>florensia sitanggang</td>
-        <td class="ceonorek">035591781121234</td>
-        <td class="check_box xurlbarcode">
-            <input type="checkbox" id="urlbarcode" name="urlbarcode" data-barcode="" disabled>
-        </td>
-        <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-            <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id="">
-        </td>
-        <td>
-            <div class="kolom_action">
-                <div class="dot_action">
-                    <span>•</span>
-                    <span>•</span>
-                    <span>•</span>
-                </div>
-                <div class="action_crud">
-                    <a href="/bankds/setbank">
-                        <div class="list_action">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2">
-                                    <path
-                                        d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                    <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-                                </g>
-                            </svg>
-                            <span>Edit</span>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="list_action">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                            </svg>
-                            <span>delete</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td>6</td>
-        <td>
-            <div class="listinputmember">
-                <select class="inputnew smallfont" name="bankmaster" id="bankmaster">
-                    <option value="bca">bca</option>
-                    <option value="bni">bni</option>
-                    <option value="bri">bri</option>
-                    <option value="mandiri">mandiri</option>
-                    <option value="cimb">cimb</option>
-                    <option value="danamon">danamon</option>
-                    <option value="panin">panin</option>
-                    <option value="cimb">cimb</option>
-                    <option value="permata">permata</option>
-                    <option value="bsi">bsi</option>
-                    <option value="dana">dana</option>
-                    <option value="gopay">gopay</option>
-                    <option value="ovo">ovo</option>
-                    <option value="pulsa">pulsa</option>
-                    <option value="linkaja">linkaja</option>
-                    <option value="qris" selected>qris</option>
-                </select>
-            </div>
-            </div>
-        </td>
-        <td>
-            <div class="listinputmember">
-                <select class="inputnew smallfont" name="namabank" id="namabank">
-                    <option value="qris1">qris1</option>
-                    <option value="qris2" selected>qris2</option>
-                    <option value="qris3">qris3</option>
-                    <option value="qris4">qris4</option>
-                </select>
-            </div>
-            </div>
-        </td>
-        <td>florensia sitanggang</td>
-        <td class="ceonorek">035591781121234</td>
-        <td class="check_box xurlbarcode">
-            <input type="checkbox" id="urlbarcode" name="urlbarcode"
-                data-barcode="https://i.ibb.co/n671yNG/Screenshot-44.png" disabled>
-        </td>
-        <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-            <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id="">
-        </td>
-        <td>
-            <div class="kolom_action">
-                <div class="dot_action">
-                    <span>•</span>
-                    <span>•</span>
-                    <span>•</span>
-                </div>
-                <div class="action_crud">
-                    <a href="/bankds/setbank">
-                        <div class="list_action">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2">
-                                    <path
-                                        d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                    <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-                                </g>
-                            </svg>
-                            <span>Edit</span>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="list_action">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                            </svg>
-                            <span>delete</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
-    <button class="tombol primary">
-        <span class="texttombol">UPDATE</span>
-    </button>
-    </div>
-
-    <div class="listgroupbank">
-        <div class="grouptablebank frinput">
-            <table>
-                <tbody>
-                    <tr class="titlelistgroupbank">
-                        <th colspan="6" class="texttitle">WITHDRAW</th>
-                    </tr>
-                    <tr>
-                        <th colspan="6">
-                            <div class="listinputmember">
-                                <select class="inputnew" name="groupbank" id="groupbank">
-                                    <option value="" selected="" place=""
-                                        style="color: #838383; font-style: italic;" disabled="">pilih group</option>
-                                    <option value="groupwd1">groupwd1</option>
-                                    <option value="groupwd2">groupwd2</option>
-                                    <option value="groupwd3">groupwd3</option>
-                                    <option value="groupwd4">groupwd4</option>
-                                    <option value="groupwd5">groupwd5</option>
-                                    <option value="default">default</option>
-                                </select>
-                            </div>
-                        </th>
-                    </tr>
-                </tbody>
-            </table>
-            <table>
-                <tbody>
-                    <tr class="thead listbanksd">
-                        <th class="bknomor">#</th>
-                        <th class="bkmaster">master</th>
-                        <th class="bknamabank">nama bank</th>
-                        <th class="bknamarek">nama rekening</th>
-                        <th class="bknomorrek">nomor rekening</th>
-                        <th class="bkbarcode">barcode</th>
-                        <th class="check_box">
-                            <input type="checkbox" id="myCheckboxWithdraw" name="myCheckboxWithdraw">
-                        </th>
-                        <th class="bkactionss">actions</th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>
-                            <div class="listinputmember">
-                                <select class="inputnew smallfont" name="bankmaster" id="bankmaster">
-                                    <option value="bca" selected>bca</option>
-                                    <option value="bni">bni</option>
-                                    <option value="bri">bri</option>
-                                    <option value="mandiri">mandiri</option>
-                                    <option value="cimb">cimb</option>
-                                    <option value="danamon">danamon</option>
-                                    <option value="panin">panin</option>
-                                    <option value="cimb">cimb</option>
-                                    <option value="permata">permata</option>
-                                    <option value="bsi">bsi</option>
-                                    <option value="dana">dana</option>
-                                    <option value="gopay">gopay</option>
-                                    <option value="ovo">ovo</option>
-                                    <option value="pulsa">pulsa</option>
-                                    <option value="linkaja">linkaja</option>
-                                    <option value="qris">qris</option>
-                                </select>
-                            </div>
-        </div>
-        </td>
-        <td>
-            <div class="listinputmember">
-                <select class="inputnew smallfont" name="namabank" id="namabank">
-                    <option value="bca1">bca1</option>
-                    <option value="bca2" selected>bca2</option>
-                    <option value="bca3">bca3</option>
-                    <option value="bca4">bca4</option>
-                </select>
-            </div>
-    </div>
-    </td>
-    <td>florensia sitanggang</td>
-    <td class="ceonorek">03559178112</td>
+    <td class="ceonorek">035591781121234</td>
     <td class="check_box xurlbarcode">
         <input type="checkbox" id="urlbarcode" name="urlbarcode" data-barcode="" disabled>
     </td>
@@ -682,318 +614,6 @@
             </div>
         </div>
     </td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>
-            <div class="listinputmember">
-                <select class="inputnew smallfont" name="bankmaster" id="bankmaster">
-                    <option value="bca">bca</option>
-                    <option value="bni" selected>bni</option>
-                    <option value="bri">bri</option>
-                    <option value="mandiri">mandiri</option>
-                    <option value="cimb">cimb</option>
-                    <option value="danamon">danamon</option>
-                    <option value="panin">panin</option>
-                    <option value="cimb">cimb</option>
-                    <option value="permata">permata</option>
-                    <option value="bsi">bsi</option>
-                    <option value="dana">dana</option>
-                    <option value="gopay">gopay</option>
-                    <option value="ovo">ovo</option>
-                    <option value="pulsa">pulsa</option>
-                    <option value="linkaja">linkaja</option>
-                    <option value="qris">qris</option>
-                </select>
-            </div>
-            </div>
-        </td>
-        <td>
-            <div class="listinputmember">
-                <select class="inputnew smallfont" name="namabank" id="namabank">
-                    <option value="bni1">bni1</option>
-                    <option value="bni2">bni2</option>
-                    <option value="bni3">bni3</option>
-                    <option value="bni4" selected>bni4</option>
-                </select>
-            </div>
-            </div>
-        </td>
-        <td>florensia sitanggang</td>
-        <td class="ceonorek">03559178112</td>
-        <td class="check_box xurlbarcode">
-            <input type="checkbox" id="urlbarcode" name="urlbarcode" data-barcode="" disabled>
-        </td>
-        <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
-            <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id="">
-        </td>
-        <td>
-            <div class="kolom_action">
-                <div class="dot_action">
-                    <span>•</span>
-                    <span>•</span>
-                    <span>•</span>
-                </div>
-                <div class="action_crud">
-                    <a href="/bankds/setbank">
-                        <div class="list_action">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2">
-                                    <path
-                                        d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                    <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-                                </g>
-                            </svg>
-                            <span>Edit</span>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="list_action">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                            </svg>
-                            <span>delete</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td>3</td>
-        <td>
-            <div class="listinputmember">
-                <select class="inputnew smallfont" name="bankmaster" id="bankmaster">
-                    <option value="bca">bca</option>
-                    <option value="bni">bni</option>
-                    <option value="bri" selected>bri</option>
-                    <option value="mandiri">mandiri</option>
-                    <option value="cimb">cimb</option>
-                    <option value="danamon">danamon</option>
-                    <option value="panin">panin</option>
-                    <option value="cimb">cimb</option>
-                    <option value="permata">permata</option>
-                    <option value="bsi">bsi</option>
-                    <option value="dana">dana</option>
-                    <option value="gopay">gopay</option>
-                    <option value="ovo">ovo</option>
-                    <option value="pulsa">pulsa</option>
-                    <option value="linkaja">linkaja</option>
-                    <option value="qris">qris</option>
-                </select>
-            </div>
-            </div>
-        </td>
-        <td>
-            <div class="listinputmember">
-                <select class="inputnew smallfont" name="namabank" id="namabank">
-                    <option value="bri1" selected>bri1</option>
-                    <option value="bri2">bri2</option>
-                    <option value="bri3">bri3</option>
-                    <option value="bri4">bri4</option>
-                </select>
-            </div>
-            </div>
-        </td>
-        <td>florensia sitanggang</td>
-        <td class="ceonorek">03559178112</td>
-        <td class="check_box xurlbarcode">
-            <input type="checkbox" id="urlbarcode" name="urlbarcode" data-barcode="" disabled>
-        </td>
-        <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
-            <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id="">
-        </td>
-        <td>
-            <div class="kolom_action">
-                <div class="dot_action">
-                    <span>•</span>
-                    <span>•</span>
-                    <span>•</span>
-                </div>
-                <div class="action_crud">
-                    <a href="/bankds/setbank">
-                        <div class="list_action">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2">
-                                    <path
-                                        d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                    <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-                                </g>
-                            </svg>
-                            <span>Edit</span>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="list_action">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                            </svg>
-                            <span>delete</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td>4</td>
-        <td>
-            <div class="listinputmember">
-                <select class="inputnew smallfont" name="bankmaster" id="bankmaster">
-                    <option value="bca">bca</option>
-                    <option value="bni">bni</option>
-                    <option value="bri">bri</option>
-                    <option value="mandiri" selected>mandiri</option>
-                    <option value="cimb">cimb</option>
-                    <option value="danamon">danamon</option>
-                    <option value="panin">panin</option>
-                    <option value="cimb">cimb</option>
-                    <option value="permata">permata</option>
-                    <option value="bsi">bsi</option>
-                    <option value="dana">dana</option>
-                    <option value="gopay">gopay</option>
-                    <option value="ovo">ovo</option>
-                    <option value="pulsa">pulsa</option>
-                    <option value="linkaja">linkaja</option>
-                    <option value="qris">qris</option>
-                </select>
-            </div>
-            </div>
-        </td>
-        <td>
-            <div class="listinputmember">
-                <select class="inputnew smallfont" name="namabank" id="namabank">
-                    <option value="mandiri1">mandiri1</option>
-                    <option value="mandiri2" selected>mandiri2</option>
-                    <option value="mandiri3">mandiri3</option>
-                    <option value="mandiri4">mandiri4</option>
-                </select>
-            </div>
-            </div>
-        </td>
-        <td>florensia sitanggang</td>
-        <td class="ceonorek">03559178112</td>
-        <td class="check_box xurlbarcode">
-            <input type="checkbox" id="urlbarcode" name="urlbarcode" data-barcode="" disabled>
-        </td>
-        <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
-            <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id="">
-        </td>
-        <td>
-            <div class="kolom_action">
-                <div class="dot_action">
-                    <span>•</span>
-                    <span>•</span>
-                    <span>•</span>
-                </div>
-                <div class="action_crud">
-                    <a href="/bankds/setbank">
-                        <div class="list_action">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2">
-                                    <path
-                                        d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                    <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-                                </g>
-                            </svg>
-                            <span>Edit</span>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="list_action">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                            </svg>
-                            <span>delete</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td>5</td>
-        <td>
-            <div class="listinputmember">
-                <select class="inputnew smallfont" name="bankmaster" id="bankmaster">
-                    <option value="bca">bca</option>
-                    <option value="bni">bni</option>
-                    <option value="bri">bri</option>
-                    <option value="mandiri">mandiri</option>
-                    <option value="cimb" selected>cimb</option>
-                    <option value="danamon">danamon</option>
-                    <option value="panin">panin</option>
-                    <option value="cimb">cimb</option>
-                    <option value="permata">permata</option>
-                    <option value="bsi">bsi</option>
-                    <option value="dana">dana</option>
-                    <option value="gopay">gopay</option>
-                    <option value="ovo">ovo</option>
-                    <option value="pulsa">pulsa</option>
-                    <option value="linkaja">linkaja</option>
-                    <option value="qris">qris</option>
-                </select>
-            </div>
-            </div>
-        </td>
-        <td>
-            <div class="listinputmember">
-                <select class="inputnew smallfont" name="namabank" id="namabank">
-                    <option value="cimb1" selected>cimb1</option>
-                    <option value="cimb2">cimb2</option>
-                    <option value="cimb3">cimb3</option>
-                    <option value="cimb4">cimb4</option>
-                </select>
-            </div>
-            </div>
-        </td>
-        <td>florensia sitanggang</td>
-        <td class="ceonorek">035591781121234</td>
-        <td class="check_box xurlbarcode">
-            <input type="checkbox" id="urlbarcode" name="urlbarcode" data-barcode="" disabled>
-        </td>
-        <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
-            <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id="">
-        </td>
-        <td>
-            <div class="kolom_action">
-                <div class="dot_action">
-                    <span>•</span>
-                    <span>•</span>
-                    <span>•</span>
-                </div>
-                <div class="action_crud">
-                    <a href="/bankds/setbank">
-                        <div class="list_action">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2">
-                                    <path
-                                        d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                    <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-                                </g>
-                            </svg>
-                            <span>Edit</span>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="list_action">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                            </svg>
-                            <span>delete</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </td>
     </tr>
     <tr>
         <td>6</td>
@@ -1171,6 +791,46 @@
                     '$1-$2-$3-$4');
 
                 nomorRekElement.text(formattedNomorRek);
+            });
+        });
+
+        $(document).ready(function() {
+            $('#groupbank, #groupbankwd').change(function() {
+                var selectedGroup = $('#groupbank').val();
+                var selectBankWd = $('#groupbankwd').val();
+
+                selectedGroup = selectedGroup == null || selectedGroup == '' ? '0' : selectedGroup;
+                selectBankWd = selectBankWd == null || selectBankWd == '' ? '0' : selectBankWd;
+
+                var redirectUrl = '/bankds/listbank/' + selectedGroup + '/' + selectBankWd;
+                window.location.href = redirectUrl;
+            });
+        });
+
+        $(document).ready(function() {
+            $('select[name="bankmaster"]').change(function() {
+                var selectedValue = $(this).val();
+                var jenis = $(this).data('jenis');
+
+                $.ajax({
+                    url: '/getGroupBank/' + selectedValue + '/' + jenis,
+                    type: 'GET',
+                    success: function(response) {
+
+                        var selectElement = $('#namabank');
+
+                        $.each(response, function(index, item) {
+                            selectElement.append($('<option>', {
+                                value: item,
+                                text: item
+                            }));
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                        alert('Terjadi kesalahan saat melakukan permintaan GET.');
+                    }
+                });
             });
         });
     </script>

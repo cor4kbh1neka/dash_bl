@@ -159,7 +159,7 @@
                                         <div class="statusmember" data-status="{{ $d->statususer }}">{{ $i + 1 }}
                                         </div>
                                     </td>
-                                    <td class="check_box" onclick="toggleCheckbox('myCheckbox-{{ $i }}')">
+                                    <td class="check_box">
                                         <input type="checkbox" id="myCheckbox-{{ $i }}"
                                             name="myCheckbox-{{ $i }}" data-id="{{ $d->id }}">
                                     </td>

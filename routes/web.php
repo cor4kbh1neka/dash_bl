@@ -219,15 +219,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bankds/addbank', [BankdsController::class, 'addbank']);
     Route::post('/storebank', [BankdsController::class, 'storebank']);
 
-    Route::get('/bankds/listmaster', [BankdsController::class, 'listmaster']);
+    Route::get('/bankds/listmaster', [BankdsController::class, 'listmaster'])->name('listmaster');
+    Route::delete('/deletelistmaster/{id}', [BankdsController::class, 'deletelistmaster']);
 
     Route::get('/bankds/listgroup', [BankdsController::class, 'listgroup'])->name('listgroup');
     Route::post('/updatelistgroup/{jenis}', [BankdsController::class, 'updatelistgroup']);
     Route::delete('/deletelistgroup/{id}', [BankdsController::class, 'deletelistgroup'])->name('deletelistgroup');
 
-
-
-    Route::get('/bankds/listbank', [BankdsController::class, 'listbank']);
+    Route::get('/bankds/listbank/{group}/{groupwd}', [BankdsController::class, 'listbank']);
+    Route::get('/getGroupBank/{bank}/{jenis}', [BankdsController::class, 'getGroupBank']);
 
     /*-- Memods --*/
     Route::get('/memods', [MemodsController::class, 'index']);
@@ -249,6 +249,10 @@ Route::middleware(['auth'])->group(function () {
 
     /*-- Usermanagementds --*/
     Route::get('/usermanagementds', [UsermanagementdsController::class, 'index']);
+
+
+
+
 
     /*-- MENU 2 --*/
     Route::get('/menu2', [Menu2Controller::class, 'index']);

@@ -7,11 +7,14 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use App\Models\DepoWd;
+use App\Models\Xdpwd;
 use App\Models\Member;
 use App\Models\Outstanding;
 use App\Models\Transactions;
 use App\Models\TransactionStatus;
 use App\Models\TransactionSaldo;
+use App\Models\Xtrans;
+use App\Models\Xcountwddp;
 
 date_default_timezone_set('Asia/Jakarta');
 
@@ -74,6 +77,7 @@ class DepoWdController extends Controller
             $data["approved_by"] = null;
 
             DepoWd::create($data);
+            Xdpwd::create($data);
 
             return response()->json([
                 'status' => 'Success',
@@ -147,6 +151,7 @@ class DepoWdController extends Controller
             $dataWD = DepoWd::create($data);
 
             if ($dataWD) {
+                Xdpwd::create($data);
                 $dataAPI = [
                     "Username" => $dataWD->username,
                     "TxnId" => $txnid,
@@ -439,12 +444,51 @@ class DepoWdController extends Controller
             foreach ($ids as $id) {
                 $dataDepo = DepoWd::where('id', $id)->where('status', 0)->first();
                 $txnid = $this->generateTxnid('D');
-
                 if ($dataDepo) {
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
+
+                    /* delete transaction Xdpwd */
+                    $dataToDelete = Xdpwd::where('username', $dataDepo->username)->where('jenis', $dataDepo->jenis)->first();
+                    if ($dataToDelete) {
+                        $dataToDelete->delete();
+                    }
+
+                    /* count xdepo wd */
+                    $dataXtrans = Xtrans::where('username', $dataDepo->username)->first();
+                    if (!$dataXtrans) {
+                        if ($dataDepo->jenis == 'WD') {
+                            Xtrans::create([
+                                'username' => $dataDepo->username,
+                                'count_wd' => 1,
+                                'sum_wd' => $dataDepo->amount,
+                                'count_dp' => 0,
+                                'sum_dp' => 0
+                            ]);
+                        } else {
+                            Xtrans::create([
+                                'username' => $dataDepo->username,
+                                'count_wd' => 0,
+                                'sum_wd' => 0,
+                                'count_dp' => 1,
+                                'sum_dp' => $dataDepo->amount
+                            ]);
+                        }
+                    } else {
+                        if ($dataDepo->jenis == 'WD') {
+                            $dataXtrans->update([
+                                'count_wd' => $dataXtrans->count_wd + 1,
+                                'sum_wd' => $dataXtrans->sum_wd + $dataDepo->amount
+                            ]);
+                        } else {
+                            $dataXtrans->update([
+                                'count_dp' => $dataXtrans->count_dp + 1,
+                                'sum_dp' => $dataXtrans->sum_dp + $dataDepo->amount
+                            ]);
+                        }
+                    }
+
                     if ($dataDepo->jenis !== 'WD') {
                         if ($updateDepo) {
-                            /* Request Ke API SBO Depo*/
                             $dataAPI = [
                                 "Username" => $dataDepo->username,
                                 "TxnId" => $txnid,
@@ -506,6 +550,12 @@ class DepoWdController extends Controller
                 $updateStatusTransaction = DepoWd::where('id', $id)->first();
                 if ($updateStatusTransaction) {
                     $updateStatusTransaction->update(['status' => 2, 'approved_by' => Auth::user()->username]);
+
+                    /* delete transaction Xdpwd */
+                    $dataToDelete = Xdpwd::where('username', $updateStatusTransaction->username)->where('jenis', $updateStatusTransaction->jenis)->first();
+                    if ($dataToDelete) {
+                        $dataToDelete->delete();
+                    }
                 } else {
                     return response()->json([
                         'status' => 'Error',
@@ -704,8 +754,8 @@ class DepoWdController extends Controller
 
     public function getCountDataDPW()
     {
-        $countDataWD = DepoWd::where('jenis', 'DP')->where('status', 0)->count();
-        $countDataDP = DepoWd::where('jenis', 'WD')->where('status', 0)->count();
+        $countDataDP = Xdpwd::where('jenis', 'DP')->where('status', 0)->count();
+        $countDataWD = Xdpwd::where('jenis', 'WD')->where('status', 0)->count();
 
         $dataOuts = Outstanding::get();
         $dataOuts = $dataOuts->groupBy('username')->map(function ($group) {
@@ -717,10 +767,11 @@ class DepoWdController extends Controller
                 'count' => $count,
             ];
         });
-        // dd($dataOuts);
+
         $data = [
             'dataWD' => $countDataWD,
-            'dataDP' => $countDataDP
+            'dataDP' => $countDataDP,
+            'dataOuts' => $dataOuts->count()
         ];
 
         return $data;

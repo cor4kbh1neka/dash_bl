@@ -34,7 +34,7 @@
                     <a href="/bankds/listgroup" class="tombol grey">
                         <span class="texttombol">LIST GROUP</span>
                     </a>
-                    <a href="/bankds/listbank" class="tombol grey">
+                    <a href="/bankds/listbank/0/0" class="tombol grey">
                         <span class="texttombol">LIST BANK</span>
                     </a>
                 </div>
