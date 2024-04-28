@@ -9,6 +9,7 @@ use App\Models\TransactionStatus;
 use App\Models\TransactionSaldo;
 use App\Models\ProductType;
 use App\Models\Member;
+use App\Models\MemberAktif;
 use App\Models\Outstanding;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
@@ -604,20 +605,10 @@ class ApiBolaController extends Controller
     /* ====================== Settle ======================= */
     private function setSettle(Request $request, $dataTransaction, $index)
     {
-        // $dataTransaction = Transactions::where('transactionid', $dataTransaction->transactionid)->first();
         $dataStatusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
 
         if ($dataStatusTransaction->status == 'Running' || $dataStatusTransaction->status == 'Rollback' || $dataStatusTransaction->status == 'ReturnStake') {
             $txnid = $this->generateTxnid('D', 17);
-            // $DpSaldo = $this->deposit($request, $txnid);
-
-            // if ($DpSaldo["error"]["id"] === 9720) {
-            //     return $this->errorResponse($request->Username, $DpSaldo["error"]["id"]);
-            // }
-
-            // if ($DpSaldo["error"]["id"] === 4404) {
-            //     return $this->errorResponse($request->Username, $DpSaldo["error"]["id"]);
-            // }
 
             $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Settled');
             if ($crteateStatusTransaction) {
@@ -626,6 +617,11 @@ class ApiBolaController extends Controller
                 $WinLoss = $index == 0 ? $request->WinLoss : 0;
                 $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $WinLoss, 1);
                 if ($transactionTransaction) {
+                    /* Record Data Referral */
+
+
+
+                    /* -------------------- */
                     $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
                     return [
                         'AccountName' => $request->Username,
@@ -1129,5 +1125,20 @@ class ApiBolaController extends Controller
         });
 
         return $transactions;
+    }
+
+    public function cekuserreferral($username)
+    {
+        $dataMemberAktif = MemberAktif::where('referral', $username)->first();
+        if ($dataMemberAktif) {
+            return response()->json(['message' => 'Referral tersedia'], 200);
+        } else {
+            $dataMember = Member::where('username', $username)->first();
+            if ($dataMember) {
+                return response()->json(['message' => 'Referral tersedia'], 200);
+            } else {
+                return response()->json(['message' => 'Referral tidak ditemukan'], 404);
+            }
+        }
     }
 }

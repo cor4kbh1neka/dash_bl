@@ -31,6 +31,7 @@ use App\Http\Controllers\AllowedipdsController;
 use App\Http\Controllers\MemotouserdsController;
 use App\Http\Controllers\UsermanagementdsController;
 use App\Http\Controllers\Menu2Controller;
+use App\Http\Controllers\PersentasedsController;
 use App\Models\Xdpwd;
 use App\Models\Outstanding;
 use App\Models\DepoWd;
@@ -241,7 +242,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/memods/readinbox', [MemodsController::class, 'readinbox']);
     Route::get('/memods/archiveinbox', [MemodsController::class, 'archiveinbox']);
     Route::get('/memods/delivered', [MemodsController::class, 'delivered']);
-    Route::get('/memods/readdelivered', [MemodsController::class, 'readdelivered']);
+    Route::get('/memods/readdelivered/{id}', [MemodsController::class, 'readdelivered']);
+    Route::delete('/deletememods/{id}', [MemodsController::class, 'delete']);
+
+
     Route::post('/storememo', [MemodsController::class, 'storememo']);
 
     /*-- Agentds --*/
@@ -262,6 +266,8 @@ Route::middleware(['auth'])->group(function () {
     /*-- Usermanagementds --*/
     Route::get('/usermanagementds', [UsermanagementdsController::class, 'index']);
 
+    /*-- Persentase Referral --*/
+    Route::get('/persentaseds', [PersentasedsController::class, 'index']);
 
 
 
