@@ -40,6 +40,9 @@
                     <a href="/bankds/listbank" class="tombol grey active">
                         <span class="texttombol">LIST BANK</span>
                     </a>
+                    <a href="/bankds/xdata" class="tombol grey">
+                        <span class="texttombol">X DATA</span>
+                    </a>
                 </div>
                 <div class="secgroupdatabankds">
                     <span class="titlebankmaster">LIST REKENING BANK</span>
@@ -52,7 +55,7 @@
                                             <th colspan="6" class="texttitle">DEPOSIT</th>
                                         </tr>
                                         <tr>
-                                            <th colspan="6">
+                                            <th colspan="5">
                                                 <div class="listinputmember">
                                                     <select class="inputnew" name="groupbank" id="groupbank">
                                                         <option value="" selected="" place="" style="color: #838383; font-style: italic;" disabled="">pilih group</option>
@@ -64,6 +67,11 @@
                                                         <option value="default">default</option>
                                                     </select>
                                                 </div>
+                                            </th>
+                                            <th colspan="1">
+                                                <button class="tombol primary">
+                                                    <span class="texttombol">SUBMIT</span>
+                                                </button>
                                             </th>
                                         </tr>
                                     </tbody>
@@ -548,7 +556,7 @@
                                             <th colspan="6" class="texttitle">WITHDRAW</th>
                                         </tr>
                                         <tr>
-                                            <th colspan="6">
+                                            <th colspan="5">
                                                 <div class="listinputmember">
                                                     <select class="inputnew" name="groupbank" id="groupbank">
                                                         <option value="" selected="" place="" style="color: #838383; font-style: italic;" disabled="">pilih group</option>
@@ -560,6 +568,11 @@
                                                         <option value="default">default</option>
                                                     </select>
                                                 </div>
+                                            </th>
+                                            <th colspan="1">
+                                                <button class="tombol primary">
+                                                    <span class="texttombol">SUBMIT</span>
+                                                </button>
                                             </th>
                                         </tr>
                                     </tbody>

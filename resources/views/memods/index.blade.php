@@ -39,22 +39,23 @@
                     <div class="groupplayerinfo">
                         <div class="listgroupplayerinfo left">
                             <div class="listplayerinfo">
-                                <span class="labelbetpl">to user</span>
+                                <span class="labelbetpl">recipient</span>
+                                <select name="statustype" id="statustype">
+                                    <option value="1">All Player</option>
+                                    <option value="2">VIP only</option>
+                                </select>
+                            </div>
+                            <div class="listplayerinfo">
+                                <span class="labelbetpl">priority</span>
                                 <div class="groupradiooption">
                                     <div class="listgrpstatusbank">
-                                        <input class="status_primary" type="radio" id="allplayer" name="memoplayer" value="1">
-                                        <label for="allplayer">all player</label>
+                                        <input class="status_primary" type="radio" id="default" name="statuspriority" value="1" checked>
+                                        <label for="allplayer">default</label>
                                     </div>
                                     <div class="listgrpstatusbank">
-                                        <input class="status_primary" type="radio" id="oneplayer" name="memoplayer" value="2">
-                                        <label for="oneplayer">to user</label>
+                                        <input class="status_primary" type="radio" id="vip" name="statuspriority" value="2">
+                                        <label for="oneplayer">priority</label>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="listplayerinfo xusername">
-                                <label for="username">username</label>
-                                <div class="groupeditinput">
-                                    <input type="text" id="username" name="username" value="" placeholder="isi username user">
                                 </div>
                             </div>
                             <div class="listplayerinfo">
@@ -104,32 +105,6 @@
                     $('.all_act_butt').css('display', 'flex');
                 } else {
                     $('.all_act_butt').hide();
-                }
-            });
-
-        });
-
-        // clear readonly
-        $(document).ready(function() {
-            $('.groupeditinput svg').click(function() {
-                $(this).closest('.groupeditinput').toggleClass('edit');
-                $(this).siblings('input').prop('readonly', function(_, val) {
-                    return !val;
-                });
-            });
-        });
-
-        //show username for option to user
-        $(document).ready(function(){
-            // Menggunakan event change untuk menangani perubahan pada radio button
-            $('input[name="memoplayer"]').change(function(){
-                // Memeriksa apakah radio button yang dipilih memiliki nilai "2"
-                if($(this).val() === "2") {
-                    // Jika ya, tambahkan kelas 'show' pada elemen '.listplayerinfo.xusername'
-                    $('.listplayerinfo.xusername').addClass('show');
-                } else {
-                    // Jika tidak, hapus kelas 'show' dari elemen '.listplayerinfo.xusername'
-                    $('.listplayerinfo.xusername').removeClass('show');
                 }
             });
         });

@@ -111,4 +111,13 @@ class BankdsController extends Controller
             'totalnote' => 0,
         ]);
     }
+
+    public function xdata()
+    {
+
+        return view('bankds.xdata', [
+            'title' => 'X Data',
+            'totalnote' => 0,
+        ]);
+    }
 }
