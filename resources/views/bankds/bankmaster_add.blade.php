@@ -36,6 +36,9 @@
                     <a href="/bankds/listbank" class="tombol grey">
                         <span class="texttombol">LIST BANK</span>
                     </a>
+                    <a href="/bankds/xdata" class="tombol grey">
+                        <span class="texttombol">X DATA</span>
+                    </a>
                 </div>
                 <div class="secgroupdatabankds">
                     <div class="groupsetbankmaster">

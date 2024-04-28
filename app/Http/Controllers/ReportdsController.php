@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
-class ReferraldsController extends Controller
+class ReportdsController extends Controller
 {
     public function index()
     {
@@ -24,27 +24,27 @@ class ReferraldsController extends Controller
                 'tempatlahir' => 'sukajadi'
             ]
         ];
-        return view('referralds.index', [
-            'title' => 'Referral',
+        return view('reportds.index', [
+            'title' => 'Report',
             'data' => $data,
             'totalnote' => 0,
         ]);
     }
 
-    public function downlinedetail()
+    public function winlosematch()
     {
 
-        return view('referralds.detail_downline', [
-            'title' => 'Downline Detail',
+        return view('reportds.winlosematch', [
+            'title' => 'Report',
             'totalnote' => 0,
         ]);
     }
 
-    public function bonusreferral()
+    public function memberstatement()
     {
 
-        return view('referralds.referral_downline', [
-            'title' => 'Bonus Referral',
+        return view('reportds.memberstatement', [
+            'title' => 'Report',
             'totalnote' => 0,
         ]);
     }
