@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('persentase', function (Blueprint $table) {
             $table->id();
-            $table->integer('persentase')->default(0);
+            $table->decimal('persentase', 8, 2)->default(0);
             $table->timestamps();
         });
     }

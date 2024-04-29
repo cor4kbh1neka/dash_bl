@@ -21,6 +21,7 @@ use App\Http\Controllers\HistorydsController;
 use App\Http\Controllers\MemberlistdsController;
 use App\Http\Controllers\HistorygamedsController;
 use App\Http\Controllers\OutstandingdsController;
+use App\Http\Controllers\ReportdsController;
 use App\Http\Controllers\ReferraldsController;
 use App\Http\Controllers\BankdsController;
 use App\Http\Controllers\MemodsController;
@@ -200,8 +201,15 @@ Route::middleware(['auth'])->group(function () {
     /*-- Outstandingds --*/
     Route::get('/outstandingds/{username?}', [OutstandingdsController::class, 'index']);
 
+    /*-- Reportds --*/
+    Route::get('/reportds', [ReportdsController::class, 'index']);
+    Route::get('/reportds/winlosematch', [ReportdsController::class, 'winlosematch']);
+    Route::get('/reportds/memberstatement', [ReportdsController::class, 'memberstatement']);
+
     /*-- Referralds --*/
     Route::get('/referralds', [ReferraldsController::class, 'index']);
+    Route::get('/referralds/downline', [ReferraldsController::class, 'downlinedetail']);
+    Route::get('/referralds/bonusreferral', [ReferraldsController::class, 'bonusreferral']);
 
     /*-- Bankds --*/
     Route::get('/bankds', [BankdsController::class, 'index'])->name('bankds');
@@ -250,6 +258,12 @@ Route::middleware(['auth'])->group(function () {
 
     /*-- Agentds --*/
     Route::get('/agentds', [AgentdsController::class, 'index']);
+    Route::get('/agentds/create', [AgentdsController::class, 'create']);
+    Route::get('/agentds/agentinfo', [AgentdsController::class, 'agentinfo']);
+    Route::get('/agentds/agentupdate', [AgentdsController::class, 'agentupdate']);
+    Route::get('/agentds/access', [AgentdsController::class, 'access']);
+    Route::get('/agentds/accessupdate', [AgentdsController::class, 'accessupdate']);
+    Route::get('/agentds/accessadd', [AgentdsController::class, 'accessadd']);
 
     /*-- Eventds --*/
     Route::get('/eventds', [EventdsController::class, 'index']);

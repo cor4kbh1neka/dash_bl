@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\DepoWd;
 use App\Models\Xdpwd;
 use App\Models\Member;
+use App\Models\MemberAktif;
 use App\Models\Outstanding;
 use App\Models\Transactions;
 use App\Models\TransactionStatus;
@@ -17,7 +18,6 @@ use App\Models\Xtrans;
 use App\Models\Xcountwddp;
 
 date_default_timezone_set('Asia/Jakarta');
-
 
 class DepoWdController extends Controller
 {
@@ -447,6 +447,16 @@ class DepoWdController extends Controller
                 if ($dataDepo) {
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
 
+                    /* Create Member Aktif */
+                    $dataMemberAktif = MemberAktif::where('username', $dataDepo->username)->first();
+                    if (!$dataMemberAktif) {
+                        $dataMemberAktif->create([
+                            'username' => $dataDepo->username,
+                            'referral' => $dataDepo->referral
+                        ]);
+                    }
+
+
                     /* delete transaction Xdpwd */
                     $dataToDelete = Xdpwd::where('username', $dataDepo->username)->where('jenis', $dataDepo->jenis)->first();
                     if ($dataToDelete) {
@@ -454,10 +464,11 @@ class DepoWdController extends Controller
                     }
 
                     /* count xdepo wd */
-                    $dataXtrans = Xtrans::where('username', $dataDepo->username)->first();
+                    $dataXtrans = Xtrans::where('username', $dataDepo->username)->where('bank', $dataDepo->bank)->first();
                     if (!$dataXtrans) {
                         if ($dataDepo->jenis == 'WD') {
                             Xtrans::create([
+                                'bank' => $dataDepo->bank,
                                 'username' => $dataDepo->username,
                                 'count_wd' => 1,
                                 'sum_wd' => $dataDepo->amount,
@@ -466,6 +477,7 @@ class DepoWdController extends Controller
                             ]);
                         } else {
                             Xtrans::create([
+                                'bank' => $dataDepo->bank,
                                 'username' => $dataDepo->username,
                                 'count_wd' => 0,
                                 'sum_wd' => 0,

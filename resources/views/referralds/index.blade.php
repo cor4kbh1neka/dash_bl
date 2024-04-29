@@ -12,9 +12,458 @@
                 </svg>
             </div>
         </div>
-        <div class="secreferralds">
-            <div class="groupsecreferralds">
-                ini halaman referral
+        <div class="secreportds">
+            <div class="groupsecreportds">
+                <div class="groupdatareportds">
+                    <div class="grouphistoryds memberlist referral">
+                        <div class="groupheadhistoryds">
+                            <div class="listmembergroup">
+                                <div class="listinputmember">
+                                    <label for="upline">upline</label>
+                                    <input type="text" id="upline" name="upline" placeholder="username upline">
+                                </div>
+                                <div class="listinputmember">
+                                    <label for="portfolio">jenis game</label>
+                                    <select name="portfolio" id="portfolio">
+                                        <option value="all">all games</option>
+                                        <option value="SportsBook">SportsBook</option>
+                                        <option value="VirtualSports">VirtualSports</option>
+                                        <option value="Games">Games</option>
+                                    </select>
+                                </div>
+                                <div class="listinputmember">
+                                    <label for="gabungdari">tanggal dari</label>
+                                    <input type="date" id="gabungdari" name="gabungdari" placeholder="tanggal gabung dari">
+                                </div>
+                                <div class="listinputmember">
+                                    <label for="gabunghingga">tanggal hingga</label>
+                                    <input type="date" id="gabunghingga" name="tanggal gabung hingga" placeholder="nama rekening">
+                                </div>
+                                <div class="listinputmember">
+                                    <button class="tombol primary">
+                                        <span class="texttombol">SUBMIT</span>
+                                    </button>
+                                </div>
+                                <div class="exportdata">
+                                    <span class="textdownload">download</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11zm-6 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="totalbonus">
+                            <div class="listtotalbonus">
+                                <span class="textbonus">Games :</span>
+                                <span class="countbonus">all games</span>
+                            </div>
+                            <div class="listtotalbonus">
+                                <span class="textbonus">tanggal :</span>
+                                <div class="grouptgllistbonus">
+                                    <span class="countbonus from">2024-04-17</span>
+                                    <span>s/d</span>
+                                    <span class="countbonus to">2024-04-17</span>
+                                </div>
+                            </div>
+                            <div class="listtotalbonus">
+                                <span class="textbonus">total upline :</span>
+                                <span class="countbonus">280 (upline)</span>
+                            </div>
+                            <div class="listtotalbonus">
+                                <span class="textbonus">total bonus referral :</span>
+                                <span class="nominalbonus" data-bonus="200000000.69"></span>
+                            </div>
+                        </div>
+                        <div class="tabelproses">
+                            <table>
+                                <tbody>
+                                    <tr class="hdtable">
+                                        <th class="bagno" rowspan="2">#</th>
+                                        <th class="baguser" rowspan="2">upline</th>
+                                        <th class="bagtotaluser" rowspan="2">total downline</th>
+                                        <th class="bagdowndepo" colspan="2">deposit status</th>
+                                        <th class="bagdownstatus" colspan="2">aktif status</th>
+                                        <th class="bagwl" rowspan="2">bonus referral (IDR)</th>
+                                    </tr>
+                                    <tr class="hdtable">
+                                        <th>deposit</th>
+                                        <th>belum deposit</th>
+                                        <th>aktif</th>
+                                        <th>tidak aktif</th>
+                                    </tr>
+                                    <!-- urutkan dari nominal bonus referral terbesar yang paling atas -->
+                                    <tr>
+                                        <td>1</td>
+                                        <td>lontong6969</td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=all?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">275</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">200</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=belum%20deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">75</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">172</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=tidak%20aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">28</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType nominalreff" data-bonusreff="200000000.69"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>lontong6969</td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=all?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">275</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">200</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=belum%20deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">75</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">172</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=tidak%20aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">28</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType nominalreff" data-bonusreff="200000000.69"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>lontong6969</td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=all?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">275</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">200</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=belum%20deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">75</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">172</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=tidak%20aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">28</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType nominalreff" data-bonusreff="200000000.69"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>lontong6969</td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=all?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">275</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">200</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=belum%20deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">75</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">172</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=tidak%20aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">28</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType nominalreff" data-bonusreff="200000000.69"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>lontong6969</td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=all?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">275</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">200</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=belum%20deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">75</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">172</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=tidak%20aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">28</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType nominalreff" data-bonusreff="200000000.69"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>lontong6969</td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=all?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">275</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">200</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=belum%20deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">75</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">172</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=tidak%20aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">28</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType nominalreff" data-bonusreff="200000000.69"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>lontong6969</td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=all?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">275</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">200</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=belum%20deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">75</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">172</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=tidak%20aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">28</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType nominalreff" data-bonusreff="200000000.69"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td>lontong6969</td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=all?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">275</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">200</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=belum%20deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">75</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">172</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=tidak%20aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">28</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType nominalreff" data-bonusreff="200000000.69"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>9</td>
+                                        <td>lontong6969</td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=all?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">275</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">200</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=belum%20deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">75</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">172</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=tidak%20aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">28</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType nominalreff" data-bonusreff="200000000.69"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td>lontong6969</td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=all?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">275</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">200</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="referralds/downline?datefrom=2024-04-17?dateto=2024-04-17?statusdp=belum%20deposit?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">75</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">172</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=tidak%20aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType">28</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969" target="_blank" class="detailbetingan">
+                                                <span class="texttypebet sportsType nominalreff" data-bonusreff="200000000.69"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="grouppagination">
+                                <div class="grouppaginationcc">
+                                    <div class="trigger left">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                            <g fill="none" fill-rule="evenodd">
+                                                <path d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+                                                <path fill="currentColor" d="M7.94 13.06a1.5 1.5 0 0 1 0-2.12l5.656-5.658a1.5 1.5 0 1 1 2.121 2.122L11.122 12l4.596 4.596a1.5 1.5 0 1 1-2.12 2.122l-5.66-5.658Z" />
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    <div class="trigger right">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                            <g fill="none" fill-rule="evenodd">
+                                                <path d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+                                                <path fill="currentColor" d="M16.06 10.94a1.5 1.5 0 0 1 0 2.12l-5.656 5.658a1.5 1.5 0 1 1-2.121-2.122L12.879 12L8.283 7.404a1.5 1.5 0 0 1 2.12-2.122l5.658 5.657Z" />
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    <span class="numberpage active">1</span>
+                                    <span class="numberpage">2</span>
+                                    <span class="numberpage">3</span>
+                                    <span class="numberpage">4</span>
+                                    <span class="numberpage">5</span>
+                                    <span class="numberpage">...</span>
+                                    <span class="numberpage">12</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -38,7 +487,53 @@
                     $('.all_act_butt').hide();
                 }
             });
-
         });
+
+        // print nilai td
+        $(document).ready(function(){
+            $('.datacc').each(function(){
+                var value = parseFloat($(this).attr('data-get')).toFixed(2);
+                var formattedValue = numberWithCommas(value);
+                $(this).text(formattedValue);
+            });
+        });
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        //open jendela detail
+        $(document).ready(function() {
+            $(".detailbetingan").click(function(event) {
+                event.preventDefault();
+
+                var url = $(this).attr("href");
+                var windowWidth = 400;
+                var windowHeight = $(window).height() * 0.8;
+                var windowLeft = ($(window).width() - windowWidth) / 2;
+                var windowTop = ($(window).height() - windowHeight) / 1;
+
+                window.open(url, "_blank", "width=" + windowWidth + ", height=" + windowHeight + ", left=" + windowLeft + ", top=" + windowTop);
+            });
+        });
+
+        // print total bonus
+        $(document).ready(function(){
+            var value = parseFloat($('.nominalbonus').attr('data-bonus')).toFixed(2);
+            var formattedValue = formatCurrency(value);
+            $('.nominalbonus').text(formattedValue);
+        });
+        function formatCurrency(amount) {
+            return 'IDR ' + amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace('.00', '.');
+        }
+
+        // print nominal bonus reff
+        $(document).ready(function(){
+            var value = parseFloat($('.nominalreff').attr('data-bonusreff')).toFixed(2);
+            var formattedValue = formatCurrency(value);
+            $('.nominalreff').text(formattedValue);
+        });
+        function formatCurrency(amount) {
+            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
     </script>
 @endsection

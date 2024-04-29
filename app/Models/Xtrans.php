@@ -12,6 +12,6 @@ class Xtrans extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'username', 'count_dp', 'count_wd', 'sum_dp',  'sum_wd'];
+    protected $fillable = ['id', 'bank', 'username', 'count_dp', 'count_wd', 'sum_dp',  'sum_wd'];
     protected $table = 'xtrans';
 }
