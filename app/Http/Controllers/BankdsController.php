@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Settings;
 use App\Models\Companys;
 use App\Models\Groupbank;
+use App\Models\Xtrans;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
@@ -569,12 +570,82 @@ class BankdsController extends Controller
         // dd($bcaData);
     }
 
-    public function xdata()
+    public function xdata(Request $request)
     {
+        // dd($request);
+        $data = Xtrans::query();
+        $dataOrigin = $data->get();
+        $groupbanks = $dataOrigin->pluck('groupbank')->toArray();
 
+        if ($request->get('checkusername') == 'on') {
+            $data->where('username', 'like', '%' . $request->get('username') . '%');
+        }
+
+        if ($request->has('checktgldari') && $request->get('checktgldari') == 'on') {
+            $gabungDari = date('Y-m-d', strtotime($request->get('gabungdari')));
+            $data->where('updated_at', '>=', $gabungDari . " 00:00:00");
+        }
+
+        if ($request->has('checktglhingga') && $request->get('checktglhingga') == 'on') {
+            $tanggalGabungHingga = date('Y-m-d', strtotime($request->get('gabunghingga')));
+            $data->where('updated_at', '<=', $tanggalGabungHingga . " 23:59:59");
+        }
+
+
+        if ($request->get('checkxmincount')) {
+            if ($request->get('typexdata') == 'xdeposit') {
+                $data->where('sum_dp', '>=', $request->get('xmincount'));
+            } else {
+                $data->where('sum_wd', '>=', $request->get('xmincount'));
+            }
+        }
+
+        if ($request->get('checkxmaxcount')) {
+            if ($request->get('typexdata') == 'xdeposit') {
+                $data->where('sum_dp', '<=', $request->get('xmaxcount'));
+            } else {
+                $data->where('sum_wd', '<=', $request->get('xmaxcount'));
+            }
+        }
+
+        if ($request->get('checkbank')) {
+            $data->where('bank',  $request->get('bank'));
+        }
+
+        if ($request->get('checkgroupbank')) {
+            $data->where('groupbank',  $request->get('groupbank'));
+        }
+
+        $data = $data->get();
         return view('bankds.xdata', [
             'title' => 'X Data',
             'totalnote' => 0,
+            'data' => $data,
+            'checkusername' => $request->get('checkusername'),
+            'username' => $request->get('username'),
+            'typexdata' => $request->get('typexdata'),
+            'checktgldari' => $request->get('checktgldari'),
+            'gabungdari' => $request->get('gabungdari'),
+            'checktglhingga' => $request->get('checktglhingga'),
+            'gabunghingga' => $request->get('gabunghingga'),
+            'checkxmincount' => $request->get('checkxmincount'),
+            'xmincount' => $request->get('xmincount'),
+            'checkxmaxcount' => $request->get('checkxmaxcount'),
+            'xmaxcount' => $request->get('xmaxcount'),
+            'checkbank' => $request->get('checkbank'),
+            'bank' => $request->get('bank'),
+            'checkgroupbank' => $request->get('checkgroupbank'),
+            'groupbank' => $request->get('groupbank'),
+            'listgroupbank' => $groupbanks
         ]);
     }
+
+    // public function xdata()
+    // {
+
+    //     return view('bankds.xdata', [
+    //         'title' => 'X Data',
+    //         'totalnote' => 0,
+    //     ]);
+    // }
 }

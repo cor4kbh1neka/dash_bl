@@ -71,8 +71,10 @@
                                                 </div>
                                             </th>
                                             <th colspan="1">
+
                                                 <button id="tambahKolom" class="tombol primary">
                                                     <span class="texttombol">+ tambah</span>
+
                                                 </button>
                                             </th>
                                         </tr>
@@ -213,7 +215,7 @@
                                             <th colspan="6" class="texttitle">WITHDRAW</th>
                                         </tr>
                                         <tr>
-                                            <th colspan="6">
+                                            <th colspan="5">
                                                 <div class="listinputmember">
                                                     <select class="inputnew" name="groupbank" id="groupbankwd">
                                                         <option value="" selected="" place=""
@@ -227,6 +229,11 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                            </th>
+                                            <th colspan="1">
+                                                <button class="tombol primary">
+                                                    <span class="texttombol">SUBMIT</span>
+                                                </button>
                                             </th>
                                         </tr>
                                     </tbody>
