@@ -159,6 +159,7 @@ class BankdsController extends Controller
 
     public function deletelistmaster($id)
     {
+        dd($id);
         $response = Http::delete('https://back-staging.bosraka.com/banks/master/' . $id);
         if ($response->successful()) {
             return redirect()->route('listmaster')->with('success', 'List group berhasil dihapus');

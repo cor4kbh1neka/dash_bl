@@ -513,6 +513,14 @@
                 }
             });
         }
+
+        $(document).ready(function() {
+            $('input[class=inputnew]').on('input', function() {
+                var id = $(this).attr('name').split('_')[1]; // Mendapatkan ID dari atribut name
+                $('#myCheckboxDeposit-' + id).prop('checked',
+                    true); // Mencentang kotak centang sesuai dengan ID
+            });
+        });
     </script>
 
     @if (session('success'))

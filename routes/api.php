@@ -35,15 +35,12 @@ Route::delete('/deleteTransactions', [ApiBolaController::class, 'deleteTransacti
 
 Route::get('/gettransactions', [ApiBolaController::class, 'getTransactions']);
 
-
-
-
 Route::get('/login/{username}/{iswap}/{device}', [ApiBolaController::class, 'login']);
 Route::get('/historylog/{username}/{ipadress}', [ApiBolaController::class, 'historyLog']);
-
 Route::post('/register/{ipadress}', [ApiBolaController::class, 'register']);
-
 Route::get('/get-recommend-matches', [ApiBolaController::class, 'getRecomMatch']);
+Route::get('/cekuserreferral/{username}', [ApiBolaController::class, 'cekuserreferral']);
+
 
 Route::post('/deposit', [DepoWdController::class, 'deposit']);
 Route::post('/withdrawal', [DepoWdController::class, 'withdrawal']);
@@ -60,7 +57,4 @@ Route::get('/getTransactionSaldo', [DepoWdController::class, 'getTransactionSald
 
 
 Route::get('/getDataOutstanding', [Menu2Controller::class, 'getDataOutstanding']);
-
-
-
 Route::get('/comparedata', [BankdsController::class, 'compareData']);

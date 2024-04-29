@@ -38,11 +38,12 @@
                     </a>
                 </div>
                 <div class="groupdatamemo">
-                    <div class="groupplayerinfo">
+                    <form method="POST" action="/storememo" class="groupplayerinfo">
+                        @csrf
                         <div class="listgroupplayerinfo left">
                             <div class="listplayerinfo">
                                 <span class="labelbetpl">recipient</span>
-                                <select name="statustype" id="statustype">
+                                <select name="statuspriority" id="statuspriority">
                                     <option value="1">All Player</option>
                                     <option value="2">VIP only</option>
                                 </select>
@@ -51,35 +52,35 @@
                                 <span class="labelbetpl">priority</span>
                                 <div class="groupradiooption">
                                     <div class="listgrpstatusbank">
-                                        <input class="status_primary" type="radio" id="default" name="statuspriority"
+                                        <input class="status_primary" type="radio" id="default" name="statustype"
                                             value="1" checked>
                                         <label for="allplayer">default</label>
                                     </div>
                                     <div class="listgrpstatusbank">
-                                        <input class="status_primary" type="radio" id="vip" name="statuspriority"
+                                        <input class="status_primary" type="radio" id="vip" name="statustype"
                                             value="2">
                                         <label for="oneplayer">priority</label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="listplayerinfo">
+                            {{-- <div class="listplayerinfo">
                                 <label for="pengirim">pengirim</label>
                                 <div class="groupeditinput">
                                     <input type="text" id="pengirim" name="pengirim" value=""
                                         placeholder="isi admin pengirim">
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="listplayerinfo">
                                 <label for="subject">subject</label>
                                 <div class="groupeditinput">
                                     <input type="text" id="subject" name="subject" value=""
-                                        placeholder="isi subject">
+                                        placeholder="isi subject" required>
                                 </div>
                             </div>
                             <div class="listplayerinfo">
-                                <label for="textmemo">memo</label>
+                                <label for="memo">memo</label>
                                 <div class="groupeditinput">
-                                    <textarea name="textmemo" id="textmemo" cols="30" rows="10" placeholder="isi keterangan memo"></textarea>
+                                    <textarea name="memo" id="memo" cols="30" rows="10" placeholder="isi keterangan memo" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +89,7 @@
                                 <span class="texttombol">SEND</span>
                             </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -115,4 +116,28 @@
             });
         });
     </script>
+
+    @if (session('success'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses!',
+                    text: '{{ session('success') }}',
+                });
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '{{ session('error') }}',
+                });
+            });
+        </script>
+    @endif
 @endsection
