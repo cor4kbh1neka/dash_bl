@@ -44,7 +44,7 @@ class DepoWdController extends Controller
                 return response()->json(['errors' => $validator->errors()->all()], 400);
             }
 
-            $dataMember = Member::where('username', $request->username)->first();
+            $dataMember = Member::where('username', strtolower($request->username))->first();
             if (!$dataMember) {
                 return response()->json([
                     'status' => 'Fail',
@@ -52,8 +52,7 @@ class DepoWdController extends Controller
                 ], 400);
             }
 
-            $dataDepoWd = DepoWd::where('username', $request->username)->where('jenis', 'DP')->where('status', '0')->first();
-
+            $dataDepoWd = DepoWd::where('username', strtolower($request->username))->where('jenis', 'DP')->where('status', '0')->first();
             if ($dataDepoWd) {
                 return response()->json([
                     'status' => 'Fail',
@@ -61,9 +60,9 @@ class DepoWdController extends Controller
                 ], 400);
             }
 
-            $dataDepoWd = DepoWd::where('username', $request->username)->where('jenis', 'DP')->where('status', '1')->first();
+            $dataDepoWd = DepoWd::where('username', strtolower($request->username))->where('jenis', 'DP')->where('status', '1')->first();
             if (!$dataDepoWd) {
-                Member::where('username', $request->username)
+                Member::where('username', strtolower($request->username))
                     ->update([
                         'status' => '9',
                         'is_notnew' => true,
@@ -72,6 +71,7 @@ class DepoWdController extends Controller
 
             /* Request Ke Database Internal */
             $data = $request->all();
+            $data["username"] = strtolower($data["username"]);
             $data["jenis"] = "DP";
             $data["txnid"] = null;
             $data["status"] = 0;
@@ -114,6 +114,14 @@ class DepoWdController extends Controller
                 return response()->json(['errors' => $validator->errors()->all()], 400);
             }
 
+            $dataMember = Member::where('username', strtolower($request->username))->first();
+            if (!$dataMember) {
+                return response()->json([
+                    'status' => 'Fail',
+                    'message' => 'Username tidak terdaftar'
+                ], 400);
+            }
+
             $checkBalance = $this->reqApiBalance($request->username);
             if ($checkBalance["balance"] < $request->amount) {
                 return response()->json([
@@ -128,7 +136,7 @@ class DepoWdController extends Controller
                 ], 400);
             }
 
-            $dataDepoWd = DepoWd::where('username', $request->username)->where('jenis', 'WD')->where('status', '0')->first();
+            $dataDepoWd = DepoWd::where('username', strtolower($request->username))->where('jenis', 'WD')->where('status', '0')->first();
 
             if ($dataDepoWd) {
                 return response()->json([
@@ -140,11 +148,12 @@ class DepoWdController extends Controller
             /* Request API check transaction */
             $txnid = $this->generateTxnid('W');
             if ($txnid === null) {
-                return $this->errorResponse($request->username, 'Txnid error');
+                return $this->errorResponse(strtolower($request->username), 'Txnid error');
             }
 
             /* Request Ke Database Internal */
             $data = $request->all();
+            $data["username"] = strtolower($data["username"]);
             $data["keterangan"] = null;
             $data["jenis"] = "WD";
             $data["txnid"] = $txnid;

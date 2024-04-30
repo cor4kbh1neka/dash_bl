@@ -72,7 +72,14 @@ class MemberlistdsController extends Controller
     public function update($id)
     {
         $data = Member::where('id', $id)->first();
-        $dataUser = $this->getApiUser($data->username);
+
+        if ($data) {
+            $username = $data->username;
+        } else {
+            $username = $id;
+        }
+
+        $dataUser = $this->getApiUser($username);
         if (is_array($dataUser)) {
             $dataUser = $dataUser["data"]["datauser"];
         } else {
