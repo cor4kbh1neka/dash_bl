@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Models\TransactionStatus;
+use App\Models\TransactionSaldo;
 
 class Transactions extends Model
 {
@@ -39,6 +40,30 @@ class Transactions extends Model
         return $this->hasMany(TransactionStatus::class, 'trans_id', 'id');
     }
 
+
+
+    // SALDO DAN STATUS
+    public function transactionStatuses()
+    {
+        return $this->hasMany(TransactionStatus::class, 'trans_id', 'id')->orderBy('urutan', 'desc');
+    }
+
+    public function latestTransactionStatus()
+    {
+        return $this->hasOne(TransactionStatus::class, 'trans_id', 'id')->orderBy('urutan', 'desc')->latest();
+    }
+
+    public function latestTransactionSaldo()
+    {
+        return $this->hasOneThrough(
+            TransactionSaldo::class,
+            TransactionStatus::class,
+            'trans_id',
+            'transtatus_id',
+            'id',
+            'id'
+        )->orderBy('urutan', 'desc')->latest();
+    }
     // public function latestStatus()
     // {
     //     return $this->hasOne(TransactionStatus::class, 'trans_id', 'id')

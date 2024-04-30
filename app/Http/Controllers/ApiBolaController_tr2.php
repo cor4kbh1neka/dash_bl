@@ -14,7 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Cache;
 
-class ApiBolaController extends Controller
+class ApiBola_tr_Controller extends Controller
 
 {
     public function GetBalance(Request $request)
@@ -149,6 +149,7 @@ class ApiBolaController extends Controller
         if ($dataTransactions->isEmpty()) {
             return $this->errorResponse($request->Username, 6);
         }
+
         foreach ($dataTransactions as $index => $dataTransaction) {
             $results[] = $this->setSettle($request, $dataTransaction, $index);
         }

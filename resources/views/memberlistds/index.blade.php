@@ -18,7 +18,12 @@
                 <form class="groupheadhistoryds" method="GET" action="/memberlistds">
                     <div class="listmembergroup">
                         <div class="listinputmember">
-                            <label for="username">username</label>
+                            <label for="username">
+                                username
+                                <div class="check_box">
+                                    <input type="checkbox" id="checkusername" name="checkusername">
+                                </div>
+                            </label>
                             <input type="text" id="username" name="username" placeholder="username"
                                 value="{{ $username }}">
                         </div>
@@ -117,7 +122,8 @@
                                     <td>{{ $d->lastlogin }}</td>
                                     <td>
                                         <div class="grouptools">
-                                            <a href="/memberlistds/edit/{{ $d->id }}" class="tombol grey">
+                                            <a href="/memberlistds/edit/{{ $d->id }}"
+                                                class="tombol grey openviewport" target="_blank">
                                                 <span class="texttombol">EDIT</span>
                                             </a>
                                             <button class="tombol grey showmodal" data-modal="1"
@@ -451,6 +457,22 @@
 
                 window.location.href = newUrl;
             }
+        });
+
+        //open jendela detail
+        $(document).ready(function() {
+            $(".openviewport").click(function(event) {
+                event.preventDefault();
+
+                var url = $(this).attr("href");
+                var windowWidth = 700;
+                var windowHeight = $(window).height() * 0.6;
+                var windowLeft = ($(window).width() - windowWidth) / 1.5;
+                var windowTop = ($(window).height() - windowHeight) / 1.5;
+
+                window.open(url, "_blank", "width=" + windowWidth + ", height=" + windowHeight + ", left=" +
+                    windowLeft + ", top=" + windowTop);
+            });
         });
     </script>
 @endsection

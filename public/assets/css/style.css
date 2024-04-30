@@ -14,6 +14,7 @@
   --rgba-black: 0, 0, 0;
   --rgba-aqua: 0, 255, 255;
   --rgba-grey: 207, 207, 207;
+  --rgba-blue: 52, 150, 255;
 
   --primary-color: rgba(var(--rgba-primary));
   --secondary-color: rgba(var(--rgba-secondary));
@@ -24,6 +25,7 @@
   --black-color: rgba(var(--rgba-black));
   --aqua-color: rgba(var(--rgba-aqua));
   --grey-color: rgba(var(--rgba-grey));
+  --blue-color: rgba(var(--rgba-blue));
 
   --green-color: #65E080;
   --red-color: #F34040;
@@ -432,6 +434,11 @@ svg {
   color: var(--black-color);
 }
 
+.data_sidejsx .countdatapend.memo {
+  background: var(--yellow-color);
+  color: var(--black-color);
+}
+
 .noexpand .data_sidejsx .countdatapend {
   width: 22px;
   height: 22px;
@@ -490,6 +497,7 @@ svg {
 .data_sidejsx a svg {
   width: 25px;
   height: 25px;
+  stroke: unset;
 }
 
 .data_sidejsx .arrow_side {
@@ -1058,11 +1066,6 @@ tr:nth-child(odd) {
   border-collapse: collapse;
 }
 
-tr:hover:not(:first-child) {
-  background: rgba(var(--rgba-primary), 0.05);
-  z-index: 0;
-}
-
 td {
   border: none;
   font-size: 12px;
@@ -1153,7 +1156,7 @@ input[type="checkbox"]:checked::before {
 
 .action_crud {
   position: absolute;
-  top: 37px;
+  top: 27px;
   left: -8px;
   background: rgba(var(--rgba-white));
   box-shadow: 3px 5px 5px rgba(var(--rgba-black), 0.3);
@@ -2108,10 +2111,6 @@ option.sec_selected {
   transition: all 1s ease;
 }
 
-.sec_table a {
-  width: max-content;
-}
-
 table svg.icon-tabler-check {
   stroke: var(--success-color);
 }
@@ -2409,7 +2408,7 @@ table svg.icon-tabler-x {
   display: grid;
   grid-template-columns: 2fr 2fr 1.5fr;
   gap: 15px;
-  padding: 10px 20px;
+  padding: 10px 20px 120px 20px;
 }
 
 .listsecdashboard {
@@ -2568,6 +2567,7 @@ table svg.icon-tabler-x {
 .secgrouptitle h2 {
   padding-bottom: unset;
   border-bottom: none;
+  color: rgba(var(--rgba-white));
 }
 
 .secgrouptitle input {
@@ -2582,6 +2582,16 @@ table svg.icon-tabler-x {
   font-family: 'myFont1';
   font-size: 18px;
   border-radius: 5px;
+}
+
+.countpendingdata.outstanding {
+  background: var(--aqua-color);
+  color: rgba(var(--rgba-black));
+}
+
+.countpendingdata.memo {
+  background: var(--yellow-color);
+  color: rgba(var(--rgba-black));
 }
 
 .tombol {
@@ -2610,6 +2620,11 @@ table svg.icon-tabler-x {
 .tombol .texttombol {
   font-family: 'myFont1';
   font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  text-align: center;
 }
 
 .tombol.proses {
@@ -2628,6 +2643,18 @@ table svg.icon-tabler-x {
 .tombol.cancel:hover {
   background: transparent;
   border: 1px solid var(--red-color);
+}
+
+.tombol.cancel.border {
+  color: var(--red-color);
+  background: transparent;
+  border: 1px solid var(--red-color);
+}
+
+.tombol.cancel.border:hover {
+  color: rgba(var(--rgba-white));
+  background: var(--red-color);
+  border: 1px solid transparent;
 }
 
 .tombol.grey {
@@ -2659,7 +2686,7 @@ table svg.icon-tabler-x {
   display: flex;
   flex-direction: row;
   gap: 10px;
-  padding: 10px 20px;
+  padding: 10px 20px 10px 20px;
 }
 
 .groupdatamaster {
@@ -2672,10 +2699,11 @@ table svg.icon-tabler-x {
 .groupdeposittopbar {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 7fr;
+  grid-template-columns: 1.1fr 7fr;
   align-items: center;
   padding: 20px;
   background: var(--bg-box-primary);
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
   border-radius: 5px 5px 0 0;
   gap: 50px;
 }
@@ -2746,6 +2774,8 @@ table svg.icon-tabler-x {
   gap: 20px;
   border-radius: 5px;
   margin-bottom: 20vh;
+  padding: 0 0 20px 0;
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
 }
 
 .tabelproses tbody {
@@ -2756,7 +2786,7 @@ table svg.icon-tabler-x {
   cursor: unset;
 }
 
-.tabelproses tr:hover:not(:first-child) {
+.tabelproses tr:hover:not(.hdtable) {
   background: rgba(var(--rgba-primary), 0.3);
 }
 
@@ -2791,7 +2821,7 @@ table svg.icon-tabler-x {
 }
 
 .tabelproses .baguser {
-  width: 12%;
+  width: 15%;
 }
 
 .tabelproses .bagtanggal {
@@ -2810,6 +2840,159 @@ table svg.icon-tabler-x {
   width: 12%;
 }
 
+.tabelproses .bagnomorinvoice {
+  width: 15%;
+}
+
+.tabelproses .bagdetail {
+  width: 25%;
+}
+
+.tabelproses .bagodds {
+  width: 15%;
+}
+
+.tabelproses .bagidms {
+  width: 17%;
+}
+
+.tabelproses .bgkontak {
+  width: 15%;
+}
+
+.tabelproses .bagsubject {
+  width: 30%;
+}
+
+.tabelproses .bagtanggalinbox {
+  width: 25%;
+}
+
+.tabelproses .bagstatusinbox {
+  width: 10%;
+}
+
+.tabelproses .bagaction {
+  width: 15%;
+}
+
+.tabelproses .baglogininfo {
+  width: 20%;
+}
+
+.tabelproses .bagiplogin {
+  width: 15%;
+}
+
+.tabelproses .bagaccagent {
+  width: 15%;
+}
+
+.groupdatasecagentds .tabelproses .action {
+  width: 15%;
+}
+
+.tabelproses .bagbalance {
+  width: 15%;
+}
+
+.tabelproses .bagtotal {
+  width: 17%;
+}
+
+.tabelproses .bagamount {
+  width: 10%;
+}
+
+.tabelproses .bagvalidamount {
+  width: 10%;
+}
+
+.tabelproses .baggrosscom {
+  width: 10%;
+}
+
+.tabelproses .bagcurr {
+  width: 3%;
+}
+
+.tabelproses .bagjenisgame {
+  width: 10%;
+}
+
+.groupdatareportds .memberlist .hdtable .bagno {
+  width: 3%;
+}
+
+.groupdatareportds .memberlist .hdtable .baguser {
+  width: 7%;
+}
+
+.tabelproses .bagtotaluser {
+  width: 10%;
+}
+
+.datadownline .bagno {
+  width: 10%;
+  text-align: center;
+}
+
+.datadownline .baguser {
+  width: 35%;
+}
+
+.datadownline .bagbons {
+  width: 50%;
+}
+
+.tabelproses .detailbetingan {
+  color: var(--aqua-color);
+  transition: all 0.3s ease;
+}
+
+.tabelproses .detailbetingan:hover {
+  color: rgba(var(--rgba-white));
+}
+
+.tabelproses .detailbetingan .klikdetail {
+  color: var(--primary-color);
+  text-transform: capitalize;
+  transition: all 0.3s ease;
+}
+
+.tabelproses .detailbetingan .texttypebet {
+  text-transform: capitalize;
+}
+
+.tabelproses .detailbetingan:hover .klikdetail {
+  color: rgba(var(--rgba-white));
+}
+
+.tabelproses .textstatusbet {
+  font-size: 18px;
+  text-transform: capitalize;
+}
+
+.tabelproses .textstatusbet[data-status="lose"],
+.tabelproses .winLost[data-status="lose"] {
+  color: var(--red-color);
+}
+
+.tabelproses .textstatusbet[data-status="won"],
+.tabelproses .winLost[data-status="won"] {
+  color: var(--green-color);
+}
+
+.tabelproses .textstatusbet[data-status="running"],
+.tabelproses .winLost[data-status="running"] {
+  color: var(--yellow-color);
+}
+
+.tabelproses .textstatusbet[data-status="draw"],
+.tabelproses .winLost[data-status="draw"] {
+  color: var(--aqua-color);
+}
+
 .splitcollum {
   width: 100%;
   display: flex;
@@ -2818,6 +3001,7 @@ table svg.icon-tabler-x {
 
 .splitcollum .userpending {
   font-size: 15px;
+  display: flex;
 }
 
 .splitcollum .datadetailuser {
@@ -3086,7 +3270,7 @@ table svg.icon-tabler-x {
   display: flex;
   flex-direction: row;
   gap: 10px;
-  padding: 10px 20px;
+  padding: 10px 20px 120px 20px;
 }
 
 .groupsecmanualds {
@@ -3106,6 +3290,7 @@ table svg.icon-tabler-x {
   flex-direction: column;
   background: var(--bg-box-primary);
   border-radius: 6px 6px 0 0;
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
   overflow: hidden;
 }
 
@@ -3179,6 +3364,10 @@ table svg.icon-tabler-x {
   animation: 1s ease-out 0s infinite normal none running borderPulse;
 }
 
+.borderPulse {
+  animation: 1s ease-out 0s infinite normal none running borderPulse;
+}
+
 @keyframes borderPulse {
   0% {
     box-shadow:
@@ -3210,7 +3399,7 @@ table svg.icon-tabler-x {
   display: flex;
   flex-direction: row;
   gap: 10px;
-  padding: 10px 20px;
+  padding: 10px 20px 10px 20px;
 }
 
 .grouphistoryds {
@@ -3291,7 +3480,11 @@ table svg.icon-tabler-x {
 }
 
 .groupheadhistoryds input,
-.groupheadhistoryds select {
+.groupheadhistoryds select,
+.groupsecmemods select,
+.groupsecmemods input,
+.groupsecagentds select,
+.groupsecagentds input {
   background: var(--bg-box-primary);
   border: 1px solid rgba(var(--rgba-primary), 0.2);
   color: rgba(var(--rgba-white));
@@ -3303,15 +3496,19 @@ table svg.icon-tabler-x {
 }
 
 .groupheadhistoryds input:focus,
-.groupheadhistoryds select:focus {
+.groupheadhistoryds select:focus,
+.groupsecmemods select:focus,
+.groupsecmemods input:focus {
   border: 1px solid rgba(var(--rgba-primary), 0.8);
   box-shadow: unset;
 }
 
 .groupheadhistoryds #tgldari::-webkit-calendar-picker-indicator,
 .groupheadhistoryds #tglhingga::-webkit-calendar-picker-indicator,
-.groupheadhistoryds #gabungdari::-webkit-calendar-picker-indicator,
-.groupheadhistoryds #gabunghingga::-webkit-calendar-picker-indicator {
+.listinputmember #gabungdari::-webkit-calendar-picker-indicator,
+.listinputmember #gabunghingga::-webkit-calendar-picker-indicator,
+.listinputmember #startDate::-webkit-calendar-picker-indicator,
+.listinputmember #endDate::-webkit-calendar-picker-indicator {
   filter: invert(1);
   cursor: pointer;
 }
@@ -3481,7 +3678,11 @@ table svg.icon-tabler-x {
 }
 
 .listinputmember .tombol {
-  width: 50%;
+  width: unset;
+}
+
+.memberlist .listinputmember .tombol {
+  width: 60%;
 }
 
 .memberlist .tabelproses .valuenominal {
@@ -3552,7 +3753,7 @@ table svg.icon-tabler-x {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px 20px 120px 20px;
+  padding: 20px;
 }
 
 .groupseceditmemberds {
@@ -3570,7 +3771,7 @@ table svg.icon-tabler-x {
   padding: 10px;
   background: var(--bg-box-primary);
   text-align: center;
-  color: rgba(var(--rgba-white));
+  color: rgba(var(--rgba-white), 0.8);
 }
 
 .titleeditmemberds.change {
@@ -3587,7 +3788,7 @@ table svg.icon-tabler-x {
 }
 
 .listgroupplayerinfo {
-  width: 70%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -3597,7 +3798,7 @@ table svg.icon-tabler-x {
 .listplayerinfo {
   width: 100%;
   display: grid;
-  grid-template-columns: 0.5fr 2fr;
+  grid-template-columns: 0.8fr 2fr;
   align-items: center;
 }
 
@@ -3625,7 +3826,17 @@ table svg.icon-tabler-x {
   box-shadow: unset;
 }
 
+.secgroupdatabankds input:focus,
+.secgroupdatabankds select:focus {
+  border: 1px solid rgba(var(--rgba-primary), 0.8);
+  box-shadow: unset;
+}
+
 .groupseceditmemberds input::placeholder {
+  text-transform: capitalize;
+}
+
+.secgroupdatabankds input::placeholder {
   text-transform: capitalize;
 }
 
@@ -3633,7 +3844,12 @@ table svg.icon-tabler-x {
   text-transform: capitalize;
 }
 
-.groupseceditmemberds input.nosabel {
+.secgroupdatabankds select {
+  text-transform: capitalize;
+}
+
+.groupseceditmemberds input.nosabel,
+.secgroupdatabankds input.nosabel {
   background: transparent;
   box-shadow: unset;
   border: unset;
@@ -3642,7 +3858,20 @@ table svg.icon-tabler-x {
   cursor: unset;
 }
 
-.groupseceditmemberds .groupeditinput {
+.secgroupdatabankds input.nosabel,
+.secgroupdatabankds input.nosabel {
+  background: transparent;
+  box-shadow: unset;
+  border: unset;
+  border-radius: unset;
+  padding: 10px 10px 10px 0;
+  cursor: unset;
+}
+
+.groupseceditmemberds .groupeditinput,
+.secgroupdatabankds .groupeditinput,
+.groupsecmemods .groupeditinput,
+.groupsecagentds .groupeditinput {
   display: flex;
   justify-content: center;
   background: var(--bg-box-primary);
@@ -3655,30 +3884,46 @@ table svg.icon-tabler-x {
   transition: all 0.3s ease;
 }
 
-.groupseceditmemberds .groupeditinput:focus {
+.groupseceditmemberds .groupeditinput:focus,
+.secgroupdatabankds .groupeditinput:focus,
+.groupsecagentds .groupeditinput:focus {
   border: 1px solid rgba(var(--rgba-primary), 0.8);
 }
 
-.groupseceditmemberds .groupeditinput.edit {
+.groupseceditmemberds .groupeditinput.edit,
+.secgroupdatabankds .groupeditinput.edit,
+.groupsecmemods .groupeditinput.edit {
   background: rgba(var(--rgba-white));
   box-shadow: unset;
 }
 
-.groupseceditmemberds .groupeditinput.edit input {
+.groupseceditmemberds .groupeditinput.edit input,
+.secgroupdatabankds .groupeditinput.edit input,
+.groupsecmemods .groupeditinput.edit input {
   color: rgba(var(--rgba-black));
 }
 
-.groupseceditmemberds .groupeditinput svg {
+.groupseceditmemberds .groupeditinput svg,
+.secgroupdatabankds .groupeditinput svg,
+.groupsecagentds .groupeditinput svg {
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.groupseceditmemberds .groupeditinput svg:hover {
+.groupseceditmemberds .groupeditinput svg:hover,
+.secgroupdatabankds .groupeditinput svg:hover,
+.groupsecagentds .groupeditinput svg:hover {
   filter: drop-shadow(0 0 5px var(--primary-color));
   transform: scale(1.2);
 }
 
-.groupseceditmemberds .groupeditinput input {
+.groupseceditmemberds .groupeditinput input,
+.secgroupdatabankds .groupeditinput input,
+.secgroupdatabankds .groupeditinput select,
+.groupsecmemods .groupeditinput input,
+.groupsecmemods .groupeditinput textarea,
+.groupsecagentds .groupeditinput input,
+.groupsecagentds .groupeditinput select {
   padding: unset;
   background: transparent;
   box-shadow: unset;
@@ -3692,13 +3937,13 @@ table svg.icon-tabler-x {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 50px;
+  gap: 30px;
 }
 
 .datalistplayerinfogrp {
   width: 100%;
   display: grid;
-  grid-template-columns: 0.8fr 1fr;
+  grid-template-columns: 0.7fr 1fr;
   align-items: center;
 }
 
@@ -3707,16 +3952,11 @@ table svg.icon-tabler-x {
   color: rgba(var(--rgba-white), 0.8);
 }
 
-.listgroupplayerinfo.right {
-  width: auto;
-  justify-content: space-between;
-}
-
 .secmemberlist {
   width: 100%;
   display: flex;
   gap: 10px;
-  padding: 10px 20px;
+  padding: 10px 20px 120px 20px;
 }
 
 .groupplayerinfo::before {
@@ -3766,7 +4006,7 @@ table svg.icon-tabler-x {
 }
 
 .listchangedataplayer label,
-.groupdatbetpl .labelbetpl {
+.labelbetpl {
   text-transform: uppercase;
   color: rgba(var(--rgba-white), 0.8);
 }
@@ -3785,7 +4025,7 @@ table svg.icon-tabler-x {
 }
 
 .groupstatuspl {
-  width: 50%;
+  width: 100%;
   display: grid;
   grid-template-columns: 0.5fr 1fr;
   align-items: center;
@@ -3793,7 +4033,7 @@ table svg.icon-tabler-x {
 }
 
 .groupdatbetpl {
-  width: 50%;
+  width: 100%;
   display: grid;
   grid-template-columns: 0.5fr 1fr 1fr;
   align-items: end;
@@ -3804,10 +4044,6 @@ table svg.icon-tabler-x {
   width: 100%;
   display: flex;
   justify-content: flex-end;
-}
-
-.listchangedataplayer .tombol {
-  width: 20%;
 }
 
 .groupdatabet {
@@ -3885,4 +4121,1507 @@ table svg.icon-tabler-x {
 
 .modalhistory .grouppaginationcc .numberpage:hover {
   background: var(--primary-color);
+}
+
+.sechistorygame {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px 10px 20px;
+}
+
+.groupsechistorygame {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.groupheadhistorygame {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2fr 2fr 0.5fr;
+  gap: 50px;
+  position: relative;
+}
+
+.headhistorygame {
+  width: 100%;
+  display: grid;
+  gap: 10px;
+}
+
+.headhistorygame.one {
+  grid-template-columns: 1fr 0.8fr 0.8fr 0.8fr;
+}
+
+.headhistorygame.two {
+  grid-template-columns: 1fr 0.8fr 0.8fr 0.8fr;
+}
+
+.groupheadhistorygame input,
+.groupheadhistorygame select {
+  background: var(--bg-box-primary);
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
+  color: rgba(var(--rgba-white));
+  box-shadow: inset 5px 5px 5px rgba(var(--rgba-black), 0.25);
+  padding: 10px 10px 10px 20px;
+  text-align: left;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.groupheadhistorygame input:focus,
+.groupheadhistorygame select:focus {
+  border: 1px solid rgba(var(--rgba-primary), 0.8);
+  box-shadow: unset;
+}
+
+.required {
+  color: var(--red-color);
+}
+
+.groupheadhistorygame .listinputmember .tombol {
+  width: unset;
+}
+
+.groupsechistorygame .tabelproses td {
+  font-size: 15px;
+}
+
+.groupsechistorygame .tabelproses .bagtanggal {
+  width: 15%;
+}
+
+.body_openwindow {
+  width: 100%;
+  height: 100vh;
+  background: rgba(var(--rgba-white));
+  color: rgba(var(--rgba-black), 0.8);
+  scroll-behavior: smooth;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.sec_openwindow {
+  width: 100%;
+  max-width: 400px;
+  min-height: 100%;
+  border-right: 1px solid rgba(var(--rgba-black), 0.2);
+  border-left: 1px solid rgba(var(--rgba-black), 0.2);
+  margin: auto;
+  padding: 10px;
+}
+
+.groupdetailhistorygameds {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.headdetailhistorygameds {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.listheaddetail {
+  display: grid;
+  grid-template-columns: 0.5fr 0.05fr 1fr;
+}
+
+.listheaddetail span {
+  font-size: 12px;
+}
+
+.listheaddetail .label {
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.table_detailhistorygameds {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.table_detailhistorygameds table,
+.table_detailhistorygameds tbody {
+  background: transparent;
+  color: rgba(var(--rgba-black), 0.8);
+  border: 1px solid rgba(var(--rgba-black), 0.2);
+}
+
+.table_detailhistorygameds tr:nth-child(odd) {
+  background: rgba(var(--rgba-black), 0.05);
+}
+
+.table_detailhistorygameds tr {
+  cursor: unset;
+}
+
+.table_detailhistorygameds tr:hover {
+  background: rgba(var(--rgba-aqua), 0.1);
+}
+
+.table_detailhistorygameds td {
+  border: 1px solid rgba(var(--rgba-black), 0.2);
+  padding: 5px;
+  white-space: unset;
+  overflow: unset;
+  text-overflow: unset;
+}
+
+.table_detailhistorygameds td.nmr {
+  text-align: center;
+}
+
+.table_detailhistorygameds .bagnomor {
+  width: 5%;
+  text-align: center;
+}
+
+.table_detailhistorygameds th {
+  padding: 5px;
+  background: rgba(var(--rgba-blue));
+  border: 1px solid rgba(var(--rgba-black), 0.2);
+}
+
+.groupdetailmatch {
+  display: flex;
+  flex-direction: column;
+}
+
+.groupdetailmatch .namaliga {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.groupdetailmatch .allscore {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.groupdetailmatch .detailbetting {
+  margin-top: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.groupdetailmatch .htft {
+  color: var(--success-color);
+  text-decoration: underline;
+}
+
+.groupdetailmatch .htft[data-isHalfWonLose="true"] {
+  color: var(--primary-color);
+}
+
+.allscore .listscore {
+  display: flex;
+  flex-direction: row;
+  gap: 5px
+}
+
+.listdetailbettting {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.dddetailbetting .valuebet {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: var(--success-color);
+}
+
+.dddetailbetting .valuebet.odds {
+  color: var(--blue-color);
+}
+
+.dddetailbetting .valuebet.betOption {
+  color: var(--blue-color);
+}
+
+.dddetailbetting .valuebet.odds[data-valueodds^="-"] {
+  color: var(--red-color);
+}
+
+.dddetailbetting .valuebet.status[data-statusbet="lose"] {
+  color: var(--red-color);
+}
+
+.dddetailbetting .valuebet.status[data-statusbet="won"] {
+  color: var(--green-color);
+}
+
+.dddetailbetting .valuebet.status[data-statusbet="draw"] {
+  color: var(--yellow-color);
+}
+
+.listheaddetail .valuenominal.winLost {
+  color: var(--green-color);
+}
+
+.listheaddetail .valuenominal.winLost[data-winLost^="-"] {
+  color: var(--red-color);
+}
+
+.listheaddetail .valuenominal.winLost[data-winLost^="0"] {
+  color: var(--yellow-color);
+}
+
+.dddetailbetting .subBet-hdp[data-hdp^="-"] {
+  color: var(--red-color);
+}
+
+.listheaddetail .grouphasilpertandingan .statusgame {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.listheaddetail .grouphasilpertandingan .statusgame[data-status="lose"] {
+  color: var(--red-color);
+}
+
+.listheaddetail .grouphasilpertandingan .statusgame[data-status="draw"] {
+  color: var(--yellow-color);
+}
+
+.listheaddetail .grouphasilpertandingan .statusgame[data-status="won"] {
+  color: var(--green-color);
+}
+
+.secoutstandingds {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px 10px 20px;
+}
+
+.groupoutstandingds {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.groupheadoutstandingds {
+  width: 100%;
+  position: relative;
+}
+
+.groupheadoutstandingds .listinputmember {
+  width: 200px;
+}
+
+.groupheadoutstandingds input {
+  width: unset;
+  background: var(--bg-box-primary);
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
+  color: rgba(var(--rgba-white));
+  box-shadow: inset 5px 5px 5px rgba(var(--rgba-black), 0.25);
+  padding: 10px 10px 10px 20px;
+  text-align: left;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.groupdataoutstanding {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 0.4fr 1fr;
+  gap: 20px;
+}
+
+.groupdataoutstanding .tabelproses th {
+  font-size: 11px;
+}
+
+.groupdataoutstanding .bagcountoutstand {
+  width: 15%;
+}
+
+.groupdataoutstanding .tabelproses .bagdetail {
+  width: 30%;
+}
+
+.groupdataoutstanding .tabelproses .bagtanggal {
+  width: 20%;
+}
+
+.groupdataoutstanding .tabelproses .bagstatusbet {
+  width: 15%;
+}
+
+.groupdataoutstanding .valuenominal,
+.groupdataoutstanding .textstatusbet {
+  font-size: 12px;
+}
+
+.groupdataoutstanding .groupcountout {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.groupdataoutstanding .groupcountout:hover .selengkapnyaout {
+  color: var(--aqua-color);
+}
+
+.groupdataoutstanding .groupcountout .countdataout {
+  color: var(--aqua-color);
+  transition: all 0.3s ease;
+}
+
+.groupcountout .selengkapnyaout {
+  display: flex;
+  align-items: center;
+}
+
+.groupcountout .selengkapnyaout svg {
+  position: relative;
+  right: 0;
+  margin-right: 5px;
+  transition: all 0.3s ease;
+}
+
+.groupcountout .selengkapnyaout:hover svg {
+  right: -5px;
+}
+
+.secreferralds {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px 120px 20px;
+}
+
+.groupsecreferralds {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.secbankds {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px 170px 20px;
+}
+
+.groupsecbankds {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.groupsecbankds .groupplayerinfo,
+.groupsecagentds .groupplayerinfo {
+  justify-content: flex-start;
+}
+
+.headsecbankds {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 10px;
+}
+
+.headsecbankds .tombol {
+  width: 100%;
+  padding: 20px;
+}
+
+.secgroupdatabankds {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.groupactivebank {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.listgroupbank {
+  width: 100%;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-box-primary);
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
+}
+
+.titlelistgroupbank {
+  width: 100%;
+}
+
+.titlelistgroupbank .texttitle {
+  font-size: 20px;
+  font-weight: bold;
+  color: rgba(var(--rgba-white));
+}
+
+.grouptablebank {
+  height: 100%;
+}
+
+.grouptablebank th {
+  text-align: center;
+  padding: 10px 5px;
+  border-bottom: none;
+  font-size: 16px;
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
+}
+
+.grouptablebank .titlelistgroupbank th {
+  border: unset;
+}
+
+.grouptablebank td {
+  text-align: center;
+  font-size: 13px;
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
+  overflow: unset;
+}
+
+.grouptablebank .bkadlist {
+  width: 2.5%;
+}
+
+.grouptablebank .titlelistgroupbank {
+  background: var(--bg-box-primary);
+  width: 97%;
+}
+
+.grouptablebank .bknomor {
+  width: 5%;
+}
+
+.grouptablebank .bkjumlah {
+  width: 10%;
+}
+
+.grouptablebank .check_box {
+  width: 10%;
+}
+
+.grouptablebank .bkactionss {
+  width: 10%;
+}
+
+.grouptablebank .thead {
+  background: var(--bg-box-primary-dark);
+}
+
+.grouptablebank .bkbarcode {
+  width: 10%;
+}
+
+.grouptablebank select {
+  background: transparent;
+  border-radius: unset;
+  text-transform: uppercase;
+  font-size: 15px;
+}
+
+.grouptablebank option {
+  background: rgba(var(--rgba-primary-bg-color));
+}
+
+.grpstatusbank {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.listgrpstatusbank {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.listgrpstatusbank input[type="radio"]:focus {
+  border: unset;
+}
+
+.listgrpstatusbank input[type="radio"] {
+  width: unset;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  appearance: none;
+  outline: none;
+  transition: all 0.3s ease;
+  padding: 7px;
+  box-shadow: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 5px;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.listgrpstatusbank input[type="radio"]:checked {
+  position: relative;
+  padding: 5px;
+  overflow: hidden;
+}
+
+.listgrpstatusbank input[type="radio"]:checked::before {
+  content: "";
+  position: absolute;
+  color: white;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+}
+
+.listgrpstatusbank input.status_online[type="radio"] {
+  border: 1px solid var(--green-color);
+}
+
+.listgrpstatusbank input.status_online[type="radio"]:checked::before {
+  background-color: var(--green-color);
+}
+
+.listgrpstatusbank input.status_online[type="radio" i]:hover {
+  border: 2px solid var(--green-color);
+}
+
+.listgrpstatusbank input.status_online[type="radio" i]:hover {
+  box-shadow: 0 0 10px var(--green-color);
+}
+
+.listgrpstatusbank input.status_online[type="radio"]:checked {
+  background-color: var(--green-color);
+  position: relative;
+  border: 2px solid white;
+  box-shadow: 0px 0px 5px var(--green-color);
+  overflow: hidden;
+}
+
+.listgrpstatusbank input.status_offline[type="radio"] {
+  border: 1px solid var(--red-color);
+}
+
+.listgrpstatusbank input.status_offline[type="radio"]:checked::before {
+  background-color: var(--red-color);
+}
+
+.listgrpstatusbank input.status_offline[type="radio" i]:hover {
+  border: 2px solid var(--red-color);
+}
+
+.listgrpstatusbank input.status_offline[type="radio" i]:hover {
+  box-shadow: 0 0 10px var(--red-color);
+}
+
+.listgrpstatusbank input.status_offline[type="radio"]:checked {
+  background-color: var(--red-color);
+  position: relative;
+  border: 2px solid white;
+  box-shadow: 0px 0px 5px var(--red-color);
+  overflow: hidden;
+}
+
+.listgrpstatusbank input.status_trouble[type="radio"] {
+  border: 1px solid var(--yellow-color);
+}
+
+.listgrpstatusbank input.status_trouble[type="radio"]:checked::before {
+  background-color: var(--yellow-color);
+}
+
+.listgrpstatusbank input.status_trouble[type="radio" i]:hover {
+  border: 2px solid var(--yellow-color);
+}
+
+.listgrpstatusbank input.status_trouble[type="radio" i]:hover {
+  box-shadow: 0 0 10px var(--yellow-color);
+}
+
+.listgrpstatusbank input.status_trouble[type="radio"]:checked {
+  background-color: var(--yellow-color);
+  position: relative;
+  border: 2px solid white;
+  box-shadow: 0px 0px 5px var(--yellow-color);
+  overflow: hidden;
+}
+
+.listgrpstatusbank input.status_primary[type="radio"] {
+  border: 1px solid var(--primary-color);
+}
+
+.listgrpstatusbank input.status_primary[type="radio"]:checked::before {
+  background-color: var(--primary-color);
+}
+
+.listgrpstatusbank input.status_primary[type="radio" i]:hover {
+  border: 2px solid var(--primary-color);
+}
+
+.listgrpstatusbank input.status_primary[type="radio" i]:hover {
+  box-shadow: 0 0 10px var(--primary-color);
+}
+
+.listgrpstatusbank input.status_primary[type="radio"]:checked {
+  background-color: var(--primary-color);
+  position: relative;
+  border: 2px solid white;
+  box-shadow: 0px 0px 5px var(--primary-color);
+  overflow: hidden;
+}
+
+.addlist svg {
+  width: 25px;
+  height: 25px;
+  transition: all 0.3s ease;
+}
+
+.addlist:hover svg {
+  transform: scale(1.1);
+}
+
+.listgrpstatusbank label {
+  text-transform: capitalize;
+}
+
+.listgroupbank .tombol {
+  width: 100%;
+  border-radius: unset;
+}
+
+.grouptablebank input[type="checkbox"] {
+  background: transparent;
+}
+
+.grouptablebank td.tdnamabank {
+  text-transform: uppercase;
+  padding: 10px;
+  color: rgba(var(--rgba-white));
+  font-size: 18px;
+}
+
+.secgroupdatabankds .listgroupplayerinfo {
+  padding: unset;
+}
+
+.listgroupplayerinfo.left {
+  width: 70%;
+}
+
+.listgroupplayerinfo.right {
+  width: unset;
+  justify-content: space-between;
+}
+
+.groupsetbankmaster {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.titlebankmaster {
+  font-size: 20px;
+  text-transform: uppercase;
+  text-align: center;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(var(--rgba-primary), 0.2);
+  color: rgba(var(--rgba-white), 0.8);
+  font-family: myFont1;
+}
+
+.secgroupdatabankds input {
+  color: rgba(var(--rgba-white));
+}
+
+.groupradiooption {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.secgroupdatabankds option {
+  background: rgba(var(--rgba-primary-bg-color));
+}
+
+.listgroupplayerinfo.right.solo {
+  justify-content: flex-end;
+}
+
+.groupeditinput #urllogo {
+  text-transform: unset;
+}
+
+.listplayerinfo .groupnamabank {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 10px;
+}
+
+input#urlbarcode {
+  text-transform: lowercase;
+}
+
+.groupactions {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.grouplistaction {
+  padding: 10px;
+  background: red;
+  position: absolute;
+  bottom: -60px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.grouptablebank .kolom_action {
+  justify-content: center;
+}
+
+.grouptablebank .action_crud {
+  left: unset;
+}
+
+.grouptablebank.frinput td {
+  padding: 5px;
+}
+
+.grouptablebank.frinput .listbanksd th {
+  font-size: 13px;
+}
+
+.grouptablebank.frinput .inputnew {
+  width: 100%;
+  background: var(--bg-box-primary);
+  color: rgba(var(--rgba-white));
+  border: 1px solid rgba(var(--rgba-primary), 0.5);
+  box-shadow: inset 5px 5px 5px rgba(var(--rgba-black), 0.25);
+  padding: 10px 10px 10px 20px;
+  text-align: left;
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+
+.grouptablebank.frinput .inputnew:focus {
+  border: 1px solid rgba(var(--rgba-aqua), 0.5);
+}
+
+.grouptablebank.frinput .inputnew.smallfont {
+  font-size: 13px;
+}
+
+.inputtablebank {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 0.1fr 1fr;
+  align-items: center;
+  gap: 3px;
+}
+
+.inputtablebank.single {
+  display: unset;
+}
+
+.inputtablebank.single .inputnew {
+  font-size: 20px;
+  padding: 5px;
+}
+
+.inputtablebank .textparam {
+  font-size: 10px;
+  color: var(--primary-color);
+}
+
+.listinputtablebank {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.inputtablebank .gapcount {
+  padding-bottom: 15px;
+}
+
+.grouptablebank.frinput .listinputtablebank input {
+  text-align: center;
+}
+
+.grouptablebank.frinput .check_box {
+  width: 5%;
+}
+
+.xurlbarcode input[type="checkbox"] {
+  width: 25px;
+  height: 25px;
+  border: 2px solid var(--success-color);
+}
+
+.xurlbarcode input[type="checkbox"]:hover {
+  border: 2px solid var(--success-color);
+  box-shadow: 0 0 10px var(--success-color);
+}
+
+.xurlbarcode input[type="checkbox"]:checked::before {
+  background-color: var(--success-color);
+}
+
+.swal2-icon.swal2-info {
+  border-color: var(--primary-color) !important;
+}
+
+.swal2-icon.swal2-info {
+  color: var(--primary-color) !important;
+}
+
+.listinputmember label {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.listinputmember label input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.memberlist .tombol .texttombol {
+  font-size: 13px;
+}
+
+.secmemods {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px 20px 20px;
+}
+
+.groupsecmemods {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.groupsecmemods .tombol {
+  position: relative;
+}
+
+.headgroupsecmemods {
+  width: 40%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.groupsecmemods .listgroupplayerinfo.left {
+  width: 50%;
+}
+
+.groupsecmemods .groupplayerinfo {
+  justify-content: flex-start;
+}
+
+.groupplayerinfo .labelbetpl,
+.groupplayerinfo .listplayerinfo label {
+  text-transform: capitalize;
+}
+
+.headgroupsecmemods .tombol {
+  width: 100%;
+  text-align: center;
+}
+
+.groupsecmemods .groupeditinput input,
+.groupsecmemods .groupeditinput textarea {
+  color: rgba(var(--rgba-white));
+  text-transform: unset;
+}
+
+.groupsecmemods .groupradiooption {
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.groupsecmemods .listplayerinfo {
+  align-items: start;
+  grid-template-columns: 0.5fr 2fr;
+}
+
+.groupsecmemods .listplayerinfo.xusername {
+  display: none;
+  opacity: 0;
+  height: 0;
+  transition: all 0.3s ease;
+}
+
+.groupsecmemods .listplayerinfo.xusername.show {
+  display: grid;
+  animation: showinput 0.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes showinput {
+  0% {
+    opacity: 0;
+    height: 0;
+    display: none;
+  }
+
+  50% {
+    display: grid;
+    opacity: 1;
+    height: 40px;
+  }
+
+  100% {
+    display: grid;
+    opacity: 1;
+    height: 40px;
+  }
+}
+
+.groupsecmemods .inbox {
+  width: 60%;
+}
+
+.groupsecmemods .listgroupplayerinfo.right.solo {
+  width: unset;
+}
+
+.tabelproses .xstatus {
+  text-transform: capitalize;
+}
+
+.tabelproses tr.dataxstatus[data-status="0"] {
+  background: var(--primary-color);
+  color: rgba(var(--rgba-black));
+}
+
+.tabelproses tr.dataxstatus[data-status="0"]:hover .dot_action {
+  border: 1px solid var(--black-color);
+  color: var(--black-color);
+}
+
+.headfilter {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+}
+
+.headfilter .listinputmember {
+  width: unset;
+}
+
+.headfilter .groupinputfilter {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.groupdatamemo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feedback {
+  background: rgba(var(--rgba-primary-bg-color));
+  color: var(--white-color);
+}
+
+.feedback .sec_openwindow {
+  max-width: 800px;
+  background: var(--bg-box-primary);
+}
+
+.headfeedback {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 10px 20px 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(var(--rgba-primary), 0.2);
+}
+
+.feedback .datainbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.headfeedback .namauser {
+  text-transform: capitalize;
+  font-size: 20px;
+  color: rgba(var(--rgba-white));
+}
+
+.detailfeedback {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.listdetailfeedback {
+  display: grid;
+  grid-template-columns: 0.5fr 0.03fr 1fr;
+  align-items: center;
+}
+
+.listdetailfeedback.top {
+  align-items: start;
+}
+
+.listdetailfeedback .labeldetail {
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.listdetailfeedback .valuedetail {
+  font-size: 14px;
+}
+
+.listdetailfeedback .groupvaluedetail {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.listdetailfeedback .groupvaluedetail a {
+  width: unset;
+  padding: 5px;
+  border-radius: 5px;
+  background: var(--primary-color);
+  color: black;
+  border: 1px solid transparent;
+  font-size: 10px;
+  transition: all 0.3s ease;
+}
+
+.listdetailfeedback .groupvaluedetail a:hover {
+  background: transparent;
+  border: 1px solid var(--primary-color);
+  color: unset;
+}
+
+.listdetailfeedback img {
+  width: 20%;
+}
+
+.grouphandlepesan {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.unreadmessage {
+  width: 30px;
+  height: 30px;
+  padding: 3px;
+  background: var(--yellow-color);
+  color: var(--black-color);
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
+  box-shadow: 2px 3px 3px #000000ab, 0 0 10px var(--yellow-color);
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+}
+
+.groupsecbankds .listgroupplayerinfo.left,
+.groupsecagentds .listgroupplayerinfo.left {
+  width: 50%;
+}
+
+.groupsecbankds .listgroupplayerinfo.right {
+  width: unset;
+}
+
+.secagentds {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px 120px 20px;
+}
+
+.groupsecagentds {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.headgroupsecagentds {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.listheadsecagentds {
+  width: 400px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.headgroupsecagentds .tombol {
+  width: 100%;
+}
+
+.listheadsecagentds.bottom {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.listheadsecagentds.bottom .tombol.proses {
+  width: unset;
+}
+
+.groupsecagentds .grubsearchnav {
+  border-radius: 5px;
+  padding: 7px;
+  background: var(--bg-box-primary);
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
+  box-shadow: inset 5px 5px 5px rgba(var(--rgba-black), 0.25);
+  transition: all 0.3s ease;
+}
+
+.groupsecagentds .grubsearchnav input {
+  border: unset;
+  background: transparent;
+  box-shadow: unset;
+  padding: 3px;
+  transition: all 0.3s ease;
+}
+
+.groupsearchagentds {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.groupsearchagentds .tombol {
+  width: unset;
+}
+
+.groupdatasecagentds .grouptools {
+  grid-template-columns: 1fr 1fr;
+}
+
+.groupdatasecagentds .tabelproses td {
+  text-transform: capitalize;
+}
+
+.groupdatasecagentds .tabelproses td.statusagent {
+  text-transform: uppercase;
+}
+
+.groupdatasecagentds .tabelproses .tombol {
+  padding: 5px;
+}
+
+.groupdatasecagentds .statusagent[data-status="1"] {
+  color: var(--green-color);
+}
+
+.groupdatasecagentds .statusagent[data-status="2"] {
+  color: var(--yellow-color);
+}
+
+.groupdatasecagentds .statusagent[data-status="3"] {
+  color: var(--red-color);
+}
+
+.secgroupdatabankds .listinputmember select,
+.secgroupdatabankds .listinputmember option {
+  text-transform: uppercase;
+}
+
+.secgroupdatabankds .listmembergroup {
+  width: 90%;
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.totalcountxdata span {
+  font-weight: bold;
+}
+
+.totalcountxdata .countxdata {
+  color: var(--primary-color);
+}
+
+.totalcountxdata .totaluser {
+  color: var(--aqua-color);
+}
+
+input#agentname {
+  text-transform: unset;
+}
+
+.groupdatasecagentds.accgroup {
+  width: 30%;
+}
+
+.groupdatasecagentds .action {
+  text-align: center;
+}
+
+.grouplistaccess {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.listaccess {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+.listaccess .check_box {
+  width: unset;
+}
+
+.listaccess input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  padding: 5px;
+}
+
+.updateagent .listgroupplayerinfo {
+  align-items: center;
+}
+
+.updateagent label {
+  text-transform: capitalize;
+}
+
+.updateagent .listgroupplayerinfo {
+  padding-left: unset;
+}
+
+.updateagent .listgroupplayerinfo.right .tombol {
+  width: 100%;
+}
+
+.updateagent.addagent {
+  width: 50%;
+}
+
+.titleinfo {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(var(--rgba-primary), 0.2);
+}
+
+.agentinfo .listheaddetail {
+  grid-template-columns: 1fr 0.1fr 1fr;
+}
+
+.secreportds {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px 120px 20px;
+}
+
+.groupsecreportds {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.headsecreportds {
+  width: 40%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.headsecreportds .tombol {
+  width: 100%;
+  padding: 20px;
+}
+
+.groupdatareportds {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.groupdatareportds th {
+  font-size: 15px;
+}
+
+.groupdatareportds tbody {
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
+}
+
+.groupdatareportds th,
+.groupdatareportds td {
+  text-align: center;
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
+}
+
+.groupdatareportds .tabelproses {
+  padding: 10px 10px 20px 10px;
+}
+
+.datacc {
+  color: var(--green-color);
+}
+
+.datacc[data-get^="-"] {
+  color: var(--red-color);
+}
+
+.datacc[data-get^="0"] {
+  color: var(--yellow-color);
+}
+
+.groupdatareportds .listinputmember select,
+.groupdatareportds .listinputmember option {
+  text-transform: capitalize;
+}
+
+.winlosematch .listmembergroup {
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.referral .listmembergroup {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.totalbonus {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.totalbonus .listtotalbonus {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.totalbonus .textbonus {
+  text-transform: capitalize;
+}
+
+.totalbonus .nominalbonus,
+.totalbonus .countbonus {
+  color: var(--primary-color);
+}
+
+.statusdepo,
+.valueall,
+.datadownline .nominalreff {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.filterdata {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.5fr;
+  align-items: end;
+  gap: 10px;
+  margin-top: 5px;
+  padding-top: 5px;
+  border-top: 1px solid rgba(var(--rgba-black), 0.2);
+}
+
+.listfilterdata {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.listfilterdata label {
+  text-transform: capitalize;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.listfilterdata input,
+.listfilterdata select {
+  padding: 3px;
+  box-shadow: unset;
+  border-radius: 3px;
+  border: 1px solid rgba(var(--rgba-black), 0.2);
+  background: transparent;
+  color: rgba(var(--rgba-black));
+}
+
+.listfilterdata input::placeholder,
+.listfilterdata select::placeholder {
+  font-size: 11px;
+}
+
+.secgroupdatabankds .listmembergroup.xdata {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.grouplistmembergroup {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 10px;
+}
+
+@media screen and (max-width: 800px) {
+
+  .listplayerinfo label,
+  .datalistplayerinfogrp label,
+  .listchangedataplayer label,
+  .labelbetpl {
+    font-size: 1.5vw;
+  }
+
+  .tombol .texttombol {
+    font-size: 1.5vw;
+  }
+
+  .updateagent label {
+    font-size: 1.7vw;
+  }
 }

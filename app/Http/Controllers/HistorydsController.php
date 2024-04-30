@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class HistorydsController extends Controller
 {
-    public function index(Request $request, $jenis = "")
+    public function index(Request $request)
     {
 
         if ($request->query('search_status') == 'accept') {
@@ -19,6 +19,7 @@ class HistorydsController extends Controller
         }
 
         $username = $request->query('search_username');
+        $jenis = $request->query('search_jenis');
         $agent = $request->query('search_agent');
         $tgldari = $request->query('tgldari') != '' ? date('Y-m-d 00:00:00', strtotime($request->query('tgldari'))) : date("Y-m-d 00:00:00");
         $tglsampai =  $request->query('tglsampai') != '' ?  date('Y-m-d 23:59:59', strtotime($request->query('tglsampai'))) : date("Y-m-d 23:59:59");
@@ -44,7 +45,7 @@ class HistorydsController extends Controller
                 return $query->whereBetween('created_at', [$tgldari, $tglsampai]);
             })
             ->orderBy('created_at', 'desc')
-            ->paginate(10) // Panggil paginate(10) di sini
+            ->paginate(10)
             ->map(function ($item) {
                 if ($item['jenis'] == 'DPM') {
                     $item['jenis'] = 'Deposit Manual';
@@ -64,7 +65,7 @@ class HistorydsController extends Controller
             'title' => 'List History',
             'data' => $datHistory,
             'totalnote' => 0,
-            'jenis' => $jenis,
+            'search_jenis' => $jenis,
             'search_username' => $username,
             'search_status' => $status,
             'search_agent' => $agent,
