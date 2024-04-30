@@ -3,20 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Member;
-
+use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
     public function index()
     {
-        $member = Member::latest()->get();
+        $members = Member::select('id', 'username', 'balance', 'ip_reg', 'ip_log', 'lastlogin', 'domain', 'lastlogin2', 'domain2', 'lastlogin3', 'domain3', DB::raw("CASE WHEN status = 0 THEN 'New Member' ELSE 'Default' END AS status"))
+            ->latest()
+            ->get();
+
         return view('member.index', [
             'title' => 'Member',
-            'data' => $member,
+            'data' => $members,
             'totalnote' => 0,
         ]);
     }
@@ -24,7 +25,23 @@ class MemberController extends Controller
     public function create()
     {
         return view('member.create', [
-            'title' => 'Member',
+            'title' => 'Member Create',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function edit($id)
+    {
+        $dataMember = Member::where('id', $id)->first();
+        $dataUser = $this->getApiDataUser($dataMember->username);
+        if ($dataUser["status"] === 'success') {
+            $dataUser = $dataUser["data"]["datauser"];
+        }
+
+        return view('member.update', [
+            'title' => 'Member Edit',
+            'dataMember' => $dataMember,
+            'dataUser' => $dataUser,
             'totalnote' => 0,
         ]);
     }
@@ -91,16 +108,132 @@ class MemberController extends Controller
                 'totalnote' => 0,
             ]);
         }
-
-        $dataMember = Member::latest()->get();
-        return redirect('/member')->with([
-            'status' => "fail",
-            'message' => $resultReqApi["message"],
-            'data' => $dataMember,
-            'totalnote' => 0,
-        ]);
     }
 
+    function updateMember(Request $request)
+    {
+        $request->validate([
+            'xybanknamexyy' => 'required',
+            'xybankuserxy' => 'required',
+            'group' => 'required',
+            'groupwd' => 'required',
+            'xxybanknumberxy' => 'required',
+            'xyusernamexxy' => 'required',
+        ]);
+
+        $data = [
+            'xybanknamexyy' => $request->xybanknamexyy,
+            'xybankuserxy' => $request->xybankuserxy,
+            'group' => $request->group,
+            'groupwd' => $request->groupwd,
+            'xxybanknumberxy' => $request->xxybanknumberxy,
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json; charset=UTF-8',
+        ])->put('https://back-staging.bosraka.com/users/' . $request->xyusernamexxy, $data);
+
+        if ($response->successful()) {
+            $responseData = $response->json();
+            if ($responseData["status"] === 'success') {
+                return redirect('/member')->with([
+                    'status' => "success",
+                    'message' => 'User berhasil diupdate',
+                ]);
+            } else {
+                return redirect('/member')->with([
+                    'status' => "fail",
+                    'message' => 'User gagal diupdate',
+                ]);
+            }
+        } else {
+            $statusCode = $response->status();
+            $errorMessage = $response->body();
+            return redirect('/member')->with([
+                'status' => "error",
+                'message' => "Error: $statusCode - $errorMessage",
+            ]);
+        }
+    }
+
+    function updatePassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:4',
+            'xyusernamexxy' => 'required',
+        ]);
+
+        $data = [
+            'password' => $request->password
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json; charset=UTF-8',
+        ])->put('https://back-staging.bosraka.com/users/pswdy/' . $request->xyusernamexxy, $data);
+
+        if ($response->successful()) {
+            $responseData = $response->json();
+            if ($responseData["status"] === 'success') {
+                return redirect('/member')->with([
+                    'status' => "success",
+                    'message' => 'User berhasil diupdate',
+                ]);
+            } else {
+                return redirect('/member')->with([
+                    'status' => "fail",
+                    'message' => 'User gagal diupdate',
+                ]);
+            }
+        } else {
+            $statusCode = $response->status();
+            $errorMessage = $response->body();
+            return redirect('/member')->with([
+                'status' => "error",
+                'message' => "Error: $statusCode - $errorMessage",
+            ]);
+        }
+    }
+
+    function updatePlayer(Request $request)
+    {
+        $request->validate([
+            'xyusernamexxy' => 'required',
+            'min_bet' => 'required|numeric',
+            'max_bet' => 'required|numeric',
+        ]);
+
+        $results = $this->reqApiUpdateMaxMinBet([
+            'Username' => $request->xyusernamexxy,
+            'Min' => $request->min_bet,
+            'Max' => $request->max_bet,
+            "MaxPerMatch" => 2000,
+            "CasinoTableLimit" => 4,
+            'CompanyKey' => env('COMPANY_KEY'),
+            'ServerId' => env('SERVERID')
+        ]);
+
+        $members = Member::select('id', 'username', 'balance', 'ip_reg', 'ip_log', 'lastlogin', 'domain', 'lastlogin2', 'domain2', 'lastlogin3', 'domain3', DB::raw("CASE WHEN status = 0 THEN 'New Member' ELSE 'Default' END AS status"))
+            ->latest()
+            ->get();
+        if ($results["error"]["id"] === 0) {
+            Member::where('username', $request->xyusernamexxy)->update([
+                'keterangan' => $request->keterangan,
+                'status' => $request->status,
+                'min_bet' => $request->min_bet,
+                'max_bet' => $request->max_bet,
+            ]);
+
+            return redirect('/member')->with([
+                'status' => "success",
+                'message' => 'User berhasil diupdate',
+            ]);
+        } else {
+            return redirect('/member')->with([
+                'status' => "fail",
+                'message' => 'User gagal diupdate',
+            ]);
+        }
+    }
 
 
     private function reqApiRegisterMember($req)
@@ -125,6 +258,40 @@ class MemberController extends Controller
         $response = Http::withHeaders([
             'Content-Type' => 'application/json; charset=UTF-8',
         ])->post('https://ex-api-demo-yy.568win.com/web-root/restricted/player/register-player.aspx', $req);
+
+        if ($response->successful()) {
+            $responseData = $response->json();
+        } else {
+            $statusCode = $response->status();
+            $errorMessage = $response->body();
+            $responseData = "Error: $statusCode - $errorMessage";
+        }
+
+        return $responseData;
+    }
+
+    private function reqApiUpdateMaxMinBet($req)
+    {
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json; charset=UTF-8',
+        ])->post('https://ex-api-demo-yy.568win.com/web-root/restricted/player/update-player-bet-settings.aspx', $req);
+
+        if ($response->successful()) {
+            $responseData = $response->json();
+        } else {
+            $statusCode = $response->status();
+            $errorMessage = $response->body();
+            $responseData = "Error: $statusCode - $errorMessage";
+        }
+
+        return $responseData;
+    }
+
+    private function getApiDataUser($username)
+    {
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json; charset=UTF-8',
+        ])->get('https://back-staging.bosraka.com/users/' . $username);
 
         if ($response->successful()) {
             $responseData = $response->json();

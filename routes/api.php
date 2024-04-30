@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiBolaController;
+use App\Http\Controllers\BankdsController;
 use App\Http\Controllers\DepoWdController;
+use App\Http\Controllers\Menu2Controller;
 
 
 /*
@@ -31,12 +33,14 @@ Route::post('/GetBetStatus', [ApiBolaController::class, 'GetBetStatus']);
 Route::post('/ReturnStake', [ApiBolaController::class, 'ReturnStake']);
 Route::delete('/deleteTransactions', [ApiBolaController::class, 'deleteTransactions']);
 
-Route::get('/login/{username}/{iswap}', [ApiBolaController::class, 'login']);
+Route::get('/gettransactions', [ApiBolaController::class, 'getTransactions']);
+
+Route::get('/login/{username}/{iswap}/{device}', [ApiBolaController::class, 'login']);
 Route::get('/historylog/{username}/{ipadress}', [ApiBolaController::class, 'historyLog']);
-
 Route::post('/register/{ipadress}', [ApiBolaController::class, 'register']);
-
 Route::get('/get-recommend-matches', [ApiBolaController::class, 'getRecomMatch']);
+Route::get('/cekuserreferral/{username}', [ApiBolaController::class, 'cekuserreferral']);
+
 
 Route::post('/deposit', [DepoWdController::class, 'deposit']);
 Route::post('/withdrawal', [DepoWdController::class, 'withdrawal']);
@@ -44,3 +48,13 @@ Route::get('/getHistoryDw/{username}', [DepoWdController::class, 'getHistoryDepo
 
 Route::get('/checkLastTransaction/{jenis}/{username}', [DepoWdController::class, 'getLastStatusTransaction']);
 Route::get('/checkBalance/{username}', [DepoWdController::class, 'getBalance']);
+
+
+
+Route::get('/getTransactions', [DepoWdController::class, 'getTransactions']);
+Route::get('/getTransactionStatus', [DepoWdController::class, 'getTransactionStatus']);
+Route::get('/getTransactionSaldo', [DepoWdController::class, 'getTransactionSaldo']);
+
+
+Route::get('/getDataOutstanding', [Menu2Controller::class, 'getDataOutstanding']);
+Route::get('/comparedata', [BankdsController::class, 'compareData']);

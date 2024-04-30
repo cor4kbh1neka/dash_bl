@@ -15,14 +15,16 @@ return new class extends Migration
         Schema::create('depo_wd', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('username', 50)->required();
+            $table->string('referral', 50)->nullable();
             $table->decimal('amount', 10, 2)->required();
             $table->string('keterangan', 20)->nullable();
             $table->string('jenis', 20)->required();
+            $table->string('groupbank', 100)->nullable();
             $table->string('bank', 100)->nullable();
             $table->string('mbank', 100)->nullable();
             $table->string('mnamarek', 150)->nullable();
             $table->string('mnorek', 30)->nullable();
-            $table->string('txnid', 50)->required();
+            $table->string('txnid', 50)->nullable();
             $table->decimal('balance', 10, 2);
             $table->integer('status');
             $table->string('approved_by', 50)->nullable();

@@ -48,7 +48,7 @@ class TransactionStatus extends Model
 
     public function transactions()
     {
-        return $this->belongsTo(Transactions::class, 'trans_id');
+        return $this->belongsTo(Transactions::class, 'trans_id', 'id');
     }
 
     public function transactionsaldo()

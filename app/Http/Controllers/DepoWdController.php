@@ -7,11 +7,17 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use App\Models\DepoWd;
+use App\Models\Xdpwd;
 use App\Models\Member;
+use App\Models\MemberAktif;
+use App\Models\Outstanding;
 use App\Models\Transactions;
+use App\Models\TransactionStatus;
+use App\Models\TransactionSaldo;
+use App\Models\Xtrans;
+use App\Models\Xcountwddp;
 
 date_default_timezone_set('Asia/Jakarta');
-
 
 class DepoWdController extends Controller
 {
@@ -32,12 +38,21 @@ class DepoWdController extends Controller
                 'mnamarek' => 'required|max:150',
                 'mnorek' => 'required|max:30',
                 'balance' => 'required|numeric',
+                'referral' => 'nullable',
             ]);
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()->all()], 400);
             }
 
-            $dataDepoWd = DepoWd::where('username', $request->username)->where('jenis', 'DP')->where('status', '0')->first();
+            $dataMember = Member::where('username', strtolower($request->username))->first();
+            if (!$dataMember) {
+                return response()->json([
+                    'status' => 'Fail',
+                    'message' => 'Username tidak terdaftar'
+                ], 400);
+            }
+
+            $dataDepoWd = DepoWd::where('username', strtolower($request->username))->where('jenis', 'DP')->where('status', '0')->first();
             if ($dataDepoWd) {
                 return response()->json([
                     'status' => 'Fail',
@@ -45,20 +60,25 @@ class DepoWdController extends Controller
                 ], 400);
             }
 
-            /* Request API check transaction */
-            $txnid = $this->generateTxnid('D');
-            if ($txnid === null) {
-                return $this->errorResponse($request->username, 'Txnid error');
+            $dataDepoWd = DepoWd::where('username', strtolower($request->username))->where('jenis', 'DP')->where('status', '1')->first();
+            if (!$dataDepoWd) {
+                Member::where('username', strtolower($request->username))
+                    ->update([
+                        'status' => '9',
+                        'is_notnew' => true,
+                    ]);
             }
 
             /* Request Ke Database Internal */
             $data = $request->all();
+            $data["username"] = strtolower($data["username"]);
             $data["jenis"] = "DP";
-            $data["txnid"] = $txnid;
+            $data["txnid"] = null;
             $data["status"] = 0;
             $data["approved_by"] = null;
 
             DepoWd::create($data);
+            Xdpwd::create($data);
 
             return response()->json([
                 'status' => 'Success',
@@ -88,9 +108,18 @@ class DepoWdController extends Controller
                 'mnamarek' => 'required|max:150',
                 'mnorek' => 'required|max:30',
                 'balance' => 'required|numeric',
+                'referral' => 'nullable',
             ]);
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()->all()], 400);
+            }
+
+            $dataMember = Member::where('username', strtolower($request->username))->first();
+            if (!$dataMember) {
+                return response()->json([
+                    'status' => 'Fail',
+                    'message' => 'Username tidak terdaftar'
+                ], 400);
             }
 
             $checkBalance = $this->reqApiBalance($request->username);
@@ -107,7 +136,7 @@ class DepoWdController extends Controller
                 ], 400);
             }
 
-            $dataDepoWd = DepoWd::where('username', $request->username)->where('jenis', 'WD')->where('status', '0')->first();
+            $dataDepoWd = DepoWd::where('username', strtolower($request->username))->where('jenis', 'WD')->where('status', '0')->first();
 
             if ($dataDepoWd) {
                 return response()->json([
@@ -119,11 +148,12 @@ class DepoWdController extends Controller
             /* Request API check transaction */
             $txnid = $this->generateTxnid('W');
             if ($txnid === null) {
-                return $this->errorResponse($request->username, 'Txnid error');
+                return $this->errorResponse(strtolower($request->username), 'Txnid error');
             }
 
             /* Request Ke Database Internal */
             $data = $request->all();
+            $data["username"] = strtolower($data["username"]);
             $data["keterangan"] = null;
             $data["jenis"] = "WD";
             $data["txnid"] = $txnid;
@@ -132,6 +162,7 @@ class DepoWdController extends Controller
             $dataWD = DepoWd::create($data);
 
             if ($dataWD) {
+                Xdpwd::create($data);
                 $dataAPI = [
                     "Username" => $dataWD->username,
                     "TxnId" => $txnid,
@@ -265,11 +296,21 @@ class DepoWdController extends Controller
     }
 
 
-    public function indexhistory($jenis, $username, $tipe, $agent, $tgldari, $tglsampai)
+    public function indexhistory(Request $request, $jenis = "")
     {
+        $username = $request->query('search_username');
+        $tipe = $request->query('search_tipe');
+        $agent = $request->query('search_agent');
+        $tgldari = $request->query('search_tgl_dari') != '' ? date('Y-m-d 00:00:00', strtotime($request->query('search_tgl_dari'))) : $request->query('search_tgl_dari');
+        $tglsampai =  $request->query('tgldari') != '' ?  date('Y-m-d 23:59:59', strtotime($request->query('tgldari'))) : $request->query('tgldari');
+
         $datHistory = DepoWd::whereIn('status', [1, 2])
             ->when($jenis, function ($query) use ($jenis) {
-                return $query->where('jenis', $jenis);
+                if ($jenis === 'M') {
+                    return $query->whereIn('jenis', ['DPM', 'WDM']);
+                } else {
+                    return $query->where('jenis', $jenis);
+                }
             })
             ->when($username, function ($query) use ($username) {
                 return $query->where('username', $username);
@@ -277,11 +318,24 @@ class DepoWdController extends Controller
             ->when($tipe, function ($query) use ($tipe) {
                 return $query->where('tipe', $tipe);
             })
+            ->when($agent, function ($query) use ($agent) {
+                return $query->where('approved_by', $agent);
+            })
+            ->when($tgldari && $tglsampai, function ($query) use ($tgldari, $tglsampai) {
+                return $query->whereBetween('created_at', [$tgldari, $tglsampai]);
+            })
             ->orderBy('created_at', 'desc')->get();
+
         return view('depowd.indexhistory', [
             'title' => 'List History',
             'data' => $datHistory,
-            'totalnote' => 0
+            'totalnote' => 0,
+            'jenis' => $jenis,
+            'username' => $username,
+            'tipe' => $tipe,
+            'agent' => $agent,
+            'tgldari' => $tgldari != '' ? date("Y-m-d", strtotime($tgldari)) : $tgldari,
+            'tglsampai' => $tglsampai != '' ? date("Y-m-d", strtotime($tglsampai)) : $tglsampai,
         ]);
     }
 
@@ -325,8 +379,14 @@ class DepoWdController extends Controller
                 $data["mnorek"] = "";
                 $data["txnid"] = $txnid;
                 $data["status"] = 1;
-                $data["balance"] = $this->reqApiBalance($request->username)["balance"] + $this->saldoBerjalan($request->username);
+                $data["balance"] = $data["saldo"];
                 $data["approved_by"] = Auth::user()->username;
+
+                if ($data["jenis"] == 'WDM') {
+                    if ($data["saldo"] < $data["amount"]) {
+                        return $this->errorResponse($request->username, 'Balance tidak mencukupi');
+                    }
+                }
                 $result = DepoWd::create($data);
 
                 if ($result) {
@@ -344,7 +404,7 @@ class DepoWdController extends Controller
                         $dataAPI["IsFullAmount"] = false;
                         $req = $this->requestApi('withdraw', $dataAPI);
                     } else {
-                        return view('depowd.indexmanual', [
+                        return redirect()->route('manualds')->with([
                             'title' => 'Proses Manual',
                             'totalnote' => 0,
                             'jenis' => $request->jenis,
@@ -353,7 +413,7 @@ class DepoWdController extends Controller
                         ]);
                     }
                     if ($req["error"]["id"] !== 0) {
-                        return view('depowd.indexmanual', [
+                        return redirect()->route('manualds')->with([
                             'title' => 'Proses Manual',
                             'totalnote' => 0,
                             'jenis' => $request->jenis,
@@ -361,7 +421,7 @@ class DepoWdController extends Controller
                             'message' => 'Gagal melakukan transaksi!'
                         ]);
                     }
-                    return view('depowd.indexmanual', [
+                    return redirect()->route('manualds')->with([
                         'title' => 'Proses Manual',
                         'totalnote' => 0,
                         'jenis' => $result->jenis,
@@ -369,7 +429,7 @@ class DepoWdController extends Controller
                         'message' => 'Transaksi berhasil!'
                     ]);
                 }
-                return view('depowd.indexmanual', [
+                return redirect()->route('manualds')->with([
                     'title' => 'Proses Manual',
                     'totalnote' => 0,
                     'jenis' => $request->jenis,
@@ -377,7 +437,7 @@ class DepoWdController extends Controller
                     'message' => 'Gagal melakukan transaksi!'
                 ]);
             } catch (\Exception $e) {
-                return view('depowd.indexmanual', [
+                return redirect()->route('manualds')->with([
                     'title' => 'Proses Manual',
                     'totalnote' => 0,
                     'jenis' => $request->jenis,
@@ -394,15 +454,71 @@ class DepoWdController extends Controller
             $ids = $request->id;
             foreach ($ids as $id) {
                 $dataDepo = DepoWd::where('id', $id)->where('status', 0)->first();
-
+                $txnid = $this->generateTxnid('D');
                 if ($dataDepo) {
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
+
+                    /* Create Member Aktif */
+                    if ($dataDepo->referral != '' || $dataDepo->referral != null) {
+                        $dataMemberAktif = MemberAktif::where('username', $dataDepo->username)->first();
+                        if (!$dataMemberAktif) {
+                            MemberAktif::create([
+                                'username' => $dataDepo->username,
+                                'referral' => $dataDepo->referral
+                            ]);
+                        }
+                    }
+
+                    /* delete transaction Xdpwd */
+                    $dataToDelete = Xdpwd::where('username', $dataDepo->username)->where('jenis', $dataDepo->jenis)->first();
+                    if ($dataToDelete) {
+                        $dataToDelete->delete();
+                    }
+
+                    /* count xdepo wd */
+                    $dataXtrans = Xtrans::where('username', $dataDepo->username)->where('bank', $dataDepo->bank)->first();
+
+                    if (!$dataXtrans) {
+                        if ($dataDepo->jenis == 'WD') {
+                            Xtrans::create([
+                                'bank' => $dataDepo->bank,
+                                'username' => $dataDepo->username,
+                                'count_wd' => 1,
+                                'sum_wd' => $dataDepo->amount,
+                                'count_dp' => 0,
+                                'sum_dp' => 0,
+                                'groupbank' => $dataDepo->groupbank
+                            ]);
+                        } else {
+                            Xtrans::create([
+                                'bank' => $dataDepo->bank,
+                                'username' => $dataDepo->username,
+                                'count_wd' => 0,
+                                'sum_wd' => 0,
+                                'count_dp' => 1,
+                                'sum_dp' => $dataDepo->amount,
+                                'groupbank' => $dataDepo->groupbank
+                            ]);
+                        }
+                    } else {
+                        if ($dataDepo->jenis == 'WD') {
+                            $dataXtrans->update([
+                                'count_wd' => $dataXtrans->count_wd + 1,
+                                'sum_wd' => $dataXtrans->sum_wd + $dataDepo->amount
+                            ]);
+                        } else {
+                            $dataXtrans->update([
+                                'count_dp' => $dataXtrans->count_dp + 1,
+                                'sum_dp' => $dataXtrans->sum_dp + $dataDepo->amount
+                            ]);
+                        }
+                    }
+
                     if ($dataDepo->jenis !== 'WD') {
                         if ($updateDepo) {
-                            /* Request Ke API SBO Depo*/
                             $dataAPI = [
                                 "Username" => $dataDepo->username,
-                                "TxnId" => $dataDepo->txnid,
+                                "TxnId" => $txnid,
                                 "Amount" => $dataDepo->amount,
                                 "CompanyKey" => env('COMPANY_KEY'),
                                 "ServerId" => env('SERVERID')
@@ -422,6 +538,18 @@ class DepoWdController extends Controller
                                     'status' => 'Error',
                                     'message' => $resultsApi["error"]["msg"]
                                 ], 500);
+                            } else if ($resultsApi["error"]["id"] === 0) {
+                                DepoWd::where('id', $id)->update(['txnid' => $txnid]);
+                                $dataMember = Member::where('username', $dataDepo->username)
+                                    ->where('status', 9)
+                                    ->where('is_notnew', true)
+                                    ->first();
+
+                                if ($dataMember) {
+                                    $dataMember->update([
+                                        'status' => 1
+                                    ]);
+                                }
                             }
                         }
                     }
@@ -449,6 +577,12 @@ class DepoWdController extends Controller
                 $updateStatusTransaction = DepoWd::where('id', $id)->first();
                 if ($updateStatusTransaction) {
                     $updateStatusTransaction->update(['status' => 2, 'approved_by' => Auth::user()->username]);
+
+                    /* delete transaction Xdpwd */
+                    $dataToDelete = Xdpwd::where('username', $updateStatusTransaction->username)->where('jenis', $updateStatusTransaction->jenis)->first();
+                    if ($dataToDelete) {
+                        $dataToDelete->delete();
+                    }
                 } else {
                     return response()->json([
                         'status' => 'Error',
@@ -630,5 +764,61 @@ class DepoWdController extends Controller
             $transactionTransactions = $transactionTransactions->concat($transactions);
         }
         return $transactionTransactions;
+    }
+
+    public function getBalancePlayer($username)
+    {
+        try {
+            $apiBalance = $this->reqApiBalance($username)["balance"];
+            $saldoBerjalan = $this->saldoBerjalan($username);
+
+            return $apiBalance + $saldoBerjalan;
+        } catch (\Exception $e) {
+            $errorMessage = 'Terjadi kesalahan: ' . $e->getMessage();
+            return response()->json(['error' => $errorMessage], 500);
+        }
+    }
+
+    // public function getCountDataDPW()
+    // {
+    //     $countDataDP = Xdpwd::where('jenis', 'DP')->where('status', 0)->count();
+    //     $countDataWD = Xdpwd::where('jenis', 'WD')->where('status', 0)->count();
+
+    //     $dataOuts = Outstanding::get();
+    //     $dataOuts = $dataOuts->groupBy('username')->map(function ($group) {
+    //         $totalAmount = $group->sum('amount');
+    //         $count = $group->count();
+    //         return [
+    //             'username' => $group->first()['username'],
+    //             'totalAmount' => $totalAmount,
+    //             'count' => $count,
+    //         ];
+    //     });
+
+    //     $data = [
+    //         'dataWD' => $countDataWD,
+    //         'dataDP' => $countDataDP,
+    //         'dataOuts' => $dataOuts->count()
+    //     ];
+
+    //     return $data;
+    // }
+
+    public function getTransactions()
+    {
+        $data = Transactions::orderBy('created_at', 'desc')->get();
+        return $data;
+    }
+
+    public function getTransactionStatus()
+    {
+        $data = TransactionStatus::orderBy('created_at', 'desc')->get();
+        return $data;
+    }
+
+    public function getTransactionSaldo()
+    {
+        $data = TransactionSaldo::orderBy('created_at', 'desc')->get();
+        return $data;
     }
 }
