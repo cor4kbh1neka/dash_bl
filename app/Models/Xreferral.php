@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use App\Models\TransactionStatus;
 
-class DepoWd extends Model
+class Xreferral extends Model
 {
     use HasFactory;
 
     public $incrementing = false;
 
-    protected $fillable = ['username', 'referral', 'groupbank', 'amount', 'keterangan', 'jenis', 'bank', 'mbank', 'mnamarek', 'mnorek', 'txnid', 'balance', 'status', 'approved_by'];
+    protected $fillable = ['username', 'count_referral', 'sum_amount'];
 
     protected $primaryKey = 'id';
 
@@ -32,5 +31,5 @@ class DepoWd extends Model
         });
     }
 
-    protected $table = 'depo_wd';
+    protected $table = 'xreferral';
 }

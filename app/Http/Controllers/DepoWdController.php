@@ -38,6 +38,7 @@ class DepoWdController extends Controller
                 'mnamarek' => 'required|max:150',
                 'mnorek' => 'required|max:30',
                 'balance' => 'required|numeric',
+                'referral' => 'nullable',
             ]);
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()->all()], 400);
@@ -107,6 +108,7 @@ class DepoWdController extends Controller
                 'mnamarek' => 'required|max:150',
                 'mnorek' => 'required|max:30',
                 'balance' => 'required|numeric',
+                'referral' => 'nullable',
             ]);
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()->all()], 400);
@@ -448,14 +450,15 @@ class DepoWdController extends Controller
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
 
                     /* Create Member Aktif */
-                    $dataMemberAktif = MemberAktif::where('username', $dataDepo->username)->first();
-                    if (!$dataMemberAktif) {
-                        $dataMemberAktif->create([
-                            'username' => $dataDepo->username,
-                            'referral' => $dataDepo->referral
-                        ]);
+                    if ($dataDepo->referral != '' || $dataDepo->referral != null) {
+                        $dataMemberAktif = MemberAktif::where('username', $dataDepo->username)->first();
+                        if (!$dataMemberAktif) {
+                            MemberAktif::create([
+                                'username' => $dataDepo->username,
+                                'referral' => $dataDepo->referral
+                            ]);
+                        }
                     }
-
 
                     /* delete transaction Xdpwd */
                     $dataToDelete = Xdpwd::where('username', $dataDepo->username)->where('jenis', $dataDepo->jenis)->first();
@@ -465,6 +468,7 @@ class DepoWdController extends Controller
 
                     /* count xdepo wd */
                     $dataXtrans = Xtrans::where('username', $dataDepo->username)->where('bank', $dataDepo->bank)->first();
+
                     if (!$dataXtrans) {
                         if ($dataDepo->jenis == 'WD') {
                             Xtrans::create([
@@ -473,7 +477,8 @@ class DepoWdController extends Controller
                                 'count_wd' => 1,
                                 'sum_wd' => $dataDepo->amount,
                                 'count_dp' => 0,
-                                'sum_dp' => 0
+                                'sum_dp' => 0,
+                                'groupbank' => $dataDepo->groupbank
                             ]);
                         } else {
                             Xtrans::create([
@@ -482,7 +487,8 @@ class DepoWdController extends Controller
                                 'count_wd' => 0,
                                 'sum_wd' => 0,
                                 'count_dp' => 1,
-                                'sum_dp' => $dataDepo->amount
+                                'sum_dp' => $dataDepo->amount,
+                                'groupbank' => $dataDepo->groupbank
                             ]);
                         }
                     } else {

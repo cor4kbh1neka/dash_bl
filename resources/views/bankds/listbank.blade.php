@@ -97,7 +97,7 @@
                                         @foreach ($listbankdp as $group => $d)
                                             @foreach ($d as $bank => $dt)
                                                 @foreach ($dt['data_bank'] as $dbank)
-                                                    <tr id="listbankTable">
+                                                    <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ strtoupper($bank) }}</td>
                                                         {{-- <td>
@@ -512,7 +512,7 @@
             </td>
             <td class="check_box xurlbarcode">
                 <input type="checkbox" id="urlbarcode" name="urlbarcode"
-                    data-barcode="{{ $dbank['zwzwshowbarcode'] ? '1' : '' }}"
+                    data-barcode=""
                     disabled>
             </td>
             <td class="check_box"

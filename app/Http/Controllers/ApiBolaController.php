@@ -11,6 +11,10 @@ use App\Models\ProductType;
 use App\Models\Member;
 use App\Models\MemberAktif;
 use App\Models\Outstanding;
+use App\Models\Referral;
+use App\Models\Xreferral;
+use App\Models\Persentase;
+
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 
@@ -617,11 +621,15 @@ class ApiBolaController extends Controller
                 $WinLoss = $index == 0 ? $request->WinLoss : 0;
                 $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $WinLoss, 1);
                 if ($transactionTransaction) {
+
                     /* Record Data Referral */
 
-
+                    if ($WinLoss === 0) {
+                        $this->execReferral($request, $dataStatusTransaction, $WinLoss);
+                    }
 
                     /* -------------------- */
+
                     $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
                     return [
                         'AccountName' => $request->Username,
@@ -640,16 +648,70 @@ class ApiBolaController extends Controller
         }
     }
 
-    private function deposit(Request $request, $txnid)
+    private function execReferral(Request $request, $dataStatusTransaction, $WinLoss)
     {
-        $dataSaldo = [
-            "Username" => $request->Username,
-            "TxnId" => $txnid,
-            "Amount" => $request->WinLoss,
-            "CompanyKey" => env('COMPANY_KEY'),
-            "ServerId" => env('SERVERID')
-        ];
-        $DpSaldo = $this->requestApi('deposit', $dataSaldo);
+        $dataAktif = MemberAktif::where('username', $request->Username)->first();
+        if (!$dataAktif) {
+            $dataAktif = Member::where('username', $request->Username)->first();
+        }
+
+        if ($dataAktif) {
+            $amount = TransactionSaldo::where('transtatus_id', $dataStatusTransaction->id)->first()->amount;
+            $persentase = Persentase::first();
+            $persentase = $persentase ? $persentase->persentase : 0;
+
+            $referralAmount = $amount * $persentase;
+
+            if ($referralAmount > 0) {
+                $attempt = 0;
+                while ($attempt < 5) {
+                    if ($WinLoss === 0) {
+                        $txnidReferral = $this->generateTxnid('D', 17);
+                        $dataDepoReferral = [
+                            "Username" => $dataAktif->referral,
+                            "TxnId" => $txnidReferral,
+                            "Amount" => $referralAmount,
+                            "CompanyKey" => env('COMPANY_KEY'),
+                            "ServerId" => env('SERVERID')
+                        ];
+                        $depositReferral = $this->deposit($dataDepoReferral);
+                        if ($depositReferral["error"]["id"] === 0) {
+                            Referral::create([
+                                'username' => $dataAktif->referral,
+                                'downline' => $request->Username,
+                                'amount' => $referralAmount
+                            ]);
+
+                            $this->execXreferral($dataAktif->referral, $referralAmount);
+                            break;
+                        }
+                    }
+
+                    $attempt++;
+                }
+            }
+        }
+    }
+
+    private function execXreferral($username, $amount)
+    {
+        $dataXreferrral = Xreferral::where('username', $username)->first();
+        if ($dataXreferrral) {
+            $dataXreferrral->update([
+                'sum_amount' => $dataXreferrral->sum_amount + $amount
+            ]);
+        } else {
+            Xreferral::create([
+                'username' => $username,
+                'count_referral' => 0,
+                'sum_amount' => $amount
+            ]);
+        }
+    }
+
+    private function deposit($data)
+    {
+        $DpSaldo = $this->requestApi('deposit', $data);
         return $DpSaldo;
     }
 
@@ -720,7 +782,6 @@ class ApiBolaController extends Controller
             }
 
             if ($transactionTransaction) {
-
                 $this->createOutstanding([
                     "transactionid" => $request->TransactionId,
                     "transfercode" => $request->TransferCode,
@@ -911,6 +972,13 @@ class ApiBolaController extends Controller
     {
         $characters = '0123456789';
         $randomString = '';
+
+        if ($jenis == 'D') {
+            $length = 17;
+        } else {
+            $length = 10;
+        }
+
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, strlen($characters) - 1)];
         }
@@ -981,7 +1049,6 @@ class ApiBolaController extends Controller
 
     public function register(Request $request, $ipaddress)
     {
-
         $token = $request->bearerToken();
         $expectedToken = env('BEARER_TOKEN');
 
@@ -1014,6 +1081,11 @@ class ApiBolaController extends Controller
         if ($responseData["error"]["id"] === 0) {
             Member::create([
                 'username' => $request->Username,
+                'referral' => $request->Referral,
+                'bank' => '',
+                'namarek' => '',
+                'norek' => '',
+                'nohp' => 0,
                 'balance' => 0,
                 'ip_reg' => $ipaddress,
                 'ip_log' => null,
@@ -1025,6 +1097,21 @@ class ApiBolaController extends Controller
                 'domain3' => null,
                 'status' => 0
             ]);
+
+            $dataXreferral = Xreferral::where('username', $request->Referral)->first();
+            if ($dataXreferral) {
+                $dataXreferral->update([
+                    'count_referral' => $dataXreferral->count_referral + 1
+                ]);
+            } else {
+                if ($request->Referral != '') {
+                    Xreferral::create([
+                        'username' => $request->Referral,
+                        'count_referral' => 1,
+                        'sum_amount' => 0
+                    ]);
+                }
+            }
 
             return response()->json([
                 'message' => 'Data berhasil disimpan.'

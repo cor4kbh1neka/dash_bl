@@ -448,7 +448,6 @@ class BankdsController extends Controller
         // $listbankgroup = $responseBankGroup->json()["data"];
 
         $listbankdpex = [];
-
         $listbankdp = [];
         $listbankwd = [];
         if ($group != 0) {
@@ -465,20 +464,25 @@ class BankdsController extends Controller
             }
         }
 
-
+        $listbankex = [];
         foreach ($listbankdpex as $groupbank => $bankArray) {
             foreach ($bankArray as $bankData => $databank) {
                 foreach ($databank['data_bank'] as $bank) {
-                    // Format string sesuai dengan informasi bank yang diinginkan
                     $bankInfo = $bankData . ' - ' . $bank['namebankxxyy'] . ' - ' . $bank['xynamarekx'] . ' - ' . $bank['norekxyxy'];
-
-                    // Tambahkan string bankinfo ke dalam array
                     $listbankex[] = $bankInfo;
                 }
             }
         }
 
-
+        $listbankex = [];
+        foreach ($listbankdpex as $groupbank => $bankArray) {
+            foreach ($bankArray as $bankData => $databank) {
+                foreach ($databank['data_bank'] as $bank) {
+                    $bankInfo = $bankData . ' - ' . $bank['namebankxxyy'] . ' - ' . $bank['xynamarekx'] . ' - ' . $bank['norekxyxy'];
+                    $listbankex[] = $bankInfo;
+                }
+            }
+        }
 
         if ($groupwd != 0) {
             $responseBankByGroupWd = Http::get('https://back-staging.bosraka.com/banks/v2/' . $groupwd);
@@ -493,8 +497,6 @@ class BankdsController extends Controller
 
         // $responseBankExcept = Http::get('https://back-staging.bosraka.com/banks/exc/groupbank99');
         // $listBankExcept = $responseBankExcept->json()["data"];
-
-
 
         return view('bankds.listbank', [
             'title' => 'List Bank',

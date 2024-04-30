@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('xtrans', function (Blueprint $table) {
             $table->id();
             $table->string('bank');
-            $table->string('groupbank');
+            $table->string('groupbank')->nullable();
             $table->string('username');
             $table->integer('count_dp')->default(0);
             $table->integer('count_wd')->default(0);

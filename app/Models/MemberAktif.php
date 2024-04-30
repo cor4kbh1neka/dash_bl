@@ -12,6 +12,26 @@ class MemberAktif extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'username', 'referral'];
+    public $incrementing = false;
+
+    protected $fillable = ['username', 'referral'];
+
+    protected $primaryKey = 'id';
+
+    protected $keyType = 'string';
+
+    protected $casts = [
+        'id' => 'string',
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($transaction) {
+            $transaction->id = Str::uuid()->toString();
+        });
+    }
+
     protected $table = 'member_aktif';
 }

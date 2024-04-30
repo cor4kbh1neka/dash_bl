@@ -11,11 +11,11 @@ return new class extends Migration
         Schema::create('member', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('username');
-            $table->string('referral');
-            $table->string('bank');
-            $table->string('namarek');
-            $table->string('norek');
-            $table->string('nohp');
+            $table->string('referral')->nullable();
+            $table->string('bank')->nullable();
+            $table->string('namarek')->nullable();
+            $table->string('norek')->nullable();
+            $table->string('nohp')->nullable();
             $table->decimal('balance', 10, 2);
             $table->string('keterangan')->nullable();
             $table->string('ip_reg')->nullable();
