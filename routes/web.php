@@ -193,6 +193,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/memberlistds/updateuser', [MemberlistdsController::class, 'updateUser']);
     Route::post('/memberlistds/updatepassword', [MemberlistdsController::class, 'updatePassowrd']);
     Route::post('/memberlistds/updateinfomember/{id}', [MemberlistdsController::class, 'updateMember']);
+    Route::get('/memberlistds/winloseyear', [MemberlistdsController::class, 'winloseyear']);
+    Route::get('/memberlistds/winlosemonth', [MemberlistdsController::class, 'winlosemonth']);
+    Route::get('/memberlistds/winloseday', [MemberlistdsController::class, 'winloseday']);
 
     /*-- Historygameds --*/
     Route::get('/historygameds', [HistorygamedsController::class, 'index']);
@@ -223,7 +226,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/updategroupbank/{namagroup}', [BankdsController::class, 'updategroupbank']);
 
     Route::get('/bankds/addgroupbank', [BankdsController::class, 'addgroupbank']);
-    Route::get('/bankds/setbank', [BankdsController::class, 'setbank']);
+    Route::get('/bankds/setbank/{id}/{groupbank}', [BankdsController::class, 'setbank'])->name('bankds.setbank');
+    Route::post('/bankds/updatelistbank/{jenis?}', [BankdsController::class, 'updatelistbank']);
+    Route::delete('/bankds/deletelistbank/{id}/{groupbank}', [BankdsController::class, 'deletelistbank']);
+
+    /* Master */
     Route::post('/updatesetbank/{bank}', [BankdsController::class, 'updatesetbank']);
 
 

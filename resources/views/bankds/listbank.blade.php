@@ -48,7 +48,8 @@
                 <div class="secgroupdatabankds">
                     <span class="titlebankmaster">LIST REKENING BANK</span>
                     <div class="groupactivebank">
-                        <div class="listgroupbank">
+                        <form method="POST" action="/bankds/updatelistbank" id="form-listbankdp" class="listgroupbank">
+                            @csrf
                             <div class="grouptablebank frinput">
                                 <table>
                                     <tbody>
@@ -71,8 +72,7 @@
                                                 </div>
                                             </th>
                                             <th colspan="1">
-
-                                                <button id="tambahKolom" class="tombol primary">
+                                                <button type="button" id="tambahKolom" class="tombol primary">
                                                     <span class="texttombol">+ tambah</span>
 
                                                 </button>
@@ -94,28 +94,19 @@
                                             </th>
                                             <th class="bkactionss">actions</th>
                                         </tr>
+                                        @php $no = 0; @endphp
                                         @foreach ($listbankdp as $group => $d)
                                             @foreach ($d as $bank => $dt)
-                                                @foreach ($dt['data_bank'] as $dbank)
+                                                @foreach ($dt['data_bank'] as $i => $dbank)
+                                                    @php $no++ @endphp
                                                     <tr>
-                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $no }}</td>
                                                         <td>{{ strtoupper($bank) }}</td>
-                                                        {{-- <td>
-                                                            <div class="listinputmember">
-                                                                <select class="inputnew smallfont" name="bankmaster"
-                                                                    id="bankmaster_{{ $loop->iteration }}" data-jenis="1">
-                                                                    @foreach ($listmasterbank as $d)
-                                                                        <option value="{{ $d['bnkmstrxyxyx'] }}"
-                                                                            {{ $d['bnkmstrxyxyx'] == $bank ? 'selected' : '' }}>
-                                                                            {{ $d['bnkmstrxyxyx'] }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                        </td> --}}
                                                         <td>
                                                             <div class="listinputmember">
-                                                                <select class="inputnew smallfont">
-                                                                    <option value="{{ $dbank['namebankxxyy'] }}">
+                                                                <select class="inputnew smallfont"
+                                                                    name="banklama-{{ $dbank['idbank'] }}">
+                                                                    <option value="{{ $dbank['idbank'] }}">
                                                                         {{ $dbank['namebankxxyy'] }} -
                                                                         {{ $dbank['xynamarekx'] }} -
                                                                         {{ $dbank['norekxyxy'] }}
@@ -124,20 +115,16 @@
                                                             </div>
                                                         </td>
                                                         <td class="ceonorek">{{ $dbank['norekxyxy'] }}</td>
-
-                                                        {{-- <td> {{ $dbank['bnkmstrxyxyx'] }} - {{ $dbank['namebankxxyy'] }}
-                                                        </td> --}}
                                                         <td>
                                                             <div class="listinputmember">
-                                                                <select class="inputnew smallfont" name="bankbaru"
-                                                                    id="bankmaster_{{ $loop->iteration }}" data-jenis="1">
-                                                                    @php $firstLoop = true; @endphp
+                                                                <select class="inputnew smallfont"
+                                                                    name="bankbaru-{{ $dbank['idbank'] }}"
+                                                                    id="bankmaster_{{ $no }}" data-jenis="1">
+                                                                    <option value="">pilih Bank</option>
                                                                     @foreach ($listbankex as $listbank)
-                                                                        <option value="{{ $listbank }}"
-                                                                            {{ $firstLoop ? 'selected' : '' }}>
-                                                                            {{ $firstLoop ? 'pilih Bank' : $listbank }}
+                                                                        <option value="{{ explode(' - ', $listbank)[0] }}">
+                                                                            {{ substr($listbank, strpos($listbank, '-') + 2) }}
                                                                         </option>
-                                                                        @php $firstLoop = false; @endphp
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -149,10 +136,11 @@
                                                                 data-barcode="{{ $dbank['zwzwshowbarcode'] ? '1' : '' }}"
                                                                 disabled>
                                                         </td>
-                                                        <td class="check_box"
-                                                            onclick="toggleCheckbox('myCheckboxDeposit-0')">
-                                                            <input type="checkbox" id="myCheckboxDeposit-0"
-                                                                name="myCheckboxDeposit-0" data-id="">
+                                                        <td class="check_box">
+                                                            <input type="checkbox"
+                                                                id="myCheckboxDeposit-{{ $dbank['idbank'] }}"
+                                                                name="myCheckboxDeposit-{{ $dbank['idbank'] }}"
+                                                                data-id="">
                                                         </td>
                                                         <td>
                                                             <div class="kolom_action">
@@ -162,7 +150,8 @@
                                                                     <span>•</span>
                                                                 </div>
                                                                 <div class="action_crud">
-                                                                    <a href="/bankds/setbank">
+                                                                    <a
+                                                                        href="/bankds/setbank/{{ $dbank['idbank'] }}/{{ $group }}">
                                                                         <div class="list_action">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 width="1em" height="1em"
@@ -180,7 +169,8 @@
                                                                             <span>Edit</span>
                                                                         </div>
                                                                     </a>
-                                                                    <a href="#">
+                                                                    <a href="#"
+                                                                        onclick="confirmDelete('{{ $dbank['idbank'] }}', '{{ $group }}')">
                                                                         <div class="list_action">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 width="1em" height="1em"
@@ -188,7 +178,7 @@
                                                                                 <path fill="currentColor"
                                                                                     d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
                                                                             </svg>
-                                                                            <span>delete</span>
+                                                                            <span>Delete</span>
                                                                         </div>
                                                                     </a>
                                                                 </div>
@@ -202,12 +192,13 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <button class="tombol primary">
+                            <button class="tombol primary" id="updateButton">
                                 <span class="texttombol">UPDATE</span>
                             </button>
-                        </div>
+                        </form>
 
-                        <div class="listgroupbank">
+                        <form method="POST" action="bankds/updatelistbank/WD" class="listgroupbank">
+                            @csrf
                             <div class="grouptablebank frinput">
                                 <table>
                                     <tbody>
@@ -231,47 +222,35 @@
                                                 </div>
                                             </th>
                                             <th colspan="1">
-                                                <button class="tombol primary">
-                                                    <span class="texttombol">SUBMIT</span>
+                                                <button type="button" id="tambahKolomWd" class="tombol primary">
+                                                    <span class="texttombol">+ tambah</span>
                                                 </button>
                                             </th>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <table>
+                                <table id="listbankTableWd">
                                     <tbody>
                                         <tr class="thead listbanksd">
                                             <th class="bknomor">#</th>
                                             <th class="bkmaster">master</th>
                                             <th class="bknamabank">nama bank</th>
-                                            <th class="bknamarek">nama rekening</th>
                                             <th class="bknomorrek">nomor rekening</th>
+                                            <th class="bknomorrek">ganti bank</th>
                                             <th class="bkbarcode">barcode</th>
                                             <th class="check_box">
                                                 <input type="checkbox" id="myCheckboxWithdraw" name="myCheckboxWithdraw">
                                             </th>
                                             <th class="bkactionss">actions</th>
                                         </tr>
+                                        @php $nowd = 1; @endphp
                                         @foreach ($listbankwd as $group => $d)
                                             @foreach ($d as $bank => $dt)
                                                 @foreach ($dt['data_bank'] as $dbank)
+                                                    @php $nowd++ @endphp
                                                     <tr>
-                                                        <td>{{ $loop->iteration }}</td>
-                                                        <td>
-                                                            <div class="listinputmember">
-                                                                <select class="inputnew smallfont" name="bankmaster"
-                                                                    id="bankmaster_{{ $loop->iteration }}"
-                                                                    data-jenis="1">
-                                                                    @foreach ($listmasterbank as $d)
-                                                                        <option value="{{ $d['bnkmstrxyxyx'] }}"
-                                                                            {{ $d['bnkmstrxyxyx'] == $bank ? 'selected' : '' }}>
-                                                                            {{ $d['bnkmstrxyxyx'] }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-
-                                                        </td>
-
+                                                        <td>{{ $nowd }}</td>
+                                                        <td>{{ strtoupper($bank) }}</td>
                                                         <td>
                                                             <div class="listinputmember">
                                                                 <select class="inputnew smallfont" name="namabank"
@@ -286,16 +265,31 @@
                                                             </div>
 
                                                         </td>
-                                                        <td>florensia sitanggang</td>
-                                                        <td class="ceonorek">03559178112</td>
+                                                        <td class="ceonorek">{{ $dbank['norekxyxy'] }}</td>
+                                                        <td>
+                                                            <div class="listinputmember">
+                                                                <select class="inputnew smallfont" name="bankbaruwd"
+                                                                    id="bankmaster_{{ $nowd }}" data-jenis="1">
+                                                                    @php $firstLoop = true; @endphp
+                                                                    @foreach ($listbankex as $listbank)
+                                                                        <option value="{{ $listbank }}"
+                                                                            {{ $firstLoop ? 'selected' : '' }}>
+                                                                            {{ $firstLoop ? 'pilih Bank' : $listbank }}
+                                                                        </option>
+                                                                        @php $firstLoop = false; @endphp
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </td>
                                                         <td class="check_box xurlbarcode">
                                                             <input type="checkbox" id="urlbarcode" name="urlbarcode"
                                                                 data-barcode="" disabled>
                                                         </td>
-                                                        <td class="check_box"
-                                                            onclick="toggleCheckbox('myCheckboxDeposit-0')">
-                                                            <input type="checkbox" id="myCheckboxDeposit-0"
-                                                                name="myCheckboxDeposit-0" data-id="">
+                                                        <td class="check_box">
+                                                            <input type="checkbox"
+                                                                id="myCheckboxWithdraw-{{ $dbank['idbank'] }}"
+                                                                name="myCheckboxWithdraw-{{ $dbank['idbank'] }}"
+                                                                data-id="">
                                                         </td>
                                                         <td>
                                                             <div class="kolom_action">
@@ -323,7 +317,8 @@
                                                                             <span>Edit</span>
                                                                         </div>
                                                                     </a>
-                                                                    <a href="#">
+                                                                    <a href="#"
+                                                                        onclick="confirmDelete('{{ $dbank['idbank'] }}', '{{ $group }}')">
                                                                         <div class="list_action">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 width="1em" height="1em"
@@ -331,7 +326,7 @@
                                                                                 <path fill="currentColor"
                                                                                     d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
                                                                             </svg>
-                                                                            <span>delete</span>
+                                                                            <span>Delete</span>
                                                                         </div>
                                                                     </a>
                                                                 </div>
@@ -347,7 +342,7 @@
                             <button class="tombol primary">
                                 <span class="texttombol">UPDATE</span>
                             </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -485,82 +480,200 @@
 
 
     <script>
+        var counter = 1000;
         document.getElementById('tambahKolom').addEventListener('click', function() {
             var table = document.getElementById('listbankTable').getElementsByTagName('tbody')[0];
             var newRow = table.insertRow();
 
-            // Tambahkan kolom baru ke baris
+            newRow.id = 'newRow' + (++counter);
+
             newRow.innerHTML = `
-            <td>-</td>
-            <td>Empty</td>
-            <td>Empty</td>
-            <td>Empty</td>
-            <td>
-                <div class="listinputmember">
-                    <select class="inputnew smallfont" name="bankbaru"
-                        id="bankbaru2" data-jenis="1">
-                        @php $firstLoop = true; @endphp
-                        @foreach ($listbankex as $listbank)
-                            <option value="{{ $listbank }}"
-                                {{ $firstLoop ? 'selected' : '' }}>
-                                {{ $firstLoop ? 'pilih Bank' : $listbank }}
-                            </option>
-                            @php $firstLoop = false; @endphp
-                        @endforeach
-                    </select>
-                </div>
-            </td>
-            <td class="check_box xurlbarcode">
-                <input type="checkbox" id="urlbarcode" name="urlbarcode"
-                    data-barcode=""
-                    disabled>
-            </td>
-            <td class="check_box"
-                onclick="toggleCheckbox('myCheckboxDeposit-0')">
-                <input type="checkbox" id="myCheckboxDeposit-0"
-                    name="myCheckboxDeposit-0" data-id="">
-            </td>
-            <td>
-                <div class="kolom_action">
-                    <div class="dot_action">
-                        <span>•</span>
-                        <span>•</span>
-                        <span>•</span>
-                    </div>
-                    <div class="action_crud">
-                        <a href="/bankds/setbank">
-                            <div class="list_action">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    width="1em" height="1em"
-                                    viewBox="0 0 24 24">
-                                    <g fill="none" stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2">
-                                        <path
-                                            d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                        <path
-                                            d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-                                    </g>
-                                </svg>
-                                <span>Edit</span>
-                            </div>
-                        </a>
-                        <a href="#">
-                            <div class="list_action">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    width="1em" height="1em"
-                                    viewBox="0 0 24 24">
-                                    <path fill="currentColor"
-                                        d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                                </svg>
-                                <span>delete</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </td>
-        `;
+        <td>-</td>
+        <td>Empty</td>
+        <td>Empty</td>
+        <td>Empty</td>
+        <td>
+            <div class="listinputmember">
+                <input type="hidden" name="banklama-${counter}" value="">
+                <select class="inputnew smallfont"
+                    name="bankbaru-${counter}" data-jenis="1" required>
+                    <option value="">pilih Bank</option>
+                    @foreach ($listbankex as $listbank)
+                        <option value="{{ explode(' - ', $listbank)[0] }}">
+                            {{ substr($listbank, strpos($listbank, '-') + 2) }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </td>
+        <td class="check_box xurlbarcode">
+            <input type="checkbox" id="urlbarcode" name="urlbarcode"
+                data-barcode=""
+                disabled>
+        </td>
+        <td class="check_box">
+            <input type="checkbox" id="myCheckboxDeposit-${counter}"
+                name="myCheckboxDeposit-${counter}" data-id="" checked onclick="return false;">
+        </td>
+        <td>
+            <button id="hapusKolom" class="tombol danger">
+                <span class="texttombol"> X </span>
+            </button>
+        </td>
+    `;
+        });
+
+        document.addEventListener('click', function(event) {
+            if (event.target.matches('.tombol.danger') || event.target.matches('.tombol.danger .texttombol')) {
+                var row = event.target.closest('tr');
+                if (row) {
+                    row.remove();
+                }
+            }
+        });
+
+
+
+
+        var counterWd = 2000;
+        document.getElementById('tambahKolomWd').addEventListener('click', function() {
+            var table = document.getElementById('listbankTableWd').getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow();
+
+            newRow.id = 'newRow' + (++counterWd);
+
+            newRow.innerHTML = `
+        <td>-</td>
+        <td>Empty</td>
+        <td>Empty</td>
+        <td>Empty</td>
+        <td>
+            <div class="listinputmember">
+                <input type="hidden" name="banklama-${counterWd}" value="">
+                <select class="inputnew smallfont"
+                    name="bankbaru-${counterWd}" data-jenis="1" required>
+                    <option value="">pilih Bank</option>
+                    @foreach ($listbankex as $listbank)
+                        <option value="{{ explode(' - ', $listbank)[0] }}">
+                            {{ substr($listbank, strpos($listbank, '-') + 2) }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </td>
+        <td class="check_box xurlbarcode">
+            <input type="checkbox" id="urlbarcode" name="urlbarcode"
+                data-barcode=""
+                disabled>
+        </td>
+        <td class="check_box">
+            <input type="checkbox" id="myCheckboxDeposit-${counterWd}"
+                name="myCheckboxDeposit-${counterWd}" data-id="" checked onclick="return false;">
+        </td>
+        <td>
+            <button id="hapusKolom" class="tombol danger">
+                <span class="texttombol"> X </span>
+            </button>
+        </td>
+    `;
+        });
+
+
+
+
+
+        function confirmDelete(idbank, group) {
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Apakah Anda yakin ingin menghapus list bank ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteGroup(idbank, group);
+                }
+            });
+        }
+
+        function deleteGroup(idbank, group) {
+            $.ajax({
+                url: '/bankds/deletelistbank/' + idbank + '/' + group,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log(response);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sukses!',
+                        text: 'List bank berhasil dihapus.'
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Terjadi kesalahan saat menghapus data.'
+                    });
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            $('#updateButton').click(function(event) {
+                event.preventDefault();
+
+                var checkboxes = $('input[type="checkbox"][id^="myCheckboxDeposit-"]');
+                var checked = false;
+
+                checkboxes.each(function() {
+                    if ($(this).is(':checked')) {
+                        checked = true;
+                        return false;
+                    }
+                });
+
+                if (!checked) {
+                    Swal.fire({
+                        title: 'Warning',
+                        text: 'Anda harus memilih group lalu melakukan centang untuk melakukan update data!',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    $('#form-listbankdp').submit();
+                }
+            });
         });
     </script>
+
+    @if (session('success'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses!',
+                    text: '{{ session('success') }}',
+                });
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '{{ session('error') }}',
+                });
+            });
+        </script>
+    @endif
 @endsection

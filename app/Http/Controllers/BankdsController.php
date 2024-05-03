@@ -285,12 +285,78 @@ class BankdsController extends Controller
         ]);
     }
 
-    public function setbank()
+    public function setbank($id, $groupbank)
     {
+
+        $allgroup = [];
+        $responseByGroup = Http::get('https://back-staging.bosraka.com/banks/v2/' . $groupbank);
+        $resultsGroup = $responseByGroup->json()["data"];
+
+        $filteredGroups = [];
+        foreach ($resultsGroup as $groupKey => $groupData) {
+            foreach ($groupData as $bank => $bankData) {
+                if (isset($bankData['data_bank'])) {
+                    foreach ($bankData['data_bank'] as $bankDetail) {
+                        if ($bankDetail['idbank'] == $id) {
+                            $filteredGroups[$bank] = $bankDetail;
+                            break 2;
+                        }
+                    }
+                }
+            }
+        }
+
+        $responseBank = Http::get('https://back-staging.bosraka.com/banks/master');
+        $resultsBank = $responseBank->json()["data"];
+
+        // foreach ($resultsGroup as $key => $value) {
+        //     if (is_array($value)) {
+        //         foreach ($value as $subKey => $subValue) {
+        //             if (isset($subValue['data_bank']) && is_array($subValue['data_bank'])) {
+        //                 foreach ($subValue['data_bank'] as $subData) {
+        //                     if (isset($subData['idbank']) && $subData['idbank'] == $id) {
+        //                         $allgroup[] = $key;
+        //                         break 3;
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+
+        // $responseByExceptGroup = Http::get('https://back-staging.bosraka.com/banks/exc/' . $groupbank);
+        // $resultsExcept = $responseByExceptGroup->json()["data"];
+        // foreach ($resultsExcept as $key => $value) {
+        //     if (is_array($value)) {
+        //         foreach ($value as $subKey => $subValue) {
+        //             if (isset($subValue['data_bank']) && is_array($subValue['data_bank'])) {
+        //                 foreach ($subValue['data_bank'] as $subData) {
+        //                     if (isset($subData['idbank']) && $subData['idbank'] == $id) {
+        //                         $allgroup[] = $key;
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+
+        // dd($allgroup);
+
+        // $apiUrl = 'https://back-staging.bosraka.com/banks/master/' . $bankName;
+
+        // $response = Http::put($apiUrl, $bankData);
+        // if (!$response->successful()) {
+
+        //     return back()->withInput()->with('error', $response->json()["message"]);
+        // }
+
 
         return view('bankds.rekbank_edit', [
             'title' => 'Add & Set Bank',
             'totalnote' => 0,
+            'data' => $filteredGroups,
+            'dataBank' => $resultsBank,
+            'groupbank' => $groupbank
         ]);
     }
 
@@ -440,16 +506,13 @@ class BankdsController extends Controller
             return $item['grouptype'] == 2;
         });
 
-
         $responseBank = Http::get('https://back-staging.bosraka.com/banks/master');
         $listmasterbank = $responseBank->json()["data"];
 
-        // $responseBankGroup = Http::get('https://back-staging.bosraka.com/banks/group');
-        // $listbankgroup = $responseBankGroup->json()["data"];
 
+        /* DP */
         $listbankdpex = [];
         $listbankdp = [];
-        $listbankwd = [];
         if ($group != 0) {
             $responseBankByGroup = Http::get('https://back-staging.bosraka.com/banks/v2/' . $group);
             if ($responseBankByGroup->json()['status'] !== 'fail') {
@@ -468,35 +531,58 @@ class BankdsController extends Controller
         foreach ($listbankdpex as $groupbank => $bankArray) {
             foreach ($bankArray as $bankData => $databank) {
                 foreach ($databank['data_bank'] as $bank) {
-                    $bankInfo = $bankData . ' - ' . $bank['namebankxxyy'] . ' - ' . $bank['xynamarekx'] . ' - ' . $bank['norekxyxy'];
+                    $bankInfo = $bank['idbank'] . ' - ' . $bankData . ' - ' . $bank['namebankxxyy'] . ' - ' . $bank['xynamarekx'] . ' - ' . $bank['norekxyxy'];
                     $listbankex[] = $bankInfo;
                 }
             }
         }
 
-        $listbankex = [];
-        foreach ($listbankdpex as $groupbank => $bankArray) {
-            foreach ($bankArray as $bankData => $databank) {
-                foreach ($databank['data_bank'] as $bank) {
-                    $bankInfo = $bankData . ' - ' . $bank['namebankxxyy'] . ' - ' . $bank['xynamarekx'] . ' - ' . $bank['norekxyxy'];
-                    $listbankex[] = $bankInfo;
-                }
-            }
-        }
+        usort($listbankex, function ($a, $b) {
+            $bankDataA = explode(' - ', $a)[1];
+            $bankDataB = explode(' - ', $b)[1];
+            return strcmp($bankDataA, $bankDataB);
+        });
 
+        $listbankex = array_unique($listbankex);
+        $listbankex = array_values($listbankex);
+
+
+        /* WD */
+        $listbankwdex = [];
+        $listbankwd = [];
         if ($groupwd != 0) {
             $responseBankByGroupWd = Http::get('https://back-staging.bosraka.com/banks/v2/' . $groupwd);
             if ($responseBankByGroupWd->json()['status'] !== 'fail') {
                 $listbankwd = $responseBankByGroupWd->json()["data"];
                 unset($listbankwd['headers']);
             }
+
+            $responseexcgroupbankWd = Http::get('https://back-staging.bosraka.com/banks/exc/' . $groupwd);
+            if ($responseexcgroupbankWd->json()['status'] !== 'fail') {
+                $listbankwdex = $responseexcgroupbankWd->json()["data"];
+                unset($listbankwdex['headers']);
+            }
         }
 
+        $listbankexwd = [];
+        foreach ($listbankdpex as $groupbank => $bankArray) {
+            foreach ($bankArray as $bankData => $databank) {
+                foreach ($databank['data_bank'] as $bank) {
+                    $bankInfo = $bank['idbank'] . ' - ' . $bankData . ' - ' . $bank['namebankxxyy'] . ' - ' . $bank['xynamarekx'] . ' - ' . $bank['norekxyxy'];
+                    $listbankexwd[] = $bankInfo;
+                }
+            }
+        }
 
+        usort($listbankexwd, function ($a, $b) {
+            $bankDataA = explode(' - ', $a)[1];
+            $bankDataB = explode(' - ', $b)[1];
+            return strcmp($bankDataA, $bankDataB);
+        });
 
+        $listbankexwd = array_unique($listbankexwd);
+        $listbankexwd = array_values($listbankexwd);
 
-        // $responseBankExcept = Http::get('https://back-staging.bosraka.com/banks/exc/groupbank99');
-        // $listBankExcept = $responseBankExcept->json()["data"];
 
         return view('bankds.listbank', [
             'title' => 'List Bank',
@@ -510,6 +596,9 @@ class BankdsController extends Controller
             'listmasterbank' => $listmasterbank,
             'listbankdpex' => $listbankdpex,
             'listbankex' => $listbankex,
+            'listbankwdex' => $listbankwdex,
+            'listbankexwd' => $listbankexwd
+
 
         ]);
     }
@@ -642,6 +731,77 @@ class BankdsController extends Controller
         ]);
     }
 
+    public function updatelistbank(Request $request, $jenis = "DP")
+    {
+        try {
+            $data = $request->all();
+
+            $filteringDataChecked = [];
+            if ($jenis == 'DP') {
+                foreach ($data as $key => $value) {
+                    if (strpos($key, 'myCheckboxDeposit-') === 0 && $value === 'on') {
+
+                        $groupNumber = substr($key, strlen('myCheckboxDeposit-'));
+                        $filteringDataChecked[] = [
+                            'banklama' => $data['banklama-' . $groupNumber],
+                            'bankbaru' => $data['bankbaru-' . $groupNumber]
+                        ];
+                    }
+                }
+            } else {
+                foreach ($data as $key => $value) {
+                    if (strpos($key, 'myCheckboxDeposit-') === 0 && $value === 'on') {
+
+                        $groupNumber = substr($key, strlen('myCheckboxDeposit-'));
+                        $filteringDataChecked[] = [
+                            'banklama' => $data['banklama-' . $groupNumber],
+                            'bankbaru' => $data['bankbaru-' . $groupNumber]
+                        ];
+                    }
+                }
+            }
+
+            foreach ($filteringDataChecked as $i => $valueFilter) {
+                if ($valueFilter['bankbaru'] != '' || $valueFilter['bankbaru'] != null) {
+                    if ($valueFilter['banklama'] != '' || $valueFilter['banklama'] != null) {
+                        $deleteData = $this->deleteBankFromGroup($valueFilter['banklama'], $data['groupbank']);
+                        if ($deleteData['status'] !== 'success') {
+                            return redirect()->back()->with('error', $deleteData['message']);
+                        }
+                    }
+
+                    $putData = $this->putChangeGroupbank($valueFilter['bankbaru'], $data['groupbank']);
+                    if ($putData['status'] !== 'success') {
+                        return redirect()->back()->with('error', $putData['message']);
+                    }
+                } else {
+                    return redirect()->back()->with('error', 'Bank tidak boleh kosong');
+                }
+            }
+
+            return redirect()->back()->with('success', 'Data ' . $data['groupbank'] .  ' berhasil diperbarui');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    private function putChangeGroupbank($id, $groupbank)
+    {
+        $apiUrl = 'https://back-staging.bosraka.com/banks/v3/' . $id;
+        $data = [
+            'namegroupxyzt' => $groupbank
+        ];
+        $response = Http::put($apiUrl, $data);
+        return $response->json();
+    }
+
+    private function deleteBankFromGroup($id, $groupbank)
+    {
+        $url = 'https://back-staging.bosraka.com/banks/arr/' . $id .  '/' . $groupbank;
+        $response = Http::delete($url);
+        return $response->json();
+    }
+
     // public function xdata()
     // {
 
@@ -650,4 +810,14 @@ class BankdsController extends Controller
     //         'totalnote' => 0,
     //     ]);
     // }
+
+    public function deletelistbank($id, $groupbank)
+    {
+        $response = Http::delete('https://back-staging.bosraka.com/banks/arr/' . $id . '/' . $groupbank);
+        if ($response->successful()) {
+            return response()->json(['success' => true, 'message' => 'List bank berhasil dihapus']);
+        } else {
+            return response()->json(['success' => false, 'message' => $response->json()["message"]]);
+        }
+    }
 }

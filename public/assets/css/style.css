@@ -1452,13 +1452,12 @@ textarea:hover {
   width: 60px;
   height: 30px;
   background-color: rgba(var(--rgba-white), 0.1);
-  border: var(--border-primary);
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
   box-shadow: inset 0 0 5px rgba(var(--rgba-black), 0.5);
   border-radius: 20px;
   position: relative;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  border: 1px solid transparent;
 }
 
 .sec_switch:hover {
@@ -2406,9 +2405,23 @@ table svg.icon-tabler-x {
 .secdashboard {
   width: 100%;
   display: grid;
-  grid-template-columns: 2fr 2fr 1.5fr;
+  grid-template-columns: 3fr 1fr;
   gap: 15px;
   padding: 10px 20px 120px 20px;
+}
+
+.ccgrouplistsecdashboard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.grouplistsecdashboard {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
 }
 
 .listsecdashboard {
@@ -2425,7 +2438,7 @@ table svg.icon-tabler-x {
 .groupdatalistdashboard {
   width: 100%;
   min-height: 110px;
-  padding: 20px;
+  padding: 10px;
   background: var(--bg-box-primary);
   border-radius: 6px;
   display: flex;
@@ -2889,7 +2902,11 @@ table svg.icon-tabler-x {
 }
 
 .groupdatasecagentds .tabelproses .action {
-  width: 15%;
+  width: 14vw;
+}
+
+.groupdatasecagentds .tabelproses.slider .action {
+  width: 10vw;
 }
 
 .tabelproses .bagbalance {
@@ -3338,7 +3355,7 @@ table svg.icon-tabler-x {
 
 .groupform input::placeholder {
   color: rgba(var(--rgba-white), 0.3);
-  text-transform: capitalize;
+  text-transform: unset;
 }
 
 .groupform .tombol {
@@ -3508,7 +3525,9 @@ table svg.icon-tabler-x {
 .listinputmember #gabungdari::-webkit-calendar-picker-indicator,
 .listinputmember #gabunghingga::-webkit-calendar-picker-indicator,
 .listinputmember #startDate::-webkit-calendar-picker-indicator,
-.listinputmember #endDate::-webkit-calendar-picker-indicator {
+.listinputmember #endDate::-webkit-calendar-picker-indicator,
+.groupeditinput #lastmod::-webkit-calendar-picker-indicator,
+.groupeditinput #mtschedule::-webkit-calendar-picker-indicator {
   filter: invert(1);
   cursor: pointer;
 }
@@ -3670,7 +3689,7 @@ table svg.icon-tabler-x {
 }
 
 .listinputmember input::placeholder {
-  text-transform: capitalize;
+  text-transform: unset;
 }
 
 .listinputmember option {
@@ -3833,7 +3852,7 @@ table svg.icon-tabler-x {
 }
 
 .groupseceditmemberds input::placeholder {
-  text-transform: capitalize;
+  text-transform: unset;
 }
 
 .secgroupdatabankds input::placeholder {
@@ -3871,7 +3890,8 @@ table svg.icon-tabler-x {
 .groupseceditmemberds .groupeditinput,
 .secgroupdatabankds .groupeditinput,
 .groupsecmemods .groupeditinput,
-.groupsecagentds .groupeditinput {
+.groupsecagentds .groupeditinput,
+.groupdataanalyticds .groupeditinput {
   display: flex;
   justify-content: center;
   background: var(--bg-box-primary);
@@ -3892,20 +3912,24 @@ table svg.icon-tabler-x {
 
 .groupseceditmemberds .groupeditinput.edit,
 .secgroupdatabankds .groupeditinput.edit,
-.groupsecmemods .groupeditinput.edit {
+.groupsecmemods .groupeditinput.edit,
+.groupdataanalyticds .groupeditinput.edit {
   background: rgba(var(--rgba-white));
   box-shadow: unset;
 }
 
 .groupseceditmemberds .groupeditinput.edit input,
+.groupseceditmemberds .groupeditinput.edit textarea,
 .secgroupdatabankds .groupeditinput.edit input,
-.groupsecmemods .groupeditinput.edit input {
+.groupsecmemods .groupeditinput.edit input,
+.groupdataanalyticds .groupeditinput.edit input {
   color: rgba(var(--rgba-black));
 }
 
 .groupseceditmemberds .groupeditinput svg,
 .secgroupdatabankds .groupeditinput svg,
-.groupsecagentds .groupeditinput svg {
+.groupsecagentds .groupeditinput svg,
+.groupdataanalyticds .groupeditinput svg {
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -3918,19 +3942,22 @@ table svg.icon-tabler-x {
 }
 
 .groupseceditmemberds .groupeditinput input,
+.groupseceditmemberds .groupeditinput textarea,
 .secgroupdatabankds .groupeditinput input,
 .secgroupdatabankds .groupeditinput select,
 .groupsecmemods .groupeditinput input,
 .groupsecmemods .groupeditinput textarea,
 .groupsecagentds .groupeditinput input,
-.groupsecagentds .groupeditinput select {
+.groupsecagentds .groupeditinput select,
+.groupdataanalyticds .groupeditinput input,
+.groupdataanalyticds .groupeditinput textarea {
   padding: unset;
   background: transparent;
   box-shadow: unset;
   border: unset;
   border-radius: unset;
   cursor: unset;
-  text-transform: uppercase;
+  text-transform: unset;
 }
 
 .listplayerinfogrp {
@@ -4211,6 +4238,7 @@ table svg.icon-tabler-x {
   border-left: 1px solid rgba(var(--rgba-black), 0.2);
   margin: auto;
   padding: 10px;
+  position: relative;
 }
 
 .groupdetailhistorygameds {
@@ -4244,6 +4272,7 @@ table svg.icon-tabler-x {
   width: 100%;
   display: flex;
   flex-direction: column;
+  gap: 10px;
   margin-top: 10px;
 }
 
@@ -4868,7 +4897,8 @@ table svg.icon-tabler-x {
   justify-content: flex-end;
 }
 
-.groupeditinput #urllogo {
+.groupeditinput #urllogo,
+.groupeditinput #imgurl {
   text-transform: unset;
 }
 
@@ -5059,7 +5089,9 @@ input#urlbarcode {
 }
 
 .groupsecmemods .groupeditinput input,
-.groupsecmemods .groupeditinput textarea {
+.groupsecmemods .groupeditinput textarea,
+.groupdataanalyticds .groupeditinput input,
+.groupdataanalyticds .groupeditinput textarea {
   color: rgba(var(--rgba-white));
   text-transform: unset;
 }
@@ -5345,7 +5377,8 @@ input#urlbarcode {
   text-transform: capitalize;
 }
 
-.groupdatasecagentds .tabelproses td.statusagent {
+.groupdatasecagentds .tabelproses td.statusagent,
+.groupdatasecagentds .tabelproses td.statuspromo {
   text-transform: uppercase;
 }
 
@@ -5353,7 +5386,8 @@ input#urlbarcode {
   padding: 5px;
 }
 
-.groupdatasecagentds .statusagent[data-status="1"] {
+.groupdatasecagentds .statusagent[data-status="1"],
+.groupdatasecagentds .statuspromo[data-status="1"] {
   color: var(--green-color);
 }
 
@@ -5361,7 +5395,8 @@ input#urlbarcode {
   color: var(--yellow-color);
 }
 
-.groupdatasecagentds .statusagent[data-status="3"] {
+.groupdatasecagentds .statusagent[data-status="3"],
+.groupdatasecagentds .statuspromo[data-status="2"] {
   color: var(--red-color);
 }
 
@@ -5608,6 +5643,371 @@ input#agentname {
   gap: 10px;
 }
 
+.secanalyticds {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px 120px 20px;
+}
+
+.groupsecanalyticds {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.headsecanalyticds {
+  width: 20%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.headsecanalyticds .tombol {
+  width: 100%;
+  padding: 20px;
+}
+
+.groupdataanalyticds {
+  width: 100%;
+}
+
+.groupdataanalyticds .listgroupplayerinfo {
+  padding-left: unset;
+  gap: 30px;
+}
+
+.groupdataanalyticds .groupplayerinfo {
+  justify-content: flex-start;
+  gap: 100px;
+}
+
+.groupdataanalyticds .listplayerinfo {
+  grid-template-columns: 0.5fr 2fr;
+  align-items: start;
+}
+
+.groupdataanalyticds .sitemap {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.1fr;
+  width: unset;
+  align-items: center;
+}
+
+.groupdataanalyticds .sitemap .listplayerinfo {
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.groupdataanalyticds .sitemap .listplayerinfo.url {
+  grid-template-columns: 0.6fr 2fr;
+}
+
+.listdatasitemap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.groupeditinput {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.textslice {
+  color: rgba(var(--rgba-white), 0.4);
+}
+
+.groupdeleterow {
+  display: flex;
+  gap: 3px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.groupdeleterow .textdelete {
+  text-transform: capitalize;
+  transition: all 0.3s ease;
+}
+
+.groupdeleterow svg {
+  width: 25px;
+  height: 25px;
+  color: var(--red-color);
+  position: relative;
+  left: 0;
+  transition: all 0.3s ease;
+}
+
+.groupdeleterow:hover {
+  transform: scale(1.05);
+}
+
+.groupdeleterow:hover .textdelete {
+  color: rgba(var(--rgba-white));
+}
+
+.groupdeleterow:hover svg {
+  left: -5px;
+}
+
+.informasipengisiandata {
+  padding: 20px;
+}
+
+.informasipengisiandata .titleinformasi {
+  color: rgba(var(--rgba-white));
+  font-size: 20px;
+}
+
+.informasipengisiandata a {
+  color: rgba(var(--rgba-white));
+  text-decoration: underline;
+  transition: all 0.3s ease;
+}
+
+.informasipengisiandata a:hover {
+  color: var(--primary-color);
+}
+
+.seccontentds {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px 50px 20px;
+}
+
+.groupseccontentds {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.headseccontentds {
+  width: 60%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.headseccontentds .tombol {
+  width: 100%;
+  padding: 20px;
+}
+
+.groupseccontentds .groupdataanalyticds .listplayerinfo {
+  align-items: center;
+}
+
+.groupseccontentds .groupdataanalyticds .listgroupplayerinfo {
+  gap: 10px;
+}
+
+.groupdatasecagentds .tabelproses td.datamini {
+  text-transform: unset;
+}
+
+.tabelproses .dragmenu svg {
+  width: 25px;
+  height: 25px;
+  display: none;
+}
+
+.tabelproses .bagmenu,
+.tabelproses .dragmenu {
+  width: 0%;
+  transition: all 0.3s ease;
+}
+
+.tabelproses .bagmenu.show,
+.tabelproses .dragmenu.show {
+  width: 5%;
+}
+
+.tabelproses tr.dinamicrow.show {
+  cursor: move;
+}
+
+.tabelproses tr.dinamicrow.show .dragmenu svg {
+  display: block;
+}
+
+.tabelproses .statuspromorow::before {
+  content: "";
+  position: absolute;
+  top: 5%;
+  left: 0;
+  width: 5px;
+  height: 90%;
+  border-radius: 0 12px 12px 0;
+}
+
+.tabelproses .dinamicrow[data-row="1"] .statuspromorow::before,
+.tabelproses .dinamicrow[data-row="2"] .statuspromorow::before {
+  background: var(--primary-color);
+}
+
+.tabelproses .dinamicrow[data-row="3"] .statuspromorow::before,
+.tabelproses .dinamicrow[data-row="4"] .statuspromorow::before,
+.tabelproses .dinamicrow[data-row="5"] .statuspromorow::before,
+.tabelproses .dinamicrow[data-row="6"] .statuspromorow::before {
+  background: rgba(var(--rgba-white));
+}
+
+.groupeditinput #urutanpromo,
+.groupeditinput #urutanslider {
+  color: rgba(var(--rgba-white), 0.3);
+}
+
+.groupplayerinfo.editpromo {
+  flex-direction: column;
+}
+
+.groupplayerinfo.editpromo .listgroupplayerinfo.left {
+  width: 100%;
+}
+
+.listplayerinfo img {
+  width: 100%;
+}
+
+.tabelproses .statuspromorow.slider::before {
+  display: none;
+}
+
+.slider td img {
+  width: 50%;
+}
+
+.groupdatasecagentds .slider .grouptools {
+  grid-template-columns: 1fr;
+}
+
+.iconmedia svg {
+  width: 30px;
+  height: 30px;
+}
+
+.groupstatusagent {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.groupstatusagent .listdatagrouplsmid {
+  width: 100%;
+  min-height: 70px;
+  padding: 10px;
+  background: var(--bg-box-primary);
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid rgba(var(--rgba-primary), 0.1);
+  transition: all 0.3s ease;
+}
+
+.groupstatusagent .listdatagrouplsmid:hover {
+  border: 1px solid rgba(var(--rgba-primary), 0.5);
+}
+
+.groupstatusagent .listdatagrouplsmid .detailtitle {
+  font-size: 13px;
+}
+
+.groupstatusagent .listdatagrouplsmid .countdetail {
+  font-size: 20px;
+  color: var(--green-color);
+}
+
+.titlewinloseuser {
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid rgba(var(--rgba-black), 0.2);
+}
+
+.datawinlose .table_detailhistorygameds th {
+  font-size: 12px;
+  text-align: center;
+}
+
+.datawinlose .table_detailhistorygameds td {
+  text-align: center;
+  font-weight: bold;
+}
+
+.datawinlose .table_detailhistorygameds td a {
+  color: unset;
+  text-transform: uppercase;
+  text-decoration: underline;
+  transition: all 0.3s ease;
+  color: var(--blue-color);
+}
+
+.datawinlose .table_detailhistorygameds td a:hover {
+  color: var(--primary-color);
+}
+
+.table_detailhistorygameds .bagxdate {
+  width: 20%;
+}
+
+.datawinlose .sec_openwindow {
+  max-width: 500px;
+}
+
+.datawinlose .nominal {
+  color: #08bb30;
+}
+
+.datawinlose .withdraw.nominal,
+.datawinlose .subwithdraw.nominal {
+  color: var(--red-color);
+}
+
+.datawinlose .nominal[data-value^="-"] {
+  color: var(--red-color);
+}
+
+.cctkembali {
+  width: unset;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: unset;
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(var(--rgba-black), 0.2);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.cctkembali svg {
+  color: var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.cctkembali:hover {
+  background: rgba(var(--rgba-black));
+  color: rgba(var(--rgba-white));
+}
+
+.table_detailhistorygameds .ccsubtotal th {
+  background: rgba(var(--rgba-black), 0.8);
+  padding: 10px 5px;
+}
+
+.table_detailhistorygameds .ccsubtotal th.bagtotal {
+  color: rgba(var(--rgba-white));
+}
+
 @media screen and (max-width: 800px) {
 
   .listplayerinfo label,
@@ -5624,4 +6024,15 @@ input#agentname {
   .updateagent label {
     font-size: 1.7vw;
   }
+}
+
+.danger {
+  background: var(--danger-color);
+  color: rgba(var(--rgba-white));
+}
+
+.danger:hover {
+  background: transparent;
+  border: 1px solid var(--danger-color);
+  box-shadow: 5px 8px 8px rgba(var(--rgba-black), 0.1);
 }
