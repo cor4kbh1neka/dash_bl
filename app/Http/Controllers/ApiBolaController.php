@@ -623,8 +623,8 @@ class ApiBolaController extends Controller
                 if ($transactionTransaction) {
 
                     /* Record Data Referral */
-
-                    if ($WinLoss === 0) {
+                    dd($WinLoss === 0 || $WinLoss == '0.00' || $WinLoss == '0.0');
+                    if ($WinLoss === 0 || $WinLoss == '0.00' || $WinLoss == '0.0') {
                         $this->execReferral($request, $dataStatusTransaction, $WinLoss);
                     }
 

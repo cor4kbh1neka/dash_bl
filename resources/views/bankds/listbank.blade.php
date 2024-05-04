@@ -197,7 +197,8 @@
                             </button>
                         </form>
 
-                        <form method="POST" action="bankds/updatelistbank/WD" class="listgroupbank">
+                        <form method="POST" action="/bankds/updatelistbank/WD" class="listgroupbank"
+                            id="form-listbankwd">
                             @csrf
                             <div class="grouptablebank frinput">
                                 <table>
@@ -253,14 +254,13 @@
                                                         <td>{{ strtoupper($bank) }}</td>
                                                         <td>
                                                             <div class="listinputmember">
-                                                                <select class="inputnew smallfont" name="namabank"
-                                                                    id="namabank">
-                                                                    {{-- @foreach ($dbank as $dtb)
-                                                                        @dd($dtb) --}}
-                                                                    <option id="pertama"
-                                                                        value="{{ $dbank['namebankxxyy'] }}">
-                                                                        {{ $dbank['namebankxxyy'] }}</option>
-                                                                    {{-- @endforeach --}}
+                                                                <select class="inputnew smallfont"
+                                                                    name="banklama-{{ $dbank['idbank'] }}">
+                                                                    <option value="{{ $dbank['idbank'] }}">
+                                                                        {{ $dbank['namebankxxyy'] }} -
+                                                                        {{ $dbank['xynamarekx'] }} -
+                                                                        {{ $dbank['norekxyxy'] }}
+                                                                    </option>
                                                                 </select>
                                                             </div>
 
@@ -268,15 +268,15 @@
                                                         <td class="ceonorek">{{ $dbank['norekxyxy'] }}</td>
                                                         <td>
                                                             <div class="listinputmember">
-                                                                <select class="inputnew smallfont" name="bankbaruwd"
-                                                                    id="bankmaster_{{ $nowd }}" data-jenis="1">
-                                                                    @php $firstLoop = true; @endphp
-                                                                    @foreach ($listbankex as $listbank)
-                                                                        <option value="{{ $listbank }}"
-                                                                            {{ $firstLoop ? 'selected' : '' }}>
-                                                                            {{ $firstLoop ? 'pilih Bank' : $listbank }}
+                                                                <select class="inputnew smallfont"
+                                                                    name="bankbaru-{{ $dbank['idbank'] }}"
+                                                                    id="bankmaster_{{ $no }}" data-jenis="1">
+                                                                    <option value="">pilih Bank</option>
+                                                                    @foreach ($listbankexwd as $listbank)
+                                                                        <option
+                                                                            value="{{ explode(' - ', $listbank)[0] }}">
+                                                                            {{ substr($listbank, strpos($listbank, '-') + 2) }}
                                                                         </option>
-                                                                        @php $firstLoop = false; @endphp
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -299,7 +299,8 @@
                                                                     <span>•</span>
                                                                 </div>
                                                                 <div class="action_crud">
-                                                                    <a href="/bankds/setbank">
+                                                                    <a
+                                                                        href="/bankds/setbank/{{ $dbank['idbank'] }}/{{ $group }}">
                                                                         <div class="list_action">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 width="1em" height="1em"
@@ -339,7 +340,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <button class="tombol primary">
+                            <button class="tombol primary" id="updateButtonWd">
                                 <span class="texttombol">UPDATE</span>
                             </button>
                         </form>
@@ -470,7 +471,7 @@
                         });
                     },
                     error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
+                        // console.error(xhr.responseText);
                         alert('Terjadi kesalahan saat melakukan permintaan GET.');
                     }
                 });
@@ -482,12 +483,13 @@
     <script>
         var counter = 1000;
         document.getElementById('tambahKolom').addEventListener('click', function() {
-            var table = document.getElementById('listbankTable').getElementsByTagName('tbody')[0];
-            var newRow = table.insertRow();
+            var groupbank = document.getElementById("groupbank").value;
+            if (groupbank != '') {
+                var table = document.getElementById('listbankTable').getElementsByTagName('tbody')[0];
+                var newRow = table.insertRow();
+                newRow.id = 'newRow' + (++counter);
 
-            newRow.id = 'newRow' + (++counter);
-
-            newRow.innerHTML = `
+                newRow.innerHTML = `
         <td>-</td>
         <td>Empty</td>
         <td>Empty</td>
@@ -521,6 +523,13 @@
             </button>
         </td>
     `;
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: 'Mohon pilih sebuah grup terlebih dahulu.'
+                });
+            }
         });
 
         document.addEventListener('click', function(event) {
@@ -537,12 +546,14 @@
 
         var counterWd = 2000;
         document.getElementById('tambahKolomWd').addEventListener('click', function() {
-            var table = document.getElementById('listbankTableWd').getElementsByTagName('tbody')[0];
-            var newRow = table.insertRow();
+            var groupbankwd = document.getElementById("groupbankwd").value;
+            if (groupbankwd != '') {
+                var table = document.getElementById('listbankTableWd').getElementsByTagName('tbody')[0];
+                var newRow = table.insertRow();
 
-            newRow.id = 'newRow' + (++counterWd);
+                newRow.id = 'newRow' + (++counterWd);
 
-            newRow.innerHTML = `
+                newRow.innerHTML = `
         <td>-</td>
         <td>Empty</td>
         <td>Empty</td>
@@ -553,7 +564,7 @@
                 <select class="inputnew smallfont"
                     name="bankbaru-${counterWd}" data-jenis="1" required>
                     <option value="">pilih Bank</option>
-                    @foreach ($listbankex as $listbank)
+                    @foreach ($listbankexwd as $listbank)
                         <option value="{{ explode(' - ', $listbank)[0] }}">
                             {{ substr($listbank, strpos($listbank, '-') + 2) }}
                         </option>
@@ -567,8 +578,8 @@
                 disabled>
         </td>
         <td class="check_box">
-            <input type="checkbox" id="myCheckboxDeposit-${counterWd}"
-                name="myCheckboxDeposit-${counterWd}" data-id="" checked onclick="return false;">
+            <input type="checkbox" id="myCheckboxWithdraw-${counterWd}"
+                name="myCheckboxWithdraw-${counterWd}" data-id="" checked onclick="return false;">
         </td>
         <td>
             <button id="hapusKolom" class="tombol danger">
@@ -576,6 +587,13 @@
             </button>
         </td>
     `;
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: 'Mohon pilih sebuah grup terlebih dahulu.'
+                });
+            }
         });
 
 
@@ -605,7 +623,7 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    console.log(response);
+                    // console.log(response);
                     Swal.fire({
                         icon: 'success',
                         title: 'Sukses!',
@@ -615,7 +633,7 @@
                     });
                 },
                 error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
+                    // console.error(xhr.responseText);
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
@@ -648,6 +666,31 @@
                     });
                 } else {
                     $('#form-listbankdp').submit();
+                }
+            });
+
+            $('#updateButtonWd').click(function(event) {
+                event.preventDefault();
+
+                var checkboxes = $('input[type="checkbox"][id^="myCheckboxWithdraw-"]');
+                var checked = false;
+
+                checkboxes.each(function() {
+                    if ($(this).is(':checked')) {
+                        checked = true;
+                        return false;
+                    }
+                });
+
+                if (!checked) {
+                    Swal.fire({
+                        title: 'Warning',
+                        text: 'Anda harus memilih group lalu melakukan centang untuk melakukan update data!',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    $('#form-listbankwd').submit();
                 }
             });
         });

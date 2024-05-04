@@ -565,7 +565,7 @@ class BankdsController extends Controller
         }
 
         $listbankexwd = [];
-        foreach ($listbankdpex as $groupbank => $bankArray) {
+        foreach ($listbankwdex as $groupbank => $bankArray) {
             foreach ($bankArray as $bankData => $databank) {
                 foreach ($databank['data_bank'] as $bank) {
                     $bankInfo = $bank['idbank'] . ' - ' . $bankData . ' - ' . $bank['namebankxxyy'] . ' - ' . $bank['xynamarekx'] . ' - ' . $bank['norekxyxy'];
@@ -582,7 +582,6 @@ class BankdsController extends Controller
 
         $listbankexwd = array_unique($listbankexwd);
         $listbankexwd = array_values($listbankexwd);
-
 
         return view('bankds.listbank', [
             'title' => 'List Bank',
@@ -750,9 +749,9 @@ class BankdsController extends Controller
                 }
             } else {
                 foreach ($data as $key => $value) {
-                    if (strpos($key, 'myCheckboxDeposit-') === 0 && $value === 'on') {
+                    if (strpos($key, 'myCheckboxWithdraw-') === 0 && $value === 'on') {
 
-                        $groupNumber = substr($key, strlen('myCheckboxDeposit-'));
+                        $groupNumber = substr($key, strlen('myCheckboxWithdraw-'));
                         $filteringDataChecked[] = [
                             'banklama' => $data['banklama-' . $groupNumber],
                             'bankbaru' => $data['bankbaru-' . $groupNumber]
