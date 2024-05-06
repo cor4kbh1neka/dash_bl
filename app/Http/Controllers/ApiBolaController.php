@@ -88,16 +88,6 @@ class ApiBolaController extends Controller
             return $validasiSBO;
         }
 
-        $validator = Validator::make($request->all(), [
-            'Username' => 'required',
-            'CompanyKey' => 'required',
-            "WinLoss" => 'required',
-            "TransferCode" => 'required'
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()->all()]);
-        }
-
         $dataTransactions = Transactions::where('transfercode', $request->TransferCode)->orderBy('created_at', 'DESC')->get();
         if ($dataTransactions->isEmpty()) {
             return $this->errorResponse($request->Username, 6);
@@ -144,15 +134,6 @@ class ApiBolaController extends Controller
 
         if (isset($validasiSBO["ErrorCode"])) {
             return $validasiSBO;
-        }
-
-        $validator = Validator::make($request->all(), [
-            'Username' => 'required',
-            'CompanyKey' => 'required',
-            "TransferCode" => 'required'
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()->all()]);
         }
 
         $dataTransaction = Transactions::where('transfercode', $request->TransferCode)->first();

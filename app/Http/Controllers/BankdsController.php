@@ -287,7 +287,6 @@ class BankdsController extends Controller
 
     public function setbank($id, $groupbank)
     {
-
         $allgroup = [];
         $responseByGroup = Http::get('https://back-staging.bosraka.com/banks/v2/' . $groupbank);
         $resultsGroup = $responseByGroup->json()["data"];
@@ -786,19 +785,17 @@ class BankdsController extends Controller
                 "masterbnkxyxt" => $dataReq['bankmaster'],
                 "namebankxxyy" => $dataReq['bankname'],
                 "xynamarekx" => $dataReq['namarek'],
-                "norekxyxy" => $dataReq['nomorrek'],
+                "norekxyxy" => str_replace('-', '', $dataReq['nomorrek']),
                 "yyxxmethod" => $dataReq['methode'],
                 "barcodexrxr" => $dataReq['urlbarcode']
 
             ];
-
         $idbank = $dataReq['idbank'];
-        $bankname = $dataReq['bankname'];
-        dd($data);
-        $response = Http::put('https://back-staging.bosraka.com/banks/v2/' . $idbank, '/', $bankname, $data);
-        dd($response->json());
+        $bankname_old = $dataReq['bankname_old'];
+        $response = Http::put('https://back-staging.bosraka.com/banks/v2/' . $idbank . '/' . $bankname_old, $data);
+
         if ($response->successful()) {
-            return redirect()->route('listmaster')->with('success', 'Data berhasil diupdate');
+            return redirect('/bankds/listbank/0/0')->with('success', 'Data berhasil diupdate');
         } else {
             return back()->withInput()->with('error', $response->json()["message"]);
         }

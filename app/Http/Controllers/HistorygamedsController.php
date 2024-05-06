@@ -119,6 +119,7 @@ class HistorygamedsController extends Controller
             'language' => 'en',
             'serverId' => env('SERVERID')
         ]);
+        dd($data);
         $data = $data['result'][0];
         return view('historygameds.detail', [
             'title' => 'detail invoice',

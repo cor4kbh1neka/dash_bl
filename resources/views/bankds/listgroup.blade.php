@@ -66,26 +66,28 @@
                                             </th>
                                             <th class="bkactionss">actions</th>
                                         </tr>
-<<<<<<< HEAD
                                         <tr>
                                             <td>1</td>
                                             <td class="tdnamabank">groupdepo1</td>
                                             <td>
                                                 <div class="inputtablebank">
                                                     <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="mincount_grp1" value="0">
+                                                        <input type="number" class="inputnew" id="mincount_grp1"
+                                                            value="0">
                                                         <label for="mincount_grp1" class="textparam">Minimal</label>
                                                     </div>
                                                     <div class="gapcount">-</div>
                                                     <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="maxcount_grp1" value="10">
+                                                        <input type="number" class="inputnew" id="maxcount_grp1"
+                                                            value="10">
                                                         <label for="maxcount_grp1" class="textparam">Maksimal</label>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>100</td>
                                             <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-                                                <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
+                                                <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0"
+                                                    data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
                                             <td>
                                                 <div class="kolom_action">
@@ -97,27 +99,18 @@
                                                     <div class="action_crud">
                                                         <a href="/bankds/setgroupbank">
                                                             <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                                    height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2">
+                                                                        <path
+                                                                            d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path
+                                                                            d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
                                                                     </g>
                                                                 </svg>
                                                                 <span>Edit</span>
-=======
-                                        @foreach ($data as $bank => $d)
-                                            @if ($bank !== 'nongroup')
-                                                <tr>
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td class="tdnamabank">{{ $d->group }}</td>
-                                                    <td>
-                                                        <div class="inputtablebank">
-                                                            <div class="listinputtablebank">
-                                                                <input type="number" class="inputnew" id="mincount_grp1"
-                                                                    name="min_{{ $d->id }}"
-                                                                    value="{{ $d->min }}">
-                                                                <label for="mincount_grp1" class="textparam">Minimal</label>
->>>>>>> staging
                                                             </div>
                                                             <div class="gapcount">-</div>
                                                             <div class="listinputtablebank">
@@ -127,7 +120,6 @@
                                                                 <label for="maxcount_grp1"
                                                                     class="textparam">Maksimal</label>
                                                             </div>
-<<<<<<< HEAD
                                                         </a>
                                                     </div>
                                                 </div>
@@ -139,19 +131,23 @@
                                             <td>
                                                 <div class="inputtablebank">
                                                     <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="mincount_grp2" value="11">
+                                                        <input type="number" class="inputnew" id="mincount_grp2"
+                                                            value="11">
                                                         <label for="mincount_grp2" class="textparam">Minimal</label>
                                                     </div>
                                                     <div class="gapcount">-</div>
                                                     <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="maxcount_grp2" value="50">
+                                                        <input type="number" class="inputnew" id="maxcount_grp2"
+                                                            value="50">
                                                         <label for="maxcount_grp2" class="textparam">Maksimal</label>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>100</td>
                                             <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-                                                <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
+                                                <input type="checkbox" id="myCheckboxDeposit-0"
+                                                    name="myCheckboxDeposit-0"
+                                                    data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
                                             <td>
                                                 <div class="kolom_action">
@@ -163,19 +159,26 @@
                                                     <div class="action_crud">
                                                         <a href="/bankds/setgroupbank">
                                                             <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                                    height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2">
+                                                                        <path
+                                                                            d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path
+                                                                            d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
                                                                     </g>
                                                                 </svg>
                                                                 <span>Edit</span>
                                                             </div>
                                                         </a>
-                                                        <a href="#" >
+                                                        <a href="#">
                                                             <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                                    height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor"
+                                                                        d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
                                                                 </svg>
                                                                 <span>delete</span>
                                                             </div>
@@ -190,19 +193,23 @@
                                             <td>
                                                 <div class="inputtablebank">
                                                     <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="mincount_grp3" value="51">
+                                                        <input type="number" class="inputnew" id="mincount_grp3"
+                                                            value="51">
                                                         <label for="mincount_grp3" class="textparam">Minimal</label>
                                                     </div>
                                                     <div class="gapcount">-</div>
                                                     <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="maxcount_grp3" value="100">
+                                                        <input type="number" class="inputnew" id="maxcount_grp3"
+                                                            value="100">
                                                         <label for="maxcount_grp3" class="textparam">Maksimal</label>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>100</td>
                                             <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-                                                <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
+                                                <input type="checkbox" id="myCheckboxDeposit-0"
+                                                    name="myCheckboxDeposit-0"
+                                                    data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
                                             <td>
                                                 <div class="kolom_action">
@@ -214,19 +221,26 @@
                                                     <div class="action_crud">
                                                         <a href="/bankds/setgroupbank">
                                                             <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                                    height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2">
+                                                                        <path
+                                                                            d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path
+                                                                            d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
                                                                     </g>
                                                                 </svg>
                                                                 <span>Edit</span>
                                                             </div>
                                                         </a>
-                                                        <a href="#" >
+                                                        <a href="#">
                                                             <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                                    height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor"
+                                                                        d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
                                                                 </svg>
                                                                 <span>delete</span>
                                                             </div>
@@ -241,19 +255,23 @@
                                             <td>
                                                 <div class="inputtablebank">
                                                     <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="mincount_grp4" value="101">
+                                                        <input type="number" class="inputnew" id="mincount_grp4"
+                                                            value="101">
                                                         <label for="mincount_grp4" class="textparam">Minimal</label>
                                                     </div>
                                                     <div class="gapcount">-</div>
                                                     <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="maxcount_grp4" value="200">
+                                                        <input type="number" class="inputnew" id="maxcount_grp4"
+                                                            value="200">
                                                         <label for="maxcount_grp4" class="textparam">Maksimal</label>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>100</td>
                                             <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-                                                <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
+                                                <input type="checkbox" id="myCheckboxDeposit-0"
+                                                    name="myCheckboxDeposit-0"
+                                                    data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
                                             <td>
                                                 <div class="kolom_action">
@@ -265,19 +283,26 @@
                                                     <div class="action_crud">
                                                         <a href="/bankds/setgroupbank">
                                                             <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                                    height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2">
+                                                                        <path
+                                                                            d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path
+                                                                            d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
                                                                     </g>
                                                                 </svg>
                                                                 <span>Edit</span>
                                                             </div>
                                                         </a>
-                                                        <a href="#" >
+                                                        <a href="#">
                                                             <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                                    height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor"
+                                                                        d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
                                                                 </svg>
                                                                 <span>delete</span>
                                                             </div>
@@ -292,19 +317,23 @@
                                             <td>
                                                 <div class="inputtablebank">
                                                     <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="mincount_grp5" value="201">
+                                                        <input type="number" class="inputnew" id="mincount_grp5"
+                                                            value="201">
                                                         <label for="mincount_grp5" class="textparam">Minimal</label>
                                                     </div>
                                                     <div class="gapcount">-</div>
                                                     <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="maxcount_grp5" value="500">
+                                                        <input type="number" class="inputnew" id="maxcount_grp5"
+                                                            value="500">
                                                         <label for="maxcount_grp5" class="textparam">Maksimal</label>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>100</td>
                                             <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
-                                                <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
+                                                <input type="checkbox" id="myCheckboxDeposit-0"
+                                                    name="myCheckboxDeposit-0"
+                                                    data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
                                             <td>
                                                 <div class="kolom_action">
@@ -316,19 +345,26 @@
                                                     <div class="action_crud">
                                                         <a href="/bankds/setgroupbank">
                                                             <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                                    height="1em" viewBox="0 0 24 24">
+                                                                    <g fill="none" stroke="currentColor"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2">
+                                                                        <path
+                                                                            d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                        <path
+                                                                            d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
                                                                     </g>
                                                                 </svg>
                                                                 <span>Edit</span>
                                                             </div>
                                                         </a>
-                                                        <a href="#" >
+                                                        <a href="#">
                                                             <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                                    height="1em" viewBox="0 0 24 24">
+                                                                    <path fill="currentColor"
+                                                                        d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
                                                                 </svg>
                                                                 <span>delete</span>
                                                             </div>
@@ -337,81 +373,6 @@
                                                 </div>
                                             </td>
                                         </tr>
-=======
-                                                        </div>
-                                                    </td>
-                                                    <td class="check_box">
-                                                        <input type="checkbox" id="myCheckboxDeposit-{{ $d->id }}"
-                                                            name="myCheckboxDeposit-{{ $d->id }}"
-                                                            data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                                    </td>
-                                                    <td>
-                                                        <div class="kolom_action">
-                                                            @if ($d->group !== 'groupbank1')
-                                                                <div class="dot_action">
-                                                                    <span>•</span>
-                                                                    <span>•</span>
-                                                                    <span>•</span>
-                                                                </div>
-                                                                <div class="action_crud">
-                                                                    <a href="/bankds/setgroupbank/{{ $d->group }}">
-                                                                        <div class="list_action">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                width="1em" height="1em"
-                                                                                viewBox="0 0 24 24">
-                                                                                <g fill="none" stroke="currentColor"
-                                                                                    stroke-linecap="round"
-                                                                                    stroke-linejoin="round"
-                                                                                    stroke-width="2">
-                                                                                    <path
-                                                                                        d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                                                                    <path
-                                                                                        d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-                                                                                </g>
-                                                                            </svg>
-                                                                            <span>Edit</span>
-                                                                        </div>
-                                                                    </a>
-                                                                    <a href="#"
-                                                                        onclick="confirmDelete('{{ $d->group }}')">
-                                                                        <div class="list_action">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                width="1em" height="1em"
-                                                                                viewBox="0 0 24 24">
-                                                                                <path fill="currentColor"
-                                                                                    d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                                                                            </svg>
-                                                                            <span>delete</span>
-                                                                        </div>
-                                                                    </a>
-
-                                                                    {{-- <form id="deleteForm"
-                                                                        action="/deletelistgroup/{{ $d->group }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <button type="submit"
-                                                                            onclick="confirmDelete('{{ $d->group }}')">
-                                                                            <div class="list_action">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                    width="1em" height="1em"
-                                                                                    viewBox="0 0 24 24">
-                                                                                    <path fill="currentColor"
-                                                                                        d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                                                                                </svg>
-                                                                                <span>delete</span>
-                                                                            </div>
-                                                                        </button>
-                                                                    </form> --}}
-
-                                                                </div>
-                                                            @endif
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endif
-                                        @endforeach
->>>>>>> staging
                                         <tr>
                                             <td>6</td>
                                             <td class="tdnamabank">top level</td>
@@ -480,324 +441,333 @@
                                                             <label for="maxcount_grp1" class="textparam">Maksimal</label>
                                                         </div>
                                                     </div>
-<<<<<<< HEAD
                                                     <div class="gapcount">-</div>
                                                     <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="maxcount_grp1" value="10">
+                                                        <input type="number" class="inputnew" id="maxcount_grp1"
+                                                            value="10">
                                                         <label for="maxcount_grp1" class="textparam">Maksimal</label>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>100</td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
-                                                <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                            </td>
-                                            <td>
-                                                <div class="kolom_action">
-                                                    <div class="dot_action">
-                                                        <span>•</span>
-                                                        <span>•</span>
-                                                        <span>•</span>
-                                                    </div>
-                                                    <div class="action_crud">
-                                                        <a href="/bankds/setgroupbank">
-                                                            <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-                                                                    </g>
-                                                                </svg>
-                                                                <span>Edit</span>
-=======
-                                                </td>
-                                                <td class="check_box">
-                                                    <input type="checkbox" id="myCheckboxWithdraw-{{ $d->id }}"
-                                                        name="myCheckboxWithdraw-{{ $d->id }}"
-                                                        data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                                </td>
-                                                <td>
-                                                    <div class="kolom_action">
-                                                        @if ($d->group !== 'groupbankwd1')
-                                                            <div class="dot_action">
-                                                                <span>•</span>
-                                                                <span>•</span>
-                                                                <span>•</span>
->>>>>>> staging
-                                                            </div>
-                                                            <div class="action_crud">
-                                                                <a href="/bankds/setgroupbank/{{ $d->group }}/">
-                                                                    <div class="list_action">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            width="1em" height="1em"
-                                                                            viewBox="0 0 24 24">
-                                                                            <g fill="none" stroke="currentColor"
-                                                                                stroke-linecap="round"
-                                                                                stroke-linejoin="round" stroke-width="2">
-                                                                                <path
-                                                                                    d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                                                                <path
-                                                                                    d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-                                                                            </g>
-                                                                        </svg>
-                                                                        <span>Edit</span>
-                                                                    </div>
-                                                                </a>
-                                                                <a href="#"
-                                                                    onclick="confirmDeleteWd('{{ $d->group }}')">
-                                                                    <div class="list_action">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            width="1em" height="1em"
-                                                                            viewBox="0 0 24 24">
-                                                                            <path fill="currentColor"
-                                                                                d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                                                                        </svg>
-                                                                        <span>delete</span>
-                                                                    </div>
-                                                                </a>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-<<<<<<< HEAD
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td class="tdnamabank">groupwd2</td>
-                                            <td>
-                                                <div class="inputtablebank">
-                                                    <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="mincount_grp2" value="11">
-                                                        <label for="mincount_grp2" class="textparam">Minimal</label>
-                                                    </div>
-                                                    <div class="gapcount">-</div>
-                                                    <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="maxcount_grp2" value="50">
-                                                        <label for="maxcount_grp2" class="textparam">Maksimal</label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>100</td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
-                                                <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                            </td>
-                                            <td>
-                                                <div class="kolom_action">
-                                                    <div class="dot_action">
-                                                        <span>•</span>
-                                                        <span>•</span>
-                                                        <span>•</span>
-                                                    </div>
-                                                    <div class="action_crud">
-                                                        <a href="/bankds/setgroupbank">
-                                                            <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-                                                                    </g>
-                                                                </svg>
-                                                                <span>Edit</span>
-                                                            </div>
-                                                        </a>
-                                                        <a href="#" >
-                                                            <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                                                                </svg>
-                                                                <span>delete</span>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td class="tdnamabank">groupwd3</td>
-                                            <td>
-                                                <div class="inputtablebank">
-                                                    <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="mincount_grp3" value="51">
-                                                        <label for="mincount_grp3" class="textparam">Minimal</label>
-                                                    </div>
-                                                    <div class="gapcount">-</div>
-                                                    <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="maxcount_grp3" value="100">
-                                                        <label for="maxcount_grp3" class="textparam">Maksimal</label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>100</td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
-                                                <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                            </td>
-                                            <td>
-                                                <div class="kolom_action">
-                                                    <div class="dot_action">
-                                                        <span>•</span>
-                                                        <span>•</span>
-                                                        <span>•</span>
-                                                    </div>
-                                                    <div class="action_crud">
-                                                        <a href="/bankds/setgroupbank">
-                                                            <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-                                                                    </g>
-                                                                </svg>
-                                                                <span>Edit</span>
-                                                            </div>
-                                                        </a>
-                                                        <a href="#" >
-                                                            <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                                                                </svg>
-                                                                <span>delete</span>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td class="tdnamabank">groupwd4</td>
-                                            <td>
-                                                <div class="inputtablebank">
-                                                    <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="mincount_grp4" value="101">
-                                                        <label for="mincount_grp4" class="textparam">Minimal</label>
-                                                    </div>
-                                                    <div class="gapcount">-</div>
-                                                    <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="maxcount_grp4" value="200">
-                                                        <label for="maxcount_grp4" class="textparam">Maksimal</label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>100</td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
-                                                <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                            </td>
-                                            <td>
-                                                <div class="kolom_action">
-                                                    <div class="dot_action">
-                                                        <span>•</span>
-                                                        <span>•</span>
-                                                        <span>•</span>
-                                                    </div>
-                                                    <div class="action_crud">
-                                                        <a href="/bankds/setgroupbank">
-                                                            <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-                                                                    </g>
-                                                                </svg>
-                                                                <span>Edit</span>
-                                                            </div>
-                                                        </a>
-                                                        <a href="#" >
-                                                            <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                                                                </svg>
-                                                                <span>delete</span>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>5</td>
-                                            <td class="tdnamabank">groupwd5</td>
-                                            <td>
-                                                <div class="inputtablebank">
-                                                    <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="mincount_grp5" value="201">
-                                                        <label for="mincount_grp5" class="textparam">Minimal</label>
-                                                    </div>
-                                                    <div class="gapcount">-</div>
-                                                    <div class="listinputtablebank">
-                                                        <input type="number" class="inputnew" id="maxcount_grp5" value="500">
-                                                        <label for="maxcount_grp5" class="textparam">Maksimal</label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>100</td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
-                                                <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                            </td>
-                                            <td>
-                                                <div class="kolom_action">
-                                                    <div class="dot_action">
-                                                        <span>•</span>
-                                                        <span>•</span>
-                                                        <span>•</span>
-                                                    </div>
-                                                    <div class="action_crud">
-                                                        <a href="/bankds/setgroupbank">
-                                                            <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                                        <path d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
-                                                                        <path d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
-                                                                    </g>
-                                                                </svg>
-                                                                <span>Edit</span>
-                                                            </div>
-                                                        </a>
-                                                        <a href="#" >
-                                                            <div class="list_action">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                                    <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
-                                                                </svg>
-                                                                <span>delete</span>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-=======
-                                                </td>
-                                            </tr>
-                                        @endforeach
->>>>>>> staging
-                                        <tr>
-                                            <td>6</td>
-                                            <td class="tdnamabank">top level</td>
-                                            <td>
-                                                <div class="inputtablebank single">
-                                                    <div class="listinputtablebank">
-                                                        <input type="text" class="inputnew" id="toplevel" disabled
-                                                            value="∞">
-                                                        <label for="toplevel" class="textparam">> dari count maksimal
-                                                            xwithdraw</label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>100</td>
-                                            <td class="check_box"></td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
                             </div>
-                            <button class="tombol primary" id="updateButton-wd">
-                                <span class="texttombol">UPDATE</span>
-                            </button>
+                            </td>
+                            <td>100</td>
+                            <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
+                                <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0"
+                                    data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
+                            </td>
+                            <td>
+                                <div class="kolom_action">
+                                    <div class="dot_action">
+                                        <span>•</span>
+                                        <span>•</span>
+                                        <span>•</span>
+                                    </div>
+                                    <div class="action_crud">
+                                        <a href="/bankds/setgroupbank">
+                                            <div class="list_action">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                    viewBox="0 0 24 24">
+                                                    <g fill="none" stroke="currentColor" stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="2">
+                                                        <path
+                                                            d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                        <path
+                                                            d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                    </g>
+                                                </svg>
+                                                <span>Edit</span>
+                                            </div>
+                                            <div class="action_crud">
+                                                <a href="/bankds/setgroupbank/{{ $d->group }}/">
+                                                    <div class="list_action">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                            height="1em" viewBox="0 0 24 24">
+                                                            <g fill="none" stroke="currentColor"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2">
+                                                                <path
+                                                                    d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                                <path
+                                                                    d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                            </g>
+                                                        </svg>
+                                                        <span>Edit</span>
+                                                    </div>
+                                                </a>
+                                                <a href="#" onclick="confirmDeleteWd('{{ $d->group }}')">
+                                                    <div class="list_action">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                            height="1em" viewBox="0 0 24 24">
+                                                            <path fill="currentColor"
+                                                                d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                        </svg>
+                                                        <span>delete</span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            @endif
+                                    </div>
+                                </div>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td class="tdnamabank">groupwd2</td>
+                                <td>
+                                    <div class="inputtablebank">
+                                        <div class="listinputtablebank">
+                                            <input type="number" class="inputnew" id="mincount_grp2" value="11">
+                                            <label for="mincount_grp2" class="textparam">Minimal</label>
+                                        </div>
+                                        <div class="gapcount">-</div>
+                                        <div class="listinputtablebank">
+                                            <input type="number" class="inputnew" id="maxcount_grp2" value="50">
+                                            <label for="maxcount_grp2" class="textparam">Maksimal</label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>100</td>
+                                <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
+                                    <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0"
+                                        data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
+                                </td>
+                                <td>
+                                    <div class="kolom_action">
+                                        <div class="dot_action">
+                                            <span>•</span>
+                                            <span>•</span>
+                                            <span>•</span>
+                                        </div>
+                                        <div class="action_crud">
+                                            <a href="/bankds/setgroupbank">
+                                                <div class="list_action">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                        viewBox="0 0 24 24">
+                                                        <g fill="none" stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2">
+                                                            <path
+                                                                d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                            <path
+                                                                d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                        </g>
+                                                    </svg>
+                                                    <span>Edit</span>
+                                                </div>
+                                            </a>
+                                            <a href="#">
+                                                <div class="list_action">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                        viewBox="0 0 24 24">
+                                                        <path fill="currentColor"
+                                                            d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                    </svg>
+                                                    <span>delete</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td class="tdnamabank">groupwd3</td>
+                                <td>
+                                    <div class="inputtablebank">
+                                        <div class="listinputtablebank">
+                                            <input type="number" class="inputnew" id="mincount_grp3" value="51">
+                                            <label for="mincount_grp3" class="textparam">Minimal</label>
+                                        </div>
+                                        <div class="gapcount">-</div>
+                                        <div class="listinputtablebank">
+                                            <input type="number" class="inputnew" id="maxcount_grp3" value="100">
+                                            <label for="maxcount_grp3" class="textparam">Maksimal</label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>100</td>
+                                <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
+                                    <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0"
+                                        data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
+                                </td>
+                                <td>
+                                    <div class="kolom_action">
+                                        <div class="dot_action">
+                                            <span>•</span>
+                                            <span>•</span>
+                                            <span>•</span>
+                                        </div>
+                                        <div class="action_crud">
+                                            <a href="/bankds/setgroupbank">
+                                                <div class="list_action">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                        viewBox="0 0 24 24">
+                                                        <g fill="none" stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2">
+                                                            <path
+                                                                d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                            <path
+                                                                d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                        </g>
+                                                    </svg>
+                                                    <span>Edit</span>
+                                                </div>
+                                            </a>
+                                            <a href="#">
+                                                <div class="list_action">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                        viewBox="0 0 24 24">
+                                                        <path fill="currentColor"
+                                                            d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                    </svg>
+                                                    <span>delete</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td class="tdnamabank">groupwd4</td>
+                                <td>
+                                    <div class="inputtablebank">
+                                        <div class="listinputtablebank">
+                                            <input type="number" class="inputnew" id="mincount_grp4" value="101">
+                                            <label for="mincount_grp4" class="textparam">Minimal</label>
+                                        </div>
+                                        <div class="gapcount">-</div>
+                                        <div class="listinputtablebank">
+                                            <input type="number" class="inputnew" id="maxcount_grp4" value="200">
+                                            <label for="maxcount_grp4" class="textparam">Maksimal</label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>100</td>
+                                <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
+                                    <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0"
+                                        data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
+                                </td>
+                                <td>
+                                    <div class="kolom_action">
+                                        <div class="dot_action">
+                                            <span>•</span>
+                                            <span>•</span>
+                                            <span>•</span>
+                                        </div>
+                                        <div class="action_crud">
+                                            <a href="/bankds/setgroupbank">
+                                                <div class="list_action">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                        viewBox="0 0 24 24">
+                                                        <g fill="none" stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2">
+                                                            <path
+                                                                d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                            <path
+                                                                d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                        </g>
+                                                    </svg>
+                                                    <span>Edit</span>
+                                                </div>
+                                            </a>
+                                            <a href="#">
+                                                <div class="list_action">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                        viewBox="0 0 24 24">
+                                                        <path fill="currentColor"
+                                                            d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                    </svg>
+                                                    <span>delete</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td class="tdnamabank">groupwd5</td>
+                                <td>
+                                    <div class="inputtablebank">
+                                        <div class="listinputtablebank">
+                                            <input type="number" class="inputnew" id="mincount_grp5" value="201">
+                                            <label for="mincount_grp5" class="textparam">Minimal</label>
+                                        </div>
+                                        <div class="gapcount">-</div>
+                                        <div class="listinputtablebank">
+                                            <input type="number" class="inputnew" id="maxcount_grp5" value="500">
+                                            <label for="maxcount_grp5" class="textparam">Maksimal</label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>100</td>
+                                <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
+                                    <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0"
+                                        data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
+                                </td>
+                                <td>
+                                    <div class="kolom_action">
+                                        <div class="dot_action">
+                                            <span>•</span>
+                                            <span>•</span>
+                                            <span>•</span>
+                                        </div>
+                                        <div class="action_crud">
+                                            <a href="/bankds/setgroupbank">
+                                                <div class="list_action">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                        viewBox="0 0 24 24">
+                                                        <g fill="none" stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2">
+                                                            <path
+                                                                d="m16.475 5.408l2.117 2.117m-.756-3.982L12.109 9.27a2.118 2.118 0 0 0-.58 1.082L11 13l2.648-.53c.41-.082.786-.283 1.082-.579l5.727-5.727a1.853 1.853 0 1 0-2.621-2.621" />
+                                                            <path
+                                                                d="M19 15v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3" />
+                                                        </g>
+                                                    </svg>
+                                                    <span>Edit</span>
+                                                </div>
+                                            </a>
+                                            <a href="#">
+                                                <div class="list_action">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                        viewBox="0 0 24 24">
+                                                        <path fill="currentColor"
+                                                            d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                    </svg>
+                                                    <span>delete</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td class="tdnamabank">top level</td>
+                                <td>
+                                    <div class="inputtablebank single">
+                                        <div class="listinputtablebank">
+                                            <input type="text" class="inputnew" id="toplevel" disabled
+                                                value="∞">
+                                            <label for="toplevel" class="textparam">> dari count maksimal
+                                                xwithdraw</label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>100</td>
+                                <td class="check_box"></td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                            </table>
                     </div>
+                    <button class="tombol primary" id="updateButton-wd">
+                        <span class="texttombol">UPDATE</span>
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     </div>
 
