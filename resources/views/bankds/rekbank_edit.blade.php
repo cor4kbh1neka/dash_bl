@@ -71,6 +71,8 @@
                                         <label for="bankname">nama bank</label>
                                         <div class="groupnamabank">
                                             <div class="groupeditinput">
+                                                <input type="hidden" readonly id="bankname_old" name="bankname_old"
+                                                    value="{{ $d['namebankxxyy'] }}">
                                                 <input type="text" readonly id="bankname" name="bankname"
                                                     value="{{ $d['namebankxxyy'] }}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
@@ -117,7 +119,7 @@
                                     <div class="listplayerinfo">
                                         <label for="urlbarcode">url barcode</label>
                                         <div class="groupeditinput">
-                                            <input type="text" readonly id="urlbarcode" name="urlbarcode"
+                                            <input type="text" readonly name="urlbarcode"
                                                 value="{{ $d['barcodexrxr'] }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
                                                 viewBox="0 0 24 24">
