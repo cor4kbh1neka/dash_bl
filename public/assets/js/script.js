@@ -201,7 +201,7 @@ function updateDateTime() {
     minutes = (minutes < 10 ? "0" : "") + minutes;
     seconds = (seconds < 10 ? "0" : "") + seconds;
 
-    document.getElementById("root_bread").textContent = day + " " + month + " " + year + " | " + hours + ":" + minutes + ":" + seconds + " WIB";
+    document.getElementById("root_breadtime").textContent = day + " " + month + " " + year + " | " + hours + ":" + minutes + ":" + seconds + " WIB";
 }
 updateDateTime();
 setInterval(updateDateTime, 1000);
@@ -219,108 +219,17 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('.showmodal').click(function () {
         var target = $(this).data('modal');
-        var username = $(this).data('username');
-        var jenis = $(this).data('jenis');
-
-        var title = "RIWAYAT DEPOSIT USER: " + username;
-        $(".titlemodalhistory").text(title);
-
-        // Tampilkan indikator loading
-        $("#loadingIndicator").show();
-
-        $.getJSON('/getDataHistory/' + username + '/' + jenis, function (data) {
-            // Mengosongkan elemen-elemen di bawah baris "hdtable" (tetapi tidak termasuk baris itu sendiri)
-            $(".hdtable").nextUntil(":not(.hdtable)").remove();
-
-            $.each(data, function (index, response) {
-                if (jenis != 'ALL') {
-                    var newRow = $("<tr class='hdtable'>");
-
-                    var date = new Date(response.created_at);
-                    var options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-                    var tanggal = date.toLocaleString('id-ID', options);
-
-                    newRow.append("<td>" + response.username + "</td>");
-                    newRow.append("<td class='hsjenistrans'>" + tanggal + "</td>");
-                    newRow.append("<td class='hsjenistrans'>" + response.mbank.toUpperCase() + ", " + response.mnamarek.toUpperCase() + ", " + response.mnorek.toUpperCase() + "</td>");
-                    newRow.append("<td>" + response.amount + "</td>");
-                    newRow.append("<td class='hsjenistrans' data-proses='" + (response.status == 1 ? "accept" : "cancel") + "'>" + (response.status == 1 ? "Accept Deposit" : "Reject Deposit") + "</td>");
-
-                    $("#dataTableHistory").append(newRow);
-                } else {
-                    var newRow = $("<tr class='hdtable'>");
-
-                    var date = new Date(response.created_at);
-                    var options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-                    var tanggal = date.toLocaleString('id-ID', options);
-
-                    newRow.append("<td class='hsjenistrans'>" + (index + 1) + "</td>");
-                    newRow.append("<td class='hsjenistrans'>" + tanggal + "</td>");
-                    newRow.append("<td class='hsjenistrans' data-proses='" + (response.status == 1 ? "accept" : "cancel") + "'>" + (response.status == 1 ? "Accept Deposit" : "Reject Deposit") + "</td>");
-                    newRow.append("<td>" + response.approved_by + "</td>");
-                    newRow.append("<td>" + response.amount + "</td>");
-                    newRow.append("<td>" + response.balance + "</td>");
-
-
-
-                    $("#dataTableHistory").append(newRow);
-                }
-            });
-
-            $("#loadingIndicator").hide();
-
-            $('.modalhistory[data-target="' + target + '"]').css('display', 'flex');
-        })
-            .fail(function (jqxhr, textStatus, error) {
-                const err = textStatus + ", " + error;
-                console.error("Request failed: " + err);
-
-                $("#loadingIndicator").hide();
-            });
-
+        $('.modalhistory[data-target="' + target + '"]').css('display', 'flex');
     });
     $('.closetrigger').click(function () {
         $('.modalhistory').css('display', 'none');
     });
-
-
     $(document).mouseup(function (e) {
         var container = $(".secmodalhistory");
         if (!container.is(e.target) && container.has(e.target).length === 0) {
             $('.modalhistory').css('display', 'none');
         }
     });
-
-    $(document).ready(function () {
-        $('.listbankproses input[type="checkbox"]').on('click', function () {
-            var checkedIds = [];
-
-            $('.listbankproses input[type="checkbox"]:checked').each(function () {
-                var checkboxId = $(this).attr('id');
-                var idWithoutCheckbox = checkboxId.split('Checkbox')[0];
-                checkedIds.push(idWithoutCheckbox);
-            });
-
-            if (checkedIds.length === 0) {
-                $('.tabelproses tr').show();
-            } else {
-                $('.tabelproses tr').each(function () {
-                    if ($(this).hasClass('hdtable')) {
-                        return true;
-                    }
-
-                    var dataBank = $(this).data('bank');
-                    if (checkedIds.includes(dataBank)) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                        $(this).find('input[type="checkbox"]').prop('checked', false);
-                    }
-                });
-            }
-        });
-    });
-
 });
 
 // display none notifikasi data h2
@@ -340,5 +249,48 @@ $(document).ready(function () {
 
     $('.countpendingdata').bind('DOMSubtreeModified', function () {
         checkCountPendingData();
+    });
+});
+
+// show logout
+$(document).ready(function () {
+    $('.sec_top_navbar').load('/topnav');
+    $(document).on('click', '.profile_nav', function () {
+        $('.list_menu_profile').slideToggle('fast');
+    });
+    $(document).on('click', function (event) {
+        if (!$(event.target).closest('.list_menu_profile, .profile_nav').length) {
+            $('.list_menu_profile').slideUp('fast');
+        }
+    });
+});
+
+// cari menu
+$('#sec_sidebar').on('input', '#searchTabel', function () {
+    var searchText = $(this).val().toLowerCase();
+    $('.nav_title1, .sub_title1').each(function () {
+        var titleText = $(this).text().toLowerCase();
+        var $parentData = $(this).closest('.data_sidejsx');
+        var $parentSubData = $(this).closest('.sub_data_sidejsx');
+
+        if (searchText === '') {
+            $(this).show();
+            $parentData.show();
+            $parentSubData.hide();
+            $parentData.removeClass('active');
+            $parentSubData.removeClass('active');
+        } else if (titleText.includes(searchText) || $parentSubData.find('.sub_title1').text().toLowerCase().includes(searchText)) {
+            $(this).show();
+            $parentData.show();
+            $parentSubData.show();
+            $parentData.addClass('active');
+            $parentSubData.addClass('active');
+        } else {
+            $(this).hide();
+            $parentData.hide();
+            $parentSubData.hide();
+            $parentData.removeClass('active');
+            $parentSubData.removeClass('active');
+        }
     });
 });

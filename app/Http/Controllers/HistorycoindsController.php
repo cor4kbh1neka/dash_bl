@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\DepoWd;
 use Illuminate\Http\Request;
 
-class HistorydsController extends Controller
+class HistorycoindsController extends Controller
 {
     public function index(Request $request)
     {
+
 
         if ($request->query('search_status') == 'accept') {
             $status = 1;
@@ -61,9 +62,10 @@ class HistorydsController extends Controller
             });
 
 
-        return view('historyds.index', [
+        return view('historycoinds.index', [
             'title' => 'List History',
             'data' => $datHistory,
+
             'totalnote' => 0,
             'search_jenis' => $jenis,
             'search_username' => $username,

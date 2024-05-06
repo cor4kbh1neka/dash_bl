@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="{{ asset('/assets/css/design.css') }}" />
     <link rel="stylesheet" href="{{ asset('/assets/css/custom_dash.css') }}" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 
     <script>
         $(document).ready(function() {

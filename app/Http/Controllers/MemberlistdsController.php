@@ -255,4 +255,31 @@ class MemberlistdsController extends Controller
 
         return $responseData;
     }
+
+    public function winloseyear()
+    {
+
+        return view('memberlistds.winlose_year', [
+            'title' => 'Win Lose Informasi',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function winlosemonth()
+    {
+
+        return view('memberlistds.winlose_month', [
+            'title' => 'Win Lose Informasi',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function winloseday()
+    {
+
+        return view('memberlistds.winlose_day', [
+            'title' => 'Win Lose Informasi',
+            'totalnote' => 0,
+        ]);
+    }
 }

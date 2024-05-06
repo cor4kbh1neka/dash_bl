@@ -30,4 +30,36 @@ class ApksettingdsController extends Controller
             'totalnote' => 0,
         ]);
     }
+
+    public function apksetting()
+    {
+        return view('apksettingds.setting', [
+            'title' => 'Apk Setting',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function apkevent()
+    {
+        return view('apksettingds.event', [
+            'title' => 'Apk Setting',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function apkeventadd()
+    {
+        return view('apksettingds.event_add', [
+            'title' => 'Apk Setting',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function apkeventedit()
+    {
+        return view('apksettingds.event_edit', [
+            'title' => 'Apk Setting',
+            'totalnote' => 0,
+        ]);
+    }
 }

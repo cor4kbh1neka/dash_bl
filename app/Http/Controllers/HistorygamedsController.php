@@ -90,9 +90,9 @@ class HistorygamedsController extends Controller
 
 
         //DATA SPORT TYPE   
-        $dataSportType = [
-            'Football', 'Basketball', 'American Football', 'Ice Hockey', 'Badminton', 'Pool/Snooker', 'Motor Sport', 'Tennis', 'Baseball', 'Volleyball', 'Others', 'Golf', 'Boxing', 'Cricket', 'Table Tennis', 'Rugby', 'Handball', 'Cycling', 'Athletics', 'Beach Soccer', 'Futsal', 'Special'
-        ];
+        // $dataSportType = [
+        //     'Football', 'Basketball', 'American Football', 'Ice Hockey', 'Badminton', 'Pool/Snooker', 'Motor Sport', 'Tennis', 'Baseball', 'Volleyball', 'Others', 'Golf', 'Boxing', 'Cricket', 'Table Tennis', 'Rugby', 'Handball', 'Cycling', 'Athletics', 'Beach Soccer', 'Futsal', 'Special'
+        // ];
         return view('historygameds.index', [
             'title' => 'History Game',
             'data' => $data,
@@ -104,7 +104,7 @@ class HistorygamedsController extends Controller
             'refNo' => $refNo,
             'sportsType' => $sportsType,
             'status' => $status,
-            'dataSportType' => $dataSportType,
+            // 'dataSportType' => $dataSportType,
             'Message' => $Message,
             'data_filter_sportsTypes' => $data_filter_sportsTypes
         ]);

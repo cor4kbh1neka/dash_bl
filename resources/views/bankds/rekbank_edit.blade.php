@@ -13,6 +13,7 @@
                 </svg>
             </div>
         </div>
+
         <div class="secbankds">
             <div class="groupsecbankds">
                 <div class="headsecbankds">
@@ -41,116 +42,120 @@
                         <span class="texttombol">X DATA</span>
                     </a>
                 </div>
-                <div class="secgroupdatabankds">
-                    <div class="groupsetbankmaster">
-                        <span class="titlebankmaster">Edit Detail Bank</span>
-                        <div class="groupplayerinfo">
-                            <div class="listgroupplayerinfo left">
-                                <div class="listplayerinfo">
-                                    <label for="masterbank">pilih master</label>
-                                    <div class="groupeditinput">
-                                        <select id="bankmaster" name="bankmaster" value="bca">
-                                            <option value="bca">bca</option>
-                                            <option value="bni">bni</option>
-                                            <option value="bri">bri</option>
-                                            <option value="mandiri">mandiri</option>
-                                            <option value="cimb">cimb</option>
-                                            <option value="danamon">danamon</option>
-                                            <option value="panin">panin</option>
-                                            <option value="cimb">cimb</option>
-                                            <option value="permata">permata</option>
-                                            <option value="bsi">bsi</option>
-                                            <option value="dana">dana</option>
-                                            <option value="gopay">gopay</option>
-                                            <option value="ovo">ovo</option>
-                                            <option value="pulsa">pulsa</option>
-                                            <option value="linkaja">linkaja</option>
-                                            <option value="qris">qris</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="listplayerinfo">
-                                    <label for="bankname">nama bank</label>
-                                    <div class="groupnamabank">
+
+                <form method="POST" action="/bankds/updatedetailbank" class="secgroupdatabankds">
+                    @csrf
+                    @foreach ($data as $bank => $d)
+                        <div class="groupsetbankmaster">
+                            <span class="titlebankmaster">Edit Detail Bank</span>
+                            <div class="groupplayerinfo">
+                                <div class="listgroupplayerinfo left">
+                                    <div class="listplayerinfo">
+                                        <label for="masterbank">pilih master</label>
                                         <div class="groupeditinput">
-                                            <input type="text" readonly id="bankname" name="bankname" value="bca1">
+                                            <input type="hidden" readonly id="idbank" name="idbank"
+                                                value="{{ $d['idbank'] }}">
+                                            <input type="hidden" readonly id="groupbank77" name="groupbank"
+                                                value="{{ $groupbank }}">
+                                            <select id="bankmaster" name="bankmaster" value="bca">
+                                                @foreach ($dataBank as $db)
+                                                    <option value="{{ $db['bnkmstrxyxyx'] }}"
+                                                        {{ $bank == $db['bnkmstrxyxyx'] ? 'selected' : '' }}>
+                                                        {{ $db['bnkmstrxyxyx'] }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="listplayerinfo">
+                                        <label for="bankname">nama bank</label>
+                                        <div class="groupnamabank">
+                                            <div class="groupeditinput">
+                                                <input type="text" readonly id="bankname" name="bankname"
+                                                    value="{{ $d['namebankxxyy'] }}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                    viewBox="0 0 24 24">
+                                                    <path fill="currentColor"
+                                                        d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                                                </svg>
+                                            </div>
+                                            <div class="groupeditinput">
+                                                <select id="methode" name="methode" value="bank">
+                                                    <option value="bank"
+                                                        {{ $d['yyxxmethod'] == 'bank' ? 'seleced' : '' }}>bank</option>
+                                                    <option value="ewallet"
+                                                        {{ $d['yyxxmethod'] == 'ewallet' ? 'seleced' : '' }}>ewallet
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="listplayerinfo">
+                                        <label for="namarek">nama rekening</label>
+                                        <div class="groupeditinput">
+                                            <input type="text" readonly id="namarek" name="namarek"
+                                                value="{{ $d['xynamarekx'] }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
                                                 viewBox="0 0 24 24">
                                                 <path fill="currentColor"
                                                     d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
                                             </svg>
                                         </div>
+                                    </div>
+                                    <div class="listplayerinfo">
+                                        <label for="nomorrek">nomor rekening</label>
                                         <div class="groupeditinput">
-                                            <select id="methode" name="methode" value="bank">
-                                                <option value="bank">bank</option>
-                                                <option value="ewallet">ewallet</option>
-                                            </select>
+                                            <input type="text" readonly id="nomorrek" name="nomorrek"
+                                                value="{{ $d['norekxyxy'] }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                viewBox="0 0 24 24">
+                                                <path fill="currentColor"
+                                                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="listplayerinfo">
+                                        <label for="urlbarcode">url barcode</label>
+                                        <div class="groupeditinput">
+                                            <input type="text" readonly id="urlbarcode" name="urlbarcode"
+                                                value="{{ $d['barcodexrxr'] }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                viewBox="0 0 24 24">
+                                                <path fill="currentColor"
+                                                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                                            </svg>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="listplayerinfo">
-                                    <label for="namarek">nama rekening</label>
-                                    <div class="groupeditinput">
-                                        <input type="text" readonly id="namarek" name="namarek"
-                                            value="florensia sitanggang">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                            viewBox="0 0 24 24">
-                                            <path fill="currentColor"
-                                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
-                                        </svg>
-                                    </div>
+                                <div class="listgroupplayerinfo right">
+                                    <a href="/bankds/addgroupbank" class="tombol proses">
+                                        <span class="texttombol">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                viewBox="0 0 48 48">
+                                                <defs>
+                                                    <mask id="ipSAdd0">
+                                                        <g fill="none" stroke-linejoin="round" stroke-width="4">
+                                                            <rect width="36" height="36" x="6" y="6"
+                                                                fill="#fff" stroke="#fff" rx="3" />
+                                                            <path stroke="#000" stroke-linecap="round"
+                                                                d="M24 16v16m-8-8h16" />
+                                                        </g>
+                                                    </mask>
+                                                </defs>
+                                                <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSAdd0)" />
+                                            </svg>
+                                            REKENING BANK
+                                        </span>
+                                    </a>
+                                    <button class="tombol primary">
+                                        <span class="texttombol">SAVE DATA</span>
+                                    </button>
                                 </div>
-                                <div class="listplayerinfo">
-                                    <label for="nomorrek">nomor rekening</label>
-                                    <div class="groupeditinput">
-                                        <input type="text" readonly id="nomorrek" name="nomorrek" value="03559178112">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                            viewBox="0 0 24 24">
-                                            <path fill="currentColor"
-                                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="listplayerinfo">
-                                    <label for="urlbarcode">url barcode</label>
-                                    <div class="groupeditinput">
-                                        <input type="text" readonly id="urlbarcode" name="urlbarcode"
-                                            value="https://i.ibb.co/n671yNG/Screenshot-44.png">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                            viewBox="0 0 24 24">
-                                            <path fill="currentColor"
-                                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="listgroupplayerinfo right">
-                                <a href="/bankds/addgroupbank" class="tombol proses">
-                                    <span class="texttombol">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                            viewBox="0 0 48 48">
-                                            <defs>
-                                                <mask id="ipSAdd0">
-                                                    <g fill="none" stroke-linejoin="round" stroke-width="4">
-                                                        <rect width="36" height="36" x="6" y="6" fill="#fff"
-                                                            stroke="#fff" rx="3" />
-                                                        <path stroke="#000" stroke-linecap="round"
-                                                            d="M24 16v16m-8-8h16" />
-                                                    </g>
-                                                </mask>
-                                            </defs>
-                                            <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSAdd0)" />
-                                        </svg>
-                                        REKENING BANK
-                                    </span>
-                                </a>
-                                <button class="tombol primary">
-                                    <span class="texttombol">SAVE DATA</span>
-                                </button>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    @endforeach
+                </form>
+
             </div>
         </div>
     </div>
@@ -228,4 +233,28 @@
             });
         });
     </script>
+
+    @if (session('success'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses!',
+                    text: '{{ session('success') }}',
+                });
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '{{ session('error') }}',
+                });
+            });
+        </script>
+    @endif
 @endsection

@@ -167,7 +167,11 @@
         });
 
         // dropdown selected
+<<<<<<< HEAD
+            $(document).ready(function(){
+=======
         $(document).ready(function() {
+>>>>>>> staging
             var selectedValue = $('#groupbank').val();
             $('#groupbank option[value="' + selectedValue + '"]').attr('selected', 'selected');
         });
