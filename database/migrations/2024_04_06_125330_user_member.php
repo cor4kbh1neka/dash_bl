@@ -11,7 +11,13 @@ return new class extends Migration
         Schema::create('member', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('username');
+            $table->string('referral')->nullable();
+            $table->string('bank')->nullable();
+            $table->string('namarek')->nullable();
+            $table->string('norek')->nullable();
+            $table->string('nohp')->nullable();
             $table->decimal('balance', 10, 2);
+            $table->string('keterangan')->nullable();
             $table->string('ip_reg')->nullable();
             $table->string('ip_log')->nullable();
             $table->timestamp('lastlogin')->nullable();
@@ -20,8 +26,10 @@ return new class extends Migration
             $table->string('domain2')->nullable();
             $table->timestamp('lastlogin3')->nullable();
             $table->string('domain3')->nullable();
-            $table->string('keterangan')->nullable();
-            $table->integer('status');
+            $table->integer('min_bet')->default(0);
+            $table->integer('max_bet')->default(0);
+            $table->integer('status')->default(0);
+            $table->boolean('is_notnew')->default(false);
             $table->timestamps();
         });
     }

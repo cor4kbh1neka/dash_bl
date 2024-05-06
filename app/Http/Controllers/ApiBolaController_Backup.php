@@ -14,7 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Cache;
 
-class ApiBolaController extends Controller
+class ApiBola_backupController extends Controller
 
 {
     public function GetBalance(Request $request)
@@ -982,6 +982,7 @@ class ApiBolaController extends Controller
         if ($responseData["error"]["id"] === 0) {
             Member::create([
                 'username' => $request->Username,
+                'referral' => $request->Referral,
                 'balance' => 0,
                 'ip_reg' => $ipaddress,
                 'ip_log' => null,

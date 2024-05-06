@@ -8,7 +8,8 @@
             <h2>{{ $title }}</h2>
             <div class="fullscreen">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
-                    <path fill="currentColor" d="m5.3 6.7l1.4-1.4l-3-3L5 1H1v4l1.3-1.3zm1.4 4L5.3 9.3l-3 3L1 11v4h4l-1.3-1.3zm4-1.4l-1.4 1.4l3 3L11 15h4v-4l-1.3 1.3zM11 1l1.3 1.3l-3 3l1.4 1.4l3-3L15 5V1z" />
+                    <path fill="currentColor"
+                        d="m5.3 6.7l1.4-1.4l-3-3L5 1H1v4l1.3-1.3zm1.4 4L5.3 9.3l-3 3L1 11v4h4l-1.3-1.3zm4-1.4l-1.4 1.4l3 3L11 15h4v-4l-1.3 1.3zM11 1l1.3 1.3l-3 3l1.4 1.4l3-3L15 5V1z" />
                 </svg>
             </div>
         </div>
@@ -29,18 +30,20 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                             <g fill="none" stroke="currentColor" stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M7 6h10M7 9h10m-8 8h6" />
-                                <path d="M3 12h-.4a.6.6 0 0 0-.6.6v8.8a.6.6 0 0 0 .6.6h18.8a.6.6 0 0 0 .6-.6v-8.8a.6.6 0 0 0-.6-.6H21M3 12V2.6a.6.6 0 0 1 .6-.6h16.8a.6.6 0 0 1 .6.6V12M3 12h18" />
+                                <path
+                                    d="M3 12h-.4a.6.6 0 0 0-.6.6v8.8a.6.6 0 0 0 .6.6h18.8a.6.6 0 0 0 .6-.6v-8.8a.6.6 0 0 0-.6-.6H21M3 12V2.6a.6.6 0 0 1 .6-.6h16.8a.6.6 0 0 1 .6.6V12M3 12h18" />
                             </g>
                         </svg>
                         <span class="texttombol">archive</span>
                     </a>
                 </div>
                 <div class="groupdatamemo">
-                    <div class="groupplayerinfo">
+                    <form method="POST" action="/storememo" class="groupplayerinfo">
+                        @csrf
                         <div class="listgroupplayerinfo left">
                             <div class="listplayerinfo">
                                 <span class="labelbetpl">recipient</span>
-                                <select name="statustype" id="statustype">
+                                <select name="statuspriority" id="statuspriority">
                                     <option value="1">All Player</option>
                                     <option value="2">VIP only</option>
                                 </select>
@@ -49,31 +52,35 @@
                                 <span class="labelbetpl">priority</span>
                                 <div class="groupradiooption">
                                     <div class="listgrpstatusbank">
-                                        <input class="status_primary" type="radio" id="default" name="statuspriority" value="1" checked>
+                                        <input class="status_primary" type="radio" id="default" name="statustype"
+                                            value="1" checked>
                                         <label for="allplayer">default</label>
                                     </div>
                                     <div class="listgrpstatusbank">
-                                        <input class="status_primary" type="radio" id="vip" name="statuspriority" value="2">
+                                        <input class="status_primary" type="radio" id="vip" name="statustype"
+                                            value="2">
                                         <label for="oneplayer">priority</label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="listplayerinfo">
+                            {{-- <div class="listplayerinfo">
                                 <label for="pengirim">pengirim</label>
                                 <div class="groupeditinput">
-                                    <input type="text" id="pengirim" name="pengirim" value="" placeholder="isi admin pengirim">
+                                    <input type="text" id="pengirim" name="pengirim" value=""
+                                        placeholder="isi admin pengirim">
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="listplayerinfo">
                                 <label for="subject">subject</label>
                                 <div class="groupeditinput">
-                                    <input type="text" id="subject" name="subject" value="" placeholder="isi subject">
+                                    <input type="text" id="subject" name="subject" value=""
+                                        placeholder="isi subject" required>
                                 </div>
                             </div>
                             <div class="listplayerinfo">
-                                <label for="textmemo">memo</label>
+                                <label for="memo">memo</label>
                                 <div class="groupeditinput">
-                                    <textarea name="textmemo" id="textmemo" cols="30" rows="10" placeholder="isi keterangan memo"></textarea>
+                                    <textarea name="memo" id="memo" cols="30" rows="10" placeholder="isi keterangan memo" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +89,7 @@
                                 <span class="texttombol">SEND</span>
                             </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -109,4 +116,28 @@
             });
         });
     </script>
+
+    @if (session('success'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sukses!',
+                    text: '{{ session('success') }}',
+                });
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '{{ session('error') }}',
+                });
+            });
+        </script>
+    @endif
 @endsection

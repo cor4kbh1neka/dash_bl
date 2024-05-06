@@ -35,6 +35,10 @@ use App\Http\Controllers\MemotouserdsController;
 use App\Http\Controllers\UsermanagementdsController;
 use App\Http\Controllers\NotifikasidsController;
 use App\Http\Controllers\Menu2Controller;
+use App\Http\Controllers\PersentasedsController;
+use App\Models\Xdpwd;
+use App\Models\Outstanding;
+use App\Models\DepoWd;
 use App\Models\Notes;
 
 
@@ -43,7 +47,7 @@ use App\Models\Notes;
 
 Route::get('/', function () {
     if (Auth::check()) {
-        return redirect()->intended('/dashboard');
+        return redirect()->intended('/depositds/DP');
     }
     return redirect()->intended('/login');
 });
@@ -143,7 +147,7 @@ Route::middleware(['auth'])->group(function () {
 
     /*-- Deposit --*/
     Route::get('/deposit', [DepoWdController::class, 'indexdeposit']);
-    Route::get('/history', [DepoWdController::class, 'indexhistory']);
+    Route::get('/history/{jenis?}', [DepoWdController::class, 'indexhistory'])->name('history');
     Route::get('/withdrawal', [DepoWdController::class, 'indexwithdrawal']);
     Route::post('/reject', [DepoWdController::class, 'reject']);
     Route::post('/approve', [DepoWdController::class, 'approve']);
@@ -153,8 +157,11 @@ Route::middleware(['auth'])->group(function () {
     /*-- Member --*/
     Route::get('/member', [MemberController::class, 'index']);
     Route::get('/member/add', [MemberController::class, 'create']);
+    Route::get('/member/edit/{id}', [MemberController::class, 'edit']);
     Route::post('/member/store', [MemberController::class, 'store']);
-
+    Route::post('/member/updatemember', [MemberController::class, 'updateMember']);
+    Route::post('/member/updatepassword', [MemberController::class, 'updatePassword']);
+    Route::post('/member/updateplayer', [MemberController::class, 'updatePlayer']);
 
     /*-- APK --*/
     Route::get('/setting', [SettingsController::class, 'indexsetting']);
@@ -168,13 +175,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
     /*-- Despositds --*/
-    Route::get('/depositds', [DepositdsController::class, 'index']);
+    Route::get('/depositds/{jenis}', [DepositdsController::class, 'index']);
+    Route::get('/getDataHistory/{username}/{jenis}', [DepositdsController::class, 'getDataHistory']);
+    Route::get('/getbalance/{username}', [DepoWdController::class, 'getBalancePlayer']);
+    Route::get('/datacountwdp', [DepoWdController::class, 'getCountDataDPW']);
+
 
     /*-- Withdrawds --*/
     Route::get('/withdrawds', [WithdrawdsController::class, 'index']);
 
     /*-- Manualds --*/
-    Route::get('/manualds', [ManualdsController::class, 'index']);
+    Route::get('/manualds', [ManualdsController::class, 'index'])->name('manualds');
 
     /*-- Historyds --*/
     Route::get('/historycoinds', [HistorycoindsController::class, 'index']);
@@ -184,18 +195,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/historytransaksids/transaksilama', [HistorytransaksidsController::class, 'transaksilama']);
 
     /*-- Memberlistds --*/
-    Route::get('/memberlistds', [MemberlistdsController::class, 'index']);
-    Route::get('/memberlistds/edit', [MemberlistdsController::class, 'update']);
-    Route::get('/memberlistds/winloseyear', [MemberlistdsController::class, 'winloseyear']);
-    Route::get('/memberlistds/winlosemonth', [MemberlistdsController::class, 'winlosemonth']);
-    Route::get('/memberlistds/winloseday', [MemberlistdsController::class, 'winloseday']);
+    Route::get('/memberlistds', [MemberlistdsController::class, 'index'])->name('memberlistds');
+    Route::get('/memberlistds/edit/{id}', [MemberlistdsController::class, 'update']);
+    Route::post('/memberlistds/updateuser', [MemberlistdsController::class, 'updateUser']);
+    Route::post('/memberlistds/updatepassword', [MemberlistdsController::class, 'updatePassowrd']);
+    Route::post('/memberlistds/updateinfomember/{id}', [MemberlistdsController::class, 'updateMember']);
 
     /*-- Historygameds --*/
     Route::get('/historygameds', [HistorygamedsController::class, 'index']);
-    Route::get('/historygameds/detail/{invoice}', [HistorygamedsController::class, 'detail']);
+    Route::get('/historygameds/detail/{invoice}/{portfolio}', [HistorygamedsController::class, 'detail']);
 
     /*-- Outstandingds --*/
-    Route::get('/outstandingds', [OutstandingdsController::class, 'index']);
+    Route::get('/outstandingds/{username?}', [OutstandingdsController::class, 'index']);
 
     /*-- Reportds --*/
     Route::get('/reportds', [ReportdsController::class, 'index']);
@@ -208,17 +219,37 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/referralds/bonusreferral', [ReferraldsController::class, 'bonusreferral']);
 
     /*-- Bankds --*/
-    Route::get('/bankds', [BankdsController::class, 'index']);
-    Route::get('/bankds/setbankmaster', [BankdsController::class, 'setbankmaster']);
+    Route::get('/bankds', [BankdsController::class, 'index'])->name('bankds');
+    Route::post('/storemaster', [BankdsController::class, 'storemaster']);
+    Route::post('/storegroupbank', [BankdsController::class, 'storegroupbank']);
+    Route::post('/changestatusbank/{jenis?}', [BankdsController::class, 'changeStatusBank']);
+
+    Route::get('/bankds/setbankmaster/{bank}', [BankdsController::class, 'setbankmaster']);
     Route::get('/bankds/addbankmaster', [BankdsController::class, 'addbankmaster']);
-    Route::get('/bankds/setgroupbank', [BankdsController::class, 'setgroupbank']);
+    Route::get('/bankds/setgroupbank/{namagroup}', [BankdsController::class, 'setgroupbank']);
+    Route::post('/updategroupbank/{namagroup}', [BankdsController::class, 'updategroupbank']);
+
     Route::get('/bankds/addgroupbank', [BankdsController::class, 'addgroupbank']);
     Route::get('/bankds/setbank', [BankdsController::class, 'setbank']);
+    Route::post('/updatesetbank/{bank}', [BankdsController::class, 'updatesetbank']);
+
+
     Route::get('/bankds/addbank', [BankdsController::class, 'addbank']);
-    Route::get('/bankds/listmaster', [BankdsController::class, 'listmaster']);
-    Route::get('/bankds/listgroup', [BankdsController::class, 'listgroup']);
-    Route::get('/bankds/listbank', [BankdsController::class, 'listbank']);
+    Route::post('/storebank', [BankdsController::class, 'storebank']);
+
+    Route::get('/bankds/listmaster', [BankdsController::class, 'listmaster'])->name('listmaster');
+    Route::delete('/deletelistmaster/{id}', [BankdsController::class, 'deletelistmaster']);
+
+    Route::get('/bankds/listgroup', [BankdsController::class, 'listgroup'])->name('listgroup');
+    Route::post('/updatelistgroup/{jenis}', [BankdsController::class, 'updatelistgroup']);
+    Route::delete('/deletelistgroup/{group}', [BankdsController::class, 'deletelistgroup'])->name('deletelistgroup');
+
+    Route::get('/bankds/listbank/{group}/{groupwd}', [BankdsController::class, 'listbank']);
+    Route::get('/getGroupBank/{bank}/{jenis}', [BankdsController::class, 'getGroupBank']);
+
     Route::get('/bankds/xdata', [BankdsController::class, 'xdata']);
+
+
 
     /*-- Memods --*/
     Route::get('/memods', [MemodsController::class, 'index']);
@@ -226,7 +257,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/memods/readinbox', [MemodsController::class, 'readinbox']);
     Route::get('/memods/archiveinbox', [MemodsController::class, 'archiveinbox']);
     Route::get('/memods/delivered', [MemodsController::class, 'delivered']);
-    Route::get('/memods/readdelivered', [MemodsController::class, 'readdelivered']);
+    Route::get('/memods/readdelivered/{id}', [MemodsController::class, 'readdelivered']);
+    Route::delete('/deletememods/{id}', [MemodsController::class, 'delete']);
+
+
+    Route::post('/storememo', [MemodsController::class, 'storememo']);
 
     /*-- Agentds --*/
     Route::get('/agentds', [AgentdsController::class, 'index']);
@@ -237,22 +272,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/agentds/accessupdate', [AgentdsController::class, 'accessupdate']);
     Route::get('/agentds/accessadd', [AgentdsController::class, 'accessadd']);
 
-    /*-- Analyticsds --*/
-    Route::get('/analyticsds', [AnalyticsdsController::class, 'index']);
-    Route::get('/analyticsds/sitemap', [AnalyticsdsController::class, 'sitemap']);
+    /*-- Eventds --*/
+    Route::get('/eventds', [EventdsController::class, 'index']);
 
-    /*-- Contentds --*/
-    Route::get('/contentds', [ContentdsController::class, 'index']);
-    Route::get('/contentds/promo', [ContentdsController::class, 'promo']);
-    Route::get('/contentds/promo/add', [ContentdsController::class, 'promoadd']);
-    Route::get('/contentds/promo/edit', [ContentdsController::class, 'promoedit']);
-    Route::get('/contentds/slider', [ContentdsController::class, 'slider']);
-    Route::get('/contentds/slider/edit', [ContentdsController::class, 'slideredit']);
-    Route::get('/contentds/link', [ContentdsController::class, 'link']);
-    Route::get('/contentds/link/edit', [ContentdsController::class, 'linkedit']);
-    Route::get('/contentds/socialmedia', [ContentdsController::class, 'socialmedia']);
-    Route::get('/contentds/socialmedia/edit', [ContentdsController::class, 'socialmediaedit']);
-    
     /*-- Apksettingds --*/
     Route::get('/apksettingds', [ApksettingdsController::class, 'index']);
     Route::get('/apksettingds/setting', [ApksettingdsController::class, 'apksetting']);
@@ -268,6 +290,12 @@ Route::middleware(['auth'])->group(function () {
     /*-- Notifikasids --*/
     Route::get('/notifikasids', [NotifikasidsController::class, 'index']);
     Route::get('/notifikasids/read', [NotifikasidsController::class, 'readinformasi']);
+
+    /*-- Persentase Referral --*/
+    Route::get('/persentaseds', [PersentasedsController::class, 'index']);
+
+
+
 
     /*-- MENU 2 --*/
     Route::get('/menu2', [Menu2Controller::class, 'index']);

@@ -6,7 +6,57 @@
     <div class="sec_table">
         <h2>{{ $title }}</h2>
         <div class="group_act_butt">
+            <div class="group_act_butt">
+                <a href="/history">
+                    <div class="sec_addnew">
+                        <span>ALL TRANSACTION</span>
+                    </div>
+                </a>
 
+                <a href="/history/DP">
+                    <div class="sec_addnew">
+                        <span>HISTORY DEPOSIT</span>
+                    </div>
+                </a>
+
+                <a href="/history/WD">
+                    <div class="sec_addnew">
+                        <span>HISTORY WITHDRAW</span>
+                    </div>
+                </a>
+
+                <a href="/history/M">
+                    <div class="sec_addnew">
+                        <span>HISTORY MANUAL</span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+        <div class="group_act_butt">
+            <form action="{{ route('history') }}" method="GET">
+                @csrf
+                <div class="form-group">
+                    <input type="text" name="search_username" class="form-control" placeholder="User ID"
+                        value="{{ $username }}">
+                </div>
+
+                <div class="form-group">
+                    <select name="search_agent" class="form-control">
+                        <option value="">All Agent</option>
+                        <option value="adminl21" {{ $tipe == 'adminl21' ? 'selected' : '' }}>Agent 01</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="date" name="search_tgl_dari" class="form-control"
+                        value="{{ $tgldari == '' ? date('Y-m-d') : $tgldari }}">
+                </div>
+                <div class="form-group">
+                    <input type="date" name="search_tgl_sampai" class="form-control"
+                        value="{{ $tglsampai == '' ? date('Y-m-d') : $tglsampai }}">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
         <table>
             <tbody>
@@ -21,105 +71,6 @@
                     <th>Amount</th>
                     <th>Approved By</th>
                     {{-- <th>Action</th> --}}
-                </tr>
-                <tr class="filter_row">
-                    <td>
-                        <div class="grubsearchtable">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-                                viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                            <input type="text" placeholder="Cari data..." id="searchData-name">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grubsearchtable">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-                                viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                            <input type="text" placeholder="Cari data..." id="searchData-name">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grubsearchtable">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-                                viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                            <input type="text" placeholder="Cari data..." id="searchData-name">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grubsearchtable">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-                                viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                            <input type="text" placeholder="Cari data..." id="searchData-name">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grubsearchtable">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-                                viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                            <input type="text" placeholder="Cari data..." id="searchData-name">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grubsearchtable">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-                                viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                            <input type="text" placeholder="Cari data..." id="searchData-name">
-                        </div>
-                    </td>
-                    <td></td>
-                    <td>
-                        <div class="grubsearchtable">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-                                viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                            <input type="text" placeholder="Cari data..." id="searchData-name">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grubsearchtable">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-                                viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                            <input type="text" placeholder="Cari data..." id="searchData-name">
-                        </div>
-                    </td>
                 </tr>
 
                 @foreach ($data as $index => $d)
@@ -163,4 +114,45 @@
             </tbody>
         </table>
     </div>
+    <script>
+        // $(document).ready(function() {
+        //     $('.add-generatevoucher').click(function(event) {
+        //         event.preventDefault();
+        //         var jenis = $(this).data('jenis');
+        //         var currentURL = new URL(window.location.href);
+        //         var newURL = currentURL.origin + currentURL
+        //             .pathname; // Mengambil origin dan path URL saat ini
+
+        //         if (jenis) {
+        //             newURL += '?jenis=' + jenis;
+        //         }
+
+        //         window.location.href = newURL;
+        //     });
+
+        //     $('button[type="submit"]').click(function(event) {
+        //         event.preventDefault();
+        //         var currentURL = new URL(window.location.href);
+        //         var newURL = currentURL.origin + currentURL
+        //             .pathname; // Mengambil origin dan path URL saat ini
+        //         var jenis = currentURL.searchParams.get("jenis");
+        //         var searchTipe = $('select[name="search_tipe"]').val();
+
+        //         if (jenis) {
+        //             newURL += '?jenis=' + jenis;
+        //         }
+
+        //         if (searchTipe) {
+        //             if (jenis) {
+        //                 newURL += '&';
+        //             } else {
+        //                 newURL += '?';
+        //             }
+        //             newURL += 'search_tipe=' + searchTipe;
+        //         }
+
+        //         window.location.href = newURL;
+        //     });
+        // });
+    </script>
 @endsection

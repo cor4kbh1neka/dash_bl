@@ -2,32 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Settings;
-use App\Models\Companys;
-use App\Models\Currencys;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use App\Models\DepoWd;
+use App\Models\Member;
 
 class ManualdsController extends Controller
 {
     public function index()
     {
-        $data = [
-            [
-                'id' => '1',
-                'nama' => 'Waantos',
-                'alamat' => 'Pekanbaru',
-                'notelp' => '0778007711',
-                'tgllhir' => '12-09-1996',
-                'tempatlahir' => 'sukajadi'
-            ]
-        ];
+        $errorCode = session()->has('errorCode') ? session('errorCode') : 0;
+        $message = session()->has('message') ? session('message') : '';
+
         return view('manualds.index', [
-            'title' => 'Transaksi Manual',
-            'data' => $data,
+            'title' => 'Proses Manual',
             'totalnote' => 0,
+            'jenis' => 'DPM',
+            'errorCode' => $errorCode,
+            'message' => $message
         ]);
     }
 }

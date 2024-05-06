@@ -16,333 +16,150 @@
         });
     </script>
 </head>
-    <div class="body_openwindow">
-        <div class="sec_openwindow">
-            <div class="groupdetailhistorygameds">
-                <div class="headdetailhistorygameds">
-                    <div class="listheaddetail">
-                        <span class="label">Nomor Invoice</span>
-                        <span class="gap">:</span>
-                        <span class="value refNo">4653610</span>
-                    </div>
-                    <div class="listheaddetail">
-                        <span class="label">Username</span>
-                        <span class="gap">:</span>
-                        <span class="value username">thanos989898</span>
-                    </div>
-                    <div class="listheaddetail">
-                        <span class="label">Date/Time Bet</span>
-                        <span class="gap">:</span>
-                        <span class="value orderTime">2024-04-17T08:55:58.703</span>
-                    </div>
-                    <div class="listheaddetail">
-                        <span class="label">Game Type</span>
-                        <span class="gap">:</span>
-                        <span class="value sportsType">Mix Parlay</span>
-                    </div>
-                    <div class="listheaddetail">
-                        <span class="label">Odds Bet</span>
-                        <span class="gap">:</span>
-                        <span class="value odds">5.147</span>
-                    </div>
-                    <div class="listheaddetail">
-                        <span class="label">Nominal Bet(IDR)</span>
-                        <span class="gap">:</span>
-                        <span class="valuenominal stake" data-stake="10.000000"></span>
-                    </div>
-                    <div class="listheaddetail">
-                        <span class="label">Win/Lose(IDR)</span>
-                        <span class="gap">:</span>
-                        <div class="grouphasilpertandingan">
-                            <span class="valuenominal winLost" data-winLost="-10.000000"></span>
-                            <span class="statusgame status" data-status="lose">lose</span>
-                        </div>
+<div class="body_openwindow">
+    <div class="sec_openwindow">
+        <div class="groupdetailhistorygameds">
+            <div class="headdetailhistorygameds">
+                <div class="listheaddetail">
+                    <span class="label">Nomor Invoice</span>
+                    <span class="gap">:</span>
+                    <span class="value refNo">{{ $data['refNo'] }}</span>
+                </div>
+                <div class="listheaddetail">
+                    <span class="label">Username</span>
+                    <span class="gap">:</span>
+                    <span class="value username">{{ $data['username'] }}</span>
+                </div>
+                <div class="listheaddetail">
+                    <span class="label">Date/Time Bet</span>
+                    <span class="gap">:</span>
+                    <span class="value orderTime">{{ date('d-m-Y H:i:s', strtotime($data['orderTime'])) }}</span>
+                </div>
+                <div class="listheaddetail">
+                    <span class="label">Game Type</span>
+                    <span class="gap">:</span>
+                    <span
+                        class="value sportsType">{{ $portfolio == 'SportsBook' ? $data['sportsType'] : $data['productType'] }}</span>
+                </div>
+                <div class="listheaddetail">
+                    <span class="label">Odds Bet</span>
+                    <span class="gap">:</span>
+                    <span class="value odds">{{ $data['odds'] }}</span>
+                </div>
+                <div class="listheaddetail">
+                    <span class="label">Nominal Bet(IDR)</span>
+                    <span class="gap">:</span>
+                    <span class="valuenominal stake" data-stake="{{ $data['stake'] }}"></span>
+                </div>
+                <div class="listheaddetail">
+                    <span class="label">Win/Lose(IDR)</span>
+                    <span class="gap">:</span>
+                    <div class="grouphasilpertandingan">
+                        <span class="valuenominal winLost" data-winLost="{{ $data['winLost'] }}"></span>
+                        <span class="statusgame status"
+                            data-status="{{ $data['status'] }}">{{ $data['status'] }}</span>
                     </div>
                 </div>
             </div>
-            <div class="table_detailhistorygameds">
-                <table>
-                    <tbody>
+        </div>
+        <div class="table_detailhistorygameds">
+            <table>
+                <tbody>
+                    @foreach ($data['subBet'] as $i => $d)
                         <tr>
-                            <td class="bagnomor">1</td>
+                            <td class="bagnomor">{{ $i + 1 }}</td>
                             <td>
                                 <div class="groupdetailmatch">
-                                    <span class="namaliga subBet-league">e-Football F23 International Friendly</span>
-                                    <span class="pertandingan subBet-match">e-Spain vs e-France</span>
+                                    @if (isset($d['league']))
+                                        <span class="namaliga subBet-league">{{ $d['league'] }}</span>
+                                    @endif
+                                    <span class="pertandingan subBet-match">{{ $d['match'] }}</span>
                                     <div class="allscore">
                                         <div class="listscore">
                                             <span class="labelscore">HT</span>
-                                            <span class="valuescore subBet-htScore">0:0</span>
+                                            <span class="valuescore subBet-htScore">{{ $d['htScore'] }}</span>
                                         </div>
                                         <div class="listscore">
                                             <span class="labelscore">FT</span>
-                                            <span class="valuescore subBet-ftScore">0:1</span>
+                                            <span class="valuescore subBet-ftScore">{{ $d['ftScore'] }}</span>
                                         </div>
                                     </div>
-                                    <span class="detailbetting">detail bet : <span class="htft isHalfWonLose" data-isHalfWonLose="false"></span></span>
+                                    @if (isset($d['isHalfWonLose']))
+                                        <span class="detailbetting">detail bet : <span class="htft isHalfWonLose"
+                                                data-isHalfWonLose="{{ $d['isHalfWonLose'] }}"></span></span>
+                                    @endif
                                     <div class="listdetailbettting">
                                         <div class="dddetailbetting">
                                             <span class="labelbet">type :</span>
-                                            <span class="valuebet subBet-marketType_sportType">Handicap (Football)</span>
+                                            <span class="valuebet subBet-marketType_sportType">{{ $d['marketType'] }}
+                                                @if (isset($d['sportType']))
+                                                    ({{ $d['sportType'] }})
+                                                @endif
+                                            </span>
                                         </div>
                                         <div class="dddetailbetting">
                                             <span class="labelbet">odds :</span>
-                                            <span class="valuebet subBet-odds" data-valueodds="1.46">1.46</span>
+                                            <span class="valuebet subBet-odds"
+                                                data-valueodds="{{ $d['odds'] }}">{{ $d['odds'] }}</span>
                                         </div>
                                     </div>
                                     <div class="listdetailbettting">
                                         <div class="dddetailbetting">
                                             <span class="labelbet">pilihan :</span>
-                                            <span class="valuebet subBet-betOption">e-Everton <span class="subBet-hdp" data-hdp="0.00">(0.00)</span></span>
+                                            <span class="valuebet subBet-betOption">{{ $d['betOption'] }} <span
+                                                    class="subBet-hdp"
+                                                    data-hdp="{{ $d['hdp'] }}">({{ $d['hdp'] }})</span></span>
                                         </div>
                                         <div class="dddetailbetting">
                                             <span class="labelbet">status :</span>
-                                            <span class="valuebet subBet status" data-statusbet="lose">lose</span>
+                                            <span class="valuebet subBet status"
+                                                data-statusbet="{{ $d['status'] }}">{{ $d['status'] }}</span>
                                         </div>
                                     </div>
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="bagnomor">2</td>
-                            <td>
-                                <div class="groupdetailmatch">
-                                    <span class="namaliga subBet-league">e-Football F23 Elite Club Friendly</span>
-                                    <span class="pertandingan subBet-match">e-Liverpool vs e-Bayer Leverkusen</span>
-                                    <div class="allscore">
-                                        <div class="listscore">
-                                            <span class="labelscore">HT</span>
-                                            <span class="valuescore subBet-htScore">1:0</span>
-                                        </div>
-                                        <div class="listscore">
-                                            <span class="labelscore">FT</span>
-                                            <span class="valuescore subBet-ftScore">2:2</span>
-                                        </div>
-                                    </div>
-                                    <span class="detailbetting">detail bet : <span class="htft isHalfWonLose" data-isHalfWonLose="false"></span></span>
-                                    <div class="listdetailbettting">
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">type :</span>
-                                            <span class="valuebet subBet-marketType_sportType">Handicap (Football)</span>
-                                        </div>
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">odds :</span>
-                                            <span class="valuebet subBet-odds" data-valueodds="1.56">1.56</span>
-                                        </div>
-                                    </div>
-                                    <div class="listdetailbettting">
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">pilihan :</span>
-                                            <span class="valuebet subBet-betOption">e-Liverpool <span class="subBet-hdp" data-hdp="0.00">(0.00)</span></span>
-                                        </div>
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">status :</span>
-                                            <span class="valuebet subBet status" data-statusbet="lose">lose</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="bagnomor">3</td>
-                            <td>
-                                <div class="groupdetailmatch">
-                                    <span class="namaliga subBet-league">e-Football F23 Elite Club Friendly</span>
-                                    <span class="pertandingan subBet-match">e-Ajax vs e-Bayer Leverkusen</span>
-                                    <div class="allscore">
-                                        <div class="listscore">
-                                            <span class="labelscore">HT</span>
-                                            <span class="valuescore subBet-htScore">1:1</span>
-                                        </div>
-                                        <div class="listscore">
-                                            <span class="labelscore">FT</span>
-                                            <span class="valuescore subBet-ftScore">1:4</span>
-                                        </div>
-                                    </div>
-                                    <span class="detailbetting">detail bet : <span class="htft isHalfWonLose" data-isHalfWonLose="true"></span></span>
-                                    <div class="listdetailbettting">
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">type :</span>
-                                            <span class="valuebet subBet-marketType_sportType">handicap (Football)</span>
-                                        </div>
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">odds :</span>
-                                            <span class="valuebet subBet-odds" data-valueodds="2.26">2.26</span>
-                                        </div>
-                                    </div>
-                                    <div class="listdetailbettting">
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">pilihan :</span>
-                                            <span class="valuebet subBet-betOption">e-Bayer Leverkusen <span class="subBet-hdp" data-hdp="-2.50">(-2.50)</span></span>
-                                        </div>
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">status :</span>
-                                            <span class="valuebet subBet status" data-statusbet="won">won</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="bagnomor">4</td>
-                            <td>
-                                <div class="groupdetailmatch">
-                                    <span class="namaliga subBet-league">e-Football F23 Elite Club Friendly</span>
-                                    <span class="pertandingan subBet-match">e-Ajax vs e-Bayer Leverkusen</span>
-                                    <div class="allscore">
-                                        <div class="listscore">
-                                            <span class="labelscore">HT</span>
-                                            <span class="valuescore subBet-htScore">1:1</span>
-                                        </div>
-                                        <div class="listscore">
-                                            <span class="labelscore">FT</span>
-                                            <span class="valuescore subBet-ftScore">1:4</span>
-                                        </div>
-                                    </div>
-                                    <span class="detailbetting">detail bet : <span class="htft isHalfWonLose" data-isHalfWonLose="true"></span></span>
-                                    <div class="listdetailbettting">
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">type :</span>
-                                            <span class="valuebet subBet-marketType_sportType">Over/Under (Football)</span>
-                                        </div>
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">odds :</span>
-                                            <span class="valuebet subBet-odds" data-valueodds="2.26">2.26</span>
-                                        </div>
-                                    </div>
-                                    <div class="listdetailbettting">
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">pilihan :</span>
-                                            <span class="valuebet subBet-betOption">Over <span class="subBet-hdp" data-hdp="4.50">(4.50)</span></span>
-                                        </div>
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">status :</span>
-                                            <span class="valuebet subBet status" data-statusbet="won">won</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="bagnomor">5</td>
-                            <td>
-                                <div class="groupdetailmatch">
-                                    <span class="namaliga subBet-league">e-Football F23 Elite Club Friendly</span>
-                                    <span class="pertandingan subBet-match">e-Ajax vs e-Bayer Leverkusen</span>
-                                    <div class="allscore">
-                                        <div class="listscore">
-                                            <span class="labelscore">HT</span>
-                                            <span class="valuescore subBet-htScore">1:1</span>
-                                        </div>
-                                        <div class="listscore">
-                                            <span class="labelscore">FT</span>
-                                            <span class="valuescore subBet-ftScore">1:4</span>
-                                        </div>
-                                    </div>
-                                    <span class="detailbetting">detail bet : <span class="htft isHalfWonLose" data-isHalfWonLose="true"></span></span>
-                                    <div class="listdetailbettting">
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">type :</span>
-                                            <span class="valuebet subBet-marketType_sportType">Over/Under (Football)</span>
-                                        </div>
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">odds :</span>
-                                            <span class="valuebet subBet-odds" data-valueodds="2.26">2.26</span>
-                                        </div>
-                                    </div>
-                                    <div class="listdetailbettting">
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">pilihan :</span>
-                                            <span class="valuebet subBet-betOption">Over <span class="subBet-hdp" data-hdp="4.50">(4.50)</span></span>
-                                        </div>
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">status :</span>
-                                            <span class="valuebet subBet status" data-statusbet="won">won</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="bagnomor">6</td>
-                            <td>
-                                <div class="groupdetailmatch">
-                                    <span class="namaliga subBet-league">e-Football F23 Elite Club Friendly</span>
-                                    <span class="pertandingan subBet-match">e-Ajax vs e-Bayer Leverkusen</span>
-                                    <div class="allscore">
-                                        <div class="listscore">
-                                            <span class="labelscore">HT</span>
-                                            <span class="valuescore subBet-htScore">1:1</span>
-                                        </div>
-                                        <div class="listscore">
-                                            <span class="labelscore">FT</span>
-                                            <span class="valuescore subBet-ftScore">1:4</span>
-                                        </div>
-                                    </div>
-                                    <span class="detailbetting">detail bet : <span class="htft isHalfWonLose" data-isHalfWonLose="true"></span></span>
-                                    <div class="listdetailbettting">
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">type :</span>
-                                            <span class="valuebet subBet-marketType_sportType">Over/Under (Football)</span>
-                                        </div>
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">odds :</span>
-                                            <span class="valuebet subBet-odds" data-valueodds="2.26">2.26</span>
-                                        </div>
-                                    </div>
-                                    <div class="listdetailbettting">
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">pilihan :</span>
-                                            <span class="valuebet subBet-betOption">Over <span class="subBet-hdp" data-hdp="4.50">(4.50)</span></span>
-                                        </div>
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">status :</span>
-                                            <span class="valuebet subBet status" data-statusbet="won">won</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 
-    <script>
-        //format nominal odds dan stake
-        $(document).ready(function() {
-            $('div').each(function() {
+<script>
+    //format nominal odds dan stake
+    $(document).ready(function() {
+        $('div').each(function() {
 
-                var odds = $(this).find('.valuenominal.odds').attr('data-odds');
-                odds = (parseFloat(odds) * 10).toFixed(2);
-                $(this).find('.valuenominal.odds').text(odds);
+            var odds = $(this).find('.valuenominal.odds').attr('data-odds');
+            odds = (parseFloat(odds) * 10).toFixed(2);
+            $(this).find('.valuenominal.odds').text(odds);
 
-                var stake = $(this).find('.valuenominal.stake').attr('data-stake');
-                stake = parseFloat(stake).toFixed(2);
-                $(this).find('.valuenominal.stake').text(stake);
+            var stake = $(this).find('.valuenominal.stake').attr('data-stake');
+            stake = parseFloat(stake).toFixed(2);
+            $(this).find('.valuenominal.stake').text(stake);
 
-                var winLost = $(this).find('.valuenominal.winLost').attr('data-winLost');
-                winLost = parseFloat(winLost).toFixed(2);
+            var winLost = $(this).find('.valuenominal.winLost').attr('data-winLost');
+            winLost = parseFloat(winLost).toFixed(2);
 
-                if (winLost === "0.00") {
-                    $(this).find('.valuenominal.winLost').text("-");
-                } else {
-                    $(this).find('.valuenominal.winLost').text(winLost);
-                }
-            });
+            if (winLost === "0.00") {
+                $(this).find('.valuenominal.winLost').text("-");
+            } else {
+                $(this).find('.valuenominal.winLost').text(winLost);
+            }
         });
+    });
 
-        //half time dan fulltime
-        $(document).ready(function() {
-            $(".htft").each(function() {
-                var isHalfWonLose = $(this).attr("data-isHalfWonLose");
+    //half time dan fulltime
+    $(document).ready(function() {
+        $(".htft").each(function() {
+            var isHalfWonLose = $(this).attr("data-isHalfWonLose");
 
-                if (isHalfWonLose === "true") {
-                    $(this).text("Half Time");
-                } else {
-                    $(this).text("Full Time");
-                }
-            });
+            if (isHalfWonLose === "true") {
+                $(this).text("Half Time");
+            } else {
+                $(this).text("Full Time");
+            }
         });
-    </script>
+    });
+</script>
