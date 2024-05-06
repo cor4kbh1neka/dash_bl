@@ -19,6 +19,7 @@ use App\Http\Controllers\WithdrawdsController;
 use App\Http\Controllers\ManualdsController;
 use App\Http\Controllers\HistorycoindsController;
 use App\Http\Controllers\MemberlistdsController;
+use App\Http\Controllers\HistorytransaksidsController;
 use App\Http\Controllers\HistorygamedsController;
 use App\Http\Controllers\OutstandingdsController;
 use App\Http\Controllers\ReportdsController;
@@ -26,11 +27,13 @@ use App\Http\Controllers\ReferraldsController;
 use App\Http\Controllers\BankdsController;
 use App\Http\Controllers\MemodsController;
 use App\Http\Controllers\AgentdsController;
-use App\Http\Controllers\EventdsController;
+use App\Http\Controllers\AnalyticsdsController;
+use App\Http\Controllers\ContentdsController;
 use App\Http\Controllers\ApksettingdsController;
 use App\Http\Controllers\AllowedipdsController;
 use App\Http\Controllers\MemotouserdsController;
 use App\Http\Controllers\UsermanagementdsController;
+use App\Http\Controllers\NotifikasidsController;
 use App\Http\Controllers\Menu2Controller;
 use App\Http\Controllers\PersentasedsController;
 use App\Models\Xdpwd;
@@ -187,6 +190,10 @@ Route::middleware(['auth'])->group(function () {
     /*-- Historyds --*/
     Route::get('/historycoinds', [HistorycoindsController::class, 'index']);
 
+    /*-- Historytransaksids --*/
+    Route::get('/historytransaksids', [HistorytransaksidsController::class, 'index']);
+    Route::get('/historytransaksids/transaksilama', [HistorytransaksidsController::class, 'transaksilama']);
+
     /*-- Memberlistds --*/
     Route::get('/memberlistds', [MemberlistdsController::class, 'index'])->name('memberlistds');
     Route::get('/memberlistds/edit/{id}', [MemberlistdsController::class, 'update']);
@@ -274,19 +281,23 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/agentds/accessadd', [AgentdsController::class, 'accessadd']);
 
     /*-- Eventds --*/
-    Route::get('/eventds', [EventdsController::class, 'index']);
+    // Route::get('/eventds', [EventdsController::class, 'index']);
 
     /*-- Apksettingds --*/
     Route::get('/apksettingds', [ApksettingdsController::class, 'index']);
-
-    /*-- Allowedipds --*/
-    Route::get('/allowedipds', [AllowedipdsController::class, 'index']);
+    Route::get('/apksettingds/setting', [ApksettingdsController::class, 'apksetting']);
+    Route::get('/apksettingds/event', [ApksettingdsController::class, 'apkevent']);
+    Route::get('/apksettingds/event/add', [ApksettingdsController::class, 'apkeventadd']);
+    Route::get('/apksettingds/event/edit', [ApksettingdsController::class, 'apkeventedit']);
 
     /*-- Memotouserds --*/
     Route::get('/memotouserds', [MemotouserdsController::class, 'index']);
+    Route::get('/memotouserds/delivered', [MemotouserdsController::class, 'delivered']);
+    Route::get('/memotouserds/read', [MemotouserdsController::class, 'deliveredread']);
 
-    /*-- Usermanagementds --*/
-    Route::get('/usermanagementds', [UsermanagementdsController::class, 'index']);
+    /*-- Notifikasids --*/
+    Route::get('/notifikasids', [NotifikasidsController::class, 'index']);
+    Route::get('/notifikasids/read', [NotifikasidsController::class, 'readinformasi']);
 
     /*-- Persentase Referral --*/
     Route::get('/persentaseds', [PersentasedsController::class, 'index']);

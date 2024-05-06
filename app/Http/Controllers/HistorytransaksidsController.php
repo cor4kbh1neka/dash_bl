@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
-class AllowedipdsController extends Controller
+class HistorytransaksidsController extends Controller
 {
     public function index()
     {
@@ -24,9 +24,17 @@ class AllowedipdsController extends Controller
                 'tempatlahir' => 'sukajadi'
             ]
         ];
-        return view('allowedipds.index', [
-            'title' => 'Allowed IP',
+        return view('historytransaksids.index', [
+            'title' => 'History Transaksi Baru',
             'data' => $data,
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function transaksilama()
+    {
+        return view('historytransaksids.transaksi_lama', [
+            'title' => 'History Transaksi Lama',
             'totalnote' => 0,
         ]);
     }

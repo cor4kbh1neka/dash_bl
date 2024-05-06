@@ -272,6 +272,7 @@
                         </tbody>
                     </table>
                     <div class="informasihistorycoin">
+
                         <span>*data yang di tampilkan saat ini, selengkapnya di menu <a
                                 href="/historyds">history</a></span>
                     </div>

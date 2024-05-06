@@ -12,33 +12,43 @@
                 </svg>
             </div>
         </div>
-        <div class="seccontentds">
-            <div class="groupseccontentds">
-                <div class="headseccontentds">
-                    <a href="/apksettingds" class="tombol grey active">
-                        <span class="texttombol">NOTIFICATION</span>
+        <div class="secanalyticds">
+            <div class="groupsecanalyticds">
+                <div class="headsecanalyticds">
+                    <a href="/analyticsds" class="tombol grey active">
+                        <span class="texttombol">META TAG</span>
                     </a>
-                    <a href="/apksettingds/setting" class="tombol grey">
-                        <span class="texttombol">SETTING</span>
+                    <a href="/analyticsds/sitemap" class="tombol grey">
+                        <span class="texttombol">SITE MAP</span>
                     </a>
-                    <a href="/apksettingds/event" class="tombol grey">
-                        <span class="texttombol">EVENT</span>
-                    </a>
+                </div>
+                <div class="informasipengisiandata">
+                    <span class="titleinformasi">Mohon diperhatikan :</span>
+                    <ul>
+                        <li>Harap hindari penginputan karakter illegal seperti "日本人 中國的éè;∞भारत¥₤€קום " agar tampilan/script berjalan lancar. terima kasih</li>
+                        <li>Untuk membantu pengecekan. bisa melalui link ini <a href="https://pages.cs.wisc.edu/~markm/ascii.html" target="_blank">https://pages.cs.wisc.edu/~markm/ascii.html</a></li>
+                    </ul>
                 </div>
                 <div class="groupdataanalyticds">
                     <div class="groupsetbankmaster">
                         <div class="groupplayerinfo">
                             <div class="listgroupplayerinfo left">
                                 <div class="listplayerinfo">
-                                    <label for="title">title</label>
+                                    <label for="metatag">meta tag HTML</label>
                                     <div class="groupeditinput">
-                                        <input type="text" id="title" name="title" placeholder="input title">
+                                        <textarea type="text" id="metatag" name="metatag" cols="30" rows="5" placeholder="isi data dengan benar"></textarea>
                                     </div>
                                 </div>
                                 <div class="listplayerinfo">
-                                    <label for="informasi">Informasi</label>
+                                    <label for="metatag">article</label>
                                     <div class="groupeditinput">
-                                        <textarea id="informasi" name="informasi"  cols="30" rows="10" placeholder="input informasi"></textarea>
+                                        <textarea type="text" id="metatag" name="metatag" cols="30" rows="5" placeholder="isi data dengan benar"></textarea>
+                                    </div>
+                                </div>
+                                <div class="listplayerinfo">
+                                    <label for="metatag">script livechat</label>
+                                    <div class="groupeditinput">
+                                        <textarea type="text" id="metatag" name="metatag" cols="30" rows="5" placeholder="isi data dengan benar"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -74,34 +84,6 @@
                 }
             });
 
-        });
-
-        // clear readonly
-        $(document).ready(function() {
-            $('.groupeditinput svg').click(function() {
-                $(this).closest('.groupeditinput').toggleClass('edit');
-                $(this).siblings('input').prop('readonly', function(_, val) {
-                    return !val;
-                });
-            });
-        });
-
-        // toggle switch
-        $(document).ready(function(){
-            if ($('input[name="switch_active[]"]').val() == 1) {
-                $('#maintenance').prop('checked', true);
-            }
-
-            $('label[for="maintenance"]').click(function(){
-                var currentValue = $('input[name="switch_active[]"]').val();
-                var newValue = (currentValue == 1) ? 0 : 1;
-                $('input[name="switch_active[]"]').val(newValue);
-                if (newValue == 0) {
-                    $('#maintenance').prop('checked', true);
-                } else {
-                    $('#maintenance').prop('checked', false);
-                }
-            });
         });
     </script>
 @endsection

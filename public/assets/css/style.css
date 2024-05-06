@@ -610,7 +610,7 @@ svg {
   background: var(--bg-box-primary);
   box-shadow: 0 3px 3px #00000047;
   border-bottom: 1px solid rgba(var(--rgba-primary), 0.1);
-  z-index: 1;
+  z-index: 2;
 }
 
 .list_bread,
@@ -642,9 +642,9 @@ svg {
 
 .right_top_nav {
   display: grid;
-  grid-template-columns: 1fr 1fr 5fr;
+  grid-template-columns: 1fr 5fr;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 }
 
 .right_top_nav .bagsearch {
@@ -661,6 +661,38 @@ svg {
   transition: all 0.3s ease;
 }
 
+.right_top_nav .nav_notifikasi svg {
+  width: 35px;
+  height: 35px;
+  animation: heyanimation 1s linear infinite;
+}
+
+@keyframes heyanimation {
+  0% {
+    transform: rotateZ(0deg);
+  }
+
+  15% {
+    transform: rotateZ(-15deg);
+  }
+
+  30% {
+    transform: rotateZ(0deg);
+  }
+
+  45% {
+    transform: rotateZ(15deg);
+  }
+
+  60% {
+    transform: rotateZ(0deg);
+  }
+
+  100% {
+    transform: rotateZ(0deg);
+  }
+}
+
 .nav_notifikasi svg,
 .todo_nav svg {
   width: 30px;
@@ -668,21 +700,20 @@ svg {
 
 .nav_notifikasi .countnotif,
 .todo_nav .countnotif {
-  width: 18px;
-  height: 18px;
+  width: 25px;
+  height: 25px;
   padding: 2px;
   border-radius: 50%;
-  background: var(--bg-box-primary);
   position: absolute;
   top: 0px;
-  left: 17px;
+  left: 15px;
 }
 
 .nav_notifikasi .countnotif p,
 .todo_nav .countnotif p {
   width: 100%;
   height: 100%;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 800;
   background: rgba(var(--rgba-danger));
   padding: 5px 5px 6px 5px;
@@ -709,6 +740,14 @@ svg {
   color: rgba(var(--rgba-black));
   display: none;
   transition: all 0.3s ease;
+}
+
+.nav_notifikasi[data-informasi="0"] .countnotif {
+  display: none;
+}
+
+.nav_notifikasi[data-informasi="0"] svg {
+  animation: unset;
 }
 
 .todo_nav {
@@ -766,9 +805,8 @@ svg {
 .list_menu_profile {
   position: absolute;
   top: 60px;
-  width: 100%;
   background: rgba(var(--rgba-white));
-  padding: 10px;
+  padding: 10px 20px;
   border-radius: 6px;
   display: none;
   align-items: center;
@@ -776,7 +814,7 @@ svg {
   justify-content: center;
   gap: 5px;
   box-shadow: 3px 5px 5px rgba(var(--rgba-black), 0.2);
-  z-index: 1;
+  z-index: 2;
 }
 
 .list_menu_profile form {
@@ -2577,6 +2615,12 @@ table svg.icon-tabler-x {
   position: relative;
 }
 
+.secgrouptitle.notifds {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
 .secgrouptitle h2 {
   padding-bottom: unset;
   border-bottom: none;
@@ -2935,6 +2979,35 @@ table svg.icon-tabler-x {
 
 .tabelproses .bagjenisgame {
   width: 10%;
+}
+
+.tabelproses .bagperiode {
+  width: 10%;
+}
+
+.tabelproses .bagnominalhs {
+  width: 7%;
+}
+
+.tabelproses .statustrans {
+  width: 10%;
+}
+
+.tabelproses .bagipadd {
+  width: 10%;
+}
+
+.tabelproses .bagstatusip {
+  width: 10%;
+}
+
+.tabelproses .datauseragent {
+  text-align: center;
+}
+
+.tabelproses .baguseragent {
+  width: 60%;
+  text-align: center;
 }
 
 .groupdatareportds .memberlist .hdtable .bagno {
@@ -3627,7 +3700,7 @@ table svg.icon-tabler-x {
 
 .getdata {
   position: absolute;
-  right: 0;
+  right: 10px;
   display: grid;
   grid-template-columns: 0.6fr 1fr 0.5fr;
   align-items: center;
@@ -6008,6 +6081,197 @@ input#agentname {
   color: rgba(var(--rgba-white));
 }
 
+.listmembergroup.historytransds {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.debit {
+  color: var(--red-color);
+}
+
+.debit[data-value="0"] {
+  color: unset;
+}
+
+.credit {
+  color: var(--green-color);
+}
+
+.credit[data-value="0"] {
+  color: unset;
+}
+
+.ttlbalance {
+  color: var(--aqua-color);
+}
+
+.ttlbalance[data-value^="-"] {
+  color: var(--red-color);
+}
+
+.statusketerangan[data-status="menang"] .statustransaksi,
+.statusketerangan[data-status="referral"] .statustransaksi {
+  color: var(--green-color);
+}
+
+.statusketerangan[data-status="pemasangan"] .statustransaksi {
+  color: var(--primary-color);
+}
+
+.tabelproses .statustransaksi {
+  text-transform: capitalize;
+}
+
+.detailbetingan:hover .statustransaksi {
+  color: unset;
+}
+
+.groupmaksimaldata {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.groupmaksimaldata .dataterakhir {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.transaksilama.tombol {
+  width: unset;
+  padding: 2px 10px;
+  font-size: 10px;
+}
+
+.listplayerinfo.ssreff {
+  align-items: start;
+}
+
+.listplayerinfo .groupbnsreff {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.groupbnsreff .listreff {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.groupbnsreff .listreff label {
+  font-size: 12px;
+}
+
+.grouplistaccessip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.listaccessip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  background: var(--bg-box-primary);
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.listaccessip:hover {
+  border: 1px solid rgba(var(--rgba-primary), 0.5);
+}
+
+.toolsaccess {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toolsaccess svg {
+  transition: all 0.3s ease;
+}
+
+.toolsaccess:hover svg {
+  color: unset;
+}
+
+.secnotifikasids {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 10px 20px 120px 20px;
+  z-index: 0;
+}
+
+.groupsecnotifikasids {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+#root_breadtime {
+  color: rgba(var(--rgba-white));
+}
+
+.grouplistnotifikasids {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.listnotifikasids {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  background: var(--bg-box-primary);
+  max-height: 150px;
+  border: 1px solid rgba(var(--rgba-primary), 0.2);
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.listnotifikasids .waktuinfo {
+  color: var(--primary-color);
+}
+
+.shadowinformasi {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 30px 10px 10px 10px;
+  text-align: center;
+  background: linear-gradient(to top, rgba(var(--rgba-primary-bg-color)) 50%, transparent);
+  display: flex;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.shadowinformasi:hover {
+  color: var(--primary-color);
+}
+
+.listnotifikasids:hover {
+  border: 1px solid rgba(var(--rgba-primary), 0.5);
+}
+
+.memonotifikasi {
+  font-weight: bold;
+  color: rgba(var(--rgba-white));
+}
+
+.groupsecnotifikasids .listdetailfeedback {
+  grid-template-columns: 0.2fr 0.03fr 1fr;
+}
+
 @media screen and (max-width: 800px) {
 
   .listplayerinfo label,
@@ -6024,15 +6288,4 @@ input#agentname {
   .updateagent label {
     font-size: 1.7vw;
   }
-}
-
-.danger {
-  background: var(--danger-color);
-  color: rgba(var(--rgba-white));
-}
-
-.danger:hover {
-  background: transparent;
-  border: 1px solid var(--danger-color);
-  box-shadow: 5px 8px 8px rgba(var(--rgba-black), 0.1);
 }

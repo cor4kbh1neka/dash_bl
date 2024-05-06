@@ -47,32 +47,58 @@
                     <div class="groupsetbankmaster">
                         <div class="grouphistoryds memberlist">
                             <div class="groupheadhistoryds">
+<<<<<<< HEAD
+                                <div class="listmembergroup xdata">
+=======
                                 <form method="GET" action="/bankds/xdata" class="listmembergroup xdata">
+>>>>>>> staging
                                     <div class="grouplistmembergroup">
                                         <div class="listinputmember">
                                             <label for="username">
                                                 username
                                                 <div class="check_box">
+<<<<<<< HEAD
+                                                    <input type="checkbox" id="checkusername" name="checkusername">
+                                                </div>
+                                            </label>
+                                            <input type="text" id="username" name="username" placeholder="username">
+=======
                                                     <input type="checkbox" id="checkusername" name="checkusername"
                                                         {{ $checkusername == 'on' ? 'checked' : '' }}>
                                                 </div>
                                             </label>
                                             <input type="text" id="username" name="username" placeholder="username"
                                                 value="{{ $username }}">
+>>>>>>> staging
                                         </div>
                                         <div class="listinputmember">
                                             <label for="typexdata">type x data</label>
                                             <select id="typexdata" name="typexdata">
+<<<<<<< HEAD
+                                                <option value="xdeposit">xdeposit</option>
+                                                <option value="xwithdraw">xwithdraw</option>
+=======
                                                 <option value="xdeposit" {{ $typexdata == 'xdeposit' ? 'selected' : '' }}>
                                                     xdeposit</option>
                                                 <option value="xwithdraw" {{ $typexdata == 'xwithdraw' ? 'selected' : '' }}>
                                                     xwithdraw</option>
+>>>>>>> staging
                                             </select>
                                         </div>
                                         <div class="listinputmember">
                                             <label for="groupbank">
                                                 group bank
                                                 <div class="check_box">
+<<<<<<< HEAD
+                                                    <input type="checkbox" id="checkgroupbank" name="checkgroupbank">
+                                                </div>
+                                            </label>
+                                            <select id="groupbank" name="groupbank">
+                                                <option value="groupbankdepo1">groupbankdepo1</option>
+                                                <option value="groupbankdepo2">groupbankdepo2</option>
+                                                <option value="groupbankdepo3">groupbankdepo3</option>
+                                                <option value="groupbankdepo4">groupbankdepo4</option>
+=======
                                                     <input type="checkbox" id="checkgroupbank" name="checkgroupbank"
                                                         {{ $checkgroupbank == 'on' ? 'checked' : '' }}>
                                                 </div>
@@ -83,6 +109,7 @@
                                                         {{ $gb == $groupbank ? 'selected' : '' }}>{{ $gb }}
                                                     </option>
                                                 @endforeach
+>>>>>>> staging
                                             </select>
                                         </div>
                                         <div class="listinputmember">
@@ -120,8 +147,12 @@
                                                     <input type="checkbox" id="checktgldari" name="checktgldari">
                                                 </div>
                                             </label>
+<<<<<<< HEAD
+                                            <input type="date" id="gabungdari" name="gabungdari" placeholder="tanggal gabung dari">
+=======
                                             <input type="date" id="gabungdari" name="gabungdari"
                                                 placeholder="tanggal gabung dari">
+>>>>>>> staging
                                         </div>
                                         <div class="listinputmember">
                                             <label for="gabunghingga">
@@ -130,8 +161,12 @@
                                                     <input type="checkbox" id="checktglhingga" name="checktglhingga">
                                                 </div>
                                             </label>
+<<<<<<< HEAD
+                                            <input type="date" id="gabunghingga" name="tanggal gabung hingga" placeholder="nama rekening">
+=======
                                             <input type="date" id="gabunghingga" name="tanggal gabung hingga"
                                                 placeholder="nama rekening">
+>>>>>>> staging
                                         </div>
                                         <div class="listinputmember">
                                             <label for="xmincount">
@@ -140,8 +175,12 @@
                                                     <input type="checkbox" id="checkxmincount" name="checkxmincount">
                                                 </div>
                                             </label>
+<<<<<<< HEAD
+                                            <input type="number" id="xmincount" name="xmincount" placeholder="x data minimal">
+=======
                                             <input type="number" id="xmincount" name="xmincount"
                                                 placeholder="x data minimal">
+>>>>>>> staging
                                         </div>
                                         <div class="listinputmember">
                                             <label for="xmaxcount">
@@ -150,8 +189,12 @@
                                                     <input type="checkbox" id="checkxmaxcount" name="checkxmaxcount">
                                                 </div>
                                             </label>
+<<<<<<< HEAD
+                                            <input type="number" id="xmaxcount" name="xmaxcount" placeholder="x data maksimal">
+=======
                                             <input type="number" id="xmaxcount" name="xmaxcount"
                                                 placeholder="x data maksimal">
+>>>>>>> staging
                                         </div>
                                         <div class="listinputmember">
                                             <button class="tombol primary">
@@ -185,6 +228,208 @@
                                             <th class="bagxdata">x data</th>
                                             <th class="bagbank">bank</th>
                                         </tr>
+<<<<<<< HEAD
+                                        <tr>
+                                            <td>1</td>
+                                            <td>
+                                                <div class="splitcollum">
+                                                    <span>
+                                                        thanos9898
+                                                        <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                            </svg>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>1,269.35</td>
+                                            <td>2024-04-05 21:09:03</td>
+                                            <td>groupbankdepo1</td>
+                                            <td>10</td>
+                                            <td>bca</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>
+                                                <div class="splitcollum">
+                                                    <span>
+                                                        thanos9898
+                                                        <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                            </svg>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>1,269.35</td>
+                                            <td>2024-04-05 21:09:03</td>
+                                            <td>groupbankdepo1</td>
+                                            <td>10</td>
+                                            <td>bca</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>
+                                                <div class="splitcollum">
+                                                    <span>
+                                                        thanos9898
+                                                        <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                            </svg>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>1,269.35</td>
+                                            <td>2024-04-05 21:09:03</td>
+                                            <td>groupbankdepo1</td>
+                                            <td>10</td>
+                                            <td>bca</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>
+                                                <div class="splitcollum">
+                                                    <span>
+                                                        thanos9898
+                                                        <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                            </svg>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>1,269.35</td>
+                                            <td>2024-04-05 21:09:03</td>
+                                            <td>groupbankdepo1</td>
+                                            <td>10</td>
+                                            <td>bca</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>
+                                                <div class="splitcollum">
+                                                    <span>
+                                                        thanos9898
+                                                        <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                            </svg>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>1,269.35</td>
+                                            <td>2024-04-05 21:09:03</td>
+                                            <td>groupbankdepo1</td>
+                                            <td>10</td>
+                                            <td>bca</td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td>
+                                                <div class="splitcollum">
+                                                    <span>
+                                                        thanos9898
+                                                        <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                            </svg>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>1,269.35</td>
+                                            <td>2024-04-05 21:09:03</td>
+                                            <td>groupbankdepo1</td>
+                                            <td>10</td>
+                                            <td>bca</td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td>
+                                            <td>
+                                                <div class="splitcollum">
+                                                    <span>
+                                                        thanos9898
+                                                        <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                            </svg>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>1,269.35</td>
+                                            <td>2024-04-05 21:09:03</td>
+                                            <td>groupbankdepo1</td>
+                                            <td>10</td>
+                                            <td>bca</td>
+                                        </tr>
+                                        <tr>
+                                            <td>8</td>
+                                            <td>
+                                                <div class="splitcollum">
+                                                    <span>
+                                                        thanos9898
+                                                        <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                            </svg>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>1,269.35</td>
+                                            <td>2024-04-05 21:09:03</td>
+                                            <td>groupbankdepo1</td>
+                                            <td>10</td>
+                                            <td>bca</td>
+                                        </tr>
+                                        <tr>
+                                            <td>9</td>
+                                            <td>
+                                                <div class="splitcollum">
+                                                    <span>
+                                                        thanos9898
+                                                        <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                            </svg>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>1,269.35</td>
+                                            <td>2024-04-05 21:09:03</td>
+                                            <td>groupbankdepo1</td>
+                                            <td>10</td>
+                                            <td>bca</td>
+                                        </tr>
+                                        <tr>
+                                            <td>10</td>
+                                            <td>
+                                                <div class="splitcollum">
+                                                    <span>
+                                                        thanos9898
+                                                        <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                                <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                            </svg>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>1,269.35</td>
+                                            <td>2024-04-05 21:09:03</td>
+                                            <td>groupbankdepo1</td>
+                                            <td>10</td>
+                                            <td>bca</td>
+                                        </tr>
+=======
                                         @foreach ($data as $d)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
@@ -210,6 +455,7 @@
                                                 <td>{{ $d->bank }}</td>
                                             </tr>
                                         @endforeach
+>>>>>>> staging
                                     </tbody>
                                 </table>
                                 <div class="grouppagination">
@@ -288,8 +534,12 @@
                 var windowLeft = ($(window).width() - windowWidth) / 2.3;
                 var windowTop = ($(window).height() - windowHeight) / 1.5;
 
+<<<<<<< HEAD
+                window.open(url, "_blank", "width=" + windowWidth + ", height=" + windowHeight + ", left=" + windowLeft + ", top=" + windowTop);
+=======
                 window.open(url, "_blank", "width=" + windowWidth + ", height=" + windowHeight + ", left=" +
                     windowLeft + ", top=" + windowTop);
+>>>>>>> staging
             });
         });
     </script>
