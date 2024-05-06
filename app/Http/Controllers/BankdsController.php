@@ -309,48 +309,6 @@ class BankdsController extends Controller
         $responseBank = Http::get('https://back-staging.bosraka.com/banks/master');
         $resultsBank = $responseBank->json()["data"];
 
-        // foreach ($resultsGroup as $key => $value) {
-        //     if (is_array($value)) {
-        //         foreach ($value as $subKey => $subValue) {
-        //             if (isset($subValue['data_bank']) && is_array($subValue['data_bank'])) {
-        //                 foreach ($subValue['data_bank'] as $subData) {
-        //                     if (isset($subData['idbank']) && $subData['idbank'] == $id) {
-        //                         $allgroup[] = $key;
-        //                         break 3;
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-
-        // $responseByExceptGroup = Http::get('https://back-staging.bosraka.com/banks/exc/' . $groupbank);
-        // $resultsExcept = $responseByExceptGroup->json()["data"];
-        // foreach ($resultsExcept as $key => $value) {
-        //     if (is_array($value)) {
-        //         foreach ($value as $subKey => $subValue) {
-        //             if (isset($subValue['data_bank']) && is_array($subValue['data_bank'])) {
-        //                 foreach ($subValue['data_bank'] as $subData) {
-        //                     if (isset($subData['idbank']) && $subData['idbank'] == $id) {
-        //                         $allgroup[] = $key;
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-
-        // dd($allgroup);
-
-        // $apiUrl = 'https://back-staging.bosraka.com/banks/master/' . $bankName;
-
-        // $response = Http::put($apiUrl, $bankData);
-        // if (!$response->successful()) {
-
-        //     return back()->withInput()->with('error', $response->json()["message"]);
-        // }
-
-
         return view('bankds.rekbank_edit', [
             'title' => 'Add & Set Bank',
             'totalnote' => 0,
@@ -817,6 +775,32 @@ class BankdsController extends Controller
             return response()->json(['success' => true, 'message' => 'List bank berhasil dihapus']);
         } else {
             return response()->json(['success' => false, 'message' => $response->json()["message"]]);
+        }
+    }
+
+    public function updatedetailbank(Request $request)
+    {
+        $dataReq = $request->all();
+        $data =
+            [
+                "masterbnkxyxt" => $dataReq['bankmaster'],
+                "namebankxxyy" => $dataReq['bankname'],
+                "xynamarekx" => $dataReq['namarek'],
+                "norekxyxy" => $dataReq['nomorrek'],
+                "yyxxmethod" => $dataReq['methode'],
+                "barcodexrxr" => $dataReq['urlbarcode']
+
+            ];
+
+        $idbank = $dataReq['idbank'];
+        $bankname = $dataReq['bankname'];
+        dd($data);
+        $response = Http::put('https://back-staging.bosraka.com/banks/v2/' . $idbank, '/', $bankname, $data);
+        dd($response->json());
+        if ($response->successful()) {
+            return redirect()->route('listmaster')->with('success', 'Data berhasil diupdate');
+        } else {
+            return back()->withInput()->with('error', $response->json()["message"]);
         }
     }
 }

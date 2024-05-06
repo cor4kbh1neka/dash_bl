@@ -17,7 +17,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositdsController;
 use App\Http\Controllers\WithdrawdsController;
 use App\Http\Controllers\ManualdsController;
-use App\Http\Controllers\HistorydsController;
+use App\Http\Controllers\HistorycoindsController;
 use App\Http\Controllers\MemberlistdsController;
 use App\Http\Controllers\HistorygamedsController;
 use App\Http\Controllers\OutstandingdsController;
@@ -185,7 +185,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/manualds', [ManualdsController::class, 'index'])->name('manualds');
 
     /*-- Historyds --*/
-    Route::get('/historyds', [HistorydsController::class, 'index']);
+    Route::get('/historycoinds', [HistorycoindsController::class, 'index']);
 
     /*-- Memberlistds --*/
     Route::get('/memberlistds', [MemberlistdsController::class, 'index'])->name('memberlistds');
@@ -228,6 +228,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bankds/addgroupbank', [BankdsController::class, 'addgroupbank']);
     Route::get('/bankds/setbank/{id}/{groupbank}', [BankdsController::class, 'setbank'])->name('bankds.setbank');
     Route::post('/bankds/updatelistbank/{jenis?}', [BankdsController::class, 'updatelistbank']);
+    Route::post('/bankds/updatedetailbank', [BankdsController::class, 'updatedetailbank']);
     Route::delete('/bankds/deletelistbank/{id}/{groupbank}', [BankdsController::class, 'deletelistbank']);
 
     /* Master */

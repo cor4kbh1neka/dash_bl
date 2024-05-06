@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::share('dataCount', $this->getDataCount());
+        // View::share('dataCount', $this->getDataCount());
     }
 
     private function getDataCount()

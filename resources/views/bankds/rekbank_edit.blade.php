@@ -43,7 +43,7 @@
                     </a>
                 </div>
 
-                <form method="POST" action="/bankds/updatelistbank" class="secgroupdatabankds">
+                <form method="POST" action="/bankds/updatedetailbank" class="secgroupdatabankds">
                     @csrf
                     @foreach ($data as $bank => $d)
                         <div class="groupsetbankmaster">
