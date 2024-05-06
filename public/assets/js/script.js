@@ -176,8 +176,8 @@ $(document).ready(function(){
         } else {
             $('.title_main_content, .sec_top_navbar, .sec_sidebar, .footer').css('display', '');
 
-            $('.content_body').css('max-height', '83vh');
-            $('.tabelproses').css('margin-bottom', '20vh');
+            $('.content_body').css('max-height', '');
+            $('.tabelproses').css('margin-bottom', '');
 
             $('.fullscreen svg').html('<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16"><path fill="currentColor" d="m5.3 6.7l1.4-1.4l-3-3L5 1H1v4l1.3-1.3zm1.4 4L5.3 9.3l-3 3L1 11v4h4l-1.3-1.3zm4-1.4l-1.4 1.4l3 3L11 15h4v-4l-1.3 1.3zM11 1l1.3 1.3l-3 3l1.4 1.4l3-3L15 5V1z" /></svg>');
             
@@ -201,7 +201,7 @@ function updateDateTime() {
     minutes = (minutes < 10 ? "0" : "") + minutes;
     seconds = (seconds < 10 ? "0" : "") + seconds;
 
-    document.getElementById("root_bread").textContent = day + " " + month + " " + year + " | " + hours + ":" + minutes + ":" + seconds + " WIB";
+    document.getElementById("root_breadtime").textContent = day + " " + month + " " + year + " | " + hours + ":" + minutes + ":" + seconds + " WIB";
 }
 updateDateTime();
 setInterval(updateDateTime, 1000);
@@ -228,6 +228,69 @@ $(document).ready(function(){
         var container = $(".secmodalhistory");
         if (!container.is(e.target) && container.has(e.target).length === 0) {
             $('.modalhistory').css('display', 'none');
+        }
+    });
+});
+
+// display none notifikasi data h2
+$(document).ready(function(){
+    checkCountPendingData();
+
+    function checkCountPendingData() {
+        $('.countpendingdata, .countdatapend').each(function(){
+            var countValue = $(this).text().trim();
+            if (countValue === '' || countValue === '0') {
+                $(this).css('display', 'none');
+            } else {
+                $(this).css('display', '');
+            }
+        });
+    }
+
+    $('.countpendingdata').bind('DOMSubtreeModified', function(){
+        checkCountPendingData();
+    });
+});
+
+// show logout
+$(document).ready(function () {
+    $('.sec_top_navbar').load('/topnav');
+    $(document).on('click', '.profile_nav', function () {
+        $('.list_menu_profile').slideToggle('fast');
+    });
+    $(document).on('click', function (event) {
+        if (!$(event.target).closest('.list_menu_profile, .profile_nav').length) {
+            $('.list_menu_profile').slideUp('fast');
+        }
+    });
+});
+
+// cari menu
+$('#sec_sidebar').on('input', '#searchTabel', function () {
+    var searchText = $(this).val().toLowerCase();
+    $('.nav_title1, .sub_title1').each(function () {
+        var titleText = $(this).text().toLowerCase();
+        var $parentData = $(this).closest('.data_sidejsx');
+        var $parentSubData = $(this).closest('.sub_data_sidejsx');
+
+        if (searchText === '') {
+            $(this).show();
+            $parentData.show();
+            $parentSubData.hide();
+            $parentData.removeClass('active');
+            $parentSubData.removeClass('active');
+        } else if (titleText.includes(searchText) || $parentSubData.find('.sub_title1').text().toLowerCase().includes(searchText)) {
+            $(this).show();
+            $parentData.show();
+            $parentSubData.show();
+            $parentData.addClass('active');
+            $parentSubData.addClass('active');
+        } else {
+            $(this).hide();
+            $parentData.hide();
+            $parentSubData.hide();
+            $parentData.removeClass('active');
+            $parentSubData.removeClass('active');
         }
     });
 });

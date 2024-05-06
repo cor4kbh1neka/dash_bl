@@ -1,6 +1,6 @@
 <div class="breadcrumb">
     <ol class="main_bred">
-        <li class="list_bread"><a href="" id="root_bread"></a></li>
+        <li class="list_bread"><span  id="root_breadtime"></span></li>
         <li class="separator_bread">
             {{-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"
@@ -12,32 +12,12 @@
 </div>
 <div class="right_top_nav">
 
-    <div class="nav_notifikasi">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bell" viewBox="0 0 24 24"
-            stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
-            <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+    <a href="/notifikasids" class="nav_notifikasi" data-informasi="23">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M21 19v1H3v-1l2-2v-6c0-3.1 2.03-5.83 5-6.71V4a2 2 0 0 1 2-2a2 2 0 0 1 2 2v.29c2.97.88 5 3.61 5 6.71v6zm-7 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2" />
         </svg>
-        <span>Notifikasi</span>
         <div class="countnotif">
-            <p>23</p>
-        </div>
-    </div>
-    <a href="#" class="Menuleft" data-jenismenu="" data-menuid="notes" data-menu1="SETTING" data-menu2="Notes">
-        <div class="todo_nav">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-notes" viewBox="0 0 24 24"
-                stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
-                <path d="M9 7l6 0" />
-                <path d="M9 11l6 0" />
-                <path d="M9 15l4 0" />
-            </svg>
-            <span>Notes</span>
-            <div class="countnotif">
-                <p>{{ $totalnote }}</p>
-            </div>
+            <p></p>
         </div>
     </a>
     <div class="profile_nav">
@@ -65,18 +45,6 @@
                     <span>profile</span>
                 </div>
             </a>
-            <a href="">
-                <div class="data_profile">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail"
-                        viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-                        <path d="M3 7l9 6l9 -6" />
-                    </svg>
-                    <span>inbox</span>
-                </div>
-            </a>
             <form action="/logout" method="post">
                 @csrf
                 <button type="submit">
@@ -97,3 +65,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    // print data notifikasi
+    $(document).ready(function(){
+        var informasi = $(".nav_notifikasi").data("informasi");
+        $(".countnotif p").text(informasi);
+    });
+</script>

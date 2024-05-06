@@ -17,7 +17,23 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositdsController;
 use App\Http\Controllers\WithdrawdsController;
 use App\Http\Controllers\ManualdsController;
-use App\Http\Controllers\HistorydsController;
+use App\Http\Controllers\HistorycoindsController;
+use App\Http\Controllers\MemberlistdsController;
+use App\Http\Controllers\HistorytransaksidsController;
+use App\Http\Controllers\HistorygamedsController;
+use App\Http\Controllers\OutstandingdsController;
+use App\Http\Controllers\ReportdsController;
+use App\Http\Controllers\ReferraldsController;
+use App\Http\Controllers\BankdsController;
+use App\Http\Controllers\MemodsController;
+use App\Http\Controllers\AgentdsController;
+use App\Http\Controllers\AnalyticsdsController;
+use App\Http\Controllers\ContentdsController;
+use App\Http\Controllers\ApksettingdsController;
+use App\Http\Controllers\AllowedipdsController;
+use App\Http\Controllers\MemotouserdsController;
+use App\Http\Controllers\UsermanagementdsController;
+use App\Http\Controllers\NotifikasidsController;
 use App\Http\Controllers\Menu2Controller;
 use App\Models\Notes;
 
@@ -161,7 +177,97 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/manualds', [ManualdsController::class, 'index']);
 
     /*-- Historyds --*/
-    Route::get('/historyds', [HistorydsController::class, 'index']);
+    Route::get('/historycoinds', [HistorycoindsController::class, 'index']);
+
+    /*-- Historytransaksids --*/
+    Route::get('/historytransaksids', [HistorytransaksidsController::class, 'index']);
+    Route::get('/historytransaksids/transaksilama', [HistorytransaksidsController::class, 'transaksilama']);
+
+    /*-- Memberlistds --*/
+    Route::get('/memberlistds', [MemberlistdsController::class, 'index']);
+    Route::get('/memberlistds/edit', [MemberlistdsController::class, 'update']);
+    Route::get('/memberlistds/winloseyear', [MemberlistdsController::class, 'winloseyear']);
+    Route::get('/memberlistds/winlosemonth', [MemberlistdsController::class, 'winlosemonth']);
+    Route::get('/memberlistds/winloseday', [MemberlistdsController::class, 'winloseday']);
+
+    /*-- Historygameds --*/
+    Route::get('/historygameds', [HistorygamedsController::class, 'index']);
+    Route::get('/historygameds/detail/{invoice}', [HistorygamedsController::class, 'detail']);
+
+    /*-- Outstandingds --*/
+    Route::get('/outstandingds', [OutstandingdsController::class, 'index']);
+
+    /*-- Reportds --*/
+    Route::get('/reportds', [ReportdsController::class, 'index']);
+    Route::get('/reportds/winlosematch', [ReportdsController::class, 'winlosematch']);
+    Route::get('/reportds/memberstatement', [ReportdsController::class, 'memberstatement']);
+
+    /*-- Referralds --*/
+    Route::get('/referralds', [ReferraldsController::class, 'index']);
+    Route::get('/referralds/downline', [ReferraldsController::class, 'downlinedetail']);
+    Route::get('/referralds/bonusreferral', [ReferraldsController::class, 'bonusreferral']);
+
+    /*-- Bankds --*/
+    Route::get('/bankds', [BankdsController::class, 'index']);
+    Route::get('/bankds/setbankmaster', [BankdsController::class, 'setbankmaster']);
+    Route::get('/bankds/addbankmaster', [BankdsController::class, 'addbankmaster']);
+    Route::get('/bankds/setgroupbank', [BankdsController::class, 'setgroupbank']);
+    Route::get('/bankds/addgroupbank', [BankdsController::class, 'addgroupbank']);
+    Route::get('/bankds/setbank', [BankdsController::class, 'setbank']);
+    Route::get('/bankds/addbank', [BankdsController::class, 'addbank']);
+    Route::get('/bankds/listmaster', [BankdsController::class, 'listmaster']);
+    Route::get('/bankds/listgroup', [BankdsController::class, 'listgroup']);
+    Route::get('/bankds/listbank', [BankdsController::class, 'listbank']);
+    Route::get('/bankds/xdata', [BankdsController::class, 'xdata']);
+
+    /*-- Memods --*/
+    Route::get('/memods', [MemodsController::class, 'index']);
+    Route::get('/memods/viewinbox', [MemodsController::class, 'viewinbox']);
+    Route::get('/memods/readinbox', [MemodsController::class, 'readinbox']);
+    Route::get('/memods/archiveinbox', [MemodsController::class, 'archiveinbox']);
+    Route::get('/memods/delivered', [MemodsController::class, 'delivered']);
+    Route::get('/memods/readdelivered', [MemodsController::class, 'readdelivered']);
+
+    /*-- Agentds --*/
+    Route::get('/agentds', [AgentdsController::class, 'index']);
+    Route::get('/agentds/create', [AgentdsController::class, 'create']);
+    Route::get('/agentds/agentinfo', [AgentdsController::class, 'agentinfo']);
+    Route::get('/agentds/agentupdate', [AgentdsController::class, 'agentupdate']);
+    Route::get('/agentds/access', [AgentdsController::class, 'access']);
+    Route::get('/agentds/accessupdate', [AgentdsController::class, 'accessupdate']);
+    Route::get('/agentds/accessadd', [AgentdsController::class, 'accessadd']);
+
+    /*-- Analyticsds --*/
+    Route::get('/analyticsds', [AnalyticsdsController::class, 'index']);
+    Route::get('/analyticsds/sitemap', [AnalyticsdsController::class, 'sitemap']);
+
+    /*-- Contentds --*/
+    Route::get('/contentds', [ContentdsController::class, 'index']);
+    Route::get('/contentds/promo', [ContentdsController::class, 'promo']);
+    Route::get('/contentds/promo/add', [ContentdsController::class, 'promoadd']);
+    Route::get('/contentds/promo/edit', [ContentdsController::class, 'promoedit']);
+    Route::get('/contentds/slider', [ContentdsController::class, 'slider']);
+    Route::get('/contentds/slider/edit', [ContentdsController::class, 'slideredit']);
+    Route::get('/contentds/link', [ContentdsController::class, 'link']);
+    Route::get('/contentds/link/edit', [ContentdsController::class, 'linkedit']);
+    Route::get('/contentds/socialmedia', [ContentdsController::class, 'socialmedia']);
+    Route::get('/contentds/socialmedia/edit', [ContentdsController::class, 'socialmediaedit']);
+    
+    /*-- Apksettingds --*/
+    Route::get('/apksettingds', [ApksettingdsController::class, 'index']);
+    Route::get('/apksettingds/setting', [ApksettingdsController::class, 'apksetting']);
+    Route::get('/apksettingds/event', [ApksettingdsController::class, 'apkevent']);
+    Route::get('/apksettingds/event/add', [ApksettingdsController::class, 'apkeventadd']);
+    Route::get('/apksettingds/event/edit', [ApksettingdsController::class, 'apkeventedit']);
+
+    /*-- Memotouserds --*/
+    Route::get('/memotouserds', [MemotouserdsController::class, 'index']);
+    Route::get('/memotouserds/delivered', [MemotouserdsController::class, 'delivered']);
+    Route::get('/memotouserds/read', [MemotouserdsController::class, 'deliveredread']);
+
+    /*-- Notifikasids --*/
+    Route::get('/notifikasids', [NotifikasidsController::class, 'index']);
+    Route::get('/notifikasids/read', [NotifikasidsController::class, 'readinformasi']);
 
     /*-- MENU 2 --*/
     Route::get('/menu2', [Menu2Controller::class, 'index']);

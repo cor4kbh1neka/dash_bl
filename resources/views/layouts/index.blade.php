@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="{{ asset('/assets/css/design.css') }}" />
     <link rel="stylesheet" href="{{ asset('/assets/css/custom_dash.css') }}" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -30,9 +32,9 @@
                 @include('layouts.top_nav')
             </div>
             <div class="sec_main_konten">
-                <div class="title_main_content">
+                <!-- <div class="title_main_content">
                     {{-- <h3>GLOBAL BOLA</h3> --}}
-                </div>
+                </div> -->
                 <div class="content_body">
                     <div class="aplay_code">
                         @yield('container')

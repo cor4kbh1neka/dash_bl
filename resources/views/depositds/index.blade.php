@@ -16,7 +16,7 @@
         <div class="secdepositds">
             <div class="groupdatamaster">
                 <div class="groupdeposittopbar">
-                    <a href="#" class="tombol proses">
+                    <a href="/manualds" class="tombol proses">
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M20.7 7c-.3.4-.7.7-.7 1s.3.6.6 1c.5.5 1 .9.9 1.4c0 .5-.5 1-1 1.5L16.4 16L15 14.7l4.2-4.2l-1-1l-1.4 1.4L13 7.1l4-3.8c.4-.4 1-.4 1.4 0l2.3 2.3c.4.4.4 1.1 0 1.4M3 17.2l9.6-9.6l3.7 3.8L6.8 21H3zM7 2v3h3v2H7v3H5V7H2V5h3V2z" />
                         </svg>
@@ -111,7 +111,14 @@
                                 </td>
                                 <td>
                                     <div class="splitcollum" title="suka ngibul">
-                                        <span class="userpending">thanos98</span>
+                                        <span class="userpending">
+                                            thanos9898
+                                            <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                </svg>
+                                            </a>
+                                        </span>
                                         <span class="datadetailuser showmodal" data-modal="1">Deposit</span>
                                     </div>
                                 </td>
@@ -122,9 +129,9 @@
                                     </div>
                                 </td>
                                 <td class="valuenominal">100,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193536</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193536</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193535</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193535</td>
                                 <td>maksimal 20 karakter</td>
                             </tr>
                             <tr>
@@ -136,7 +143,14 @@
                                 </td>
                                 <td>
                                     <div class="splitcollum" title="">
-                                        <span class="userpending">lontong989898</span>
+                                        <span class="userpending">
+                                            thanos989898
+                                            <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                </svg>
+                                            </a>
+                                        </span>
                                         <span class="datadetailuser showmodal" data-modal="2">Deposit</span>
                                     </div>
                                 </td>
@@ -146,10 +160,10 @@
                                         <span class="waktu">21:09:03</span>
                                     </div>
                                 </td>
-                                <td class="valuenominal">100,00,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193537</td>
+                                <td class="valuenominal">100,000,000</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193537</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                                 <td>maksimal 20 karakter</td>
                             </tr>
                             <tr>
@@ -161,7 +175,14 @@
                                 </td>
                                 <td>
                                     <div class="splitcollum" title="">
-                                        <span class="userpending">thanos989898</span>
+                                        <span class="userpending">
+                                            thanos989898
+                                            <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                </svg>
+                                            </a>
+                                        </span>
                                         <span class="datadetailuser showmodal" data-modal="3">Deposit</span>
                                     </div>
                                 </td>
@@ -171,10 +192,10 @@
                                         <span class="waktu">21:09:03</span>
                                     </div>
                                 </td>
-                                <td class="valuenominal">100,00,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193537</td>
+                                <td class="valuenominal">100,000,000</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193537</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                                 <td>maksimal 20 karakter</td>
                             </tr>
                             <tr>
@@ -186,7 +207,14 @@
                                 </td>
                                 <td>
                                     <div class="splitcollum" title="suka spam form deposit">
-                                        <span class="userpending">thanos989898</span>
+                                        <span class="userpending">
+                                            thanos989898
+                                            <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                </svg>
+                                            </a>
+                                        </span>
                                         <span class="datadetailuser showmodal" data-modal="4">Deposit</span>
                                     </div>
                                 </td>
@@ -196,10 +224,10 @@
                                         <span class="waktu">21:09:03</span>
                                     </div>
                                 </td>
-                                <td class="valuenominal">100,00,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193537</td>
+                                <td class="valuenominal">100,000,000</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193537</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                                 <td>maksimal 20 karakter</td>
                             </tr>
                             <tr>
@@ -211,7 +239,14 @@
                                 </td>
                                 <td>
                                     <div class="splitcollum" title="">
-                                        <span class="userpending">thanos989898</span>
+                                        <span class="userpending">
+                                            thanos989898
+                                            <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                </svg>
+                                            </a>
+                                        </span>
                                         <span class="datadetailuser showmodal" data-modal="5">Deposit</span>
                                     </div>
                                 </td>
@@ -221,10 +256,10 @@
                                         <span class="waktu">21:09:03</span>
                                     </div>
                                 </td>
-                                <td class="valuenominal">100,00,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193537</td>
+                                <td class="valuenominal">100,000,000</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193537</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                                 <td>maksimal 20 karakter</td>
                             </tr>
                             <tr>
@@ -236,7 +271,14 @@
                                 </td>
                                 <td>
                                     <div class="splitcollum" title="">
-                                        <span class="userpending">thanos989898</span>
+                                        <span class="userpending">
+                                            thanos989898
+                                            <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                </svg>
+                                            </a>
+                                        </span>
                                         <span class="datadetailuser showmodal" data-modal="6">Deposit</span>
                                     </div>
                                 </td>
@@ -246,10 +288,10 @@
                                         <span class="waktu">21:09:03</span>
                                     </div>
                                 </td>
-                                <td class="valuenominal">100,00,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193537</td>
+                                <td class="valuenominal">100,000,000</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193537</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                                 <td>maksimal 20 karakter</td>
                             </tr>
                             <tr>
@@ -261,7 +303,14 @@
                                 </td>
                                 <td>
                                     <div class="splitcollum" title="">
-                                        <span class="userpending">thanos989898</span>
+                                        <span class="userpending">
+                                            thanos989898
+                                            <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                </svg>
+                                            </a>
+                                        </span>
                                         <span class="datadetailuser showmodal" data-modal="7">Deposit</span>
                                     </div>
                                 </td>
@@ -271,10 +320,10 @@
                                         <span class="waktu">21:09:03</span>
                                     </div>
                                 </td>
-                                <td class="valuenominal">100,00,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193537</td>
+                                <td class="valuenominal">100,000,000</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193537</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                                 <td>maksimal 20 karakter</td>
                             </tr>
                             <tr>
@@ -286,7 +335,14 @@
                                 </td>
                                 <td>
                                     <div class="splitcollum" title="">
-                                        <span class="userpending">thanos989898</span>
+                                        <span class="userpending">
+                                            thanos989898
+                                            <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                </svg>
+                                            </a>
+                                        </span>
                                         <span class="datadetailuser showmodal" data-modal="8">Deposit</span>
                                     </div>
                                 </td>
@@ -296,10 +352,10 @@
                                         <span class="waktu">21:09:03</span>
                                     </div>
                                 </td>
-                                <td class="valuenominal">100,00,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193537</td>
+                                <td class="valuenominal">100,000,000</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193537</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                                 <td>maksimal 20 karakter</td>
                             </tr>
                             <tr>
@@ -311,7 +367,14 @@
                                 </td>
                                 <td>
                                     <div class="splitcollum" title="">
-                                        <span class="userpending">thanos989898</span>
+                                        <span class="userpending">
+                                            thanos989898
+                                            <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                </svg>
+                                            </a>
+                                        </span>
                                         <span class="datadetailuser showmodal" data-modal="9">Deposit</span>
                                     </div>
                                 </td>
@@ -321,10 +384,10 @@
                                         <span class="waktu">21:09:03</span>
                                     </div>
                                 </td>
-                                <td class="valuenominal">100,00,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193537</td>
+                                <td class="valuenominal">100,000,000</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193537</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                                 <td>maksimal 20 karakter</td>
                             </tr>
                             <tr>
@@ -336,7 +399,14 @@
                                 </td>
                                 <td>
                                     <div class="splitcollum" title="">
-                                        <span class="userpending">thanos989898</span>
+                                        <span class="userpending">
+                                            thanos989898
+                                            <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                </svg>
+                                            </a>
+                                        </span>
                                         <span class="datadetailuser showmodal" data-modal="10">Deposit</span>
                                     </div>
                                 </td>
@@ -346,10 +416,10 @@
                                         <span class="waktu">21:09:03</span>
                                     </div>
                                 </td>
-                                <td class="valuenominal">100,00,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193537</td>
+                                <td class="valuenominal">100,000,000</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193537</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                                 <td>maksimal 20 karakter</td>
                             </tr>
                             <tr>
@@ -361,7 +431,14 @@
                                 </td>
                                 <td>
                                     <div class="splitcollum" title="">
-                                        <span class="userpending">thanos989898</span>
+                                        <span class="userpending">
+                                            thanos989898
+                                            <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                </svg>
+                                            </a>
+                                        </span>
                                         <span class="datadetailuser showmodal" data-modal="11">Deposit</span>
                                     </div>
                                 </td>
@@ -371,10 +448,10 @@
                                         <span class="waktu">21:09:03</span>
                                     </div>
                                 </td>
-                                <td class="valuenominal">100,00,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193537</td>
+                                <td class="valuenominal">100,000,000</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193537</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                                 <td>maksimal 20 karakter</td>
                             </tr>
                             <tr>
@@ -386,7 +463,14 @@
                                 </td>
                                 <td>
                                     <div class="splitcollum" title="">
-                                        <span class="userpending">thanos989898</span>
+                                        <span class="userpending">
+                                            thanos989898
+                                            <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                </svg>
+                                            </a>
+                                        </span>
                                         <span class="datadetailuser showmodal" data-modal="12">Deposit</span>
                                     </div>
                                 </td>
@@ -396,10 +480,10 @@
                                         <span class="waktu">21:09:03</span>
                                     </div>
                                 </td>
-                                <td class="valuenominal">100,00,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193537</td>
+                                <td class="valuenominal">100,000,000</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193537</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                                 <td>maksimal 20 karakter</td>
                             </tr>
                             <tr>
@@ -411,7 +495,14 @@
                                 </td>
                                 <td>
                                     <div class="splitcollum" title="">
-                                        <span class="userpending">thanos989898</span>
+                                        <span class="userpending">
+                                            thanos989898
+                                            <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                </svg>
+                                            </a>
+                                        </span>
                                         <span class="datadetailuser showmodal" data-modal="13">Deposit</span>
                                     </div>
                                 </td>
@@ -421,10 +512,10 @@
                                         <span class="waktu">21:09:03</span>
                                     </div>
                                 </td>
-                                <td class="valuenominal">100,00,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193537</td>
+                                <td class="valuenominal">100,000,000</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193537</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                                 <td>maksimal 20 karakter</td>
                             </tr>
                             <tr>
@@ -436,7 +527,14 @@
                                 </td>
                                 <td>
                                     <div class="splitcollum" title="">
-                                        <span class="userpending">thanos989898</span>
+                                        <span class="userpending">
+                                            thanos989898
+                                            <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                </svg>
+                                            </a>
+                                        </span>
                                         <span class="datadetailuser showmodal" data-modal="14">Deposit</span>
                                     </div>
                                 </td>
@@ -446,10 +544,10 @@
                                         <span class="waktu">21:09:03</span>
                                     </div>
                                 </td>
-                                <td class="valuenominal">100,00,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193537</td>
+                                <td class="valuenominal">100,000,000</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193537</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                                 <td>maksimal 20 karakter</td>
                             </tr>
                             <tr>
@@ -461,7 +559,14 @@
                                 </td>
                                 <td>
                                     <div class="splitcollum" title="">
-                                        <span class="userpending">thanos989898</span>
+                                        <span class="userpending">
+                                            thanos989898
+                                            <a href="/memberlistds/edit" class="iconprofile openviewport" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                                </svg>
+                                            </a>
+                                        </span>
                                         <span class="datadetailusershowmodal" data-modal="15">Deposit</span>
                                     </div>
                                 </td>
@@ -471,10 +576,10 @@
                                         <span class="waktu">21:09:03</span>
                                     </div>
                                 </td>
-                                <td class="valuenominal">100,00,000</td>
-                                <td>BRI, DAMIANUS PARSI, 472501058193537</td>
+                                <td class="valuenominal">100,000,000</td>
+                                <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193537</td>
                                 <td class="valuenominal">15,100,000</td>
-                                <td>BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
+                                <td class="valuebank">BRI, BAMBANG ASLI MANA GITU, 472501058193538</td>
                                 <td>maksimal 20 karakter</td>
                             </tr>
                         </tbody>
@@ -574,7 +679,7 @@
                             </tbody>
                         </table>
                         <div class="informasihistorycoin">
-                            <span>*data yang di tampilkan saat ini, selengkapnya di menu <a href="#">history</a></span>
+                            <span>*data yang di tampilkan saat ini, selengkapnya di menu <a href="/historycoinds">history</a></span>
                         </div>
                     </div>
                 </div>
@@ -664,7 +769,7 @@
                             </tbody>
                         </table>
                         <div class="informasihistorycoin">
-                            <span>*data yang di tampilkan saat ini, selengkapnya di menu <a href="#">history</a></span>
+                            <span>*data yang di tampilkan saat ini, selengkapnya di menu <a href="/historycoinds">history</a></span>
                         </div>
                     </div>
                 </div>
@@ -914,7 +1019,7 @@
                         </tbody>
                     </table>
                     <div class="informasihistorycoin">
-                        <span>*data yang di tampilkan saat ini, selengkapnya di menu <a href="#">history</a></span>
+                        <span>*data yang di tampilkan saat ini, selengkapnya di menu <a href="/historycoinds">history</a></span>
                     </div>
                 </div>
             </div>
@@ -941,6 +1046,21 @@
                 }
             });
 
+        });
+
+        //open jendela detail
+        $(document).ready(function() {
+            $(".openviewport").click(function(event) {
+                event.preventDefault();
+
+                var url = $(this).attr("href");
+                var windowWidth = 700;
+                var windowHeight = $(window).height() * 0.6;
+                var windowLeft = ($(window).width() - windowWidth) / 2.3;
+                var windowTop = ($(window).height() - windowHeight) / 1.5;
+
+                window.open(url, "_blank", "width=" + windowWidth + ", height=" + windowHeight + ", left=" + windowLeft + ", top=" + windowTop);
+            });
         });
     </script>
 @endsection

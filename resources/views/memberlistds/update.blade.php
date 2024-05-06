@@ -1,0 +1,169 @@
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" href="{{ asset('img/utama/g21-icon.ico') }}" />
+    <title>Dashboard | L21</title>
+    <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/design.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/custom_dash.css') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/themes/prism.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1"></script>
+
+    <script>
+        $(document).ready(function() {
+            adjustElementSize();
+        });
+    </script>
+</head>
+    <div class="sec_table">
+        <div class="secgrouptitle">
+            <h2>{{ $title }} </h2>
+        </div>
+        <div class="seceditmemberds">
+            <div class="groupseceditmemberds">
+                <spann class="titleeditmemberds">player information</spann>
+                <div class="groupplayerinfo" data-statusakun="9">
+                    <div class="listgroupplayerinfo left">
+                        <div class="listplayerinfo">
+                            <label for="username">username</label>
+                            <input class="nosabel" readonly type="text" id="username" name="username" value="lontong6969">
+                        </div>
+                        <div class="listplayerinfo">
+                            <label for="isverified">verified status</label>
+                            <select name="isverified" id="isverified" value="0">
+                                <option value="0" selected>not verified</option>
+                                <option value="1">verified</option>
+                            </select>
+                        </div>
+                        <div class="listplayerinfo">
+                            <label for="namabank">nama bank</label>
+                            <div class="groupeditinput">
+                                <input type="text" readonly id="namabank" name="namabank" value="bca">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="listplayerinfo">
+                            <label for="namarek">nama rekening</label>
+                            <div class="groupeditinput">
+                                <input type="text" readonly id="namarek" name="namarek" value="muka hijau">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="listplayerinfo">
+                            <label for="nomorrek">nomor rekening</label>
+                            <div class="groupeditinput">
+                                <input type="text" readonly id="nomorrek" name="nomorrek" value="5569820014">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="listplayerinfo">
+                            <label for="email">email</label>
+                            <input class="nosabel" readonly type="text" id="email" name="email" value="******6969@gmail.com">
+                        </div>
+                        <div class="listplayerinfo">
+                            <label for="nomorhp">nomor hp</label>
+                            <input class="nosabel" readonly type="text" id="nomorhp" name="nomorhp" value="*******3566">
+                        </div>
+                        <div class="listplayerinfogrp">
+                            <div class="datalistplayerinfogrp">
+                                <label for="groupdp">group bank deposit</label>
+                                <select name="groupdp" id="groupdp" value="groupbank1">
+                                    <option value="" place="" style="color: #838383; font-style: italic;" disabled="">pilih group</option>
+                                    <option value="groupbank1">groupbank1</option>
+                                    <option value="groupbank2">groupbank2</option>
+                                    <option value="groupbank3">groupbank3</option>
+                                    <option value="groupbank4">groupbank4</option>
+                                </select>
+                            </div>
+                            <div class="datalistplayerinfogrp">
+                                <label for="groupwd">group bank withdraw</label>
+                                <select name="groupwd" id="groupwd" value="groupbank1">
+                                    <option value="" place="" style="color: #838383; font-style: italic;" disabled="">pilih group</option>
+                                    <option value="groupbank1">groupbank1</option>
+                                    <option value="groupbank2">groupbank2</option>
+                                    <option value="groupbank3">groupbank3</option>
+                                    <option value="groupbank4">groupbank4</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="listgroupplayerinfo right">
+                        <button class="tombol cancel">
+                            <span class="texttombol">SUSPEND PLAYER</span>
+                        </button>
+                        <button class="tombol primary">
+                            <span class="texttombol">SAVE DATA</span>
+                        </button>
+                    </div>
+                </div>
+                <spann class="titleeditmemberds change">cange data player</spann>
+                <div class="groupchangedataplayer">
+                    <div class="listchangedataplayer">
+                        <div class="groupinputchangedataplayer">
+                            <label for="changepassword">CHANGE PASSWORD</label>
+                            <input type="password" id="changepassword" name="changepassword" placeholder="masukkan password baru">
+                            <input type="password" id="repassword" name="repassword" placeholder="konsfirmasi password baru">
+                        </div>
+                        <div class="groupbuttonplayer">
+                            <button class="tombol primary">
+                                <span class="texttombol">SAVE DATA</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="centerborder"></div>
+                    <div class="listchangedataplayer">
+                        <label for="changepassword">CHANGE INFORMATION</label>
+                        <input type="text" id="informasiplayer" name="informasiplayer" placeholder="masukkan informasi player">
+                        <div class="groupstatuspl">
+                            <label for="statuspl">STATUS</label>
+                            <select name="status" id="status" value="9">
+                                <option value="" place="" style="color: #838383; font-style: italic;" disabled="">PILIH STATUS</option>
+                                <option value="9">new member</option>
+                                <option value="1">default</option>
+                                <option value="2">VVIP</option>
+                                <option value="3">bandar</option>
+                                <option value="4">warning</option>
+                                <option value="5">suspend</option>
+                            </select>
+                        </div>
+                        <div class="groupdatbetpl">
+                            <span class="labelbetpl">BET</span>
+                            <div class="groupdatabet">
+                                <label for="minbet">minimal</label>
+                                <input type="text" id="minbet" name="minbet" value="10">
+                            </div>
+                            <div class="groupdatabet">
+                                <label for="maxbet">minimal</label>
+                                <input type="text" id="maxbet" name="maxbet" value="50000">
+                            </div>
+                        </div>
+                        <div class="groupbuttonplayer">
+                            <button class="tombol primary">
+                                <span class="texttombol">SAVE DATA</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.groupeditinput svg').click(function() {
+                $(this).closest('.groupeditinput').toggleClass('edit');
+                $(this).siblings('input').prop('readonly', function(_, val) {
+                    return !val;
+                });
+            });
+        });
+    </script>
