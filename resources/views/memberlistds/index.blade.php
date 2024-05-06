@@ -97,7 +97,16 @@
                             </tr>
                             <tr>
                                 <td>1</td>
-                                <td>thanos98</td>
+                                <td>
+                                    <span class="userpending">
+                                        thanos9898
+                                        <a href="/memberlistds/winloseyear" class="iconprofile detailbetingan" target="_blank">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                            </svg>
+                                        </a>
+                                    </span>
+                                </td>
                                 <td>lontong6969</td>
                                 <td>BCA, MUKA HIJAU, 5569820014</td>
                                 <td class="valuenominal">
@@ -121,7 +130,16 @@
                             </tr>
                             <tr>
                                 <td>2</td>
-                                <td>thanos98</td>
+                                <td>
+                                    <span class="userpending">
+                                        thanos9898
+                                        <a href="/memberlistds/winloseyear" class="iconprofile detailbetingan" target="_blank">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                            </svg>
+                                        </a>
+                                    </span>
+                                </td>
                                 <td>lontong6969</td>
                                 <td>BCA, MUKA HIJAU, 5569820014</td>
                                 <td class="valuenominal">
@@ -145,7 +163,16 @@
                             </tr>
                             <tr>
                                 <td>3</td>
-                                <td>thanos98</td>
+                                <td>
+                                    <span class="userpending">
+                                        thanos9898
+                                        <a href="/memberlistds/winloseyear" class="iconprofile detailbetingan" target="_blank">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                            </svg>
+                                        </a>
+                                    </span>
+                                </td>
                                 <td>lontong6969</td>
                                 <td>BCA, MUKA HIJAU, 5569820014</td>
                                 <td class="valuenominal">
@@ -169,7 +196,16 @@
                             </tr>
                             <tr>
                                 <td>4</td>
-                                <td>thanos98</td>
+                                <td>
+                                    <span class="userpending">
+                                        thanos9898
+                                        <a href="/memberlistds/winloseyear" class="iconprofile detailbetingan" target="_blank">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                            </svg>
+                                        </a>
+                                    </span>
+                                </td>
                                 <td>lontong6969</td>
                                 <td class="valuebank">BCA, MUKA HIJAU, 5569820014</td>
                                 <td class="valuenominal">
@@ -193,7 +229,16 @@
                             </tr>
                             <tr>
                                 <td>5</td>
-                                <td>thanos98</td>
+                                <td>
+                                    <span class="userpending">
+                                        thanos9898
+                                        <a href="/memberlistds/winloseyear" class="iconprofile detailbetingan" target="_blank">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                            </svg>
+                                        </a>
+                                    </span>
+                                </td>
                                 <td>lontong6969</td>
                                 <td>BCA, MUKA HIJAU, 5569820014</td>
                                 <td class="valuenominal">
@@ -217,7 +262,16 @@
                             </tr>
                             <tr>
                                 <td>6</td>
-                                <td>thanos98</td>
+                                <td>
+                                    <span class="userpending">
+                                        thanos9898
+                                        <a href="/memberlistds/winloseyear" class="iconprofile detailbetingan" target="_blank">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                            </svg>
+                                        </a>
+                                    </span>
+                                </td>
                                 <td>lontong6969</td>
                                 <td>BCA, MUKA HIJAU, 5569820014</td>
                                 <td class="valuenominal">
@@ -495,6 +549,20 @@
                 window.open(url, "_blank", "width=" + windowWidth + ", height=" + windowHeight + ", left=" + windowLeft + ", top=" + windowTop);
             });
         });
+        
+        //open jendela detail
+        $(document).ready(function() {
+            $(".detailbetingan").click(function(event) {
+                event.preventDefault();
 
+                var url = $(this).attr("href");
+                var windowWidth = 500;
+                var windowHeight = $(window).height() * 0.3;
+                var windowLeft = ($(window).width() - windowWidth) / 3;
+                var windowTop = ($(window).height() - windowHeight) / 1.8;
+
+                window.open(url, "_blank", "width=" + windowWidth + ", height=" + windowHeight + ", left=" + windowLeft + ", top=" + windowTop);
+            });
+        });
     </script>
 @endsection

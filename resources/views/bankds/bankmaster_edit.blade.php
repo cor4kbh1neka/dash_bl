@@ -164,9 +164,9 @@
         });
 
         // dropdown selected
-        $(document).ready(function(){
-        var selectedValue = $('#groupbank').val();
-        $('#groupbank option[value="' + selectedValue + '"]').attr('selected', 'selected');
-    });
+            $(document).ready(function(){
+            var selectedValue = $('#groupbank').val();
+            $('#groupbank option[value="' + selectedValue + '"]').attr('selected', 'selected');
+        });
     </script>
 @endsection

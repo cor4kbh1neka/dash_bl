@@ -65,9 +65,6 @@
                         <tbody>
                             <tr class="hdtable">
                                 <th class="bagno">#</th>
-                                <th class="check_box">
-                                    <input type="checkbox" id="myCheckbox" name="myCheckbox">
-                                </th>
                                 <th class="baguser">Username</th>
                                 <th class="bagnominal">nominal</th>
                                 <th class="agentdata">agent</th>
@@ -80,9 +77,6 @@
                             <tr>
                                 <td>
                                     <div class="statusmember">1</div>
-                                </td>
-                                <td class="check_box" onclick="toggleCheckbox('myCheckbox-0')">
-                                    <input type="checkbox" id="myCheckbox-0" name="myCheckbox-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                 </td>
                                 <td>thanos98</td>
                                 <td class="valuenominal">100,000</td>
@@ -97,9 +91,6 @@
                                 <td>
                                     <div class="statusmember">2</div>
                                 </td>
-                                <td class="check_box" onclick="toggleCheckbox('myCheckbox-0')">
-                                    <input type="checkbox" id="myCheckbox-0" name="myCheckbox-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                </td>
                                 <td>lontong989898</td>
                                 <td class="valuenominal">100,000</td>
                                 <td>CSAG01</td>
@@ -112,9 +103,6 @@
                             <tr>
                                 <td>
                                     <div class="statusmember">2</div>
-                                </td>
-                                <td class="check_box" onclick="toggleCheckbox('myCheckbox-0')">
-                                    <input type="checkbox" id="myCheckbox-0" name="myCheckbox-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                 </td>
                                 <td>thanos989898</td>
                                 <td class="valuenominal">50,000</td>
@@ -129,9 +117,6 @@
                                 <td>
                                     <div class="statusmember">3</div>
                                 </td>
-                                <td class="check_box" onclick="toggleCheckbox('myCheckbox-0')">
-                                    <input type="checkbox" id="myCheckbox-0" name="myCheckbox-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                </td>
                                 <td>thanos989898</td>
                                 <td class="valuenominal">50,000</td>
                                 <td>CSAG01</td>
@@ -144,9 +129,6 @@
                             <tr>
                                 <td>
                                     <div class="statusmember">4</div>
-                                </td>
-                                <td class="check_box" onclick="toggleCheckbox('myCheckbox-0')">
-                                    <input type="checkbox" id="myCheckbox-0" name="myCheckbox-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                 </td>
                                 <td>thanos989898</td>
                                 <td class="valuenominal">50,000</td>
@@ -161,9 +143,6 @@
                                 <td>
                                     <div class="statusmember">5</div>
                                 </td>
-                                <td class="check_box" onclick="toggleCheckbox('myCheckbox-0')">
-                                    <input type="checkbox" id="myCheckbox-0" name="myCheckbox-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                </td>
                                 <td>thanos989898</td>
                                 <td class="valuenominal">50,000</td>
                                 <td>CSAG01</td>
@@ -176,9 +155,6 @@
                             <tr>
                                 <td>
                                     <div class="statusmember">6</div>
-                                </td>
-                                <td class="check_box" onclick="toggleCheckbox('myCheckbox-0')">
-                                    <input type="checkbox" id="myCheckbox-0" name="myCheckbox-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                 </td>
                                 <td>thanos989898</td>
                                 <td class="valuenominal">50,000</td>
@@ -193,9 +169,6 @@
                                 <td>
                                     <div class="statusmember">7</div>
                                 </td>
-                                <td class="check_box" onclick="toggleCheckbox('myCheckbox-0')">
-                                    <input type="checkbox" id="myCheckbox-0" name="myCheckbox-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                </td>
                                 <td>thanos989898</td>
                                 <td class="valuenominal">50,000</td>
                                 <td>CSAG01</td>
@@ -209,9 +182,6 @@
                                 <td>
                                     <div class="statusmember">8</div>
                                 </td>
-                                <td class="check_box" onclick="toggleCheckbox('myCheckbox-0')">
-                                    <input type="checkbox" id="myCheckbox-0" name="myCheckbox-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
-                                </td>
                                 <td>thanos989898</td>
                                 <td class="valuenominal">50,000</td>
                                 <td>CSAG01</td>
@@ -224,9 +194,6 @@
                             <tr>
                                 <td>
                                     <div class="statusmember">9</div>
-                                </td>
-                                <td class="check_box" onclick="toggleCheckbox('myCheckbox-0')">
-                                    <input type="checkbox" id="myCheckbox-0" name="myCheckbox-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                 </td>
                                 <td>thanos989898</td>
                                 <td class="valuenominal">50,000</td>

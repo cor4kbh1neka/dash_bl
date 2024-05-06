@@ -12,9 +12,45 @@
                 </svg>
             </div>
         </div>
-        <div class="secreferralds">
-            <div class="groupsecreferralds">
-                ini halaman memo to user agent
+        <div class="secmemods">
+            <div class="groupsecmemods">
+                <div class="headgroupsecmemods">
+                    <a href="/memotouserds" class="tombol grey active">
+                        <span class="texttombol">create</span>
+                    </a>
+                    <a href="/memotouserds/delivered" class="tombol grey">
+                        <span class="texttombol">delivered</span>
+                    </a>
+                </div>
+                <div class="groupdatamemo">
+                    <div class="groupplayerinfo">
+                        <div class="listgroupplayerinfo left">
+                            <div class="listplayerinfo">
+                                <label for="pengirim">pengirim</label>
+                                <div class="groupeditinput">
+                                    <input type="text" id="pengirim" name="pengirim" value="" placeholder="isi pengirim">
+                                </div>
+                            </div>
+                            <div class="listplayerinfo">
+                                <label for="subject">subject</label>
+                                <div class="groupeditinput">
+                                    <input type="text" id="subject" name="subject" value="" placeholder="isi subject">
+                                </div>
+                            </div>
+                            <div class="listplayerinfo">
+                                <label for="textmemo">memo</label>
+                                <div class="groupeditinput">
+                                    <textarea name="textmemo" id="textmemo" cols="30" rows="10" placeholder="isi keterangan memo"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="listgroupplayerinfo right solo">
+                            <button class="tombol primary">
+                                <span class="texttombol">SEND</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -38,7 +74,6 @@
                     $('.all_act_butt').hide();
                 }
             });
-
         });
     </script>
 @endsection

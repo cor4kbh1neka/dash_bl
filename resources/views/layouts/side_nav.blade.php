@@ -1,5 +1,5 @@
 <div class="sec_logo">
-    <a href="" id="codeDashboardLink"><img class="gmb_logo" src="{{ asset('/assets/img/utama/logo.png') }}"
+    <a href="/dashboard" id="codeDashboardLink"><img class="gmb_logo" src="{{ asset('/assets/img/utama/logo.png') }}"
             alt="l21" /></a>
     <svg id="icon_expand" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-category"
         viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -63,14 +63,14 @@
                 </a>
             </div>
             <div class="data_sidejsx">
-                <a href="/historyds" id="Player">
+                <a href="/historycoinds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                             <path d="M3 12a9 9 0 1 0 9-9a9.75 9.75 0 0 0-6.74 2.74L3 8" />
                             <path d="M3 3v5h5m4-1v5l4 2" />
                         </g>
                     </svg>
-                    <span class="nav_title1">transaction history</span>
+                    <span class="nav_title1">history coin</span>
                 </a>
             </div>
         </div>
@@ -87,6 +87,14 @@
                         <path fill="currentColor" fill-rule="evenodd" d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4c-.47 0-.91.1-1.33.24a5.98 5.98 0 0 1 0 7.52c.42.14.86.24 1.33.24m-6 1c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4" />
                     </svg>
                     <span class="nav_title1">member list</span>
+                </a>
+            </div>
+            <div class="data_sidejsx">
+                <a href="/historytransaksids" id="Player">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 20 20">
+                        <path fill="currentColor" d="M4 5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v7h3v2a3 3 0 0 1-3 3h-4.05q.05-.243.05-.5v-3A2.5 2.5 0 0 0 8.5 11H4zm11 11a2 2 0 0 0 2-2v-1h-2zM7.5 6a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2.5 4.5A1.5 1.5 0 0 0 8.5 12h-6A1.5 1.5 0 0 0 1 13.5v3A1.5 1.5 0 0 0 2.5 18h6a1.5 1.5 0 0 0 1.5-1.5zm-1 2v1a.5.5 0 0 0-.5.5h-1A1.5 1.5 0 0 1 9 15.5M8.5 13a.5.5 0 0 0 .5.5v1A1.5 1.5 0 0 1 7.5 13zm-6.5.5a.5.5 0 0 0 .5-.5h1A1.5 1.5 0 0 1 2 14.5zm.5 3.5a.5.5 0 0 0-.5-.5v-1A1.5 1.5 0 0 1 3.5 17zM4 15a1.5 1.5 0 1 1 3 0a1.5 1.5 0 0 1-3 0" />
+                    </svg>
+                    <span class="nav_title1">history transaksi</span>
                 </a>
             </div>
             <div class="data_sidejsx">
@@ -166,11 +174,19 @@
                 </a>
             </div>
             <div class="data_sidejsx">
-                <a href="/eventds" id="Player">
+                <a href="/analyticsds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M9.06 1.93C7.17 1.92 5.33 3.74 6.17 6H3a2 2 0 0 0-2 2v2a1 1 0 0 0 1 1h9V8h2v3h9a1 1 0 0 0 1-1V8a2 2 0 0 0-2-2h-3.17C19 2.73 14.6.42 12.57 3.24L12 4l-.57-.78c-.63-.89-1.5-1.28-2.37-1.29M9 4c.89 0 1.34 1.08.71 1.71S8 5.89 8 5a1 1 0 0 1 1-1m6 0c.89 0 1.34 1.08.71 1.71S14 5.89 14 5a1 1 0 0 1 1-1M2 12v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-8h-9v8h-2v-8z" />
+                        <path fill="currentColor" d="M8 12q-.425 0-.712.288T7 13v3q0 .425.288.713T8 17t.713-.288T9 16v-3q0-.425-.288-.712T8 12m8-5q-.425 0-.712.288T15 8v8q0 .425.288.713T16 17t.713-.288T17 16V8q0-.425-.288-.712T16 7m-4 7q-.425 0-.712.288T11 15v1q0 .425.288.713T12 17t.713-.288T13 16v-1q0-.425-.288-.712T12 14m-7 7q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm7-9q.425 0 .713-.288T13 11t-.288-.712T12 10t-.712.288T11 11t.288.713T12 12" />
                     </svg>
-                    <span class="nav_title1">events</span>
+                    <span class="nav_title1">analytics</span>
+                </a>
+            </div>
+            <div class="data_sidejsx">
+                <a href="/contentds" id="Player">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M21.04 12.13c-.14 0-.28.06-.39.17l-1 1l2.05 2.05l1-1c.22-.21.22-.56 0-.77l-1.28-1.28a.53.53 0 0 0-.38-.17m-1.97 1.75L13 19.94V22h2.06l6.06-6.07zM19 11.12l-7.09 7.08c-.41-.25-.91-.4-1.41-.4c-1.5 0-2.7 1.2-2.7 2.7V22H4a2 2 0 0 1-2-2v-3.8h1.5c1.5 0 2.7-1.2 2.7-2.7S5 10.8 3.5 10.8H2V7c0-1.1.9-2 2-2h4V3.5a2.5 2.5 0 0 1 5 0V5h4a2 2 0 0 1 2 2z" />
+                    </svg>
+                    <span class="nav_title1">content</span>
                 </a>
             </div>
             <div class="data_sidejsx">
@@ -182,14 +198,6 @@
                 </a>
             </div>
             <div class="data_sidejsx">
-                <a href="/allowedipds" id="Player">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M16 11h-2V9h2zM3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm7 2H8v10h2zm2 10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-4z" />
-                    </svg>
-                    <span class="nav_title1">allowed IP</span>
-                </a>
-            </div>
-            <div class="data_sidejsx">
                 <a href="/memotouserds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="currentColor" fill-rule="evenodd" d="M2.25 5A2.75 2.75 0 0 1 5 2.25h14A2.75 2.75 0 0 1 21.75 5v10A2.75 2.75 0 0 1 19 17.75H7.961c-.38 0-.739.173-.976.47l-2.33 2.913c-.798.996-2.405.433-2.405-.843z" clip-rule="evenodd" />
@@ -197,266 +205,6 @@
                     <span class="nav_title1">memo to other user</span>
                 </a>
             </div>
-            <div class="data_sidejsx">
-                <a href="/usermanagementds" id="Player">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                        <g fill="none">
-                            <path d="M24 0v24H0V0zM12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036c-.01-.003-.019 0-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z" />
-                            <path fill="currentColor" d="M11 2a5 5 0 1 0 0 10a5 5 0 0 0 0-10m0 11c-2.395 0-4.575.694-6.178 1.672c-.8.488-1.484 1.064-1.978 1.69C2.358 16.976 2 17.713 2 18.5c0 .845.411 1.511 1.003 1.986c.56.45 1.299.748 2.084.956C6.665 21.859 8.771 22 11 22l.685-.005a1 1 0 0 0 .89-1.428A5.973 5.973 0 0 1 12 18c0-1.252.383-2.412 1.037-3.373a1 1 0 0 0-.72-1.557c-.43-.046-.87-.07-1.317-.07m9.616 2.469a1 1 0 1 0-1.732-1l-.336.582a2.995 2.995 0 0 0-1.097-.001l-.335-.581a1 1 0 1 0-1.732 1l.335.58a2.997 2.997 0 0 0-.547.951H14.5a1 1 0 0 0 0 2h.671a3.021 3.021 0 0 0 .549.95l-.336.581a1 1 0 1 0 1.732 1l.336-.581c.359.066.73.068 1.097 0l.335.581a1 1 0 1 0 1.732-1l-.335-.58c.242-.284.426-.607.547-.951h.672a1 1 0 1 0 0-2h-.671a3.029 3.029 0 0 0-.549-.95z" />
-                        </g>
-                    </svg>
-                    <span class="nav_title1">user management</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="nav_group">
-        <span class="title_Nav">APK</span>
-        <div class="list_sidejsx">
-            <div class="data_sidejsx">
-                <a href="/setting" id="Settings">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-settings">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path
-                            d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
-                        <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
-                    </svg>
-                    <span class="nav_title1">Settings</span>
-                </a>
-            </div>
-        </div>
-        <div class="list_sidejsx">
-            <div class="data_sidejsx">
-                <a href="/event" id="Event">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-event">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z" />
-                        <path d="M16 3l0 4" />
-                        <path d="M8 3l0 4" />
-                        <path d="M4 11l16 0" />
-                        <path d="M8 15h2v2h-2z" />
-                    </svg>
-                    <span class="nav_title1">Event</span>
-                </a>
-            </div>
-        </div>
-        <div class="list_sidejsx">
-            <div class="data_sidejsx">
-                <a href="/notice" id="Notice">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-notification">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M10 6h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-                        <path d="M17 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                    </svg>
-                    <span class="nav_title1">Notice</span>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="nav_group">
-        <span class="title_Nav">DATA</span>
-        {{-- <div class="list_sidejsx">
-            <div class="data_sidejsx">
-                <a href="/agents" id="Agent">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-star"
-                        width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                        fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                        <path d="M6 21v-2a4 4 0 0 1 4 -4h.5" />
-                        <path
-                            d="M17.8 20.817l-2.172 1.138a.392 .392 0 0 1 -.568 -.41l.415 -2.411l-1.757 -1.707a.389 .389 0 0 1 .217 -.665l2.428 -.352l1.086 -2.193a.392 .392 0 0 1 .702 0l1.086 2.193l2.428 .352a.39 .39 0 0 1 .217 .665l-1.757 1.707l.414 2.41a.39 .39 0 0 1 -.567 .411l-2.172 -1.138z" />
-                    </svg>
-                    <span class="nav_title1">Agent</span>
-                </a>
-            </div>
-        </div> --}}
-        <div class="list_sidejsx">
-            <div class="data_sidejsx">
-                <a href="/member" id="Player">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24"
-                        height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                    </svg>
-                    <span class="nav_title1">Member</span>
-                </a>
-            </div>
-        </div>
-        {{-- <div class="list_sidejsx">
-            <div class="data_sidejsx">
-                <a href="/transactions" id="Transaction">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24"
-                        height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                    </svg>
-                    <span class="nav_title1">Transaction</span>
-                </a>
-            </div>
-        </div> --}}
-    </div>
-
-    <div class="nav_group">
-        <span class="title_Nav">TRANSACTIONS</span>
-        <div class="list_sidejsx">
-            <div class="data_sidejsx">
-                <a href="/deposit" id="Deposit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-wallet">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path
-                            d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12" />
-                        <path d="M20 12v4h-4a2 2 0 0 1 0 -4h4" />
-                    </svg>
-                    <span class="nav_title1">Deposit (0)</span>
-                </a>
-            </div>
-        </div>
-        <div class="list_sidejsx">
-            <div class="data_sidejsx">
-                <a href="/withdrawal" id="Withdrawal">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-coins">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M9 14c0 1.657 2.686 3 6 3s6 -1.343 6 -3s-2.686 -3 -6 -3s-6 1.343 -6 3z" />
-                        <path d="M9 14v4c0 1.656 2.686 3 6 3s6 -1.344 6 -3v-4" />
-                        <path
-                            d="M3 6c0 1.072 1.144 2.062 3 2.598s4.144 .536 6 0c1.856 -.536 3 -1.526 3 -2.598c0 -1.072 -1.144 -2.062 -3 -2.598s-4.144 -.536 -6 0c-1.856 .536 -3 1.526 -3 2.598z" />
-                        <path d="M3 6v10c0 .888 .772 1.45 2 2" />
-                        <path d="M3 11c0 .888 .772 1.45 2 2" />
-                    </svg>
-                    <span class="nav_title1">Withdrawal (0)</span>
-                </a>
-            </div>
-        </div>
-        <div class="list_sidejsx">
-            <div class="data_sidejsx">
-                <a href="/manual" id="Manual">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-transfer">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M20 10h-16l5.5 -6" />
-                        <path d="M4 14h16l-5.5 6" />
-                    </svg>
-                    <span class="nav_title1">Manual</span>
-                </a>
-            </div>
-        </div>
-        <div class="list_sidejsx">
-            <div class="data_sidejsx">
-                <a href="/history" id="History">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-history">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M12 8l0 4l2 2" />
-                        <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
-                    </svg>
-                    <span class="nav_title1">History</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="nav_group">
-        <span class="title_Nav">CONFIG</span>
-        <div class="data_sidejsx">
-            <a href="/bank">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-building-bank">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M3 21l18 0" />
-                    <path d="M3 10l18 0" />
-                    <path d="M5 6l7 -3l7 3" />
-                    <path d="M4 10l0 11" />
-                    <path d="M20 10l0 11" />
-                    <path d="M8 14l0 3" />
-                    <path d="M12 14l0 3" />
-                    <path d="M16 14l0 3" />
-                </svg>
-                <span class="nav_title1">Bank</span>
-            </a>
-        </div>
-    </div>
-
-    <div class="nav_group">
-        <span class="title_Nav">CONFIG ADMIN</span>
-
-        <div class="list_sidejsx">
-            <div class="data_sidejsx">
-                <a href="/allowedip">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-analytics"
-                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                        fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M3 4m0 1a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1z">
-                        </path>
-                        <path d="M7 20l10 0"></path>
-                        <path d="M9 16l0 4"></path>
-                        <path d="M15 16l0 4"></path>
-                        <path d="M8 12l3 -3l2 2l3 -3"></path>
-                    </svg>
-                    <span class="nav_title1">Allowed IP</span>
-                </a>
-            </div>
-            <div class="data_sidejsx">
-                <a href="/user" id="Usermanagement">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="24"
-                        height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                        <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
-                    </svg>
-                    <span class="nav_title1">User Management</span>
-                </a>
-            </div>
-
-
-        </div>
-    </div>
-
-    <div class="nav_group">
-
-        <span class="title_Nav">DESIGN</span>
-
-        <div class="list_sidejsx">
-            
-            <div class="data_sidejsx">
-                <a href="/menu2" id="Usermanagement">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="24"
-                        height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                        <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
-                    </svg>
-                    <span class="nav_title1">Menu 2</span>
-                </a>
-            </div>
-
-
         </div>
     </div>
 

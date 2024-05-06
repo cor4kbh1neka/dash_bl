@@ -92,6 +92,23 @@
                                 </svg>
                             </div>
                         </div>
+                        <div class="listplayerinfo ssreff">
+                            <span class="labelbonusreff">Bonus Referral</span>
+                            <div class="groupbnsreff">
+                                <div class="listreff">
+                                    <label for="sportsbook">sportsbook (%)</label>
+                                    <input type="number" id="sportsbook" name="sportsbook" value="0.2" placeholder="% referral">
+                                </div>
+                                <div class="listreff">
+                                    <label for="virtualsports">virtualsports (%)</label>
+                                    <input type="number" id="virtualsports" name="virtualsports" value="0.2" placeholder="% referral">
+                                </div>
+                                <div class="listreff">
+                                    <label for="games">games (%)</label>
+                                    <input type="number" id="games" name="games" value="0.2" placeholder="% games">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="listgroupplayerinfo right solo">
                         <button class="tombol primary">

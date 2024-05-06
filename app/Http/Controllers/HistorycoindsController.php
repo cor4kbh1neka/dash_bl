@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
-class AllowedipdsController extends Controller
+class HistorycoindsController extends Controller
 {
     public function index()
     {
@@ -24,8 +24,8 @@ class AllowedipdsController extends Controller
                 'tempatlahir' => 'sukajadi'
             ]
         ];
-        return view('allowedipds.index', [
-            'title' => 'Allowed IP',
+        return view('historycoinds.index', [
+            'title' => 'History Coin',
             'data' => $data,
             'totalnote' => 0,
         ]);

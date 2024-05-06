@@ -679,7 +679,7 @@
                             </tbody>
                         </table>
                         <div class="informasihistorycoin">
-                            <span>*data yang di tampilkan saat ini, selengkapnya di menu <a href="/historyds">history</a></span>
+                            <span>*data yang di tampilkan saat ini, selengkapnya di menu <a href="/historycoinds">history</a></span>
                         </div>
                     </div>
                 </div>
@@ -769,7 +769,7 @@
                             </tbody>
                         </table>
                         <div class="informasihistorycoin">
-                            <span>*data yang di tampilkan saat ini, selengkapnya di menu <a href="/historyds">history</a></span>
+                            <span>*data yang di tampilkan saat ini, selengkapnya di menu <a href="/historycoinds">history</a></span>
                         </div>
                     </div>
                 </div>
@@ -1019,7 +1019,7 @@
                         </tbody>
                     </table>
                     <div class="informasihistorycoin">
-                        <span>*data yang di tampilkan saat ini, selengkapnya di menu <a href="/historyds">history</a></span>
+                        <span>*data yang di tampilkan saat ini, selengkapnya di menu <a href="/historycoinds">history</a></span>
                     </div>
                 </div>
             </div>

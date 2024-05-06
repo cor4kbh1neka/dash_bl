@@ -58,6 +58,7 @@
                                             <th class="bknomor">#</th>
                                             <th class="bknama">nama bank</th>
                                             <th class="xcount">xdeposit</th>
+                                            <th class="bkjumlah">jumlah user</th>
                                             <th class="check_box">
                                                 <input type="checkbox" id="myCheckboxDeposit" name="myCheckboxDeposit">
                                             </th>
@@ -79,6 +80,7 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>100</td>
                                             <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
                                                 <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
@@ -129,6 +131,7 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>100</td>
                                             <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
                                                 <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
@@ -179,6 +182,7 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>100</td>
                                             <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
                                                 <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
@@ -229,6 +233,7 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>100</td>
                                             <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
                                                 <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
@@ -279,6 +284,7 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>100</td>
                                             <td class="check_box" onclick="toggleCheckbox('myCheckboxDeposit-0')">
                                                 <input type="checkbox" id="myCheckboxDeposit-0" name="myCheckboxDeposit-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
@@ -324,6 +330,7 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>100</td>
                                             <td class="check_box"></td>
                                             <td></td>
                                         </tr>
@@ -349,6 +356,7 @@
                                             <th class="bknomor">#</th>
                                             <th class="bknama">nama bank</th>
                                             <th class="xcount">xwithdraw</th>
+                                            <th class="bkjumlah">jumlah user</th>
                                             <th class="check_box">
                                                 <input type="checkbox" id="myCheckboxWithdraw" name="myCheckboxWithdraw">
                                             </th>
@@ -370,6 +378,7 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>100</td>
                                             <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
                                                 <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
@@ -420,6 +429,7 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>100</td>
                                             <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
                                                 <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
@@ -470,6 +480,7 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>100</td>
                                             <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
                                                 <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
@@ -520,6 +531,7 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>100</td>
                                             <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
                                                 <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
@@ -570,6 +582,7 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>100</td>
                                             <td class="check_box" onclick="toggleCheckbox('myCheckboxWithdraw-0')">
                                                 <input type="checkbox" id="myCheckboxWithdraw-0" name="myCheckboxWithdraw-0" data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
                                             </td>
@@ -615,6 +628,7 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>100</td>
                                             <td class="check_box"></td>
                                             <td></td>
                                         </tr>

@@ -201,7 +201,7 @@ function updateDateTime() {
     minutes = (minutes < 10 ? "0" : "") + minutes;
     seconds = (seconds < 10 ? "0" : "") + seconds;
 
-    document.getElementById("root_bread").textContent = day + " " + month + " " + year + " | " + hours + ":" + minutes + ":" + seconds + " WIB";
+    document.getElementById("root_breadtime").textContent = day + " " + month + " " + year + " | " + hours + ":" + minutes + ":" + seconds + " WIB";
 }
 updateDateTime();
 setInterval(updateDateTime, 1000);
@@ -249,5 +249,18 @@ $(document).ready(function(){
 
     $('.countpendingdata').bind('DOMSubtreeModified', function(){
         checkCountPendingData();
+    });
+});
+
+// show logout
+$(document).ready(function () {
+    $('.sec_top_navbar').load('/topnav');
+    $(document).on('click', '.profile_nav', function () {
+        $('.list_menu_profile').slideToggle('fast');
+    });
+    $(document).on('click', function (event) {
+        if (!$(event.target).closest('.list_menu_profile, .profile_nav').length) {
+            $('.list_menu_profile').slideUp('fast');
+        }
     });
 });

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
-class HistorydsController extends Controller
+class HistorytransaksidsController extends Controller
 {
     public function index()
     {
@@ -24,9 +24,17 @@ class HistorydsController extends Controller
                 'tempatlahir' => 'sukajadi'
             ]
         ];
-        return view('historyds.index', [
-            'title' => 'History Transaksi',
+        return view('historytransaksids.index', [
+            'title' => 'History Transaksi Baru',
             'data' => $data,
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function transaksilama()
+    {
+        return view('historytransaksids.transaksi_lama', [
+            'title' => 'History Transaksi Lama',
             'totalnote' => 0,
         ]);
     }
