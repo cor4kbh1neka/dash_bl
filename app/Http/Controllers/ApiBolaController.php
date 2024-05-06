@@ -141,7 +141,8 @@ class ApiBolaController extends Controller
     public function Rollback(Request $request)
     {
         $validasiSBO = $this->validasiSBO($request);
-        if ($validasiSBO !== true) {
+
+        if (isset($validasiSBO["ErrorCode"])) {
             return $validasiSBO;
         }
 
