@@ -25,6 +25,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // View::share('dataCount', $this->getDataCount());
+        View::share('dataCount', [
+            "countDP" => 2
+            "countWD" => 3
+            "countOuts" => 4
+            "countMemo" => 5
+        ]);
     }
 
     private function getDataCount()
@@ -47,6 +53,8 @@ class AppServiceProvider extends ServiceProvider
         $resultMemo = $responseMemo->json();
         if ($resultMemo['status'] == 'success') {
             $countMemo = count($resultMemo['data']);
+        } else {
+            $countMemo = 0;
         }
 
 
