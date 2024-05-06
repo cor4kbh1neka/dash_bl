@@ -82,11 +82,11 @@
                                                 </svg>
                                             </div>
                                             <div class="groupeditinput">
-                                                <select id="methode" name="methode" value="bank">
+                                                <select id="methode" name="methode">
                                                     <option value="bank"
-                                                        {{ $d['yyxxmethod'] == 'bank' ? 'seleced' : '' }}>bank</option>
+                                                        {{ $d['yyxxmethod'] == 'bank' ? 'selected' : '' }}>bank</option>
                                                     <option value="ewallet"
-                                                        {{ $d['yyxxmethod'] == 'ewallet' ? 'seleced' : '' }}>ewallet
+                                                        {{ $d['yyxxmethod'] == 'ewallet' ? 'selected' : '' }}>ewallet
                                                     </option>
                                                 </select>
                                             </div>
