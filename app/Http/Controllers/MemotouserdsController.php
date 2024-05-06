@@ -30,4 +30,20 @@ class MemotouserdsController extends Controller
             'totalnote' => 0,
         ]);
     }
+
+    public function delivered()
+    {
+        return view('memotouserds.delivered_memo', [
+            'title' => 'Memo To User',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function deliveredread()
+    {
+        return view('memotouserds.delivered_read', [
+            'title' => 'Memo To User',
+            'totalnote' => 0,
+        ]);
+    }
 }

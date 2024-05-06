@@ -201,7 +201,7 @@ function updateDateTime() {
     minutes = (minutes < 10 ? "0" : "") + minutes;
     seconds = (seconds < 10 ? "0" : "") + seconds;
 
-    document.getElementById("root_bread").textContent = day + " " + month + " " + year + " | " + hours + ":" + minutes + ":" + seconds + " WIB";
+    document.getElementById("root_breadtime").textContent = day + " " + month + " " + year + " | " + hours + ":" + minutes + ":" + seconds + " WIB";
 }
 updateDateTime();
 setInterval(updateDateTime, 1000);
@@ -342,3 +342,47 @@ $(document).ready(function () {
         checkCountPendingData();
     });
 });
+
+// show logout
+$(document).ready(function () {
+    $('.sec_top_navbar').load('/topnav');
+    $(document).on('click', '.profile_nav', function () {
+        $('.list_menu_profile').slideToggle('fast');
+    });
+    $(document).on('click', function (event) {
+        if (!$(event.target).closest('.list_menu_profile, .profile_nav').length) {
+            $('.list_menu_profile').slideUp('fast');
+        }
+    });
+});
+
+// cari menu
+$('#sec_sidebar').on('input', '#searchTabel', function () {
+    var searchText = $(this).val().toLowerCase();
+    $('.nav_title1, .sub_title1').each(function () {
+        var titleText = $(this).text().toLowerCase();
+        var $parentData = $(this).closest('.data_sidejsx');
+        var $parentSubData = $(this).closest('.sub_data_sidejsx');
+
+        if (searchText === '') {
+            $(this).show();
+            $parentData.show();
+            $parentSubData.hide();
+            $parentData.removeClass('active');
+            $parentSubData.removeClass('active');
+        } else if (titleText.includes(searchText) || $parentSubData.find('.sub_title1').text().toLowerCase().includes(searchText)) {
+            $(this).show();
+            $parentData.show();
+            $parentSubData.show();
+            $parentData.addClass('active');
+            $parentSubData.addClass('active');
+        } else {
+            $(this).hide();
+            $parentData.hide();
+            $parentSubData.hide();
+            $parentData.removeClass('active');
+            $parentSubData.removeClass('active');
+        }
+    });
+});
+

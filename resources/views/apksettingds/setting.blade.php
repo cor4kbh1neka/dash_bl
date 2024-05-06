@@ -15,10 +15,10 @@
         <div class="seccontentds">
             <div class="groupseccontentds">
                 <div class="headseccontentds">
-                    <a href="/apksettingds" class="tombol grey active">
+                    <a href="/apksettingds" class="tombol grey">
                         <span class="texttombol">NOTIFICATION</span>
                     </a>
-                    <a href="/apksettingds/setting" class="tombol grey">
+                    <a href="/apksettingds/setting" class="tombol grey active">
                         <span class="texttombol">SETTING</span>
                     </a>
                     <a href="/apksettingds/event" class="tombol grey">
@@ -30,15 +30,51 @@
                         <div class="groupplayerinfo">
                             <div class="listgroupplayerinfo left">
                                 <div class="listplayerinfo">
-                                    <label for="title">title</label>
+                                    <label for="home">home</label>
                                     <div class="groupeditinput">
-                                        <input type="text" id="title" name="title" placeholder="input title">
+                                        <input type="text" id="home" name="home" placeholder="input url contoh : https://example.com">
                                     </div>
                                 </div>
                                 <div class="listplayerinfo">
-                                    <label for="informasi">Informasi</label>
+                                    <label for="server1">server 1</label>
                                     <div class="groupeditinput">
-                                        <textarea id="informasi" name="informasi"  cols="30" rows="10" placeholder="input informasi"></textarea>
+                                        <input type="text" id="server1" name="server1" placeholder="input url contoh : https://example.com">
+                                    </div>
+                                </div>
+                                <div class="listplayerinfo">
+                                    <label for="server2">server 2</label>
+                                    <div class="groupeditinput">
+                                        <input type="text" id="server2" name="server2" placeholder="input url contoh : https://example.com">
+                                    </div>
+                                </div>
+                                <div class="listplayerinfo">
+                                    <label for="server3">server 3</label>
+                                    <div class="groupeditinput">
+                                        <input type="text" id="server3" name="server3" placeholder="input url contoh : https://example.com">
+                                    </div>
+                                </div>
+                                <div class="listplayerinfo">
+                                    <label for="promo">promo</label>
+                                    <div class="groupeditinput">
+                                        <input type="text" id="promo" name="promo" placeholder="input url contoh : https://example.com">
+                                    </div>
+                                </div>
+                                <div class="listplayerinfo">
+                                    <label for="pwa">PWA</label>
+                                    <div class="groupeditinput">
+                                        <input type="text" id="pwa" name="pwa" placeholder="input url contoh : https://example.com">
+                                    </div>
+                                </div>
+                                <div class="listplayerinfo">
+                                    <label for="penilaian">penilaian</label>
+                                    <div class="groupeditinput">
+                                        <input type="text" id="penilaian" name="penilaian" placeholder="input url contoh : https://example.com">
+                                    </div>
+                                </div>
+                                <div class="listplayerinfo">
+                                    <label for="version">APK version</label>
+                                    <div class="groupeditinput">
+                                        <input type="text" id="version" name="version" placeholder="versi apk contoh : v1.0">
                                     </div>
                                 </div>
                             </div>

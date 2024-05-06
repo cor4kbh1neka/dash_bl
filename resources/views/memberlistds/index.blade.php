@@ -473,6 +473,25 @@
                 window.open(url, "_blank", "width=" + windowWidth + ", height=" + windowHeight + ", left=" +
                     windowLeft + ", top=" + windowTop);
             });
-        });
+        }); <<
+        << << < HEAD
+
+        //open jendela detail
+        $(document).ready(function() {
+            $(".detailbetingan").click(function(event) {
+                event.preventDefault();
+
+                var url = $(this).attr("href");
+                var windowWidth = 500;
+                var windowHeight = $(window).height() * 0.3;
+                var windowLeft = ($(window).width() - windowWidth) / 3;
+                var windowTop = ($(window).height() - windowHeight) / 1.8;
+
+                window.open(url, "_blank", "width=" + windowWidth + ", height=" + windowHeight + ", left=" +
+                    windowLeft + ", top=" + windowTop);
+            });
+        }); ===
+        === = >>>
+        >>> > staging
     </script>
 @endsection
