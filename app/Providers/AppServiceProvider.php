@@ -26,10 +26,10 @@ class AppServiceProvider extends ServiceProvider
     {
         // View::share('dataCount', $this->getDataCount());
         View::share('dataCount', [
-            "countDP" => 2
-            "countWD" => 3
-            "countOuts" => 4
-            "countMemo" => 5
+            "countDP" => 2,
+            "countWD" => 3,
+            "countOuts" => 4,
+            "countMemo" => 5,
         ]);
     }
 
