@@ -14,6 +14,7 @@ use App\Models\Outstanding;
 use App\Models\Referral;
 use App\Models\Xreferral;
 use App\Models\Persentase;
+use App\Models\TransactionsSaldoMin;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
@@ -305,7 +306,6 @@ class ApiBolaController extends Controller
                 $this->errorResponse($request->Username, 6);
             }
         } catch (\Exception $e) {
-            // Tangani kesalahan di sini
             return response()->json([
                 'error' => $e->getMessage()
             ], 200);
@@ -348,9 +348,25 @@ class ApiBolaController extends Controller
                         "CompanyKey" => env('COMPANY_KEY'),
                         "ServerId" => env('SERVERID')
                     ];
-                    $this->withdraw($data, $transactionTransaction);
+                    $responseWD = $this->withdraw($data, $transactionTransaction);
+                    if ($responseWD["error"]["id"] === 4501) {
+                        $dataTransMin = TransactionsSaldoMin::where('transfercode', $request->TransferCode)->first();
+                        if (!$dataTransMin) {
+                            TransactionsSaldoMin::create([
+                                'transaldo_id' => $transactionTransaction->id,
+                                'transactionid' => '-',
+                                'transfercode' => $request->TransferCode,
+                                'username' => $request->Username,
+                                'amount' => $totalAmount
+                            ]);
+                            $transactionTransaction->update([
+                                'txnid' => null
+                            ]);
+                        }
+                    }
 
                     $saldo = $this->apiGetBalance($request)["balance"];
+
                     return response()->json([
                         'AccountName' => $request->Username,
                         'Balance' => $saldo,
@@ -402,7 +418,23 @@ class ApiBolaController extends Controller
                             "CompanyKey" => env('COMPANY_KEY'),
                             "ServerId" => env('SERVERID')
                         ];
-                        $this->withdraw($data, $createSaldo1);
+                        $responseWD =  $this->withdraw($data, $createSaldo1);
+
+                        if ($responseWD["error"]["id"] === 4501) {
+                            $dataTransMin = TransactionsSaldoMin::where('transfercode', $request->TransferCode)->first();
+                            if (!$dataTransMin) {
+                                TransactionsSaldoMin::create([
+                                    'transaldo_id' => $createSaldo1->id,
+                                    'transactionid' => '-',
+                                    'transfercode' => $request->TransferCode,
+                                    'username' => $request->Username,
+                                    'amount' => $dataTransactions->amount
+                                ]);
+                                $createSaldo1->update([
+                                    'txnid' => null
+                                ]);
+                            }
+                        }
                     }
 
                     if ($last2ndStatus->status != 'Running' || $last2ndStatus->status != 'Rollback') {
@@ -523,7 +555,23 @@ class ApiBolaController extends Controller
                                         "CompanyKey" => env('COMPANY_KEY'),
                                         "ServerId" => env('SERVERID')
                                     ];
-                                    $this->withdraw($data, $createSaldo5);
+                                    $responseWD = $this->withdraw($data, $createSaldo5);
+
+                                    if ($responseWD["error"]["id"] === 4501) {
+                                        $dataTransMin = TransactionsSaldoMin::where('transfercode', $request->TransferCode)->first();
+                                        if (!$dataTransMin) {
+                                            TransactionsSaldoMin::create([
+                                                'transaldo_id' => $createSaldo5->id,
+                                                'transactionid' => '-',
+                                                'transfercode' => $request->TransferCode,
+                                                'username' => $request->Username,
+                                                'amount' => $trReturnStake->amount
+                                            ]);
+                                            $createSaldo5->update([
+                                                'txnid' => null
+                                            ]);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -588,7 +636,22 @@ class ApiBolaController extends Controller
                     "CompanyKey" => env('COMPANY_KEY'),
                     "ServerId" => env('SERVERID')
                 ];
-                $this->withdraw($data, $createSaldo1);
+                $responseWD = $this->withdraw($data, $createSaldo1);
+                if ($responseWD["error"]["id"] === 4501) {
+                    $dataTransMin = TransactionsSaldoMin::where('transfercode', $request->TransferCode)->first();
+                    if (!$dataTransMin) {
+                        TransactionsSaldoMin::create([
+                            'transaldo_id' => $createSaldo1->id,
+                            'transactionid' => '-',
+                            'transfercode' => $request->TransferCode,
+                            'username' => $request->Username,
+                            'amount' => $dataTransactions->amount
+                        ]);
+                        $createSaldo1->update([
+                            'txnid' => null
+                        ]);
+                    }
+                }
             }
 
             if ($last2ndStatus->status != 'Running' || $last2ndStatus->status != 'Rollback') {
@@ -960,7 +1023,38 @@ class ApiBolaController extends Controller
         ];
         $saldo = $this->requestApi('get-player-balance', $dataSaldo);
 
-        // Cache::put($cacheKey, $saldo, 3600);
+        $dataMinSaldo = TransactionsSaldoMin::where('username', $request->Username)->get();
+        $totalMinSaldo = $dataMinSaldo->sum('amount');
+
+        if ($totalMinSaldo > 0 && ($saldo['balance'] >= $totalMinSaldo)) {
+            foreach ($dataMinSaldo as $d) {
+                $txnid = $this->generateTxnid('W', 10);
+
+                /* Potong Saldo */
+                $data = [
+                    "Username" => $d->username,
+                    "txnId" => $txnid,
+                    "IsFullAmount" => false,
+                    "Amount" => $d->amount,
+                    "CompanyKey" => env('COMPANY_KEY'),
+                    "ServerId" => env('SERVERID')
+                ];
+                $responseWD = $this->withdraw($data, $d);
+
+                if ($responseWD["error"]["id"] === 0) {
+                    $dataTransSaldo = TransactionSaldo::where('id', $d->transaldo_id)->first();
+                    if ($dataTransSaldo->txnid == null || $dataTransSaldo->txnid == '') {
+                        $dataTransSaldo->update([
+                            'txnid' => $txnid
+                        ]);
+                    }
+                    $saldo['balance'] = $saldo['balance'] - $d->amount;
+                    TransactionsSaldoMin::where('id', $d->id)->delete();
+                }
+            }
+        } else if ($totalMinSaldo > 0 && ($saldo['balance'] < $totalMinSaldo)) {
+            $saldo['balance'] = $saldo['balance'] - $totalMinSaldo;
+        }
 
         return $saldo;
     }
