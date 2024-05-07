@@ -121,12 +121,15 @@ class BankdsController extends Controller
 
         $response = Http::post($apiUrl, $validatedData);
         if ($response->successful()) {
-            Groupbank::create([
-                'group' => $validatedData["namegroupxyzt"],
-                'jenis' => $validatedData["grouptype"] == 1 ? 'dp' : 'wd',
-                'min' => 0,
-                'max' => 0
-            ]);
+
+            if ($validatedData["namegroupxyzt"] != 'nongroup' && $validatedData["namegroupxyzt"] != 'nongroupwd') {
+                Groupbank::create([
+                    'group' => $validatedData["namegroupxyzt"],
+                    'jenis' => $validatedData["grouptype"] == 1 ? 'dp' : 'wd',
+                    'min' => 0,
+                    'max' => 0
+                ]);
+            }
             return redirect()->route('listgroup')->with('success', 'Master Bank berhasil ditambahkan');
         } else {
             return back()->withInput()->with('error', $response->json()["message"]);
@@ -389,13 +392,21 @@ class BankdsController extends Controller
         $data = $response->json();
         if ($data['status'] == 'success') {
             $data = $data["data"];
+
+            /* Sesuaikan data lokal dengan API*/
+            $group = array_keys($data);
+            Groupbank::whereNotIn('group', $group)->delete();
         } else {
             $data = [];
         }
 
+        // dd($data);
+
+        /* Sesuaikan data API*/
         foreach ($data as $bank => $d) {
+
             $dataGroup = Groupbank::where('group', $bank)->first();
-            if (!$dataGroup && $bank != 'nongroup') {
+            if (!$dataGroup && ($bank != 'nongroup' && $bank != 'nongroupwd')) {
                 Groupbank::create([
                     'group' => $bank,
                     'jenis' => $d["grouptype"] == 1 ? 'dp' : 'wd',
@@ -462,6 +473,7 @@ class BankdsController extends Controller
         $listgroupwd = array_filter($listgroup, function ($item) {
             return $item['grouptype'] == 2;
         });
+        unset($listgroupwd['nongroupwd']);
 
         $responseBank = Http::get('https://back-staging.bosraka.com/banks/master');
         $listmasterbank = $responseBank->json()["data"];
