@@ -1043,13 +1043,17 @@ class ApiBolaController extends Controller
 
                 if ($responseWD["error"]["id"] === 0) {
                     $dataTransSaldo = TransactionSaldo::where('id', $d->transaldo_id)->first();
-                    if ($dataTransSaldo->txnid == null || $dataTransSaldo->txnid == '') {
-                        $dataTransSaldo->update([
-                            'txnid' => $txnid
-                        ]);
+                    if ($dataTransSaldo) {
+                        if ($dataTransSaldo->txnid == null || $dataTransSaldo->txnid == '') {
+                            $dataTransSaldo->update([
+                                'txnid' => $txnid
+                            ]);
+                        }
+                        $saldo['balance'] = $saldo['balance'] - $d->amount;
+                        TransactionsSaldoMin::where('id', $d->id)->delete();
+                    } else {
+                        TransactionsSaldoMin::where('id', $d->id)->delete();
                     }
-                    $saldo['balance'] = $saldo['balance'] - $d->amount;
-                    TransactionsSaldoMin::where('id', $d->id)->delete();
                 }
             }
         } else if ($totalMinSaldo > 0 && ($saldo['balance'] < $totalMinSaldo)) {
