@@ -11,12 +11,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/themes/prism.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             adjustElementSize();
         });
-    </script>
+    </script> --}}
 </head>
 <div class="sec_table">
     <div class="secgrouptitle">
