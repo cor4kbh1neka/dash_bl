@@ -518,9 +518,5 @@ class DepoWdController extends Controller
 
 
 
-    public function getTransactionSaldo()
-    {
-        $data = TransactionSaldo::orderBy('created_at', 'desc')->get();
-        return $data;
-    }
+
 }

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,9 +28,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // dd(Auth::check());
-        Event::listen(Authenticated::class, function ($event) {
-            View::share('dataCount', $this->getDataCount());
-        });
+        // Event::listen(Authenticated::class, function ($event) {
+        //     View::share('dataCount', $this->getDataCount());
+        // });
 
         // View::share('dataCount', [
         //     "countDP" => 2,
@@ -36,6 +38,17 @@ class AppServiceProvider extends ServiceProvider
         //     "countOuts" => 4,
         //     "countMemo" => 5,
         // ]);
+
+        if ($this->app->runningInConsole() || $this->app->environment('testing')) {
+            return;
+        }
+
+        $currentRoute = Route::getCurrentRoute();
+        $currentUrl = $currentRoute ? $currentRoute->uri() : '';
+
+        if (!Str::startsWith($currentUrl, 'api/')) {
+            View::share('dataCount', $this->getDataCount());
+        }
     }
 
     private function getDataCount()

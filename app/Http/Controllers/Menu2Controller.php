@@ -100,24 +100,7 @@ class Menu2Controller extends Controller
         return $lastStatuses;
     }
 
-    public function getDataOutstanding()
-    {
-        $dataTransactions = Transactions::select('id')->get();
-        $lastStatuses = TransactionStatus::select('trans_id', DB::raw('MAX(urutan) as max_urutan'))
-            ->whereIn('trans_id', $dataTransactions->pluck('id'))
-            ->groupBy('trans_id');
 
-        $lastStatuses = TransactionStatus::select('transaction_status.trans_id', 'transaction_status.status', 'transaction_saldo.amount')
-            ->joinSub($lastStatuses, 'last_status', function ($join) {
-                $join->on('transaction_status.trans_id', '=', 'last_status.trans_id')
-                    ->on('transaction_status.urutan', '=', 'last_status.max_urutan');
-            })
-            ->join('transaction_saldo', 'transaction_saldo.transtatus_id', '=', 'transaction_status.id')
-            ->where('transaction_status.status', 'Running')
-            ->get();
-
-        return $lastStatuses;
-    }
 
     public function create()
     {
