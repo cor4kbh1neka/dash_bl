@@ -1160,37 +1160,4 @@ class ApiBolaController extends Controller
         $randomString = $jenis . $randomString;
         return $randomString;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    function requestApiLogin($data)
-    {
-        $url = 'https://ex-api-demo-yy.568win.com/web-root/restricted/player/login.aspx';
-
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/json; charset=UTF-8',
-        ])->post($url, $data);
-
-        if ($response->successful()) {
-            $responseData = $response->json();
-        } else {
-            $statusCode = $response->status();
-            $errorMessage = $response->body();
-            $responseData = "Error: $statusCode - $errorMessage";
-        }
-        return ['url' => $responseData["url"]];
-    }
 }
