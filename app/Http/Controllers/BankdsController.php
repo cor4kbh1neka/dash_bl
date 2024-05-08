@@ -211,10 +211,12 @@ class BankdsController extends Controller
         // }
         $dataReq = $request->all();
         unset($dataReq['_token']);
+        $dataReq['urllogoxxyx'] = strval(($dataReq["urllogoxxyx"] == null || $dataReq["urllogoxxyx"] == '') ? 0 :  $dataReq["urllogoxxyx"]);
         $dataReq['statusxyxyy'] = intval($dataReq["statusxyxyy"]);
         $dataReq['wdstatusxyxyy'] = intval($dataReq["wdstatusxyxyy"]);
 
         $response = Http::put('https://back-staging.bosraka.com/banks/master/' . $bank, $dataReq);
+
         if ($response->successful()) {
             return redirect()->route('listmaster')->with('success', 'List group berhasil dihapus');
         } else {
@@ -380,6 +382,37 @@ class BankdsController extends Controller
             'data' => $datadp,
             'datawd' => $datawd
         ]);
+    }
+
+    public function compareData()
+    {
+        $response = Http::get('https://back-staging.bosraka.com/banks/group');
+        $data = $response->json();
+        if ($data['status'] == 'success') {
+            $data = $data["data"];
+
+            /* Sesuaikan data lokal dengan API*/
+            $group = array_keys($data);
+            Groupbank::whereNotIn('group', $group)->delete();
+        } else {
+            $data = [];
+        }
+
+        /* Sesuaikan data API*/
+        foreach ($data as $bank => $d) {
+
+            $dataGroup = Groupbank::where('group', $bank)->first();
+            if (!$dataGroup && ($bank != 'nongroup' && $bank != 'nongroupwd')) {
+                Groupbank::create([
+                    'group' => $bank,
+                    'jenis' => $d["grouptype"] == 1 ? 'dp' : 'wd',
+                    'min' => 0,
+                    'max' => 0
+                ]);
+            }
+        }
+
+        return response()->json(['success' => true, 'message' => 'Data comparison successful']);
     }
 
 
@@ -764,7 +797,7 @@ class BankdsController extends Controller
                 "xynamarekx" => $dataReq['namarek'],
                 "norekxyxy" => str_replace('-', '', $dataReq['nomorrek']),
                 "yyxxmethod" => $dataReq['methode'],
-                "barcodexrxr" => $dataReq['urlbarcode']
+                "barcodexrxr" => $dataReq['urlbarcode'] == '' ? '0' : $dataReq['urlbarcode']
 
             ];
         $idbank = $dataReq['idbank'];

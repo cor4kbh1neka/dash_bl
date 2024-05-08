@@ -86,7 +86,7 @@
                                     <label for="urllogo">url logo</label>
                                     <div class="groupeditinput">
                                         <input type="text" readonly id="urllogo" name="urllogoxxyx"
-                                            value="{{ $data['statusxyxyy'] }}">
+                                            value="{{ $data['urllogoxxyx'] }}" placehoder="isi 0 untuk menghide logo">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
                                             viewBox="0 0 24 24">
                                             <path fill="currentColor"

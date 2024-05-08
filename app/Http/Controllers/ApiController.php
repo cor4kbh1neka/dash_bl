@@ -582,36 +582,6 @@ class ApiController extends Controller
         return $lastStatuses;
     }
 
-    public function compareData()
-    {
-        $response = Http::get('https://back-staging.bosraka.com/banks/group');
-        $data = $response->json();
-        if ($data['status'] == 'success') {
-            $data = $data["data"];
-
-            /* Sesuaikan data lokal dengan API*/
-            $group = array_keys($data);
-            Groupbank::whereNotIn('group', $group)->delete();
-        } else {
-            $data = [];
-        }
-
-        /* Sesuaikan data API*/
-        foreach ($data as $bank => $d) {
-
-            $dataGroup = Groupbank::where('group', $bank)->first();
-            if (!$dataGroup && ($bank != 'nongroup' && $bank != 'nongroupwd')) {
-                Groupbank::create([
-                    'group' => $bank,
-                    'jenis' => $d["grouptype"] == 1 ? 'dp' : 'wd',
-                    'min' => 0,
-                    'max' => 0
-                ]);
-            }
-        }
-
-        return response()->json(['success' => true, 'message' => 'Data comparison successful']);
-    }
 
     public function getHistoryGame(Request $request, $username, $portfolio, $startDate, $endDate)
     {
