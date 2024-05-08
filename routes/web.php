@@ -197,8 +197,8 @@ Route::middleware(['auth'])->group(function () {
     /*-- Memberlistds --*/
     Route::get('/memberlistds', [MemberlistdsController::class, 'index'])->name('memberlistds');
     Route::get('/memberlistds/edit/{id}', [MemberlistdsController::class, 'update']);
-    Route::post('/memberlistds/updateuser', [MemberlistdsController::class, 'updateUser']);
-    Route::post('/memberlistds/updatepassword', [MemberlistdsController::class, 'updatePassowrd']);
+    Route::post('/memberlistds/updateuser/{id}', [MemberlistdsController::class, 'updateUser']);
+    Route::post('/memberlistds/updatepassword/{id}', [MemberlistdsController::class, 'updatePassowrd']);
     Route::post('/memberlistds/updateinfomember/{id}', [MemberlistdsController::class, 'updateMember']);
     Route::get('/memberlistds/winloseyear', [MemberlistdsController::class, 'winloseyear']);
     Route::get('/memberlistds/winlosemonth', [MemberlistdsController::class, 'winlosemonth']);

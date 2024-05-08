@@ -121,7 +121,7 @@ class MemberlistdsController extends Controller
         return $responseData;
     }
 
-    public function updateUser(Request $request)
+    public function updateUser(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'xybanknamexyy' => 'required',
@@ -151,7 +151,7 @@ class MemberlistdsController extends Controller
                         'norek' => $request->xxybanknumberxy
                     ]);
 
-                    return redirect()->route('memberlistds')->with('success', 'Update data member berhasil.');
+                    return redirect('/memberlistds/edit/' . $id)->with('success', 'Update data member berhasil.');
                 }
 
                 return redirect()->back()->with('error', $updateUser["status"]);
@@ -162,7 +162,7 @@ class MemberlistdsController extends Controller
         }
     }
 
-    public function updatePassowrd(Request $request)
+    public function updatePassowrd(Request $request, $id)
     {
         $validator = Validator::make(
             $request->all(),
@@ -187,7 +187,7 @@ class MemberlistdsController extends Controller
                 $updateUser = $this->reqApiUpdatePassword($data, $request->xyusernamexxy);
 
                 if ($updateUser["status"] === 'success') {
-                    return redirect()->route('memberlistds')->with('success', 'Update password berhasil.');
+                    return redirect('/memberlistds/edit/' . $id)->with('success', 'Update password berhasil.');
                 }
 
                 return redirect()->back()->with('error', $updateUser["status"]);
@@ -216,7 +216,7 @@ class MemberlistdsController extends Controller
                     'min_bet' => $request->maxbet
                 ]);
 
-                return redirect()->route('memberlistds')->with('success', 'Update informasi member berhasil.');
+                return redirect('/memberlistds/edit/' . $id)->with('success', 'Update informasi member berhasil.');
             } catch (\Exception $e) {
                 dd($e->getMessage());
                 return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan data.');

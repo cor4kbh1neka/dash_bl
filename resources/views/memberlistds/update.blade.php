@@ -26,8 +26,8 @@
     <div class="seceditmemberds">
         <div class="groupseceditmemberds">
             <spann class="titleeditmemberds">player information</spann>
-            <form action="/memberlistds/updateuser" method="POST" class="groupplayerinfo" data-statusakun="9"
-                id="form-user">
+            <form action="/memberlistds/updateuser/{{ $id }}" method="POST" class="groupplayerinfo"
+                data-statusakun="9" id="form-user">
                 @csrf
                 <div class="listgroupplayerinfo left">
                     <div class="listplayerinfo">
@@ -134,17 +134,17 @@
             </form>
             <spann class="titleeditmemberds change">cange data player</spann>
             <div class="groupchangedataplayer">
-                <form action="/memberlistds/updatepassword" class="listchangedataplayer" method="POST"
-                    id="form-password">
+                <form action="/memberlistds/updatepassword/{{ $id }}" class="listchangedataplayer"
+                    method="POST" id="form-password">
                     @csrf
                     <div class="groupinputchangedataplayer">
                         <input type="hidden" id="xyusernamexxy" name="xyusernamexxy"
                             value="{{ $datauser['xyusernamexxy'] }}">
                         <label for="changepassword">CHANGE PASSWORD</label>
                         <input type="password" id="changepassword" name="changepassword"
-                            placeholder="masukkan password baru">
+                            placeholder="masukkan password baru" required>
                         <input type="password" id="repassword" name="repassword"
-                            placeholder="konsfirmasi password baru">
+                            placeholder="konsfirmasi password baru" required>
                     </div>
                     <div class="groupbuttonplayer">
                         <button class="tombol primary" type="submit">

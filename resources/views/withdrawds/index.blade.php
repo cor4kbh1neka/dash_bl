@@ -421,7 +421,7 @@
                                     showConfirmButton: false,
                                     timer: 1500
                                 }).then(function() {
-                                    window.location.href = "/depositds/WD";
+                                    window.location.href = "/transaction/WD";
                                 });
                             },
                             error: function(xhr) {
