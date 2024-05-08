@@ -17,7 +17,7 @@ use App\Models\TransactionSaldo;
 use App\Models\Xtrans;
 use App\Models\Xcountwddp;
 
-date_default_timezone_set('Asia/Jakarta');
+// date_default_timezone_set('Asia/Jakarta');
 
 class DepoWdController extends Controller
 {
