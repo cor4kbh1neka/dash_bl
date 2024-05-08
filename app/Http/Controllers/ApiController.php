@@ -387,6 +387,24 @@ class ApiController extends Controller
         }
     }
 
+    function generateTxnid($jenis)
+    {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+
+        if ($jenis == 'D') {
+            $length = 17;
+        } else {
+            $length = 10;
+        }
+
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        $randomString = $jenis . $randomString;
+        return $randomString;
+    }
+
     public function getHistoryDepoWd($username)
     {
 
