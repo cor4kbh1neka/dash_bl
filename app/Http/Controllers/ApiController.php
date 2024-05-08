@@ -128,10 +128,6 @@ class ApiController extends Controller
         }
 
         if ($responseData["error"]["id"] === 0) {
-
-            "xybanknamexyy": "dfwadfs",
-            "xybankuserxy": "fake naamdd",
-            "xxybanknumberxy": "1234567171",
             Member::create([
                 'username' => $request->Username,
                 'referral' => $request->Referral,
