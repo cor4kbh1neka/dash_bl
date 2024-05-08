@@ -291,9 +291,14 @@ class MemberlistdsController extends Controller
         ]);
     }
 
-    public function getHistoryBank($username)
+    public function historybank($username)
     {
-        $data = DepoWd::where('username', $username)->get();
-        return $data;
+        $data = DepoWd::where('username', $username)->where('status', '>', 0)->get();
+        return view('memberlistds.history_bank', [
+            'title' => 'History Bank',
+            'totalnote' => 0,
+            'data' => $data,
+            'username' => $username
+        ]);
     }
 }

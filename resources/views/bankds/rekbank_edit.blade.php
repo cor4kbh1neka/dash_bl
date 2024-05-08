@@ -120,7 +120,8 @@
                                         <label for="urlbarcode">url barcode</label>
                                         <div class="groupeditinput">
                                             <input type="text" readonly name="urlbarcode"
-                                                value="{{ $d['barcodexrxr'] }}">
+                                                value="{{ $d['barcodexrxr'] }}"
+                                                placeholder="jika tidak ingin menampilkan barcode isi angka '0'">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
                                                 viewBox="0 0 24 24">
                                                 <path fill="currentColor"

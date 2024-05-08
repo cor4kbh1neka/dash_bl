@@ -105,7 +105,7 @@
                                 <label for="urlbarcode">url barcode</label>
                                 <div class="groupeditinput">
                                     <input type="text" id="urlbarcode" name="barcodexrxr" value=""
-                                        placeholder="isi data untuk show barcode" required>
+                                        placeholder="jika tidak ingin menampilkan barcode isi angka '0'" required>
                                 </div>
                             </div>
                         </div>

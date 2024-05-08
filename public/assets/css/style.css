@@ -2882,7 +2882,7 @@ table svg.icon-tabler-x {
 }
 
 .tabelproses .bagtanggal {
-  width: 12%;
+  width: 13%;
 }
 
 .tabelproses .bagnominal {
@@ -3110,11 +3110,10 @@ table svg.icon-tabler-x {
 
 .groupbuttonproses {
   width: 100%;
-  display: flex;
+  display: none;
   flex-direction: row;
   justify-content: center;
   gap: 20px;
-  display: none;
 }
 
 .groupbuttonproses .tombol {
@@ -3245,7 +3244,8 @@ table svg.icon-tabler-x {
   font-size: 12px;
 }
 
-.informasihistorycoin span a {
+.informasihistorycoin span a,
+.informasihistorycoin span.texthistory {
   text-decoration: underline;
   font-size: 13px;
   font-family: myFont1;
@@ -4984,7 +4984,7 @@ table svg.icon-tabler-x {
 }
 
 input#urlbarcode {
-  text-transform: lowercase;
+  text-transform: unset;
 }
 
 .groupactions {
@@ -6271,6 +6271,28 @@ input#agentname {
 
 .groupsecnotifikasids .listdetailfeedback {
   grid-template-columns: 0.2fr 0.03fr 1fr;
+}
+
+.historybetcc .titlemodalhistory {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.historybetcc .tabelproses {
+  margin-bottom: unset;
+}
+
+.historybetcc .tabelproses .bagtanggal {
+  width: 25%;
+}
+
+.historybetcc .tabelproses .bagnominal {
+  width: 20%;
+}
+
+.historybetcc .tabelproses .bagno {
+  width: 8%;
 }
 
 @media screen and (max-width: 800px) {

@@ -110,7 +110,7 @@
                             </tr>
                             @foreach ($data as $i => $d)
                                 <tr>
-                                    <td>{{ $i + 0 }}</td>
+                                    <td>{{ $i + 1 }}</td>
                                     <td>
                                         <span class="userpending">
                                             {{ $d->username }}
@@ -140,10 +140,10 @@
                                                 class="tombol grey openviewport" target="_blank">
                                                 <span class="texttombol">EDIT</span>
                                             </a>
-                                            <button class="tombol grey showmodal" data-modal="1"
-                                                data-username="{{ $d->username }}" data-jenis="ALL">
+                                            <a href="/memberlistds/history/{{ $d->username }}"
+                                                class="tombol grey openviewport">
                                                 <span class="texttombol">HISTORY BANK</span>
-                                            </button>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -151,125 +151,7 @@
 
                         </tbody>
                     </table>
-                    <div class="modalhistory" data-target="1">
-                        <div class="secmodalhistory">
-                            <span class="closetrigger">x</span>
-                            <span class="titlemodalhistory">HISTORY COIN USER : thanos989898</span>
-                            <table id="dataTableHistory">
-                                <tbody>
-                                    <tr class="hdtable">
-                                        <th class="bagno">#</th>
-                                        <th class="bagtanggal coin">tanggal</th>
-                                        <th class="bagstatustrans">status</th>
-                                        <th class="bagagent">agent</th>
-                                        <th class="bagnominal">coin</th>
-                                        <th class="bagnominal">last coin</th>
-                                    </tr>
-                                    {{-- <tr>
-                                        <td>1</td>
-                                        <td class="hsjenistrans">2024-04-05 21:09:03</td>
-                                        <td class="hsjenistrans" data-proses="accept">accept deposit</td>
-                                        <td>CSDP1</td>
-                                        <td>1,000.00</td>
-                                        <td>2,860.68</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td class="hsjenistrans">2024-04-05 21:09:03</td>
-                                        <td class="hsjenistrans" data-proses="accept">accept withdraw</td>
-                                        <td>CSDP1</td>
-                                        <td>1,000.00</td>
-                                        <td>1,860.68</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td class="hsjenistrans">2024-04-05 21:09:03</td>
-                                        <td class="hsjenistrans" data-proses="accept">accept deposit</td>
-                                        <td>CSDP1</td>
-                                        <td>1,000.00</td>
-                                        <td>1,860.68</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td class="hsjenistrans">2024-04-05 21:09:03</td>
-                                        <td class="hsjenistrans" data-proses="accept">manual deposit</td>
-                                        <td>CSDP1</td>
-                                        <td>860.00</td>
-                                        <td>860.68</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td class="hsjenistrans">2024-04-05 21:09:03</td>
-                                        <td class="hsjenistrans" data-proses="cancel">reject deposit</td>
-                                        <td>CSDP1</td>
-                                        <td>1000.00</td>
-                                        <td>0.68</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td class="hsjenistrans">2024-04-05 21:09:03</td>
-                                        <td class="hsjenistrans" data-proses="accept">accept deposit</td>
-                                        <td>CSDP1</td>
-                                        <td>1,000.00</td>
-                                        <td>1,000.68</td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td class="hsjenistrans">2024-04-05 21:09:03</td>
-                                        <td class="hsjenistrans" data-proses="accept">accept deposit</td>
-                                        <td>CSDP1</td>
-                                        <td>500.00</td>
-                                        <td>500.68</td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td class="hsjenistrans">2024-04-05 21:09:03</td>
-                                        <td class="hsjenistrans" data-proses="accept">accept deposit</td>
-                                        <td>CSDP1</td>
-                                        <td>500.00</td>
-                                        <td>500.68</td>
-                                    </tr>
-                                    <tr>
-                                        <td>9</td>
-                                        <td class="hsjenistrans">2024-04-05 21:09:03</td>
-                                        <td class="hsjenistrans" data-proses="accept">accept deposit</td>
-                                        <td>CSDP1</td>
-                                        <td>500.00</td>
-                                        <td>500.68</td>
-                                    </tr>
-                                    <tr>
-                                        <td>10</td>
-                                        <td class="hsjenistrans">2024-04-05 21:09:03</td>
-                                        <td class="hsjenistrans" data-proses="accept">accept deposit</td>
-                                        <td>CSDP1</td>
-                                        <td>500.00</td>
-                                        <td>500.68</td>
-                                    </tr> --}}
-                                </tbody>
-                            </table>
-                            {{-- <div class="grouppagination">
-                                <div class="grouppaginationcc">
-                                    <div class="trigger left">
 
-                                    </div>
-                                    <div class="trigger right">
-
-                                    </div>
-                                    <span class="numberpage active">1</span>
-                                    <span class="numberpage">2</span>
-                                    <span class="numberpage">3</span>
-                                    <span class="numberpage">4</span>
-                                    <span class="numberpage">5</span>
-                                    <span class="numberpage">...</span>
-                                    <span class="numberpage">12</span>
-                                </div>
-                            </div> --}}
-                            <div class="informasihistorycoin">
-                                <span>*data yang di tampilkan saat ini, selengkapnya di menu <a
-                                        href="/historycoinds">history</a></span>
-                            </div>
-                        </div>
-                    </div>
                     <div class="grouppagination">
                         <div class="grouppaginationcc">
                             <div class="trigger left">
@@ -502,24 +384,6 @@
 
                 window.open(url, "_blank", "width=" + windowWidth + ", height=" + windowHeight + ", left=" +
                     windowLeft + ", top=" + windowTop);
-            });
-        });
-
-        $(document).ready(function() {
-            $('.showmodal').on('click', function() {
-                var username = $(this).data('username');
-
-                $.ajax({
-                    url: '/memberlistds/getHistoryBank/' + username,
-                    type: 'GET',
-                    success: function(response) {
-                        console.log(response);
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle error jika terjadi kesalahan
-                        console.error(xhr.responseText);
-                    }
-                });
             });
         });
     </script>

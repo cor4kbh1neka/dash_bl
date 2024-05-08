@@ -347,9 +347,9 @@ class BankdsController extends Controller
         $validatedData["norekxyxy"] = strtolower(str_replace("-", "", $validatedData["norekxyxy"]));
         $validatedData["barcodexrxr"] = strtolower($validatedData["barcodexrxr"]);
 
-        $apiUrl = 'https://back-staging.bosraka.com/banks/v2';
-
+        $apiUrl = 'https://back-staging.bosraka.com/banks/v2/add';
         $response = Http::post($apiUrl, $validatedData);
+
         if ($response->successful()) {
             return redirect('/bankds/listbank/0/0')->with('success', 'Set Bank berhasil ditambahkan');
         } else {
