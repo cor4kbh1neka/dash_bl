@@ -430,17 +430,6 @@ class DepoWdController extends Controller
         return $responseData;
     }
 
-    private function validasiBearer(Request $request)
-    {
-        $token = $request->bearerToken();
-        $expectedToken = env('BEARER_TOKEN');
-
-        if ($token !== $expectedToken) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
-        }
-        return true;
-    }
-
     private function errorResponse($username, $errorMessage)
     {
         return response()->json([

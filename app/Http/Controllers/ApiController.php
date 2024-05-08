@@ -621,4 +621,15 @@ class ApiController extends Controller
         $response = Http::post($apiUrl, $data);
         return $response->json();
     }
+
+    private function validasiBearer(Request $request)
+    {
+        $token = $request->bearerToken();
+        $expectedToken = env('BEARER_TOKEN');
+
+        if ($token !== $expectedToken) {
+            return response()->json(['message' => 'Unauthorized.'], 401);
+        }
+        return true;
+    }
 }
