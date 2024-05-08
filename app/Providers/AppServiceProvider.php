@@ -32,23 +32,23 @@ class AppServiceProvider extends ServiceProvider
         //     View::share('dataCount', $this->getDataCount());
         // });
 
-        // View::share('dataCount', [
-        //     "countDP" => 2,
-        //     "countWD" => 3,
-        //     "countOuts" => 4,
-        //     "countMemo" => 5,
-        // ]);
+        View::share('dataCount', [
+            "countDP" => 2,
+            "countWD" => 3,
+            "countOuts" => 4,
+            "countMemo" => 5,
+        ]);
 
-        if ($this->app->runningInConsole() || $this->app->environment('testing')) {
-            return;
-        }
+        // if ($this->app->runningInConsole() || $this->app->environment('testing')) {
+        //     return;
+        // }
 
-        $currentRoute = Route::getCurrentRoute();
-        $currentUrl = $currentRoute ? $currentRoute->uri() : '';
+        // $currentRoute = Route::getCurrentRoute();
+        // $currentUrl = $currentRoute ? $currentRoute->uri() : '';
 
-        if (!Str::startsWith($currentUrl, 'api/')) {
-            View::share('dataCount', $this->getDataCount());
-        }
+        // if (!Str::startsWith($currentUrl, 'api/')) {
+        //     View::share('dataCount', $this->getDataCount());
+        // }
     }
 
     private function getDataCount()
