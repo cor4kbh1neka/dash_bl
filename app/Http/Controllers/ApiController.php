@@ -126,7 +126,6 @@ class ApiController extends Controller
             $errorMessage = $response->body();
             $responseData = "Error: $statusCode - $errorMessage";
         }
-
         if ($responseData["error"]["id"] === 0) {
             Member::create([
                 'username' => $request->Username,

@@ -13,6 +13,7 @@
                 </svg>
             </div>
         </div>
+
         <div class="secmemberlist">
             <div class="grouphistoryds memberlist">
                 <form class="groupheadhistoryds" method="GET" action="/memberlistds">
@@ -124,7 +125,7 @@
                                         </span>
                                     </td>
                                     <td>{{ $d->referral }}</td>
-                                    <td>{{ $d->mbank }}, {{ $d->mnamarek }}, {{ $d->mnorek }}</td>
+                                    <td>{{ $d->bank }}, {{ $d->namarek }}, {{ $d->norek }}</td>
                                     <td class="valuenominal">
                                         <span class="koinasli">{{ $d->balance }}</span>
                                         <span class="cointorp"></span>
@@ -501,6 +502,24 @@
 
                 window.open(url, "_blank", "width=" + windowWidth + ", height=" + windowHeight + ", left=" +
                     windowLeft + ", top=" + windowTop);
+            });
+        });
+
+        $(document).ready(function() {
+            $('.showmodal').on('click', function() {
+                var username = $(this).data('username');
+
+                $.ajax({
+                    url: '/memberlistds/getHistoryBank/' + username,
+                    type: 'GET',
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error jika terjadi kesalahan
+                        console.error(xhr.responseText);
+                    }
+                });
             });
         });
     </script>

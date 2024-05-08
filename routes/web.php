@@ -203,6 +203,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/memberlistds/winloseyear', [MemberlistdsController::class, 'winloseyear']);
     Route::get('/memberlistds/winlosemonth', [MemberlistdsController::class, 'winlosemonth']);
     Route::get('/memberlistds/winloseday', [MemberlistdsController::class, 'winloseday']);
+    Route::get('/memberlistds/getHistoryBank/{id}', [MemberlistdsController::class, 'getHistoryBank']);
 
     /*-- Historygameds --*/
     Route::get('/historygameds', [HistorygamedsController::class, 'index']);

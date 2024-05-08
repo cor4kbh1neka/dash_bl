@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use App\Models\DepoWd;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
@@ -288,5 +289,11 @@ class MemberlistdsController extends Controller
             'title' => 'Win Lose Informasi',
             'totalnote' => 0,
         ]);
+    }
+
+    public function getHistoryBank($username)
+    {
+        $data = DepoWd::where('username', $username)->get();
+        return $data;
     }
 }
