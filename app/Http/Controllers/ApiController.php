@@ -46,7 +46,12 @@ class ApiController extends Controller
 
             return $getLogin;
         } catch (\Exception $e) {
-            return $this->errorResponse($username, 99, $e->getMessage());
+            return [
+                'AccountName' => $username,
+                'Balance' => 0,
+                'ErrorCode' => 99,
+                'ErrorMessage' => 'Internal Error'
+            ];;
         }
     }
 

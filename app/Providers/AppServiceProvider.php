@@ -28,16 +28,16 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // dd(Auth::check());
-        // Event::listen(Authenticated::class, function ($event) {
-        //     View::share('dataCount', $this->getDataCount());
-        // });
+        Event::listen(Authenticated::class, function ($event) {
+            View::share('dataCount', $this->getDataCount());
+        });
 
-        View::share('dataCount', [
-            "countDP" => 2,
-            "countWD" => 3,
-            "countOuts" => 4,
-            "countMemo" => 5,
-        ]);
+        // View::share('dataCount', [
+        //     "countDP" => 2,
+        //     "countWD" => 3,
+        //     "countOuts" => 4,
+        //     "countMemo" => 5,
+        // ]);
 
         // if ($this->app->runningInConsole() || $this->app->environment('testing')) {
         //     return;
