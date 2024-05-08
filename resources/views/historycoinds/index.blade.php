@@ -15,7 +15,7 @@
         </div>
         <div class="sechistoryds">
             <div class="grouphistoryds">
-                <form method="GET" action="/historyds" class="groupheadhistoryds" id="from-search">
+                <form method="GET" action="/historycoinds" class="groupheadhistoryds" id="from-search">
                     <div class="listheadhistoryds top">
                         <button type="button" class="tombol grey {{ $search_jenis == '' ? 'active' : '' }}" data-jenis="">
                             <span class="texttombol">ALL TRANSACTION</span>

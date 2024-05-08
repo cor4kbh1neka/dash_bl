@@ -8,10 +8,9 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('xtrans', function (Blueprint $table) {
+        Schema::create('xtransday', function (Blueprint $table) {
             $table->id();
-            $table->string('bank')->nullable();
-            $table->string('groupbank')->nullable();
+            $table->string('day')->nullable();
             $table->string('username');
             $table->integer('count_dp')->default(0);
             $table->integer('count_wd')->default(0);
@@ -24,6 +23,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('xtrans');
+        Schema::dropIfExists('xtransday');
     }
 };

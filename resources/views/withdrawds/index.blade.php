@@ -6,7 +6,7 @@
     <div class="sec_table">
         <div class="secgrouptitle">
             <h2>{{ $title }} </h2>
-            <span class="countpendingdata">{{ $totalBankcounts }}</span>
+            <span class="countpendingdata">{{ $dataCount['countWD'] }}</span>
             <div class="fullscreen">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
                     <path fill="currentColor"
@@ -209,7 +209,7 @@
                         </table>
                         <div class="informasihistorycoin">
                             <span>*data yang di tampilkan saat ini, selengkapnya di menu <a
-                                    href="/historyds">history</a></span>
+                                    href="/historycoinds">history</a></span>
                         </div>
                     </div>
                 </div>
@@ -262,7 +262,7 @@
                                 href="/historycoinds">history</a></span>
                             =======
                             <span>*data yang di tampilkan saat ini, selengkapnya di menu <a
-                                    href="/historyds">history</a></span>
+                                    href="/historycoinds">history</a></span>
                             >>>>>>> staging
                     </div>
                 </div>
@@ -282,9 +282,9 @@
             $('#myCheckbox, [id^="myCheckbox-"]').change(function() {
                 var isChecked = $('#myCheckbox:checked, [id^="myCheckbox-"]:checked').length > 0;
                 if (isChecked) {
-                    $('.all_act_butt').css('display', 'flex');
+                    $('.groupbuttonproses').css('display', 'flex');
                 } else {
-                    $('.all_act_butt').hide();
+                    $('.groupbuttonproses').hide();
                 }
             });
 

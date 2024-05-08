@@ -99,15 +99,15 @@
 
         $(document).ready(function() {
             $('#form').on('submit', function(event) {
-                if (!$('#readCheckbox').prop('checked')) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Anda harus melakukan check "Pastikan data yang dimasukkan sudah VALID DAN SESUAI" terlebih dahulu!',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    event.preventDefault();
-                }
+                // if (!$('#readCheckbox').prop('checked')) {
+                //     Swal.fire({
+                //         icon: 'warning',
+                //         title: 'Anda harus melakukan check "Pastikan data yang dimasukkan sudah VALID DAN SESUAI" terlebih dahulu!',
+                //         showConfirmButton: false,
+                //         timer: 1500
+                //     });
+                //     event.preventDefault();
+                // }
 
                 if ($('#jenis').val() == 'WDM') {
                     if (parseFloat($('#saldo').val()) < parseFloat($('#nominal').val())) {
@@ -129,13 +129,13 @@
         $('#username').on('blur', function() {
             var username = $(this).val();
             if (username != '') {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Please wait ...',
-                    text: "Username sedang dalam pengecekan",
-                    showConfirmButton: false,
-                    allowOutsideClick: false
-                });
+                // Swal.fire({
+                //     icon: 'info',
+                //     title: 'Please wait ...',
+                //     text: "Username sedang dalam pengecekan",
+                //     showConfirmButton: false,
+                //     allowOutsideClick: false
+                // });
 
                 $.ajax({
                     url: '/getbalance/' + username,
@@ -149,13 +149,13 @@
                     },
                     error: function(xhr, status, error) {
                         // console.error(xhr.responseText);
-                        swal.close();
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Username tidak terdaftar',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
+                        // swal.close();
+                        // Swal.fire({
+                        //     icon: 'warning',
+                        //     title: 'Username tidak terdaftar',
+                        //     showConfirmButton: false,
+                        //     timer: 1500
+                        // });
                         $('#saldo').val(0);
                     }
                 });

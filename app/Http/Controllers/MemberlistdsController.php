@@ -12,6 +12,7 @@ class MemberlistdsController extends Controller
     public function index(Request $request)
     {
         $username = $request->input('username');
+        $checkusername = $request->input('checkusername');
         $norek = $request->input('norek');
         $namerek = $request->input('namerek');
         $bank = $request->input('bank');
@@ -23,7 +24,11 @@ class MemberlistdsController extends Controller
 
         $query = Member::query();
         if ($username) {
-            $query->where('username', 'like', '%' . $username . '%');
+            if (!isset($checkusername)) {
+                $query->where('username', 'like', '%' . $username . '%');
+            } else {
+                $query->where('username',  $username);
+            }
         }
         if ($norek) {
             $query->where('norek', 'like', '%' . $norek . '%');
@@ -48,6 +53,7 @@ class MemberlistdsController extends Controller
         }
 
         $members = $query->orderBy('created_at', 'DESC')->paginate(10);
+
         // ->map(function ($member) {
         //     $member->status = $member->status == 0 ? 'New Member' : 'Default';
         //     return $member;
@@ -65,7 +71,8 @@ class MemberlistdsController extends Controller
             'referral' => $referral,
             'gabungdari' => $gabungdari,
             'gabunghingga' => $gabunghingga,
-            'status' => $status
+            'status' => $status,
+            'checkusername' => $checkusername
         ]);
     }
 

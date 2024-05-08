@@ -21,7 +21,8 @@
                             <label for="username">
                                 username
                                 <div class="check_box">
-                                    <input type="checkbox" id="checkusername" name="checkusername">
+                                    <input type="checkbox" id="checkusername" name="checkusername"
+                                        {{ $checkusername == 'on' ? 'checked' : '' }}>
                                 </div>
                             </label>
                             <input type="text" id="username" name="username" placeholder="username"
@@ -65,7 +66,7 @@
                                 value="{{ $gabunghingga }}">
                         </div>
                         <div class="listinputmember">
-                            <label for="status">bank</label>
+                            <label for="status">Status</label>
                             <select name="status" id="status">
                                 <option value="" selected="" place=""
                                     style="color: #838383; font-style: italic;">Pilih status</option>
@@ -264,7 +265,7 @@
                             </div> --}}
                             <div class="informasihistorycoin">
                                 <span>*data yang di tampilkan saat ini, selengkapnya di menu <a
-                                        href="/historyds">history</a></span>
+                                        href="/historycoinds">history</a></span>
                             </div>
                         </div>
                     </div>

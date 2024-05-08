@@ -47,7 +47,7 @@ use App\Models\Notes;
 
 Route::get('/', function () {
     if (Auth::check()) {
-        return redirect()->intended('/depositds/DP');
+        return redirect()->intended('/transaction/DP');
     }
     return redirect()->intended('/login');
 });
@@ -175,7 +175,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
     /*-- Despositds --*/
-    Route::get('/depositds/{jenis}', [DepositdsController::class, 'index']);
+    Route::get('/transaction/{jenis}', [DepositdsController::class, 'index']);
     Route::get('/getDataHistory/{username}/{jenis}', [DepositdsController::class, 'getDataHistory']);
     Route::get('/getbalance/{username}', [DepoWdController::class, 'getBalancePlayer']);
     Route::get('/datacountwdp', [DepoWdController::class, 'getCountDataDPW']);

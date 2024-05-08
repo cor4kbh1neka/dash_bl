@@ -63,7 +63,6 @@ class DepositdsController extends Controller
         $ovo = $bankCounts->get('OVO') == '' ? 0 : $bankCounts->get('OVO');
         $pulsa = $bankCounts->get('PULSA') == '' ? 0 : $bankCounts->get('PULSA');
         $linkaja = $bankCounts->get('LINKAJA') == '' ? 0 : $bankCounts->get('LINKAJA');
-        $totalBankcounts = $bankCounts->sum();
 
         if ($jenis == 'WD') {
             $path = 'withdrawds.index';
@@ -93,7 +92,6 @@ class DepositdsController extends Controller
             'ovo' => $ovo,
             'pulsa' => $pulsa,
             'linkaja' => $linkaja,
-            'totalBankcounts' => $totalBankcounts,
             'dataTransaksi' => $dataTransaksi
         ]);
     }

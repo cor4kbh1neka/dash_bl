@@ -8,10 +8,10 @@ use Illuminate\Support\Str;
 use App\Models\Transactions;
 use App\Models\TransactionsSaldo;
 
-class Xtrans extends Model
+class Xtransmonth extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'bank', 'groupbank', 'username', 'count_dp', 'count_wd', 'sum_dp',  'sum_wd', 'sum_winloss'];
-    protected $table = 'xtrans';
+    protected $fillable = ['id', 'bank', 'groupbank', 'username', 'count_dp', 'count_wd', 'sum_dp',  'sum_wd'];
+    protected $table = 'xtransmonth';
 }

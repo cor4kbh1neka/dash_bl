@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\View;
 use App\Models\Xdpwd;
 use App\Models\Outstanding;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,13 +25,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // View::share('dataCount', $this->getDataCount());
-        View::share('dataCount', [
-            "countDP" => 2,
-            "countWD" => 3,
-            "countOuts" => 4,
-            "countMemo" => 5,
-        ]);
+        // dd(Auth::check());
+        Event::listen(Authenticated::class, function ($event) {
+            View::share('dataCount', $this->getDataCount());
+        });
+
+        // View::share('dataCount', [
+        //     "countDP" => 2,
+        //     "countWD" => 3,
+        //     "countOuts" => 4,
+        //     "countMemo" => 5,
+        // ]);
     }
 
     private function getDataCount()

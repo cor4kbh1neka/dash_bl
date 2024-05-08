@@ -15,9 +15,9 @@ use App\Models\Referral;
 use App\Models\Xreferral;
 use App\Models\Persentase;
 use App\Models\TransactionsSaldoMin;
+use App\Models\Xtrans;
 
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\DB;
 
 class ApiBolaController extends Controller
 
@@ -700,7 +700,19 @@ class ApiBolaController extends Controller
                 $WinLoss = $index == 0 ? $request->WinLoss : 0;
                 $transactionTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $WinLoss, 1);
                 if ($transactionTransaction) {
+
+                    $checkXtrans = Xtrans::where('username', $request->Username)->whereDate('created_at', '=', date('Y-m-d'))->first();
+
                     if ($WinLoss >= 0) {
+                        if ($checkXtrans) {
+                            $checkXtrans->update([
+                                'sum_winloss' => $checkXtrans->sum_winloss + $WinLoss
+                            ]);
+                        } else {
+                            Xtrans::create([
+                                'bank' => '-'
+                            ]);
+                        }
                         /* Add Saldo */
                         $data = [
                             "Username" => $request->Username,
@@ -710,6 +722,7 @@ class ApiBolaController extends Controller
                             "ServerId" => env('SERVERID')
                         ];
                         $this->deposit($data, $transactionTransaction);
+                    } else {
                     }
 
                     /* Record Data Referral */
@@ -1010,12 +1023,6 @@ class ApiBolaController extends Controller
     /* ====================== GetBelance ======================= */
     private function apiGetBalance(Request $request)
     {
-        // $cacheKey = 'balance_' . $request->Username;
-
-        // if (Cache::has($cacheKey)) {
-        //     return Cache::get($cacheKey);
-        // }
-
         $dataSaldo = [
             "Username" => $request->Username,
             "CompanyKey" => env('COMPANY_KEY'),
@@ -1167,35 +1174,7 @@ class ApiBolaController extends Controller
 
 
 
-    public function login(Request $request, $username, $iswap, $device)
-    {
-        $token = $request->bearerToken();
-        $expectedToken = env('BEARER_TOKEN');
 
-        if ($device != 'd') {
-            $device = 'm';
-        }
-
-        if ($token !== $expectedToken) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
-        }
-
-        try {
-            $dataLogin['Username'] = $username;
-            $dataLogin['CompanyKey'] = env('COMPANY_KEY');
-            $dataLogin['Portfolio'] = env('PORTFOLIO');
-            $dataLogin['IsWapSports'] = $iswap;
-            $dataLogin['ServerId'] = "YY-TEST";
-            $getLogin = $this->requestApiLogin($dataLogin);
-            if ($getLogin["url"] !== "") {
-                $getLogin["url"] = $getLogin["url"] . '&device=' . $device;
-            }
-
-            return $getLogin;
-        } catch (\Exception $e) {
-            return $this->errorResponse($username, 99, $e->getMessage());
-        }
-    }
 
     function requestApiLogin($data)
     {
@@ -1213,187 +1192,5 @@ class ApiBolaController extends Controller
             $responseData = "Error: $statusCode - $errorMessage";
         }
         return ['url' => $responseData["url"]];
-    }
-
-    public function register(Request $request, $ipaddress)
-    {
-        $token = $request->bearerToken();
-        $expectedToken = env('BEARER_TOKEN');
-
-        if ($token !== $expectedToken) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
-        }
-
-        $data = [
-            "Username" => $request->Username,
-            "UserGroup" => "c",
-            "Agent" => env('AGENTID'),
-            "CompanyKey" => env('COMPANY_KEY'),
-            "ServerId" => "YY-TEST"
-        ];
-
-        $url = 'https://ex-api-demo-yy.568win.com/web-root/restricted/player/register-player.aspx';
-
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/json; charset=UTF-8'
-        ])->post($url, $data);
-
-        if ($response->successful()) {
-            $responseData = $response->json();
-        } else {
-            $statusCode = $response->status();
-            $errorMessage = $response->body();
-            $responseData = "Error: $statusCode - $errorMessage";
-        }
-
-        if ($responseData["error"]["id"] === 0) {
-            Member::create([
-                'username' => $request->Username,
-                'referral' => $request->Referral,
-                'bank' => '',
-                'namarek' => '',
-                'norek' => '',
-                'nohp' => 0,
-                'balance' => 0,
-                'ip_reg' => $ipaddress,
-                'ip_log' => null,
-                'lastlogin' => null,
-                'domain' => null,
-                'lastlogin2' => null,
-                'domain2' => null,
-                'lastlogin3' => null,
-                'domain3' => null,
-                'status' => 0
-            ]);
-
-            $dataXreferral = Xreferral::where('username', $request->Referral)->first();
-            if ($dataXreferral) {
-                $dataXreferral->update([
-                    'count_referral' => $dataXreferral->count_referral + 1
-                ]);
-            } else {
-                if ($request->Referral != '') {
-                    Xreferral::create([
-                        'username' => $request->Referral,
-                        'count_referral' => 1,
-                        'sum_amount' => 0
-                    ]);
-                }
-            }
-
-            return response()->json([
-                'message' => 'Data berhasil disimpan.'
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => $responseData["error"]["msg"] ?? 'Error tidak teridentifikasi.'
-            ], 400);
-        }
-    }
-
-    public function historyLog(Request $request, $username, $ipaddress)
-    {
-        $token = $request->bearerToken();
-        $expectedToken = env('BEARER_TOKEN');
-
-        if ($token !== $expectedToken) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
-        }
-
-        try {
-            $member = Member::where('username', $username)->firstOrFail();
-            $member->update([
-                'ip_log' => $ipaddress,
-                'lastlogin' => now(),
-                'domain' => $request->getHost()
-            ]);
-
-            return response()->json(['message' => 'Log berhasil tersimpan!']);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Terjadi kesalahan saat menyimpan log.'], 500);
-        }
-    }
-
-    public function getRecomMatch(Request $request)
-    {
-        // $token = $request->bearerToken();
-        // $expectedToken = env('BEARER_TOKEN');
-        // if ($token !== $expectedToken) {
-        //     return response()->json(['message' => 'Unauthorized.'], 401);
-        // }
-
-        $data = [
-            "language" => 'en',
-            "companyKey" => env('COMPANY_KEY'),
-            "serverId" =>  env('SERVERID')
-        ];
-
-        $url = 'https://ex-api-demo-yy.568win.com/web-root/restricted/information/get-recommend-matches.aspx';
-
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/json; charset=UTF-8'
-        ])->post($url, $data);
-        if ($response->successful()) {
-            $responseData = $response->json();
-        } else {
-            $statusCode = $response->status();
-            $errorMessage = $response->body();
-            $responseData = "Error: $statusCode - $errorMessage";
-        }
-
-        return $responseData;
-    }
-
-    public function deleteTransactions()
-    {
-        try {
-            Transactions::query()->delete();
-            TransactionStatus::query()->delete();
-            TransactionSaldo::query()->delete();
-
-            return response()->json(['message' => 'Data berhasil dihapus'], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Gagal menghapus data: ' . $e->getMessage()], 400);
-        }
-    }
-
-    public function getTransactions()
-    {
-        $transactions = Transactions::select('transactions.id', 'transactions.transactionid', 'transactions.username', 'transaction_status.status', 'transaction_status.id as statusid')
-            ->join('transaction_status', function ($join) {
-                $join->on('transaction_status.trans_id', '=', 'transactions.id')
-                    ->whereRaw('transaction_status.created_at = (SELECT MAX(created_at) FROM transaction_status WHERE trans_id = transactions.id)');
-            })
-            ->where('transaction_status.status', 'Running')
-            ->orWhere('transaction_status.status', 'Rollback')
-            ->orderByDesc('transaction_status.created_at')
-            ->orderBy('transaction_status.urutan')
-            ->orderByDesc('transactions.created_at')
-            ->get();
-
-        // Mengubah status jika status adalah 'Rollback'
-        $transactions->map(function ($transaction) {
-            if ($transaction->status === 'Rollback') {
-                $transaction->status = 'Running';
-            }
-            return $transaction;
-        });
-
-        return $transactions;
-    }
-
-    public function cekuserreferral($username)
-    {
-        $dataMemberAktif = MemberAktif::where('referral', $username)->first();
-        if ($dataMemberAktif) {
-            return response()->json(['message' => 'Referral tersedia'], 200);
-        } else {
-            $dataMember = Member::where('username', $username)->first();
-            if ($dataMember) {
-                return response()->json(['message' => 'Referral tersedia'], 200);
-            } else {
-                return response()->json(['message' => 'Referral tidak ditemukan'], 404);
-            }
-        }
     }
 }
