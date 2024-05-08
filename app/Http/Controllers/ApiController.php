@@ -572,8 +572,14 @@ class ApiController extends Controller
         return response()->json(['success' => true, 'message' => 'Data comparison successful']);
     }
 
-    public function getHistoryGame($username, $portfolio, $startDate, $endDate)
+    public function getHistoryGame(Request $request, $username, $portfolio, $startDate, $endDate)
     {
+        $token = $request->bearerToken();
+        $expectedToken = env('BEARER_TOKEN');
+        if ($token !== $expectedToken) {
+            return response()->json(['message' => 'Unauthorized.'], 401);
+        }
+
         $data = [
             'username' => $username,
             'portfolio' => $portfolio,
@@ -590,8 +596,14 @@ class ApiController extends Controller
         return $response->json();
     }
 
-    public function getHistoryGameById($refNos, $portfolio)
+    public function getHistoryGameById(Request $request, $refNos, $portfolio)
     {
+        $token = $request->bearerToken();
+        $expectedToken = env('BEARER_TOKEN');
+        if ($token !== $expectedToken) {
+            return response()->json(['message' => 'Unauthorized.'], 401);
+        }
+
         $data = [
             'refNos' => $refNos,
             'portfolio' => $portfolio,
