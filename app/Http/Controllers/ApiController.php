@@ -459,7 +459,8 @@ class ApiController extends Controller
         if ($data["error"]["id"] === 0) {
             $results = [
                 "username" => $data["username"],
-                "balance" => $data["balance"] + $this->saldoBerjalan($username),
+                // "balance" => $data["balance"] + $this->saldoBerjalan($username),
+                "balance" => $data["balance"],
                 // "balance" => $data["balance"],
             ];
             return $results;
@@ -631,5 +632,35 @@ class ApiController extends Controller
             return response()->json(['message' => 'Unauthorized.'], 401);
         }
         return true;
+    }
+
+    private function reqApiBalance($username)
+    {
+        $dataApiCheckBalance = [
+            "Username" => $username,
+            "CompanyKey" => env('COMPANY_KEY'),
+            "ServerId" => env('SERVERID')
+        ];
+
+        return $this->requestApi('get-player-balance', $dataApiCheckBalance);
+    }
+
+    private function requestApi($endpoint, $data)
+    {
+        $url = 'https://ex-api-demo-yy.568win.com/web-root/restricted/player/' . $endpoint . '.aspx';
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json; charset=UTF-8',
+        ])->post($url, $data);
+
+        if ($response->successful()) {
+            $responseData = $response->json();
+        } else {
+            $statusCode = $response->status();
+            $errorMessage = $response->body();
+            $responseData = "Error: $statusCode - $errorMessage";
+        }
+
+        return $responseData;
     }
 }
