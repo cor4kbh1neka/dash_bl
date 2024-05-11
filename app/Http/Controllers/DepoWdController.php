@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use App\Models\DepoWd;
+use App\Models\HistoryTransaksi;
 use App\Models\Xdpwd;
 use App\Models\Member;
 use App\Models\MemberAktif;
@@ -210,15 +211,37 @@ class DepoWdController extends Controller
         }
     }
 
-    public function approve(Request $request)
+    public function approve(Request $request, $jenis)
     {
         try {
-            $ids = $request->id;
+            $data = $request->all();
+            $ids = [];
+
+            foreach ($data as $key => $value) {
+                if (strpos($key, 'myCheckbox-') === 0) {
+                    $uuid = substr($key, strlen('myCheckbox-'));
+                    $ids[] = $uuid;
+                }
+            }
+
             foreach ($ids as $id) {
                 $dataDepo = DepoWd::where('id', $id)->where('status', 0)->first();
+                dd($dataDepo);
                 $txnid = $this->generateTxnid('D');
                 if ($dataDepo) {
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
+
+                    //'username', 'invoice', 'keterangan', 'status', 'debit', 'kredit', 'balance'
+                    /* Create History Transkasi */
+                    HistoryTransaksi::create([
+                        'username' => $dataDepo->username,
+                        'invoice' => $dataDepo->referral,
+                        'keterangan' => $dataDepo->referral,
+                        'status' => $dataDepo->referral,
+                        'debit' => $dataDepo->referral,
+                        'kredit' => $dataDepo->referral,
+                        'balance' => $dataDepo->referral,
+                    ]);
 
                     /* Create Member Aktif */
                     if ($dataDepo->referral != '' || $dataDepo->referral != null) {
@@ -317,23 +340,31 @@ class DepoWdController extends Controller
                     }
                 }
             }
-
-            return response()->json([
-                'status' => 'Success',
-                'message' => 'Accept berhasil'
-            ]);
+            $url = '/transaction/' . $jenis;
+            if ($jenis == 'DP') {
+                $message = 'Deposit berhasil diproses';
+            } else {
+                $message = 'Withdrawal berhasil diproses';
+            }
+            return redirect($url)->with('success', $message);
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => $e->getMessage()
-            ], 500);
+            return back()->withInput()->with('error', $e->getMessage());
         }
     }
 
-    public function reject(Request $request)
+    public function reject(Request $request, $jenis)
     {
         try {
-            $ids = $request->id;
+            $data = $request->all();
+            $ids = [];
+
+            foreach ($data as $key => $value) {
+                if (strpos($key, 'myCheckbox-') === 0) {
+                    $uuid = substr($key, strlen('myCheckbox-'));
+                    $ids[] = $uuid;
+                }
+            }
+
             foreach ($ids as $id) {
                 //UPDATE STATUS CANCEL
                 $updateStatusTransaction = DepoWd::where('id', $id)->first();
@@ -380,15 +411,15 @@ class DepoWdController extends Controller
                 }
             }
 
-            return response()->json([
-                'status' => 'Success',
-                'message' => 'Reject berhasil'
-            ]);
+            $url = '/transaction/' . $jenis;
+            if ($jenis == 'DP') {
+                $message = 'Deposit berhasil dibatalkan';
+            } else {
+                $message = 'Withdrawal berhasil dibatalkan';
+            }
+            return redirect($url)->with('success', $message);
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => $e->getMessage()
-            ], 500);
+            return back()->withInput()->with('error', $e->getMessage());
         }
     }
 

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Transactions;
 use App\Models\TransactionStatus;
 use App\Models\TransactionSaldo;
+use App\Models\TransactionsSaldoMin;
 use App\Models\ProductType;
 use App\Models\Member;
 use App\Models\MemberAktif;
@@ -14,7 +15,6 @@ use App\Models\Outstanding;
 use App\Models\Referral;
 use App\Models\Xreferral;
 use App\Models\Persentase;
-use App\Models\TransactionsSaldoMin;
 use App\Models\Xtrans;
 
 use Illuminate\Support\Facades\Http;

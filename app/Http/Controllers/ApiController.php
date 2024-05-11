@@ -13,6 +13,7 @@ use App\Models\MemberAktif;
 use App\Models\Xdpwd;
 use App\Models\DepoWd;
 use App\Models\Groupbank;
+use Carbon\Carbon;
 
 
 use Illuminate\Support\Facades\Http;
@@ -604,7 +605,21 @@ class ApiController extends Controller
         $apiUrl = 'https://ex-api-demo-yy.568win.com/web-root/restricted/report/get-bet-list-by-modify-date.aspx';
 
         $response = Http::post($apiUrl, $data);
-        return $response->json();
+        $results = $response->json();
+
+        if ($results["error"] != 0) {
+
+            $results = $results['result'];
+            foreach ($results as &$d) {
+                $d['orderTime'] = Carbon::parse($d['orderTime'])->addHours(11)->toDateTimeString();
+                $d['modifyDate'] = Carbon::parse($d['modifyDate'])->addHours(11)->toDateTimeString();
+                $d['settleTime'] = Carbon::parse($d['settleTime'])->addHours(11)->toDateTimeString();
+                $d['winLostDate'] = Carbon::parse($d['winLostDate'])->addHours(11)->toDateTimeString();
+            }
+        }
+
+
+        return $results;
     }
 
     public function getHistoryGameById(Request $request, $refNos, $portfolio)

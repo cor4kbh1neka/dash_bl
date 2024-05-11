@@ -122,7 +122,7 @@
             $(document).ready(function() {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Sukses!',
+                    title: 'Success',
                     text: '{{ session('success') }}',
                 });
             });

@@ -626,7 +626,7 @@
                     // console.log(response);
                     Swal.fire({
                         icon: 'success',
-                        title: 'Sukses!',
+                        title: 'Success',
                         text: 'List bank berhasil dihapus.'
                     }).then(() => {
                         window.location.reload();
@@ -701,7 +701,7 @@
             $(document).ready(function() {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Sukses!',
+                    title: 'Success',
                     text: '{{ session('success') }}',
                 });
             });

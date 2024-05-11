@@ -454,7 +454,7 @@
                     console.log(response);
                     Swal.fire({
                         icon: 'success',
-                        title: 'Sukses!',
+                        title: 'Success',
                         text: 'Data berhasil dihapus.'
                     }).then(() => {
                         window.location.reload();
@@ -497,7 +497,7 @@
                     console.log(response);
                     Swal.fire({
                         icon: 'success',
-                        title: 'Sukses!',
+                        title: 'Success',
                         text: 'Data berhasil dihapus.'
                     }).then(() => {
                         window.location.reload();
@@ -528,7 +528,7 @@
             $(document).ready(function() {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Sukses!',
+                    title: 'Success',
                     text: '{{ session('success') }}',
                 });
             });

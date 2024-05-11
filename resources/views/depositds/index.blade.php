@@ -26,85 +26,21 @@
                     </a>
 
                     <div class="groupbankproses">
-                        <div class="listbankproses">
-                            <input type="checkbox" id="bcaCheckbox" name="bcaCheckbox">
-                            <label for="bcaCheckbox" data-pending="{{ $bca }}">bca
-                                ({{ $bca }})</label>
-                        </div>
-                        <div class="listbankproses">
-                            <input type="checkbox" id="bca1Checkbox" name="bca1Checkbox">
-                            <label for="bca1Checkbox" data-pending="{{ $bca1 }}">bca1
-                                ({{ $bca1 }})</label>
-                        </div>
-                        <div class="listbankproses">
-                            <input type="checkbox" id="bniCheckbox" name="bniCheckbox">
-                            <label for="bniCheckbox" data-pending="{{ $bni }}">bni
-                                ({{ $bni }})</label>
-                        </div>
-                        <div class="listbankproses">
-                            <input type="checkbox" id="briCheckbox" name="briCheckbox">
-                            <label for="briCheckbox" data-pending="{{ $bri }}">bri
-                                ({{ $bri }})</label>
-                        </div>
-                        <div class="listbankproses">
-                            <input type="checkbox" id="mandiriCheckbox" name="mandiriCheckbox">
-                            <label for="mandiriCheckbox" data-pending="{{ $mandiri }}">mandiri
-                                ({{ $mandiri }})</label>
-                        </div>
-                        <div class="listbankproses">
-                            <input type="checkbox" id="cimbCheckbox" name="cimbCheckbox">
-                            <label for="cimbCheckbox" data-pending="{{ $cimb }}">CIMB
-                                ({{ $cimb }})</label>
-                        </div>
-                        <div class="listbankproses">
-                            <input type="checkbox" id="danamonCheckbox" name="danamonCheckbox">
-                            <label for="danamonCheckbox" data-pending="{{ $danamon }}">danamon
-                                ({{ $danamon }})</label>
-                        </div>
-                        <div class="listbankproses">
-                            <input type="checkbox" id="permataCheckbox" name="permataCheckbox">
-                            <label for="permataCheckbox" data-pending="{{ $permata }}">permata
-                                ({{ $permata }})</label>
-                        </div>
-                        <div class="listbankproses">
-                            <input type="checkbox" id="paninCheckbox" name="paninCheckbox">
-                            <label for="paninCheckbox" data-pending="{{ $panin }}">panin
-                                ({{ $panin }})</label>
-                        </div>
-                        <div class="listbankproses">
-                            <input type="checkbox" id="bsiCheckbox" name="bsiCheckbox">
-                            <label for="bsiCheckbox" data-pending="{{ $bsi }}">bsi
-                                ({{ $bsi }})</label>
-                        </div>
-                        <div class="listbankproses">
-                            <input type="checkbox" id="danaCheckbox" name="danaCheckbox">
-                            <label for="danaCheckbox" data-pending="{{ $dana }}">dana
-                                ({{ $dana }})</label>
-                        </div>
-                        <div class="listbankproses">
-                            <input type="checkbox" id="gopayCheckbox" name="gopayCheckbox">
-                            <label for="gopayCheckbox" data-pending="{{ $gopay }}">gopay
-                                ({{ $gopay }})</label>
-                        </div>
-                        <div class="listbankproses">
-                            <input type="checkbox" id="ovoCheckbox" name="ovoCheckbox">
-                            <label for="ovoCheckbox" data-pending="{{ $ovo }}">ovo
-                                ({{ $ovo }})</label>
-                        </div>
-                        <div class="listbankproses">
-                            <input type="checkbox" id="pulsaCheckbox" name="pulsaCheckbox">
-                            <label for="pulsaCheckbox" data-pending="{{ $pulsa }}">pulsa
-                                ({{ $pulsa }})</label>
-                        </div>
-                        <div class="listbankproses">
-                            <input type="checkbox" id="linkajaCheckbox" name="linkajaCheckbox">
-                            <label for="linkajaCheckbox" data-pending="{{ $linkaja }}">linkaja
-                                ({{ $linkaja }})</label>
-                        </div>
+                        @foreach ($dataBank as $d)
+                            <div class="listbankproses">
+                                <input type="checkbox" id="{{ $d['bnkmstrxyxyx'] }}Checkbox"
+                                    name="{{ $d['bnkmstrxyxyx'] }}Checkbox">
+                                <label for="{{ $d['bnkmstrxyxyx'] }}Checkbox"
+                                    data-pending="{{ $d['count'] }}">{{ $d['bnkmstrxyxyx'] }}
+                                    ({{ $d['count'] }})
+                                </label>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
 
-                <div class="tabelproses">
+                <form id="form-depositds" method="POST" action="" class="tabelproses">
+                    @csrf
                     <table>
                         <tbody>
                             <tr class="hdtable">
@@ -120,39 +56,6 @@
                                 <th>diterima oleh</th>
                                 <th class="bagketerangan">keterangan</th>
                             </tr>
-
-                            {{-- @foreach ($data as $i => $d)
-                                <tr data-bank="{{ $d->bank }}">
-                                    <td>
-                                        <div class="statusmember" data-status="{{ $d->statususer }}">
-                                            {{ $i + 1 }}
-                                        </div>
-                                    </td>
-                                    <td class="check_box">
-                                        <input type="checkbox" id="myCheckbox-{{ $i }}"
-                                            name="myCheckbox-{{ $i }}" data-id=" {{ $d->id }}">
-                                    </td>
-                                    <td>
-                                        <div class="splitcollum" title="{{ $d->ketmember }}">
-                                            <span class="userpending">{{ $d->username }}</span>
-                                            <span class="datadetailuser showmodal" data-modal="1"
-                                                data-username="{{ $d->username }}" data-jenis="DP">Deposit</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="splitcollum">
-                                            <span class="tanggal">{{ $d->date }}</span>
-                                            <span class="waktu">{{ $d->time }}</span>
-                                        </div>
-                                    </td>
-                                    <td class="valuenominal">{{ $d->amount }}</td>
-                                    <td class="valuebank">{{ $d->mbank }}, {{ $d->mnamarek }}, {{ $d->mnorek }}
-                                    </td>
-                                    <td class="valuenominal">{{ $d->balance }}</td>
-                                    <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193535</td>
-                                    <td>{{ $d->keterangan == '' ? '{ Maksimal 20 karakter }' : $d->keterangan }}</td>
-                                </tr>
-                            @endforeach --}}
                             @foreach ($data as $i => $d)
                                 <tr data-bank="{{ $d->bank }}">
                                     <td>
@@ -160,8 +63,8 @@
                                         </div>
                                     </td>
                                     <td class="check_box">
-                                        <input type="checkbox" id="myCheckbox-{{ $i }}"
-                                            name="myCheckbox-{{ $i }}" data-id="{{ $d->id }}">
+                                        <input type="checkbox" id="myCheckbox-{{ $d->id }}"
+                                            name="myCheckbox-{{ $d->id }}">
                                     </td>
                                     <td>
                                         <div class="splitcollum" title="{{ $d->ketmember }}">
@@ -182,8 +85,11 @@
                                     </td>
                                     <td>
                                         <div class="splitcollum">
-                                            <span class="tanggal">{{ $d->date }} </span>
-                                            <span class="waktu">{{ $d->time }}</span>
+                                            @php
+                                                $parts = explode(' ', $d->created_at);
+                                            @endphp
+                                            <span class="tanggal">{{ $parts[0] }} </span>
+                                            <span class="waktu">{{ $parts[1] }}</span>
                                         </div>
                                     </td>
                                     <td class="valuenominal">{{ $d->amount }}</td>
@@ -204,7 +110,7 @@
                             <span class="texttombol">REJECT</span>
                         </button>
                     </div>
-                </div>
+                </form>
                 <div class="modalhistory" data-target="1">
                     <div class="secmodalhistory">
                         <span class="closetrigger">x</span>
@@ -298,159 +204,6 @@
                     $('.groupbuttonproses').hide();
                 }
             });
-
-            $(document).on('click', '#approve', function(event) {
-                event.preventDefault();
-
-                var approveButton = $(this);
-                if (approveButton.prop('disabled')) {
-                    return;
-                }
-
-                approveButton.prop('disabled', true);
-
-                var checkedValues = [];
-                $('input[id^="myCheckbox-"]:checked').each(function() {
-                    var value = $(this).data('id');
-                    checkedValues.push(value);
-                });
-
-                if (checkedValues.length === 0) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Silahkan centang list diatas terlebih dahulu!',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-
-                    approveButton.prop('disabled', false);
-                    return;
-                }
-
-                var parameterString = $.param({
-                    'values[]': checkedValues
-                }, true);
-                var url = "/approve";
-
-                Swal.fire({
-                    title: 'ACCEPT',
-                    text: "Apakah Anda yakin ingin meng-accept data ini?",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#198754',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, Accept!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: url,
-                            method: 'POST',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                id: checkedValues
-                            },
-                            success: function(result) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Data berhasil di-accept!',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                }).then(function() {
-                                    window.location.href = "/transaction/DP";
-                                });
-                            },
-                            error: function(xhr) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: 'Terjadi kesalahan saat meng-accept data.'
-                                });
-                            },
-                            complete: function() {
-                                approveButton.prop('disabled', false);
-                            }
-                        });
-                    } else {
-                        approveButton.prop('disabled', false);
-                    }
-                });
-            });
-
-            $(document).on('click', '#reject', function(event) {
-                event.preventDefault();
-
-                var approveButton = $(this);
-                approveButton.prop('disabled', true);
-
-                var checkedValues = [];
-                $('input[id^="myCheckbox-"]:checked').each(function() {
-                    var value = $(this).data('id');
-                    checkedValues.push(value);
-                });
-
-                if (checkedValues.length === 0) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Silahkan centang list diatas terlebih dahulu!',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-
-                    approveButton.prop('disabled', false);
-                    return;
-                }
-
-                var parameterString = $.param({
-                    'values[]': checkedValues
-                }, true);
-                var url =
-                    "/reject";
-
-                Swal.fire({
-                    title: 'REJECT',
-                    text: "Apakah Anda yakin ingin me-reject data ini?",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, Reject!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: url,
-                            method: 'POST',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                id: checkedValues
-                            },
-                            success: function(result) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Data berhasil di-reject!',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                }).then(function() {
-                                    window.location.href = "/transaction/DP";
-                                });
-                            },
-                            error: function(xhr) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: 'Terjadi kesalahan saat meng-accept data.'
-                                });
-                            },
-                            complete: function() {
-                                approveButton.prop('disabled', false);
-                            }
-                        });
-                    } else {
-                        approveButton.prop('disabled', false);
-                    }
-                });
-            });
         });
 
         //open jendela detail
@@ -468,5 +221,84 @@
                     windowLeft + ", top=" + windowTop);
             });
         });
+
+        $(document).ready(function() {
+            $('.groupbankproses input[type="checkbox"]').change(function() {
+                var checkedCheckboxes = $('.groupbankproses input[type="checkbox"]:checked');
+                var checkedBankNames = checkedCheckboxes.map(function() {
+                    return this.id.replace('Checkbox', '');
+                }).get();
+
+                if (checkedBankNames.length === 0) {
+                    $('tr').show();
+                    return;
+                }
+
+                $('tr').each(function() {
+                    var dataBank = $(this).data('bank');
+                    if (!$(this).hasClass('hdtable') && dataBank !== undefined && !checkedBankNames
+                        .includes(dataBank)) {
+                        $(this).hide();
+                    } else {
+                        $(this).show();
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function() {
+            $('#approve').click(function(e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'ACCEPT',
+                    text: "Apakah Anda yakin ingin meng-accept data ini?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#198754',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Accept!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#form-depositds').attr('action', '/approve/DP');
+                        $('#form-depositds').submit();
+                    }
+                });
+            });
+
+            $(document).on('click', '#reject', function(e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'REJECT',
+                    text: "Apakah Anda yakin ingin me-reject data ini?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Reject!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#form-depositds').attr('action', '/reject/DP');
+                        $('#form-depositds').submit();
+                    }
+                });
+            });
+
+        })
     </script>
+
+    @if (session('success'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '{{ session('success') }}',
+                });
+            });
+        </script>
+    @endif
 @endsection

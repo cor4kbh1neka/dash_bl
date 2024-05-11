@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use App\Models\TransactionStatus;
 
-class DepoWd extends Model
+class HistoryTransaksi extends Model
 {
     use HasFactory;
 
     public $incrementing = false;
 
-    protected $fillable = ['username', 'referral', 'groupbank', 'amount', 'keterangan', 'jenis', 'bank', 'mbank', 'mnamarek', 'mnorek', 'txnid', 'balance', 'status', 'approved_by'];
+    protected $fillable = ['username', 'invoice', 'keterangan', 'status', 'debit', 'kredit', 'balance'];
 
     protected $primaryKey = 'id';
 
@@ -32,10 +31,5 @@ class DepoWd extends Model
         });
     }
 
-    protected $table = 'depo_wd';
-
-    public function member()
-    {
-        return $this->belongsTo(Member::class, 'username', 'username');
-    }
+    protected $table = 'transactions';
 }
