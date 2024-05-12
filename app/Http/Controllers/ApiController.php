@@ -365,6 +365,29 @@ class ApiController extends Controller
                     "IsFullAmount" => false
                 ];
                 $resultsApi = $this->requestApi('withdraw', $dataAPI);
+
+                $maxAttempts9720 = 10;
+                $attempt9720 = 0;
+                while ($resultsApi["error"]["id"] === 9720 && $attempt9720 < $maxAttempts9720) {
+                    sleep(6);
+                    $resultsApi = $this->requestApi('withdraw', $dataAPI);
+                    $attempt9720++;
+                }
+
+                $maxAttempts4404 = 10;
+                $attempt4404 = 0;
+                while ($resultsApi["error"]["id"] === 4404 && $attempt4404 < $maxAttempts4404) {
+                    $txnid = $this->generateTxnid('W');
+                    $data["txnId"] = $txnid;
+                    $resultsApi = $this->requestApi('withdraw', $dataAPI);
+                    if ($resultsApi["error"]["id"] === 0) {
+                        DepoWd::where('id', $dataWD->id)->update([
+                            "txnid" => $txnid
+                        ]);
+                    }
+                    $attempt4404++;
+                }
+
                 if ($resultsApi["error"]["id"] !== 0) {
                     DepoWd::destroy($dataWD->id);
 

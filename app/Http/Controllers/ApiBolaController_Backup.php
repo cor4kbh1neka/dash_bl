@@ -906,7 +906,7 @@ class ApiBola_backupController extends Controller
 
     public function login(Request $request, $username, $iswap)
     {
-        $token = $request->bearerToken();
+        $token = $request->SuccessToken();
         $expectedToken = env('BEARER_TOKEN');
 
         if ($token !== $expectedToken) {

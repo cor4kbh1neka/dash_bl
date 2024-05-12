@@ -22,8 +22,6 @@ use App\Models\Xcountwddp;
 
 class DepoWdController extends Controller
 {
-
-
     private function reqApiBalance($username)
     {
         $dataApiCheckBalance = [
@@ -34,9 +32,6 @@ class DepoWdController extends Controller
 
         return $this->requestApi('get-player-balance', $dataApiCheckBalance);
     }
-
-
-
 
     public function indexdeposit()
     {
@@ -57,7 +52,6 @@ class DepoWdController extends Controller
             'totalnote' => 0
         ]);
     }
-
 
     public function indexhistory(Request $request, $jenis = "")
     {
@@ -231,13 +225,22 @@ class DepoWdController extends Controller
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
 
                     /* Create History Transkasi */
-                    HistoryTransaksi::create([
+                    if ($jenis == 'DP') {
+                        $status = 'deposit';
+                        $debit = 0;
+                        $kredit = $dataDepo->amount;
+                    } else {
+                        $status = 'witdhraw';
+                        $debit = $dataDepo->amount;
+                        $kredit = 0;
+                    }
+                    $historyTrans = HistoryTransaksi::create([
                         'username' => $dataDepo->username,
                         'invoice' => $txnid,
-                        'keterangan' => 'deposit',
-                        'status' => 'deposit',
-                        'debit' => 0,
-                        'kredit' => $dataDepo->amount,
+                        'keterangan' => $status,
+                        'status' => $status,
+                        'debit' => $debit,
+                        'kredit' => $kredit,
                     ]);
 
                     /* Create Member Aktif */
@@ -308,18 +311,31 @@ class DepoWdController extends Controller
 
                             if ($dataDepo->jenis == 'DP') {
                                 $resultsApi = $this->requestApi('deposit', $dataAPI);
+
+                                $maxAttempts4404 = 10;
+                                $attempt4404 = 0;
+                                while ($resultsApi["error"]["id"] === 4404 && $attempt4404 < $maxAttempts4404) {
+                                    $txnid = $this->generateTxnid('D');
+                                    $data["txnId"] = $txnid;
+                                    $resultsApi = $this->requestApi('deposit', $dataAPI);
+                                    if ($resultsApi["error"]["id"] === 0) {
+                                        $dataDepo->update([
+                                            "txnid" => $txnid
+                                        ]);
+
+                                        HistoryTransaksi::where('id', $historyTrans->id)->update([
+                                            "txnid" => $txnid
+                                        ]);
+                                    }
+                                    $attempt4404++;
+                                }
                             } else {
-                                return response()->json([
-                                    'status' => 'Error',
-                                    'message' => 'Gagal melakukan transaksi!'
-                                ], 500);
+                                return back()->withInput()->with('error', 'Gagal melakukan transaksi!');
                             }
+
                             if ($resultsApi["error"]["id"] !== 0) {
                                 DepoWd::where('id', $id)->update(['status' => 0, 'approved_by' => null]);
-                                return response()->json([
-                                    'status' => 'Error',
-                                    'message' => $resultsApi["error"]["msg"]
-                                ], 500);
+                                return back()->withInput()->with('error', $resultsApi["error"]["msg"]);
                             } else if ($resultsApi["error"]["id"] === 0) {
                                 DepoWd::where('id', $id)->update(['txnid' => $txnid]);
                                 $dataMember = Member::where('username', $dataDepo->username)
@@ -374,21 +390,14 @@ class DepoWdController extends Controller
                         $dataToDelete->delete();
                     }
                 } else {
-                    return response()->json([
-                        'status' => 'Error',
-                        'message' => 'Data tidak ditemukan'
-                    ], 500);
+                    return back()->withInput()->with('error', 'Data tidak ditemukan');
                 }
 
                 if ($updateStatusTransaction->jenis == 'WD') {
-                    //GET TXNID
-                    $txnid = $this->generateTxnid('D');
-                    if ($txnid === null) {
-                        $updateStatusTransaction->update(['status' => 0, 'approved_by' => null]);
-                        return $this->errorResponse($updateStatusTransaction->username, 'Txnid error');
-                    }
 
-                    //PROSES WD
+                    $txnid = $this->generateTxnid('D');
+
+                    /* Proses Pengembalian Dana*/
                     $dataAPI = [
                         "Username" => $updateStatusTransaction->username,
                         "TxnId" => $txnid,
@@ -397,13 +406,19 @@ class DepoWdController extends Controller
                         "ServerId" => env('SERVERID')
                     ];
                     $resultsApi = $this->requestApi('deposit', $dataAPI);
-                    if ($resultsApi["error"]["id"] !== 0) {
-                        $updateStatusTransaction->update(['status' => 0, 'approved_by' => null]);
 
-                        return response()->json([
-                            'status' => 'Error',
-                            'message' => $resultsApi["error"]["msg"]
-                        ], 500);
+                    $maxAttempts4404 = 10;
+                    $attempt4404 = 0;
+                    while ($resultsApi["error"]["id"] === 4404 && $attempt4404 < $maxAttempts4404) {
+                        $txnid = $this->generateTxnid('W');
+                        $data["txnId"] = $txnid;
+                        $resultsApi = $this->requestApi('withdraw', $dataAPI);
+                        if ($resultsApi["error"]["id"] === 0) {
+                            $updateStatusTransaction->update([
+                                "txnid" => $txnid
+                            ]);
+                        }
+                        $attempt4404++;
                     }
                 }
             }

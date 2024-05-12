@@ -301,4 +301,16 @@
             });
         </script>
     @endif
+
+    @if (session('error'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}',
+                });
+            });
+        </script>
+    @endif
 @endsection
