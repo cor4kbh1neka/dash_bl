@@ -12,6 +12,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('username');
             $table->string('invoice');
+            $table->string('refno')->nullable();
             $table->string('keterangan');
             $table->string('status');
             $table->decimal('debit', 15, 2)->default(0);

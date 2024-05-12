@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('transfercode', 50)->required();
             $table->string('username', 50)->required();
             $table->decimal('amount', 8, 2)->default(0);
+            $table->integer('jenis')->default(0);
             $table->timestamps();
         });
     }

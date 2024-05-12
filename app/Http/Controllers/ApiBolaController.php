@@ -407,12 +407,13 @@ class ApiBolaController extends Controller
 
                     $txnid = $this->generateTxnid('W', '10');
                     if ($dataTransactions->amount > 0) {
-                        $createSaldo1 = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, $jenis, $dataTransactions->amount, 1);
+                        $createSaldo1 = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, 'W', $dataTransactions->amount, 1);
                         if ($createSaldo1) {
                             /* Create History Transkasi */
-                            $createHistoryW = HistoryTransaksi::create([
+                            $createHistory = HistoryTransaksi::create([
                                 'username' => $request->Username,
                                 'invoice' =>  $txnid,
+                                'refno' => $request->TransferCode,
                                 'keterangan' => $request->ExtraInfo["sportType"],
                                 'status' => 'cancel',
                                 'debit' => $dataTransactions->amount,
@@ -428,7 +429,7 @@ class ApiBolaController extends Controller
                                 "CompanyKey" => env('COMPANY_KEY'),
                                 "ServerId" => env('SERVERID')
                             ];
-                            $responseWD =  $this->withdraw($data, $createSaldo1->id,);
+                            $responseWD =  $this->withdraw($data, $createSaldo1->id, $createHistory->id);
 
                             /* Handle error Insufficient Balance */
                             if ($responseWD["error"]["id"] === 4501) {
@@ -447,6 +448,47 @@ class ApiBolaController extends Controller
                                 }
                             }
                         }
+                    } else {
+                        $dataReferral = HistoryTransaksi::where('refno', $request->TransferCode)->where('status', 'referral')->get();
+
+                        foreach ($dataReferral as $d) {
+                            /* Create History Transkasi */
+                            $createHistory = HistoryTransaksi::create([
+                                'username' => $request->Username,
+                                'invoice' =>  $txnid,
+                                'refno' => $request->TransferCode,
+                                'keterangan' => 'Bonus',
+                                'status' => 'cancel',
+                                'debit' => $d->kredit,
+                                'kredit' => 0
+                            ]);
+
+                            /* Potong Saldo */
+                            $data = [
+                                "Username" => $request->Username,
+                                "txnId" => $txnid,
+                                "IsFullAmount" => false,
+                                "Amount" => $d->kredit,
+                                "CompanyKey" => env('COMPANY_KEY'),
+                                "ServerId" => env('SERVERID')
+                            ];
+                            $responseWD =  $this->withdraw($data, '', $createHistory->id);
+
+                            if ($responseWD["error"]["id"] === 4501) {
+                                TransactionsSaldoMin::create([
+                                    'transaldo_id' => '-',
+                                    'transactionid' => $request->TransactionId,
+                                    'transfercode' => $request->TransferCode,
+                                    'username' => $request->Username,
+                                    'amount' => $d->kredit,
+                                    'jenis' => 1
+                                ]);
+                            }
+
+                            // if ($responseWD["error"]["id"] === 0) {
+
+                            // }
+                        }
                     }
 
                     if ($last2ndStatus->status != 'Running' || $last2ndStatus->status != 'Rollback') {
@@ -463,6 +505,17 @@ class ApiBolaController extends Controller
                         $txnid = $this->generateTxnid($jenis, $rangeNumber);
                         $createSaldo2 = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, $jenis, $totalAmount, 3);
                         if ($createSaldo2) {
+                            /* Create History Transkasi */
+                            $createHistory = HistoryTransaksi::create([
+                                'username' => $request->Username,
+                                'invoice' =>  $txnid,
+                                'refno' => $request->TransferCode,
+                                'keterangan' => $request->ExtraInfo["sportType"],
+                                'status' => 'cancel',
+                                'debit' => 0,
+                                'kredit' => $totalAmount
+                            ]);
+
                             /* Add Saldo */
                             $data = [
                                 "Username" => $request->Username,
@@ -471,8 +524,10 @@ class ApiBolaController extends Controller
                                 "CompanyKey" => env('COMPANY_KEY'),
                                 "ServerId" => env('SERVERID')
                             ];
-                            $this->deposit($data, $createSaldo2);
+                            $this->deposit($data, $createSaldo2->id, $createHistory->id);
                         }
+
+                        //Sampe SINI
 
                         if ($request->ProductType == 9) {
                             $checkReturnStakeStatus = TransactionStatus::where('trans_id', $dataTransaction->id)
@@ -738,6 +793,7 @@ class ApiBolaController extends Controller
                         $createHistory = HistoryTransaksi::create([
                             'username' => $request->Username,
                             'invoice' =>  $txnid,
+                            'refno' => $request->TransferCode,
                             'keterangan' => $request->ExtraInfo["sportType"],
                             'status' => 'menang',
                             'debit' => 0,
@@ -974,6 +1030,7 @@ class ApiBolaController extends Controller
                 $createHistory = HistoryTransaksi::create([
                     'username' => $request->Username,
                     'invoice' =>  $txnid,
+                    'refno' => $request->TransferCode,
                     'keterangan' => $request->ExtraInfo["sportType"],
                     'status' => 'pemasangan',
                     'debit' => $request->Amount,
@@ -1033,9 +1090,12 @@ class ApiBolaController extends Controller
             $data["txnId"] = $txnid;
             $WdSaldo = $this->requestApi('withdraw', $data);
             if ($WdSaldo["error"]["id"] === 0) {
-                TransactionSaldo::where('id', $idsaldo)->update([
-                    "txnid" => $txnid
-                ]);
+                if ($idsaldo != '') {
+                    TransactionSaldo::where('id', $idsaldo)->update([
+                        "txnid" => $txnid
+                    ]);
+                }
+
 
                 HistoryTransaksi::where('id', $idHistory)->update([
                     "txnid" => $txnid

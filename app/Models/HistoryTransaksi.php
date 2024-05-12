@@ -12,7 +12,7 @@ class HistoryTransaksi extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['username', 'invoice', 'keterangan', 'status', 'debit', 'kredit'];
+    protected $fillable = ['username', 'invoice', 'refno', 'keterangan', 'status', 'debit', 'kredit'];
 
     protected $primaryKey = 'id';
 

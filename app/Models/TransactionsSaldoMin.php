@@ -12,7 +12,7 @@ class TransactionsSaldoMin extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['transaldo_id', 'transactionid', 'transfercode', 'username', 'amount'];
+    protected $fillable = ['transaldo_id', 'transactionid', 'transfercode', 'username', 'amount', 'jenis'];
 
     protected $primaryKey = 'id';
 
