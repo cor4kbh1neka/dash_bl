@@ -230,7 +230,6 @@ class DepoWdController extends Controller
                 if ($dataDepo) {
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
 
-                    //'username', 'invoice', 'keterangan', 'status', 'debit', 'kredit', 'balance'
                     /* Create History Transkasi */
                     HistoryTransaksi::create([
                         'username' => $dataDepo->username,
