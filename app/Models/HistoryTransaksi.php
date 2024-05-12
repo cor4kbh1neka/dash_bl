@@ -12,7 +12,7 @@ class HistoryTransaksi extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['username', 'invoice', 'keterangan', 'status', 'debit', 'kredit', 'balance'];
+    protected $fillable = ['username', 'invoice', 'keterangan', 'status', 'debit', 'kredit'];
 
     protected $primaryKey = 'id';
 
@@ -31,5 +31,5 @@ class HistoryTransaksi extends Model
         });
     }
 
-    protected $table = 'transactions';
+    protected $table = 'history_transaksi';
 }

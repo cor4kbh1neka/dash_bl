@@ -50,7 +50,7 @@ Route::get('/getTransactionSaldo', [ApiController::class, 'getTransactionSaldo']
 Route::delete('/deleteTransactions', [ApiController::class, 'deleteTransactions']);
 
 Route::get('/getDataOutstanding', [ApiController::class, 'getDataOutstanding']);
-Route::get('/comparedata', [ApiController::class, 'compareData']);
+// Route::get('/comparedata', [ApiController::class, 'compareData']);
 
 Route::get('/getHistoryGame/{username}/{portfolio}/{startDate}/{endDate}', [ApiController::class, 'getHistoryGame']);
 Route::get('/getHistoryGameById/{refNos}/{portfolio}', [ApiController::class, 'getHistoryGameById']);

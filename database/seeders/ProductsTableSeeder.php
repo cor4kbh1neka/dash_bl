@@ -13,7 +13,7 @@ class ProductsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('product_type')->insert([
+        DB::table('products')->insert([
             'id' => 1,
             'productsname' => 'Sports Book',
             'portfolio' => 'SportsBook',
@@ -21,7 +21,7 @@ class ProductsTableSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
 
-        DB::table('product_type')->insert([
+        DB::table('products')->insert([
             'id' => 3,
             'productsname' => 'SBO Games',
             'portfolio' => 'Games',
@@ -29,7 +29,7 @@ class ProductsTableSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
 
-        DB::table('product_type')->insert([
+        DB::table('products')->insert([
             'id' => 5,
             'productsname' => 'Virtual Sports',
             'portfolio' => 'VirtualSports',
@@ -37,7 +37,7 @@ class ProductsTableSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
 
-        DB::table('product_type')->insert([
+        DB::table('products')->insert([
             'id' => 7,
             'productsname' => 'SBO Live Casino',
             'portfolio' => 'Casino',
@@ -45,7 +45,7 @@ class ProductsTableSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
 
-        DB::table('product_type')->insert([
+        DB::table('products')->insert([
             'id' => 9,
             'productsname' => 'Seamless Game Provider',
             'portfolio' => 'SeamlessGame',
