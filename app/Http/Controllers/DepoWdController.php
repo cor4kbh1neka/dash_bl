@@ -226,7 +226,6 @@ class DepoWdController extends Controller
 
             foreach ($ids as $id) {
                 $dataDepo = DepoWd::where('id', $id)->where('status', 0)->first();
-
                 $txnid = $this->generateTxnid('D');
                 if ($dataDepo) {
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
@@ -235,12 +234,11 @@ class DepoWdController extends Controller
                     /* Create History Transkasi */
                     HistoryTransaksi::create([
                         'username' => $dataDepo->username,
-                        'invoice' => $dataDepo->referral,
-                        'keterangan' => $dataDepo->referral,
-                        'status' => $dataDepo->referral,
-                        'debit' => $dataDepo->referral,
-                        'kredit' => $dataDepo->referral,
-                        'balance' => $dataDepo->referral,
+                        'invoice' => $txnid,
+                        'keterangan' => 'deposit',
+                        'status' => 'deposit',
+                        'debit' => 0,
+                        'kredit' => $dataDepo->amount,
                     ]);
 
                     /* Create Member Aktif */

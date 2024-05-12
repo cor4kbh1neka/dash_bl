@@ -704,7 +704,7 @@ class ApiBolaController extends Controller
 
                     $checkXtrans = Xtrans::where('username', $request->Username)->whereDate('created_at', '=', date('Y-m-d'))->first();
 
-                    if ($WinLoss >= 0) {
+                    if ($WinLoss > 0) {
                         if ($checkXtrans) {
                             $checkXtrans->update([
                                 'sum_winloss' => $checkXtrans->sum_winloss + $WinLoss
