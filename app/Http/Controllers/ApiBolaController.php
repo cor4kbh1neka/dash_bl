@@ -15,6 +15,7 @@ use App\Models\Outstanding;
 use App\Models\Referral;
 use App\Models\Xreferral;
 use App\Models\Persentase;
+use App\Models\HistoryTransaksi;
 
 use App\Models\Xtrans;
 
@@ -908,6 +909,17 @@ class ApiBolaController extends Controller
             }
 
             if ($transactionTransaction) {
+                /* Create History Transkasi */
+                $createHistory = HistoryTransaksi::create([
+                    'username' => $request->Username,
+                    'invoice' =>  $txnid,
+                    'refno' => $request->TransferCode,
+                    'keterangan' => $request->ExtraInfo["sportType"],
+                    'status' => 'pemasangan',
+                    'debit' => $request->Amount,
+                    'kredit' => 0
+                ]);
+
                 /* Potong Saldo */
                 $data = [
                     "Username" => $request->Username,
