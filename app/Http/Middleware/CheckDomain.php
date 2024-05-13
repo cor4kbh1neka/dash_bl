@@ -15,8 +15,8 @@ class CheckDomain
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Periksa domain request
-        if ($request->getHost() !== 'back-staging.bosraka.com') {
+        $allowedDomain = 'back-staging.bosraka.com';
+        if ($request->getHost() !== $allowedDomain) {
             abort(403, 'Unauthorized action.');
         }
 
