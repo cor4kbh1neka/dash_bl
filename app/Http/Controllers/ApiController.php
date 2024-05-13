@@ -532,7 +532,7 @@ class ApiController extends Controller
         // }
 
         $username = $request->input('username');
-        return $request;
+        return $username;
 
         $data = $this->reqApiBalance($username);
 
