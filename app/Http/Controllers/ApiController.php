@@ -526,14 +526,14 @@ class ApiController extends Controller
 
     public function getBalance(Request $request)
     {
-        $validasiBearer = $this->validasiBearer($request);
-        if ($validasiBearer !== true) {
-            return $validasiBearer;
-        }
+        // $validasiBearer = $this->validasiBearer($request);
+        // if ($validasiBearer !== true) {
+        //     return $validasiBearer;
+        // }
 
         $username = $request->input('username');
         return response()->json([
-            'username' => $username
+            'request' => $request
         ]);
         $data = $this->reqApiBalance($username);
 
