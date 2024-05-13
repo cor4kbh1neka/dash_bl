@@ -32,7 +32,7 @@ Route::post('/ReturnStake', [ApiBolaController::class, 'ReturnStake']);
 
 
 
-Route::get('/login/{username}/{iswap}/{device}', [ApiController::class, 'login']);
+Route::post('/login/{username}/{iswap}/{device}', [ApiController::class, 'login']);
 Route::get('/historylog/{username}/{ipadress}', [ApiController::class, 'historyLog']);
 Route::post('/register/{ipadress}', [ApiController::class, 'register']);
 Route::get('/get-recommend-matches', [ApiController::class, 'getRecomMatch']);
