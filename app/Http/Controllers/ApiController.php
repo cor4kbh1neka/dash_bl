@@ -531,9 +531,7 @@ class ApiController extends Controller
             return $validasiBearer;
         }
 
-        $username = $request->username;
-        $username = strval($username);
-
+        $username = $request->query('username');
         $data = $this->reqApiBalance($username);
 
         if ($data["error"]["id"] === 0) {
