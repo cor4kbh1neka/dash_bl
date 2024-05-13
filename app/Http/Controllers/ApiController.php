@@ -657,6 +657,7 @@ class ApiController extends Controller
 
     private function validasiBearer(Request $request)
     {
+        dd($request);
         $token = $request->header('utilities_generate');
         $expectedToken = env('UTILITIES_GENERATE');
         return 'token header: ' . $token . ' || token env: ' . $expectedToken;
