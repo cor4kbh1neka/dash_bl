@@ -532,9 +532,7 @@ class ApiController extends Controller
         }
 
         $username = $request->username;
-        if (!is_string($username)) {
-            $username = strval($username);
-        }
+        $username = strval($username);
 
         $data = $this->reqApiBalance($username);
 
