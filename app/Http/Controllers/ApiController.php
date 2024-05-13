@@ -532,7 +532,7 @@ class ApiController extends Controller
         }
 
         $username = $request->username;
-
+        return $username;
         $data = $this->reqApiBalance($username);
 
         if ($data["error"]["id"] === 0) {
