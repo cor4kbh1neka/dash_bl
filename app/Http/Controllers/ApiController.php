@@ -532,9 +532,8 @@ class ApiController extends Controller
         // }
 
         $username = $request->input('username');
-        return response()->json([
-            'request' => $request
-        ]);
+        return $request;
+
         $data = $this->reqApiBalance($username);
 
         if ($data["error"]["id"] === 0) {
@@ -715,6 +714,7 @@ class ApiController extends Controller
 
     private function reqApiBalance($username)
     {
+        dd($username);
         $dataApiCheckBalance = [
             "Username" => $username,
             "CompanyKey" => env('COMPANY_KEY'),

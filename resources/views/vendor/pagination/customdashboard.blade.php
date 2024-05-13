@@ -44,7 +44,7 @@
                             <span class="numberpage"><a href="{{ $url }}">{{ $page }}</a></span>
                         @endif
                     @endforeach
-                @endifline
+                @endif
             @endforeach
 
             @if ($paginator->hasMorePages())
@@ -76,9 +76,17 @@
                 </div>
             @endif
 
-            {{-- total Page --}}
-            <div style="margin-left: auto;">Crot Crot {{ count($paginator->items()) }} dari total
-                {{ $paginator->total() }}</div>
+        </div>
+        <div style="margin-left: auto;">
+            @php
+                $x = $paginator->currentPage();
+                $y = $paginator->perPage();
+                $z = $paginator->total();
+
+                $awal = min(($x - 1) * $y + 1, $z);
+                $akhir = min($x * $y, $z);
+                echo "Show data $awal to $akhir from $z results.";
+            @endphp
         </div>
 
     </div>
