@@ -16,7 +16,7 @@ class CheckDomain
     public function handle(Request $request, Closure $next): Response
     {
         $allowedDomain = 'back-staging.bosraka.com';
-        dd($request->getHost());
+        dd($request);
         if ($request->getHost() !== $allowedDomain) {
             abort(403, 'Unauthorized action.');
         }
