@@ -23,16 +23,16 @@ class ApiController extends Controller
 {
     public function login(Request $request, $username, $iswap, $device)
     {
-        $token = $request->bearerToken();
-        $expectedToken = env('BEARER_TOKEN');
+        $validasiBearer = $this->validasiBearer($request);
+        if ($validasiBearer !== true) {
+            return $validasiBearer;
+        }
 
         if ($device != 'd') {
             $device = 'm';
         }
 
-        if ($token !== $expectedToken) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
-        }
+
 
         try {
             $dataLogin['Username'] = $username;
@@ -76,11 +76,9 @@ class ApiController extends Controller
 
     public function historyLog(Request $request, $username, $ipaddress)
     {
-        $token = $request->bearerToken();
-        $expectedToken = env('BEARER_TOKEN');
-
-        if ($token !== $expectedToken) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
+        $validasiBearer = $this->validasiBearer($request);
+        if ($validasiBearer !== true) {
+            return $validasiBearer;
         }
 
         try {
@@ -99,11 +97,9 @@ class ApiController extends Controller
 
     public function register(Request $request, $ipaddress)
     {
-        $token = $request->bearerToken();
-        $expectedToken = env('BEARER_TOKEN');
-
-        if ($token !== $expectedToken) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
+        $validasiBearer = $this->validasiBearer($request);
+        if ($validasiBearer !== true) {
+            return $validasiBearer;
         }
 
         $data = [
@@ -433,11 +429,6 @@ class ApiController extends Controller
 
         $data = DepoWd::where('username', $username)
             ->select('id', 'username', 'balance', 'amount', 'jenis', 'status', 'updated_at')
-            // ->when($jenis, function ($query) use ($jenis) {
-            //     return $query->where('jenis', $jenis);
-            // })
-            // ->whereDate('created_at', '>=', '2024-01-01')
-            // ->whereDate('created_at', '<=', '2024-01-31')
             ->orderBy('created_at', 'desc')
             ->limit(50)
             ->get();
@@ -609,12 +600,10 @@ class ApiController extends Controller
 
     public function getHistoryGame(Request $request, $username, $portfolio, $startDate, $endDate)
     {
-        $token = $request->bearerToken();
-        $expectedToken = env('BEARER_TOKEN');
-        if ($token !== $expectedToken) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
+        $validasiBearer = $this->validasiBearer($request);
+        if ($validasiBearer !== true) {
+            return $validasiBearer;
         }
-
         $data = [
             'username' => $username,
             'portfolio' => $portfolio,
@@ -647,10 +636,9 @@ class ApiController extends Controller
 
     public function getHistoryGameById(Request $request, $refNos, $portfolio)
     {
-        $token = $request->bearerToken();
-        $expectedToken = env('BEARER_TOKEN');
-        if ($token !== $expectedToken) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
+        $validasiBearer = $this->validasiBearer($request);
+        if ($validasiBearer !== true) {
+            return $validasiBearer;
         }
 
         $data = [
