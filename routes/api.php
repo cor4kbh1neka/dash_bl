@@ -44,6 +44,7 @@ Route::get('/checkLastTransaction/{jenis}/{username}', [ApiController::class, 'g
 Route::get('/checkBalance/{username}', [ApiController::class, 'getBalance']);
 Route::get('/getHistoryGame/{username}/{portfolio}/{startDate}/{endDate}', [ApiController::class, 'getHistoryGame']);
 Route::get('/getHistoryGameById/{refNos}/{portfolio}', [ApiController::class, 'getHistoryGameById']);
+Route::get('/getDataOutstanding', [ApiController::class, 'getDataOutstanding']);
 
 
 Route::get('/gettransactions', [ApiController::class, 'getTransactions']);
@@ -52,8 +53,5 @@ Route::get('/getTransactionStatus', [ApiController::class, 'getTransactionStatus
 Route::get('/getTransactionSaldo', [ApiController::class, 'getTransactionSaldo']);
 Route::delete('/deleteTransactions', [ApiController::class, 'deleteTransactions']);
 
-Route::get('/getDataOutstanding', [ApiController::class, 'getDataOutstanding']);
-// Route::get('/comparedata', [ApiController::class, 'compareData']);
 
-Route::get('/getHistoryGame/{username}/{portfolio}/{startDate}/{endDate}', [ApiController::class, 'getHistoryGame']);
-Route::get('/getHistoryGameById/{refNos}/{portfolio}', [ApiController::class, 'getHistoryGameById']);
+// Route::get('/comparedata', [ApiController::class, 'compareData']);

@@ -224,6 +224,13 @@ class ApiController extends Controller
         //     return $validasiBearer;
         // }
 
+        $token = $request->header('utilities_generate');
+        $expectedToken = env('UTILITIES_GENERATE');
+
+        if ($token !== $expectedToken) {
+            return response()->json(['message' => 'Unauthorized.'], 401);
+        }
+
         try {
             // $validator = Validator::make($request->all(), [
             //     'username' => 'required|max:50',
@@ -295,6 +302,12 @@ class ApiController extends Controller
         //     return $validasiBearer;
         // }
 
+        $token = $request->header('utilities_generate');
+        $expectedToken = env('UTILITIES_GENERATE');
+
+        if ($token !== $expectedToken) {
+            return response()->json(['message' => 'Unauthorized.'], 401);
+        }
         try {
             // $validator = Validator::make($request->all(), [
             //     'username' => 'required|max:50',
