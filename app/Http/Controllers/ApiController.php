@@ -635,12 +635,18 @@ class ApiController extends Controller
     }
 
 
-    public function getHistoryGame(Request $request, $username, $portfolio, $startDate, $endDate)
+    public function getHistoryGame(Request $request)
     {
         $validasiBearer = $this->validasiBearer($request);
         if ($validasiBearer !== true) {
             return $validasiBearer;
         }
+
+        $username = $request->username;
+        $portfolio = $request->portfolio;
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
+
         $data = [
             'username' => $username,
             'portfolio' => $portfolio,
