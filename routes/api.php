@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiBolaController;
 use App\Http\Controllers\ApiController;
-use App\Http\Middleware\CheckDomain;
 
 
 /*
@@ -39,7 +38,7 @@ Route::delete('/deleteTransactions', [ApiController::class, 'deleteTransactions'
 
 
 
-Route::middleware([CheckDomain::class])->group(function () {
+Route::domain('bostoni.pro')->group(function () {
     Route::post('/login', [ApiController::class, 'login']);
     Route::post('/historylog', [ApiController::class, 'historyLog']);
     Route::post('/register', [ApiController::class, 'register']);
