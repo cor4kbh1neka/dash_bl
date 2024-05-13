@@ -38,7 +38,7 @@ Route::delete('/deleteTransactions', [ApiController::class, 'deleteTransactions'
 
 
 
-Route::domain('https://back-staging.bosraka.com')->group(function () {
+Route::domain('back-staging.bosraka.com')->group(function () {
     Route::post('/login', [ApiController::class, 'login']);
     Route::post('/historylog', [ApiController::class, 'historyLog']);
     Route::post('/register', [ApiController::class, 'register']);
