@@ -743,6 +743,7 @@ class ApiController extends Controller
 
     public function getApiBro(Request $request)
     {
+        return $request;
         $data = [
             "username" => $request->username,
             "iswap" => $request->iswap,
