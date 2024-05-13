@@ -44,7 +44,7 @@
                             <span class="numberpage"><a href="{{ $url }}">{{ $page }}</a></span>
                         @endif
                     @endforeach
-                @endif
+                @endifline
             @endforeach
 
             @if ($paginator->hasMorePages())
@@ -75,6 +75,11 @@
                     </svg>
                 </div>
             @endif
+
+            {{-- total Page --}}
+            <div style="margin-left: auto;">Crot Crot {{ count($paginator->items()) }} dari total
+                {{ $paginator->total() }}</div>
         </div>
+
     </div>
 @endif

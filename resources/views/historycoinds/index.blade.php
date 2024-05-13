@@ -139,7 +139,7 @@
                         </div>
                     </div> --}}
                     {{-- @dd($data); --}}
-                    {{ $data->links('vendor.pagination.customdashboard') }}
+                    {{ $data->links() }}
                 </div>
             </div>
         </div>
