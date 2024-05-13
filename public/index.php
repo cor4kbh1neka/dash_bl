@@ -31,10 +31,10 @@ if (file_exists($maintenance = __DIR__ . '/../storage/framework/maintenance.php'
 |
 */
 
-header('Access-Control-Allow-Origin: https://back-staging.bosraka.com');
-header('Access-Control-Allow-Headers: Origin, Content-Type, Authorization');
-header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
-header('Access-Control-Allow-Credentials: true');
+// header('Access-Control-Allow-Origin: https://back-staging.bosraka.com');
+// header('Access-Control-Allow-Headers: Origin, Content-Type, Authorization');
+// header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
+// header('Access-Control-Allow-Credentials: true');
 require __DIR__ . '/../vendor/autoload.php';
 
 /*
