@@ -518,10 +518,10 @@ class ApiBolaController extends Controller
                         //         ]);
                         //     }
 
-                            // if ($responseWD["error"]["id"] === 0) {
+                        //     // if ($responseWD["error"]["id"] === 0) {
 
-                            // }
-                        }
+                        //     // }
+                        // }
                     }
 
                     if ($last2ndStatus->status != 'Running' || $last2ndStatus->status != 'Rollback') {
