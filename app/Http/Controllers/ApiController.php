@@ -219,16 +219,9 @@ class ApiController extends Controller
 
     public function deposit(Request $request)
     {
-        // $validasiBearer = $this->validasiBearer($request);
-        // if ($validasiBearer !== true) {
-        //     return $validasiBearer;
-        // }
-
-        $token = $request->header('utilities_generate');
-        $expectedToken = env('UTILITIES_GENERATE');
-
-        if ($token !== $expectedToken) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
+        $validasiBearer = $this->validasiBearer($request);
+        if ($validasiBearer !== true) {
+            return $validasiBearer;
         }
 
         try {
@@ -297,17 +290,11 @@ class ApiController extends Controller
 
     public function withdrawal(Request $request)
     {
-        // $validasiBearer = $this->validasiBearer($request);
-        // if ($validasiBearer !== true) {
-        //     return $validasiBearer;
-        // }
-
-        $token = $request->header('utilities_generate');
-        $expectedToken = env('UTILITIES_GENERATE');
-
-        if ($token !== $expectedToken) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
+        $validasiBearer = $this->validasiBearer($request);
+        if ($validasiBearer !== true) {
+            return $validasiBearer;
         }
+
         try {
             // $validator = Validator::make($request->all(), [
             //     'username' => 'required|max:50',
@@ -681,8 +668,8 @@ class ApiController extends Controller
 
     private function validasiBearer(Request $request)
     {
-        $token = $request->bearerToken();
-        $expectedToken = env('BEARER_TOKEN');
+        $token = $request->header('utilities_generate');
+        $expectedToken = env('UTILITIES_GENERATE');
 
         if ($token !== $expectedToken) {
             return response()->json(['message' => 'Unauthorized.'], 401);
