@@ -21,13 +21,18 @@ use Illuminate\Support\Facades\Http;
 class ApiController extends Controller
 
 {
-    public function login(Request $request, $username, $iswap, $device)
+    public function login(Request $request)
     {
         $validasiBearer = $this->validasiBearer($request);
         return $validasiBearer;
         if ($validasiBearer !== true) {
             return $validasiBearer;
         }
+
+        $username = $request->username;
+        $iswap = $request->iswap;
+        $device = $request->device;
+
 
         if ($device != 'd') {
             $device = 'm';
