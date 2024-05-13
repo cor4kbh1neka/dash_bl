@@ -524,13 +524,14 @@ class ApiController extends Controller
         ]);
     }
 
-    public function getBalance(Request $request, $username)
+    public function getBalance(Request $request)
     {
         $validasiBearer = $this->validasiBearer($request);
         if ($validasiBearer !== true) {
             return $validasiBearer;
         }
 
+        $username = $request->input('username');
         $data = $this->reqApiBalance($username);
 
         if ($data["error"]["id"] === 0) {
