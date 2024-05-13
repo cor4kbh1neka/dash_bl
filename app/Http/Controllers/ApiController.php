@@ -24,7 +24,7 @@ class ApiController extends Controller
     public function login(Request $request)
     {
         $validasiBearer = $this->validasiBearer($request);
-        return $validasiBearer;
+        // return $validasiBearer;
         if ($validasiBearer !== true) {
             return $validasiBearer;
         }
@@ -48,7 +48,7 @@ class ApiController extends Controller
             $dataLogin['ServerId'] = "YY-TEST";
             $getLogin = $this->requestApiLogin($dataLogin);
             if ($getLogin["url"] !== "") {
-                $getLogin["url"] = $getLogin["url"] . '&device=' . $device;
+                $getLogin["url"] = 'https://' . $getLogin["url"] .  '/welcome2.aspx?token=token&lang=en&oddstyle=ID&theme=black&oddsmode=double&device=' . $device;
             }
 
             return $getLogin;
@@ -662,9 +662,9 @@ class ApiController extends Controller
 
     private function validasiBearer(Request $request)
     {
-        $token = $request->header('utilities_generate');
+        $token = $request->header('utilitiesgenerate');
         $expectedToken = env('UTILITIES_GENERATE');
-        return 'token header: ' . $token . ' || token env: ' . $expectedToken;
+        // return 'token header: ' . $token . ' || token env: ' . $expectedToken;
 
         if ($token !== $expectedToken) {
             return response()->json(['message' => 'Unauthorized.'], 401);
