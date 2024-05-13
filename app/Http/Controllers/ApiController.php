@@ -741,13 +741,14 @@ class ApiController extends Controller
         return $responseData;
     }
 
-    public function getApiBro()
+    public function getApiBro(Request $request)
     {
         $data = [
-            "username" => "wantosw",
-            "iswap" => "false",
-            "device" => "d"
+            "username" => $request->username,
+            "iswap" => $request->iswap,
+            "device" => $$request->device
         ];
+
         $apiUrl = 'https://back-staging.bosraka.com/prx/checkBalance';
         $response = Http::withHeaders([
             'utilitiesgenerate' => '2957984855aa91f9b11c2528bc389c97212348b9d211570911b621a285bba1aa417b0a98d78e42a2b764441795d403caf059b035ac0e2c58ba8099ff3bbac354',

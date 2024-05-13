@@ -53,5 +53,5 @@ Route::post('/getHistoryGame', [ApiController::class, 'getHistoryGame']);
 Route::post('/getHistoryGameById', [ApiController::class, 'getHistoryGameById']);
 Route::post('/getDataOutstanding', [ApiController::class, 'getDataOutstanding']);
 
-Route::get('/getApiBro', [ApiController::class, 'getApiBro']);
+Route::post('/getApiBro', [ApiController::class, 'getApiBro']);
 // });
