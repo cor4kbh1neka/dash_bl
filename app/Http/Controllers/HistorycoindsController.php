@@ -46,20 +46,20 @@ class HistorycoindsController extends Controller
                 return $query->whereBetween('created_at', [$tgldari, $tglsampai]);
             })
             ->orderBy('created_at', 'desc')
-            ->paginate(10)
-            ->map(function ($item) {
-                if ($item['jenis'] == 'DPM') {
-                    $item['jenis'] = 'Deposit Manual';
-                } else if ($item['jenis'] == 'WDM') {
-                    $item['jenis'] = 'Withdraw Manual';
-                } else if ($item['jenis'] == 'DP') {
-                    $item['jenis'] = 'Deposit';
-                } else if ($item['jenis'] == 'WD') {
-                    $item['jenis'] = 'Withdraw';
-                }
+            ->paginate(10);
+        // ->map(function ($item) {
+        //     if ($item['jenis'] == 'DPM') {
+        //         $item['jenis'] = 'Deposit Manual';
+        //     } else if ($item['jenis'] == 'WDM') {
+        //         $item['jenis'] = 'Withdraw Manual';
+        //     } else if ($item['jenis'] == 'DP') {
+        //         $item['jenis'] = 'Deposit';
+        //     } else if ($item['jenis'] == 'WD') {
+        //         $item['jenis'] = 'Withdraw';
+        //     }
 
-                return $item;
-            });
+        //     return $item;
+        // });
 
 
         return view('historycoinds.index', [

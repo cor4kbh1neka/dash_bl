@@ -106,7 +106,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="grouppagination">
+                    {{-- <div class="grouppagination">
                         <div class="grouppaginationcc">
                             <div class="trigger left">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
@@ -137,9 +137,9 @@
                             <span class="numberpage">...</span>
                             <span class="numberpage">12</span>
                         </div>
-                    </div>
-
-                    {{-- {{ $data->links() }} --}}
+                    </div> --}}
+                    {{-- @dd($data); --}}
+                    {{ $data->links('vendor.pagination.customdashboard') }}
                 </div>
             </div>
         </div>
@@ -167,44 +167,44 @@
 
         });
 
-        $(document).ready(function() {
-            var currentPage = getCurrentPageNumber();
+        // $(document).ready(function() {
+        //     var currentPage = getCurrentPageNumber();
 
-            $(".numberpage").eq(currentPage - 1).addClass("active");
+        //     $(".numberpage").eq(currentPage - 1).addClass("active");
 
-            $(".trigger.left").click(function() {
-                var currentPage = getCurrentPageNumber();
-                var prevPage = currentPage - 1;
-                if (prevPage >= 1) {
-                    updatePageQuery(prevPage);
-                }
-            });
+        //     $(".trigger.left").click(function() {
+        //         var currentPage = getCurrentPageNumber();
+        //         var prevPage = currentPage - 1;
+        //         if (prevPage >= 1) {
+        //             updatePageQuery(prevPage);
+        //         }
+        //     });
 
-            $(".trigger.right").click(function() {
-                var currentPage = getCurrentPageNumber();
-                var nextPage = currentPage + 1;
-                if (nextPage <= 5) {
-                    updatePageQuery(nextPage);
-                }
-            });
+        //     $(".trigger.right").click(function() {
+        //         var currentPage = getCurrentPageNumber();
+        //         var nextPage = currentPage + 1;
+        //         if (nextPage <= 5) {
+        //             updatePageQuery(nextPage);
+        //         }
+        //     });
 
-            function getCurrentPageNumber() {
-                var urlParams = new URLSearchParams(window.location.search);
-                return parseInt(urlParams.get("page")) || 1;
-            }
+        //     function getCurrentPageNumber() {
+        //         var urlParams = new URLSearchParams(window.location.search);
+        //         return parseInt(urlParams.get("page")) || 1;
+        //     }
 
-            $(".numberpage").click(function() {
-                var pageNumber = $(this).text();
-                updatePageQuery(pageNumber);
-            });
+        //     $(".numberpage").click(function() {
+        //         var pageNumber = $(this).text();
+        //         updatePageQuery(pageNumber);
+        //     });
 
-            function updatePageQuery(pageNumber) {
-                var url = new URL(window.location.href);
-                var searchParams = url.searchParams;
-                searchParams.set("page", pageNumber);
-                window.location.href = url.toString();
-            }
-        });
+        //     function updatePageQuery(pageNumber) {
+        //         var url = new URL(window.location.href);
+        //         var searchParams = url.searchParams;
+        //         searchParams.set("page", pageNumber);
+        //         window.location.href = url.toString();
+        //     }
+        // });
 
         $(document).ready(function() {
             // $("#searchbutton").click(function() {

@@ -33,18 +33,18 @@ Route::post('/ReturnStake', [ApiBolaController::class, 'ReturnStake']);
 
 
 Route::post('/login', [ApiController::class, 'login']);
-Route::get('/historylog/{username}/{ipadress}', [ApiController::class, 'historyLog']);
-Route::post('/register/{ipadress}', [ApiController::class, 'register']);
-Route::get('/get-recommend-matches', [ApiController::class, 'getRecomMatch']);
-Route::get('/cekuserreferral/{username}', [ApiController::class, 'cekuserreferral']);
+Route::post('/historylog', [ApiController::class, 'historyLog']);
+Route::post('/register', [ApiController::class, 'register']);
+Route::post('/get-recommend-matches', [ApiController::class, 'getRecomMatch']);
+Route::post('/cekuserreferral', [ApiController::class, 'cekuserreferral']);
 Route::post('/deposit', [ApiController::class, 'deposit']);
 Route::post('/withdrawal', [ApiController::class, 'withdrawal']);
-Route::get('/getHistoryDw/{username}', [ApiController::class, 'getHistoryDepoWd']);
-Route::get('/checkLastTransaction/{jenis}/{username}', [ApiController::class, 'getLastStatusTransaction']);
-Route::get('/checkBalance/{username}', [ApiController::class, 'getBalance']);
-Route::get('/getHistoryGame/{username}/{portfolio}/{startDate}/{endDate}', [ApiController::class, 'getHistoryGame']);
-Route::get('/getHistoryGameById/{refNos}/{portfolio}', [ApiController::class, 'getHistoryGameById']);
-Route::get('/getDataOutstanding', [ApiController::class, 'getDataOutstanding']);
+Route::post('/getHistoryDw', [ApiController::class, 'getHistoryDepoWd']);
+Route::post('/checkLastTransaction', [ApiController::class, 'getLastStatusTransaction']);
+Route::post('/checkBalance', [ApiController::class, 'getBalance']);
+Route::post('/getHistoryGame', [ApiController::class, 'getHistoryGame']);
+Route::post('/getHistoryGameById/{refNos}/{portfolio}', [ApiController::class, 'getHistoryGameById']);
+Route::post('/getDataOutstanding', [ApiController::class, 'getDataOutstanding']);
 
 
 Route::get('/gettransactions', [ApiController::class, 'getTransactions']);

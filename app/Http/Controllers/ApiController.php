@@ -13,6 +13,7 @@ use App\Models\MemberAktif;
 use App\Models\Xdpwd;
 use App\Models\DepoWd;
 use App\Models\Groupbank;
+use App\Models\Outstanding;
 use Carbon\Carbon;
 
 
@@ -37,8 +38,6 @@ class ApiController extends Controller
         if ($device != 'd') {
             $device = 'm';
         }
-
-
 
         try {
             $dataLogin['Username'] = $username;
@@ -80,12 +79,15 @@ class ApiController extends Controller
         return ['url' => $responseData["url"]];
     }
 
-    public function historyLog(Request $request, $username, $ipaddress)
+    public function historyLog(Request $request)
     {
         $validasiBearer = $this->validasiBearer($request);
         if ($validasiBearer !== true) {
             return $validasiBearer;
         }
+
+        $username = $request->username;
+        $ipaddress = $request->ipaddress;
 
         try {
             $member = Member::where('username', $username)->firstOrFail();
@@ -101,13 +103,13 @@ class ApiController extends Controller
         }
     }
 
-    public function register(Request $request, $ipaddress)
+    public function register(Request $request)
     {
         $validasiBearer = $this->validasiBearer($request);
         if ($validasiBearer !== true) {
             return $validasiBearer;
         }
-
+        $ipaddress = $request->ipadress;
         $data = [
             "Username" => $request->Username,
             "UserGroup" => "c",
@@ -182,6 +184,11 @@ class ApiController extends Controller
         //     return response()->json(['message' => 'Unauthorized.'], 401);
         // }
 
+        $validasiBearer = $this->validasiBearer($request);
+        if ($validasiBearer !== true) {
+            return $validasiBearer;
+        }
+
         $data = [
             "language" => 'en',
             "companyKey" => env('COMPANY_KEY'),
@@ -204,8 +211,15 @@ class ApiController extends Controller
         return $responseData;
     }
 
-    public function cekuserreferral($username)
+    public function cekuserreferral(Request $request)
     {
+        $validasiBearer = $this->validasiBearer($request);
+        if ($validasiBearer !== true) {
+            return $validasiBearer;
+        }
+
+        $username = $request->username;
+
         $dataMemberAktif = MemberAktif::where('referral', $username)->first();
         if ($dataMemberAktif) {
             return response()->json(['message' => 'Referral tersedia'], 200);
@@ -430,9 +444,14 @@ class ApiController extends Controller
         return $randomString;
     }
 
-    public function getHistoryDepoWd($username)
+    public function getHistoryDepoWd(Request $request)
     {
+        $validasiBearer = $this->validasiBearer($request);
+        if ($validasiBearer !== true) {
+            return $validasiBearer;
+        }
 
+        $username = $request->username;
         $data = DepoWd::where('username', $username)
             ->select('id', 'username', 'balance', 'amount', 'jenis', 'status', 'updated_at')
             ->orderBy('created_at', 'desc')
@@ -510,6 +529,8 @@ class ApiController extends Controller
             return $validasiBearer;
         }
 
+        $username = $request->username;
+
         $data = $this->reqApiBalance($username);
 
         if ($data["error"]["id"] === 0) {
@@ -584,21 +605,28 @@ class ApiController extends Controller
         }
     }
 
-    public function getDataOutstanding()
+    public function getDataOutstanding(Request $request)
     {
-        $dataTransactions = Transactions::select('id')->get();
-        $lastStatuses = TransactionStatus::select('trans_id', DB::raw('MAX(urutan) as max_urutan'))
-            ->whereIn('trans_id', $dataTransactions->pluck('id'))
-            ->groupBy('trans_id');
+        $validasiBearer = $this->validasiBearer($request);
+        if ($validasiBearer !== true) {
+            return $validasiBearer;
+        }
 
-        $lastStatuses = TransactionStatus::select('transaction_status.trans_id', 'transaction_status.status', 'transaction_saldo.amount')
-            ->joinSub($lastStatuses, 'last_status', function ($join) {
-                $join->on('transaction_status.trans_id', '=', 'last_status.trans_id')
-                    ->on('transaction_status.urutan', '=', 'last_status.max_urutan');
-            })
-            ->join('transaction_saldo', 'transaction_saldo.transtatus_id', '=', 'transaction_status.id')
-            ->where('transaction_status.status', 'Running')
-            ->get();
+        // $dataTransactions = Transactions::select('id')->get();
+        // $lastStatuses = TransactionStatus::select('trans_id', DB::raw('MAX(urutan) as max_urutan'))
+        //     ->whereIn('trans_id', $dataTransactions->pluck('id'))
+        //     ->groupBy('trans_id');
+
+        // $lastStatuses = TransactionStatus::select('transaction_status.trans_id', 'transaction_status.status', 'transaction_saldo.amount')
+        //     ->joinSub($lastStatuses, 'last_status', function ($join) {
+        //         $join->on('transaction_status.trans_id', '=', 'last_status.trans_id')
+        //             ->on('transaction_status.urutan', '=', 'last_status.max_urutan');
+        //     })
+        //     ->join('transaction_saldo', 'transaction_saldo.transtatus_id', '=', 'transaction_status.id')
+        //     ->where('transaction_status.status', 'Running')
+        //     ->get();
+
+        $lastStatuses = Outstanding::select('id AS trans_id', 'status', 'amount')->get();
 
         return $lastStatuses;
     }
@@ -640,13 +668,16 @@ class ApiController extends Controller
         return $results;
     }
 
-    public function getHistoryGameById(Request $request, $refNos, $portfolio)
+    public function getHistoryGameById(Request $request)
     {
         $validasiBearer = $this->validasiBearer($request);
         if ($validasiBearer !== true) {
             return $validasiBearer;
         }
-        //s
+
+        $refNos = $request->refNos;
+        $portfolio = $request->portfolio;
+
         $data = [
             'refNos' => $refNos,
             'portfolio' => $portfolio,
