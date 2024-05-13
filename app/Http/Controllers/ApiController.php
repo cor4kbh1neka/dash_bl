@@ -641,7 +641,7 @@ class ApiController extends Controller
         if ($validasiBearer !== true) {
             return $validasiBearer;
         }
-
+        //s
         $data = [
             'refNos' => $refNos,
             'portfolio' => $portfolio,
