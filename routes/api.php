@@ -30,11 +30,6 @@ Route::post('/Settle', [ApiBolaController::class, 'Settle']);
 Route::post('/GetBetStatus', [ApiBolaController::class, 'GetBetStatus']);
 Route::post('/ReturnStake', [ApiBolaController::class, 'ReturnStake']);
 
-
-
-
-
-
 Route::get('/gettransactions', [ApiController::class, 'getTransactions']);
 Route::get('/getTransactionsAll', [ApiController::class, 'getTransactionAll']);
 Route::get('/getTransactionStatus', [ApiController::class, 'getTransactionStatus']);
