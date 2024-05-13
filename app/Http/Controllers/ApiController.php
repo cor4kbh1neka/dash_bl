@@ -477,12 +477,15 @@ class ApiController extends Controller
         return $data;
     }
 
-    public function getLastStatusTransaction(Request $request, $jenis, $username)
+    public function getLastStatusTransaction(Request $request)
     {
         $validasiBearer = $this->validasiBearer($request);
         if ($validasiBearer !== true) {
             return $validasiBearer;
         }
+
+        $jenis = $request->jenis;
+        $username = $request->username;
 
         if ($jenis == 'DP') {
             $tipe = "Deposit";
@@ -522,7 +525,7 @@ class ApiController extends Controller
         ]);
     }
 
-    public function getBalance(Request $request, $username)
+    public function getBalance(Request $request)
     {
         $validasiBearer = $this->validasiBearer($request);
         if ($validasiBearer !== true) {
