@@ -25,7 +25,6 @@ class ApiController extends Controller
     public function login(Request $request)
     {
         $validasiBearer = $this->validasiBearer($request);
-        // return $validasiBearer;
         if ($validasiBearer !== true) {
             return $validasiBearer;
         }
