@@ -712,7 +712,6 @@ class ApiController extends Controller
 
     private function reqApiBalance($username)
     {
-        dd($username);
         $dataApiCheckBalance = [
             "Username" => $username,
             "CompanyKey" => env('COMPANY_KEY'),
