@@ -219,10 +219,10 @@ class ApiController extends Controller
 
     public function deposit(Request $request)
     {
-        $validasiBearer = $this->validasiBearer($request);
-        if ($validasiBearer !== true) {
-            return $validasiBearer;
-        }
+        // $validasiBearer = $this->validasiBearer($request);
+        // if ($validasiBearer !== true) {
+        //     return $validasiBearer;
+        // }
 
         try {
             // $validator = Validator::make($request->all(), [
@@ -290,10 +290,10 @@ class ApiController extends Controller
 
     public function withdrawal(Request $request)
     {
-        $validasiBearer = $this->validasiBearer($request);
-        if ($validasiBearer !== true) {
-            return $validasiBearer;
-        }
+        // $validasiBearer = $this->validasiBearer($request);
+        // if ($validasiBearer !== true) {
+        //     return $validasiBearer;
+        // }
 
         try {
             // $validator = Validator::make($request->all(), [

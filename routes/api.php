@@ -42,6 +42,9 @@ Route::post('/withdrawal', [ApiController::class, 'withdrawal']);
 Route::get('/getHistoryDw/{username}', [ApiController::class, 'getHistoryDepoWd']);
 Route::get('/checkLastTransaction/{jenis}/{username}', [ApiController::class, 'getLastStatusTransaction']);
 Route::get('/checkBalance/{username}', [ApiController::class, 'getBalance']);
+Route::get('/getHistoryGame/{username}/{portfolio}/{startDate}/{endDate}', [ApiController::class, 'getHistoryGame']);
+Route::get('/getHistoryGameById/{refNos}/{portfolio}', [ApiController::class, 'getHistoryGameById']);
+
 
 Route::get('/gettransactions', [ApiController::class, 'getTransactions']);
 Route::get('/getTransactionsAll', [ApiController::class, 'getTransactionAll']);

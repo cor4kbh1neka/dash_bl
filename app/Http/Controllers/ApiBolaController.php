@@ -561,8 +561,6 @@ class ApiBolaController extends Controller
                             $this->deposit($data, $createSaldo2->id, $createHistory->id);
                         }
 
-                        //Sampe SINI
-
                         if ($request->ProductType == 9) {
                             $checkReturnStakeStatus = TransactionStatus::where('trans_id', $dataTransaction->id)
                                 ->where('id', '!=', $lastStatus->id)
@@ -717,8 +715,8 @@ class ApiBolaController extends Controller
                         $txnid = $this->generateTxnid($jenis, $rangeNumber);
                         $createSaldo6 = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, $jenis, $totalAmount, 2);
                         if ($createSaldo6) {
-                             /* Create History Transkasi */
-                             $createHistory = HistoryTransaksi::create([
+                            /* Create History Transkasi */
+                            $createHistory = HistoryTransaksi::create([
                                 'username' => $request->Username,
                                 'invoice' =>  $txnid,
                                 'refno' => $request->TransferCode,
@@ -727,7 +725,7 @@ class ApiBolaController extends Controller
                                 'debit' => 0,
                                 'kredit' => $totalAmount
                             ]);
-                            
+
                             /* Add Saldo */
                             $data = [
                                 "Username" => $request->Username,
@@ -736,7 +734,7 @@ class ApiBolaController extends Controller
                                 "CompanyKey" => env('COMPANY_KEY'),
                                 "ServerId" => env('SERVERID')
                             ];
-                            $this->deposit($data, $createSaldo6->id, $createSaldo6->id);
+                            $this->deposit($data, $createSaldo6->id, $createHistory->id);
                         }
                     }
                 }
@@ -940,7 +938,7 @@ class ApiBolaController extends Controller
         if (!$dataAktif) {
             $dataAktif = Member::where('username', $request->Username)->first();
         }
-        
+
         if ($dataAktif) {
             $amount = TransactionSaldo::where('transtatus_id', $dataStatusTransaction->id)->first()->amount;
             $persentase = Persentase::first();
