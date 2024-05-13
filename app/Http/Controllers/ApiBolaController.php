@@ -484,7 +484,6 @@ class ApiBolaController extends Controller
                         }
                     } else {
                         $dataReferral = HistoryTransaksi::where('refno', $request->TransferCode)->where('status', 'referral')->get();
-
                         foreach ($dataReferral as $d) {
                             /* Create History Transkasi */
                             $createHistory = HistoryTransaksi::create([
