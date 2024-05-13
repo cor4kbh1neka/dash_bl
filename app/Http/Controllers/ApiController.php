@@ -659,7 +659,7 @@ class ApiController extends Controller
     {
         $token = $request->header('utilities_generate');
         $expectedToken = env('UTILITIES_GENERATE');
-        return 'token header: ' . $expectedToken . ' || token env: ' . $expectedToken;
+        return 'token header: ' . $token . ' || token env: ' . $expectedToken;
 
         if ($token !== $expectedToken) {
             return response()->json(['message' => 'Unauthorized.'], 401);
