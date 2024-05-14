@@ -223,7 +223,6 @@ class DepoWdController extends Controller
                 $txnid = $this->generateTxnid('D');
                 if ($dataDepo) {
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
-                    dd($updateDepo);
                     /* Create History Transkasi */
                     if ($jenis == 'DP') {
                         $status = 'deposit';
