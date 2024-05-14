@@ -6,6 +6,7 @@ use App\Models\Settings;
 use App\Models\Companys;
 use App\Models\Currencys;
 use App\Models\DepoWd;
+use App\Models\HistoryTransaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
@@ -13,24 +14,99 @@ use Illuminate\Support\Str;
 
 class HistorytransaksidsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $dataDepoWd = DepoWd::where('username', 'poorgas321')
-            ->whereBetween('updated_at', ['2024-04-01', '2024-05-09'])
-            ->get();
+        $username = $request->input('username');
 
-        $dataApiBetList = $this->getApiBetList();
-        if ($dataApiBetList["error"]["id"] !== 0) {
-            $dataApiBetList = [];
+        $checkinvoice = $request->input('checkinvoice');
+        $invoice = $request->input('invoice');
+
+        $checkstatus = $request->input('checkstatus');
+        $status = $request->input('status');
+
+
+        $checktransdari = $request->input('checktransdari');
+        $transdari = $request->input('transdari');
+
+        $checktranshingga = $request->input('checktranshingga');
+        $transhingga = $request->input('transhingga');
+
+
+        $data = HistoryTransaksi::when($username, function ($query) use ($username) {
+            return $query->where('username',  $username);
+        })
+            ->when($status, function ($query) use ($status) {
+                return $query->where('status', $status);
+            })
+            ->when($agent, function ($query) use ($agent) {
+                return $query->where('approved_by', $agent);
+            })
+            ->when($tgldari && $tglsampai, function ($query) use ($tgldari, $tglsampai) {
+                return $query->whereBetween('created_at', [$tgldari, $tglsampai]);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+
+
+
+
+        if ($request->query('search_status') == 'accept') {
+            $status = 1;
+        } else if ($request->query('search_status') == 'cancel') {
+            $status = 2;
+        } else {
+            $status = '';
         }
 
-        // dd($dataApiBetList);
+        $username = $request->query('search_username');
+        $jenis = $request->query('search_jenis');
+        $agent = $request->query('search_agent');
+        $tgldari = $request->query('tgldari') != '' ? date('Y-m-d 00:00:00', strtotime($request->query('tgldari'))) : date("Y-m-d 00:00:00");
+        $tglsampai =  $request->query('tglsampai') != '' ?  date('Y-m-d 23:59:59', strtotime($request->query('tglsampai'))) : date("Y-m-d 23:59:59");
 
-        $data = [];
+        $datHistory = DepoWd::whereIn('status', [1, 2])
+            ->when($jenis, function ($query) use ($jenis) {
+                if ($jenis === 'M') {
+                    return $query->whereIn('jenis', ['DPM', 'WDM']);
+                } else {
+                    return $query->where('jenis', $jenis);
+                }
+            })
+            ->when($username, function ($query) use ($username) {
+                return $query->where('username', 'LIKE', '%' . $username . '%');
+            })
+            ->when($status, function ($query) use ($status) {
+                return $query->where('status', $status);
+            })
+            ->when($agent, function ($query) use ($agent) {
+                return $query->where('approved_by', $agent);
+            })
+            ->when($tgldari && $tglsampai, function ($query) use ($tgldari, $tglsampai) {
+                return $query->whereBetween('created_at', [$tgldari, $tglsampai]);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+
+
+
+
+        $data = HistoryTransaksi::get();
         return view('historytransaksids.index', [
             'title' => 'History Transaksi Baru',
             'data' => $data,
             'totalnote' => 0,
+            'total' => 0,
+            'username' => $username,
+            'checkinvoice' => $checkinvoice,
+            'invoice' => $invoice,
+            'checkstatus' => $checkstatus,
+            'status' => $status,
+            'checktransdari' => $checktransdari,
+            'transdari' => $transdari,
+            'checktranshingga' => $checktranshingga,
+            'transhingga' => $transhingga
         ]);
     }
 

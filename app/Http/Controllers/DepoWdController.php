@@ -233,6 +233,7 @@ class DepoWdController extends Controller
                         $debit = $dataDepo->amount;
                         $kredit = 0;
                     }
+
                     $historyTrans = HistoryTransaksi::create([
                         'username' => $dataDepo->username,
                         'invoice' => $txnid,
@@ -240,6 +241,7 @@ class DepoWdController extends Controller
                         'status' => $status,
                         'debit' => $debit,
                         'kredit' => $kredit,
+                        'balance' => $this->reqApiBalance($dataDepo->username)["balance"] + $debit + $kredit
                     ]);
 
                     /* Create Member Aktif */
