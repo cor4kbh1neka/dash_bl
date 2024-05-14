@@ -867,26 +867,26 @@ class ApiBolaController extends Controller
                 $saldoTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $WinLoss, 1);
                 if ($saldoTransaction) {
 
-                    // $checkXtrans = Xtrans::where('username', $request->Username)->whereDate('created_at', '=', date('Y-m-d'))->first();
+                    $checkXtrans = Xtrans::where('username', $request->Username)->whereDate('created_at', '=', date('Y-m-d'))->first();
 
                     if ($WinLoss > 0) {
-                        // if ($checkXtrans) {
-                        //     // $checkXtrans->update([
-                        //     //     'sum_winloss' => $checkXtrans->sum_winloss + $WinLoss
-                        //     // ]);
-                        // } else {
-                        //     // 'id', 'bank', 'groupbank', 'username', 'count_dp', 'count_wd', 'sum_dp',  'sum_wd', 'sum_winloss'
-                        //     // Xtrans::create([
-                        //     //     'bank' => '-',
-                        //     //     'groupbank' => '-',
-                        //     //     'username' => '-',
-                        //     //     'count_dp' => '-',
-                        //     //     'count_wd' => '-',
-                        //     //     'sum_dp' => '-',
-                        //     //     'sum_wd' => '-',
-                        //     //     'sum_winloss' => ''
-                        //     // ]);
-                        // }
+                        if ($checkXtrans) {
+                            $checkXtrans->update([
+                                'sum_winloss' => $checkXtrans->sum_winloss + $WinLoss
+                            ]);
+                        } else {
+                            // 'id', 'bank', 'groupbank', 'username', 'count_dp', 'count_wd', 'sum_dp',  'sum_wd', 'sum_winloss'
+                            // Xtrans::create([
+                            //     'bank' => '-',
+                            //     'groupbank' => '-',
+                            //     'username' => '-',
+                            //     'count_dp' => '-',
+                            //     'count_wd' => '-',
+                            //     'sum_dp' => '-',
+                            //     'sum_wd' => '-',
+                            //     'sum_winloss' => ''
+                            // ]);
+                        }
 
                         /* Create History Transaksi */
                         $createHistory = HistoryTransaksi::create([
