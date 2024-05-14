@@ -29,34 +29,22 @@ class ApiController extends Controller
             return $validasiBearer;
         }
 
-        $username = $request->username;
-        $iswap = $request->iswap;
-        $device = $request->device;
+        $username = $request->input('username');
+        $data = $this->reqApiBalance($username);
 
-
-        if ($device != 'd') {
-            $device = 'm';
-        }
-
-        try {
-            $dataLogin['Username'] = $username;
-            $dataLogin['CompanyKey'] = env('COMPANY_KEY');
-            $dataLogin['Portfolio'] = env('PORTFOLIO');
-            $dataLogin['IsWapSports'] = $iswap;
-            $dataLogin['ServerId'] = "YY-TEST";
-            $getLogin = $this->requestApiLogin($dataLogin);
-            if ($getLogin["url"] !== "") {
-                $getLogin["url"] = 'https://' . $getLogin["url"] .  '/welcome2.aspx?token=token&lang=en&oddstyle=ID&theme=black&oddsmode=double&device=' . $device;
-            }
-
-            return $getLogin;
-        } catch (\Exception $e) {
-            return [
-                'AccountName' => $username,
-                'Balance' => 0,
-                'ErrorCode' => 99,
-                'ErrorMessage' => 'Internal Error'
-            ];;
+        if ($data["error"]["id"] === 0) {
+            $results = [
+                "username" => $data["username"],
+                // "balance" => $data["balance"] + $this->saldoBerjalan($username),
+                "balance" => $data["balance"],
+                // "balance" => $data["balance"],
+            ];
+            return $results;
+        } else {
+            return response()->json([
+                'status' => 'Error',
+                'message' => $data["error"]["msg"]
+            ]);
         }
     }
 

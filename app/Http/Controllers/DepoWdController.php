@@ -220,7 +220,6 @@ class DepoWdController extends Controller
 
             foreach ($ids as $id) {
                 $dataDepo = DepoWd::where('id', $id)->where('status', 0)->first();
-                dd($dataDepo);
                 $txnid = $this->generateTxnid('D');
                 if ($dataDepo) {
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
