@@ -38,7 +38,7 @@ Route::delete('/deleteTransactions', [ApiController::class, 'deleteTransactions'
 
 
 
-// Route::domain('bostoni.pro')->group(function () {
+// Route::middleware(['cors'])->group(function () {
 Route::post('/login', [ApiController::class, 'login']);
 Route::post('/historylog', [ApiController::class, 'historyLog']);
 Route::post('/register', [ApiController::class, 'register']);
@@ -52,6 +52,8 @@ Route::post('/checkBalance', [ApiController::class, 'getBalance']);
 Route::post('/getHistoryGame', [ApiController::class, 'getHistoryGame']);
 Route::post('/getHistoryGameById', [ApiController::class, 'getHistoryGameById']);
 Route::post('/getDataOutstanding', [ApiController::class, 'getDataOutstanding']);
+// });
+
+
 
 Route::post('/getApiBro', [ApiController::class, 'getApiBro']);
-// });

@@ -16,7 +16,8 @@ return new class extends Migration
             $table->integer('count_wd')->default(0);
             $table->decimal('sum_dp', 10, 2)->default(0);
             $table->decimal('sum_wd', 10, 2)->default(0);
-            $table->decimal('sum_winloss', 10, 2)->default(0);
+            $table->decimal('sum_transaksi', 10, 2)->default(0);
+            $table->decimal('sum_win', 10, 2)->default(0);
             $table->timestamps();
         });
     }
