@@ -919,7 +919,7 @@ class ApiBolaController extends Controller
                     'debit' => $request->Amount,
                     'kredit' => 0
                 ]);
-
+                dd($createHistory);
 
                 /* Potong Saldo */
                 $data = [
