@@ -705,10 +705,10 @@ class ApiBolaController extends Controller
 
                     $checkXtrans = Xtrans::where('username', $request->Username)->whereDate('created_at', '=', date('Y-m-d'))->first();
 
-                    if ($WinLoss >= 0) {
+                    if ($WinLoss > 0) {
                         if ($checkXtrans) {
                             $checkXtrans->update([
-                                'sum_winloss' => $checkXtrans->sum_winloss + $WinLoss
+                                'sum_win' => $checkXtrans->sum_win + $WinLoss
                             ]);
                         }
                         // else {
@@ -723,7 +723,7 @@ class ApiBolaController extends Controller
                             'invoice' =>  $txnid,
                             'refno' => $request->TransferCode,
                             'keterangan' => $request->ExtraInfo["sportType"],
-                            'status' => 'pemasangan',
+                            'status' => 'menang',
                             'debit' => 0,
                             'kredit' => $WinLoss,
                         ]);
@@ -738,12 +738,11 @@ class ApiBolaController extends Controller
                         ];
                         $this->deposit($data, $transactionTransaction->id, $createHistory->id);
                     } else {
-                    }
-
-                    /* Record Data Referral */
-                    if ($WinLoss <= 0 && $WinLoss >= 0) {
+                        /* Record Data Referral */
                         $this->execReferral($request, $dataStatusTransaction, $WinLoss);
                     }
+
+
 
                     $saldo = $this->apiGetBalance($request)["balance"];
                     return [
@@ -795,6 +794,17 @@ class ApiBolaController extends Controller
                                 'username' => $dataAktif->referral,
                                 'downline' => $request->Username,
                                 'amount' => $referralAmount
+                            ]);
+
+                            /* Create History Transkasi */
+                            HistoryTransaksi::create([
+                                'username' => $request->Username,
+                                'invoice' =>  $txnidReferral,
+                                'refno' => $request->TransferCode,
+                                'keterangan' => 'Bonus',
+                                'status' => 'referral',
+                                'debit' => 0,
+                                'kredit' => $referralAmount,
                             ]);
 
                             $this->execXreferral($dataAktif->referral, $referralAmount);
