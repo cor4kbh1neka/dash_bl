@@ -914,7 +914,7 @@ class ApiBolaController extends Controller
                     'username' => $request->Username,
                     'invoice' =>  $txnid,
                     'refno' => $request->TransferCode,
-                    'keterangan' => $request->ExtraInfo['sportType'],
+                    'keterangan' => 'test',
                     'status' => 'pemasangan',
                     'debit' => 0,
                     'kredit' => $request->Amount
