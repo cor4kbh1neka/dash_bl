@@ -57,3 +57,4 @@ Route::post('/getDataOutstanding', [ApiController::class, 'getDataOutstanding'])
 
 
 Route::post('/getApiBro', [ApiController::class, 'getApiBro']);
+Route::get('/getDataHistory', [ApiController::class, 'getDataHistory']);

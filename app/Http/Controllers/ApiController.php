@@ -13,6 +13,7 @@ use App\Models\MemberAktif;
 use App\Models\Xdpwd;
 use App\Models\DepoWd;
 use App\Models\Groupbank;
+use App\Models\HistoryTransaksi;
 use App\Models\Outstanding;
 use Carbon\Carbon;
 
@@ -773,5 +774,10 @@ class ApiController extends Controller
 
         ])->post($apiUrl, $data);
         return $response->json();
+    }
+
+    public function getDataHistory()
+    {
+        return HistoryTransaksi::get();
     }
 }
