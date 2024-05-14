@@ -910,7 +910,7 @@ class ApiBolaController extends Controller
 
             if ($transactionTransaction) {
                 /* Create History Transkasi */
-                $createHistory = HistoryTransaksi::create([
+                HistoryTransaksi::create([
                     'username' => $request->Username,
                     'invoice' =>  $txnid,
                     'refno' => $request->TransferCode,
@@ -919,7 +919,6 @@ class ApiBolaController extends Controller
                     'debit' => $request->Amount,
                     'kredit' => 0
                 ]);
-                dd($createHistory);
 
                 /* Potong Saldo */
                 $data = [
