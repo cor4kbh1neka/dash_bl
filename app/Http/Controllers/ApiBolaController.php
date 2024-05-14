@@ -910,15 +910,16 @@ class ApiBolaController extends Controller
 
             if ($transactionTransaction) {
                 /* Create History Transkasi */
-                $createHistory = HistoryTransaksi::create([
-                    'username' => $request->Username,
-                    'invoice' =>  $txnid,
-                    'refno' => $request->TransferCode,
-                    'keterangan' => $request->ExtraInfo["sportType"],
-                    'status' => 'pemasangan',
-                    'debit' => $request->Amount,
-                    'kredit' => 0
-                ]);
+                // $createHistory = HistoryTransaksi::create([
+                //     'username' => $request->Username,
+                //     'invoice' =>  $txnid,
+                //     'refno' => $request->TransferCode,
+                //     'keterangan' => $request->ExtraInfo["sportType"],
+                //     'status' => 'pemasangan',
+                //     'debit' => $request->Amount,
+                //     'kredit' => 0
+                // ]);
+
                 /* Potong Saldo */
                 $data = [
                     "Username" => $request->Username,
