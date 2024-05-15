@@ -1194,16 +1194,16 @@ class ApiBolaController extends Controller
 
             if ($saldoTransaction) {
                 /* Create Queue Job History Transkasi */
-                // ProcessHistoryJob::dispatch([
-                //     'username' => $request->Username,
-                //     'invoice' =>  $txnid,
-                //     'refno' => $request->TransferCode,
-                //     'keterangan' => $request->ExtraInfo["sportType"],
-                //     'status' => 'pemasangan',
-                //     'debit' => $request->Amount,
-                //     'kredit' => 0,
-                //     'balance' => $saldoMember - $request->Amount
-                // ]);
+                ProcessHistoryJob::dispatch([
+                    'username' => $request->Username,
+                    'invoice' =>  $txnid,
+                    'refno' => $request->TransferCode,
+                    'keterangan' => $request->ExtraInfo["sportType"],
+                    'status' => 'pemasangan',
+                    'debit' => $request->Amount,
+                    'kredit' => 0,
+                    'balance' => $saldoMember - $request->Amount
+                ]);
 
                 /* Potong Saldo */
                 $data = [
