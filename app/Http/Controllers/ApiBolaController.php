@@ -37,7 +37,6 @@ class ApiBolaController extends Controller
         }
 
         $saldo = $this->apiGetBalance($request)["balance"] + $this->saldoBerjalan($request);
-
         $response = [
             "AccountName" => $request->Username,
             "Balance" => $saldo,
@@ -344,10 +343,10 @@ class ApiBolaController extends Controller
         //     return $this->errorResponse($request->Username, 1);
         // }
 
-        $data = $this->apiGetBalance($request);
-        if ($data["error"]["id"] !== 0) {
-            return $this->errorResponse($request->Username, 1);
-        }
+        // $data = $this->apiGetBalance($request);
+        // if ($data["error"]["id"] !== 0) {
+        //     return $this->errorResponse($request->Username, 1);
+        // }
 
         if ($request->CompanyKey != env('COMPANY_KEY')) {
             return $this->errorResponse($request->Username, 4);
@@ -601,7 +600,7 @@ class ApiBolaController extends Controller
 
                     /* Record Data Referral */
                     if ($WinLoss <= 0) {
-                        // $this->execReferral($request, $dataStatusTransaction, $WinLoss);
+                        $this->execReferral($request, $dataStatusTransaction, $WinLoss);
                     }
 
                     /* -------------------- */
@@ -837,15 +836,17 @@ class ApiBolaController extends Controller
         //     return Cache::get($cacheKey);
         // }
 
-        $dataSaldo = [
-            "Username" => $request->Username,
-            "CompanyKey" => env('COMPANY_KEY'),
-            "ServerId" => env('SERVERID')
-        ];
-        $saldo = $this->requestApi('get-player-balance', $dataSaldo);
+        // $dataSaldo = [
+        //     "Username" => $request->Username,
+        //     "CompanyKey" => env('COMPANY_KEY'),
+        //     "ServerId" => env('SERVERID')
+        // ];
+        // $saldo = $this->requestApi('get-player-balance', $dataSaldo);
 
         // Cache::put($cacheKey, $saldo, 3600);
-
+        $saldo = [
+            "balance" => "600.0"
+        ];
         return $saldo;
     }
 
