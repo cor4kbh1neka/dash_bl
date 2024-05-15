@@ -16,6 +16,7 @@ class HistorytransaksidsController extends Controller
 {
     public function index(Request $request)
     {
+        $query = $request->getQueryString();
         $username = $request->input('username');
 
         $checkinvoice = $request->input('checkinvoice');
@@ -26,73 +27,33 @@ class HistorytransaksidsController extends Controller
 
 
         $checktransdari = $request->input('checktransdari');
-        $transdari = $request->input('transdari');
+        $transdari = $request->input('transdari') == null ? date('Y-m-01') . 'T00:00' : $request->input('transdari');
 
         $checktranshingga = $request->input('checktranshingga');
-        $transhingga = $request->input('transhingga');
+        $transhingga = $request->input('transhingga') == null ? date('Y-m-t') . 'T23:59' : $request->input('transhingga');
 
 
-        $data = HistoryTransaksi::when($username, function ($query) use ($username) {
-            return $query->where('username',  $username);
-        })
-            ->when($status, function ($query) use ($status) {
-                return $query->where('status', $status);
-            })
-            ->when($agent, function ($query) use ($agent) {
-                return $query->where('approved_by', $agent);
-            })
-            ->when($tgldari && $tglsampai, function ($query) use ($tgldari, $tglsampai) {
-                return $query->whereBetween('created_at', [$tgldari, $tglsampai]);
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        if ($username != '') {
+            $data = HistoryTransaksi::where('username', $username)
+                ->when($checkinvoice == 'on' && $invoice != '', function ($query) use ($invoice) {
+                    return $query->where('refno', $invoice);
+                })
+                ->when($checkstatus == 'on' && $status != '', function ($query) use ($status) {
+                    return $query->where('status', $status);
+                })
+                ->when(($checktransdari == 'on' && $transdari != '') || ($checktranshingga == 'on' && $transhingga != ''), function ($query) use ($transdari, $transhingga) {
+                    $tgldari = date('Y-m-d H:i:s', strtotime($transdari));
+                    $tglsampai = date('Y-m-d H:i:s', strtotime($transhingga));
+                    $tglsampai = substr_replace($tglsampai, '59', -2);
 
-
-
-
-
-        if ($request->query('search_status') == 'accept') {
-            $status = 1;
-        } else if ($request->query('search_status') == 'cancel') {
-            $status = 2;
+                    $query->whereBetween('created_at', [$tgldari, $tglsampai]);
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
         } else {
-            $status = '';
+            $data = [];
         }
 
-        $username = $request->query('search_username');
-        $jenis = $request->query('search_jenis');
-        $agent = $request->query('search_agent');
-        $tgldari = $request->query('tgldari') != '' ? date('Y-m-d 00:00:00', strtotime($request->query('tgldari'))) : date("Y-m-d 00:00:00");
-        $tglsampai =  $request->query('tglsampai') != '' ?  date('Y-m-d 23:59:59', strtotime($request->query('tglsampai'))) : date("Y-m-d 23:59:59");
-
-        $datHistory = DepoWd::whereIn('status', [1, 2])
-            ->when($jenis, function ($query) use ($jenis) {
-                if ($jenis === 'M') {
-                    return $query->whereIn('jenis', ['DPM', 'WDM']);
-                } else {
-                    return $query->where('jenis', $jenis);
-                }
-            })
-            ->when($username, function ($query) use ($username) {
-                return $query->where('username', 'LIKE', '%' . $username . '%');
-            })
-            ->when($status, function ($query) use ($status) {
-                return $query->where('status', $status);
-            })
-            ->when($agent, function ($query) use ($agent) {
-                return $query->where('approved_by', $agent);
-            })
-            ->when($tgldari && $tglsampai, function ($query) use ($tgldari, $tglsampai) {
-                return $query->whereBetween('created_at', [$tgldari, $tglsampai]);
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-
-
-
-
-
-        $data = HistoryTransaksi::get();
         return view('historytransaksids.index', [
             'title' => 'History Transaksi Baru',
             'data' => $data,
@@ -106,7 +67,8 @@ class HistorytransaksidsController extends Controller
             'checktransdari' => $checktransdari,
             'transdari' => $transdari,
             'checktranshingga' => $checktranshingga,
-            'transhingga' => $transhingga
+            'transhingga' => $transhingga,
+            'query' => $query
         ]);
     }
 
@@ -127,11 +89,61 @@ class HistorytransaksidsController extends Controller
     }
 
 
-    public function transaksilama()
+    public function transaksilama(Request $request)
     {
+        $query = $request->getQueryString();
+        $username = $request->input('username');
+
+        $checkinvoice = $request->input('checkinvoice');
+        $invoice = $request->input('invoice');
+
+        $checkstatus = $request->input('checkstatus');
+        $status = $request->input('status');
+
+
+        $checktransdari = $request->input('checktransdari');
+        $transdari = $request->input('transdari') == null ? date('Y-m-01') . 'T00:00' : $request->input('transdari');
+
+
+        $checktranshingga = $request->input('checktranshingga');
+        $transhingga = $request->input('transhingga') == null ? date('Y-m-t') . 'T23:59' : $request->input('transhingga');
+
+        if ($username != '') {
+            $data = HistoryTransaksi::where('username', $username)
+                ->when($checkinvoice == 'on' && $invoice != '', function ($query) use ($invoice) {
+                    return $query->where('refno', $invoice);
+                })
+                ->when($checkstatus == 'on' && $status != '', function ($query) use ($status) {
+                    return $query->where('status', $status);
+                })
+                ->when(($checktransdari == 'on' && $transdari != '') || ($checktranshingga == 'on' && $transhingga != ''), function ($query) use ($transdari, $transhingga) {
+                    $tgldari = date('Y-m-d H:i:s', strtotime($transdari));
+                    $tglsampai = date('Y-m-d H:i:s', strtotime($transhingga));
+                    $tglsampai = substr_replace($tglsampai, '59', -2);
+
+                    $query->whereBetween('created_at', [$tgldari, $tglsampai]);
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+        } else {
+            $data = [];
+        }
+
         return view('historytransaksids.transaksi_lama', [
-            'title' => 'History Transaksi Lama',
+            'title' => 'History Transaksi Baru',
+            'data' => $data,
             'totalnote' => 0,
+            'total' => 0,
+            'username' => $username,
+            'checkinvoice' => $checkinvoice,
+            'invoice' => $invoice,
+            'checkstatus' => $checkstatus,
+            'status' => $status,
+            'checktransdari' => $checktransdari,
+            'transdari' => $transdari,
+            'checktranshingga' => $checktranshingga,
+            'transhingga' => $transhingga,
+            'query' => $query
         ]);
     }
 }

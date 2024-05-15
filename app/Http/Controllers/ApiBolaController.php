@@ -17,6 +17,7 @@ use App\Models\Xreferral;
 use App\Models\Persentase;
 use App\Models\Xtrans;
 use App\Models\HistoryTransaksi;
+use App\Jobs\ProcessHistoryJob;
 
 use Illuminate\Support\Facades\Http;
 
@@ -127,7 +128,7 @@ class ApiBolaController extends Controller
             return end($results);
         }
 
-        return $this->setCancel($request, $dataTransaction);
+        return $this->setCancel($request, $dataTransaction, $validasiSBO["balance"]);
     }
 
     public function Rollback(Request $request)
@@ -162,6 +163,8 @@ class ApiBolaController extends Controller
 
     public function Bonus(Request $request)
     {
+        $saldoMember = $this->apiGetBalance($request)["balance"];
+
         $cekTransaction = Transactions::where('transfercode', $request->TransferCode)->first();
         if ($cekTransaction) {
             return $this->errorResponse($request->Username, 5003);
@@ -174,17 +177,17 @@ class ApiBolaController extends Controller
             $txnid = $this->generateTxnid('D', 17);
             $saldoTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $request->Amount, 1);
 
-
             if ($saldoTransaction) {
-                /* Create History Transkasi */
-                $createHistory = HistoryTransaksi::create([
+                /* Create Queue Job History Transkasi */
+                ProcessHistoryJob::dispatch([
                     'username' => $request->Username,
                     'invoice' =>  $txnid,
                     'refno' => $request->TransferCode,
                     'keterangan' => 'Bonus',
                     'status' => 'bonus',
                     'debit' => 0,
-                    'kredit' => $request->Amount
+                    'kredit' => $request->Amount,
+                    'balance' => $saldoMember + $request->Amount
                 ]);
 
                 /* Add Saldo */
@@ -195,10 +198,9 @@ class ApiBolaController extends Controller
                     "CompanyKey" => env('COMPANY_KEY'),
                     "ServerId" => env('SERVERID')
                 ];
-                $this->deposit($data, $saldoTransaction->id, $createHistory->id);
+                $this->deposit($data, $saldoTransaction->id);
 
-                $saldo = $this->apiGetBalance($request)["balance"];
-
+                $saldo = $saldoMember + $request->Amount;
                 return response()->json([
                     'AccountName' => $request->Username,
                     'Balance' => $saldo,
@@ -214,6 +216,8 @@ class ApiBolaController extends Controller
 
     public function ReturnStake(Request $request)
     {
+        $saldoMember = $this->apiGetBalance($request)["balance"];
+
         $cekTransaction = Transactions::where('transactionid', $request->TransactionId)->first();
         if (!$cekTransaction) {
             return $this->errorResponse($request->Username, 6);
@@ -230,15 +234,16 @@ class ApiBolaController extends Controller
                 $saldoTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "D", $request->CurrentStake, 1);
 
                 if ($saldoTransaction) {
-                    /* Create History Transkasi */
-                    $createHistory = HistoryTransaksi::create([
+                    /* Create Queue Job History Transkasi */
+                    ProcessHistoryJob::dispatch([
                         'username' => $request->Username,
                         'invoice' =>  $txnid,
                         'refno' => $request->TransferCode,
                         'keterangan' => 'Returnstake',
                         'status' => 'returnstake',
                         'debit' => 0,
-                        'kredit' => $request->CurrentStake
+                        'kredit' => $request->CurrentStake,
+                        'balance' => $saldoMember + $request->CurrentStake
                     ]);
 
                     /* Penmabahan Saldo */
@@ -249,9 +254,9 @@ class ApiBolaController extends Controller
                         "CompanyKey" => env('COMPANY_KEY'),
                         "ServerId" => env('SERVERID')
                     ];
-                    $this->deposit($data, $saldoTransaction->id, $createHistory->id);
+                    $this->deposit($data, $saldoTransaction->id);
 
-                    $saldo = $this->apiGetBalance($request)["balance"];
+                    $saldo = $saldoMember + $request->CurrentStake;
                     return response()->json([
                         'AccountName' => $request->Username,
                         'Balance' => $saldo,
@@ -336,7 +341,7 @@ class ApiBolaController extends Controller
         }
     }
 
-    private function rollbackTransaction(Request $request, $dataTransaction, $crteateStatusTransaction = null)
+    private function rollbackTransaction(Request $request, $dataTransaction, $crteateStatusTransaction, $saldoMember)
     {
         $lastRunningStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->where('status', 'Running')->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
 
@@ -363,16 +368,19 @@ class ApiBolaController extends Controller
                 $saldoTransaction = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, "W", $totalAmount, 3);
 
                 if ($saldoTransaction) {
-                    /* Create History Transkasi */
-                    $createHistory = HistoryTransaksi::create([
+                    /* Create Queue Job History Transkasi */
+                    $saldoMember = $saldoMember - $totalAmount;
+                    ProcessHistoryJob::dispatch([
                         'username' => $request->Username,
                         'invoice' =>  $txnid,
                         'refno' => $request->TransferCode,
                         'keterangan' => $request->ExtraInfo["sportType"],
                         'status' => 'rollback',
                         'debit' => $totalAmount,
-                        'kredit' => 0
+                        'kredit' => 0,
+                        'balance' => $saldoMember
                     ]);
+
 
                     /* Potong Saldo */
                     $data = [
@@ -383,7 +391,7 @@ class ApiBolaController extends Controller
                         "CompanyKey" => env('COMPANY_KEY'),
                         "ServerId" => env('SERVERID')
                     ];
-                    $responseWD = $this->withdraw($data, $saldoTransaction->id, $createHistory->id);
+                    $responseWD = $this->withdraw($data, $saldoTransaction->id);
                     if ($responseWD["error"]["id"] === 4501) {
                         $dataTransMin = TransactionsSaldoMin::where('transfercode', $request->TransferCode)->first();
                         if (!$dataTransMin) {
@@ -400,7 +408,8 @@ class ApiBolaController extends Controller
                         }
                     }
 
-                    $saldo = $this->apiGetBalance($request)["balance"];
+                    // $saldo = $this->apiGetBalance($request)["balance"];
+                    $saldo = $saldoMember;
 
                     return response()->json([
                         'AccountName' => $request->Username,
@@ -444,8 +453,8 @@ class ApiBolaController extends Controller
                         $createSaldo1 = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, 'W', $dataTransactions->amount, 1);
                         if ($createSaldo1) {
                             $saldoMember = $saldoMember - $dataTransactions->amount;
-                            /* Create History Transkasi */
-                            $createHistory = HistoryTransaksi::create([
+                            /* Create Queue Job History Transkasi */
+                            ProcessHistoryJob::dispatch([
                                 'username' => $request->Username,
                                 'invoice' =>  $txnid,
                                 'refno' => $request->TransferCode,
@@ -465,7 +474,7 @@ class ApiBolaController extends Controller
                                 "CompanyKey" => env('COMPANY_KEY'),
                                 "ServerId" => env('SERVERID')
                             ];
-                            $responseWD =  $this->withdraw($data, $createSaldo1->id, $createHistory->id);
+                            $responseWD =  $this->withdraw($data, $createSaldo1->id);
 
                             /* Handle error Insufficient Balance */
                             if ($responseWD["error"]["id"] === 4501) {
@@ -487,9 +496,8 @@ class ApiBolaController extends Controller
                     } else {
                         $dataReferral = HistoryTransaksi::where('refno', $request->TransferCode)->where('status', 'referral')->get();
                         foreach ($dataReferral as $d) {
-                            /* Create History Transkasi */
-
-                            $createHistory = HistoryTransaksi::create([
+                            /* Create Queue Job History Transkasi */
+                            ProcessHistoryJob::dispatch([
                                 'username' => $d->username,
                                 'invoice' =>  $txnid,
                                 'refno' => $request->TransferCode,
@@ -509,7 +517,7 @@ class ApiBolaController extends Controller
                                 "CompanyKey" => env('COMPANY_KEY'),
                                 "ServerId" => env('SERVERID')
                             ];
-                            $responseWD =  $this->withdraw($data, '', $createHistory->id);
+                            $responseWD =  $this->withdraw($data, '');
 
                             if ($responseWD["error"]["id"] === 4501) {
                                 TransactionsSaldoMin::create([
@@ -543,8 +551,8 @@ class ApiBolaController extends Controller
                         $createSaldo2 = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, $jenis, $totalAmount, 3);
                         if ($createSaldo2) {
                             $saldoMember = $saldoMember + $totalAmount;
-                            /* Create History Transkasi */
-                            $createHistory = HistoryTransaksi::create([
+                            /* Create Queue Job History Transkasi */
+                            ProcessHistoryJob::dispatch([
                                 'username' => $request->Username,
                                 'invoice' =>  $txnid,
                                 'refno' => $request->TransferCode,
@@ -563,7 +571,7 @@ class ApiBolaController extends Controller
                                 "CompanyKey" => env('COMPANY_KEY'),
                                 "ServerId" => env('SERVERID')
                             ];
-                            $this->deposit($data, $createSaldo2->id, $createHistory->id);
+                            $this->deposit($data, $createSaldo2->id);
                         }
 
                         if ($request->ProductType == 9) {
@@ -586,8 +594,8 @@ class ApiBolaController extends Controller
                                 if ($createSaldo3) {
                                     $saldoMember = $saldoMember - $trReturnStake->amount;
 
-                                    /* Create History Transkasi */
-                                    $createHistory = HistoryTransaksi::create([
+                                    /* Create Queue Job History Transkasi */
+                                    ProcessHistoryJob::dispatch([
                                         'username' => $request->Username,
                                         'invoice' =>  $txnid,
                                         'refno' => $request->TransferCode,
@@ -607,7 +615,7 @@ class ApiBolaController extends Controller
                                         "CompanyKey" => env('COMPANY_KEY'),
                                         "ServerId" => env('SERVERID')
                                     ];
-                                    $this->withdraw($data, $createSaldo3->id,  $createHistory->id);
+                                    $this->withdraw($data, $createSaldo3->id);
                                 }
                             }
                         }
@@ -628,8 +636,8 @@ class ApiBolaController extends Controller
 
                     if ($createSaldo4) {
                         $saldoMember = $saldoMember + $totalAmount;
-                        /* Create History Transkasi */
-                        $createHistory = HistoryTransaksi::create([
+                        /* Create Queue Job History Transkasi */
+                        ProcessHistoryJob::dispatch([
                             'username' => $request->Username,
                             'invoice' =>  $txnid,
                             'refno' => $request->TransferCode,
@@ -640,7 +648,6 @@ class ApiBolaController extends Controller
                             'balance' => $saldoMember
                         ]);
 
-
                         /* Add Saldo */
                         $data = [
                             "Username" => $request->Username,
@@ -649,7 +656,7 @@ class ApiBolaController extends Controller
                             "CompanyKey" => env('COMPANY_KEY'),
                             "ServerId" => env('SERVERID')
                         ];
-                        $this->deposit($data, $createSaldo4->id, $createHistory->id);
+                        $this->deposit($data, $createSaldo4->id);
                     }
                 } else if ($lastStatus->status == 'ReturnStake') {
                     if ($last2ndStatus->status != 'Running' || $last2ndStatus->status != 'Rollback') {
@@ -680,8 +687,8 @@ class ApiBolaController extends Controller
                                 if ($createSaldo5) {
                                     $saldoMember = $saldoMember - $trReturnStake->amount;
 
-                                    /* Create History Transkasi */
-                                    $createHistory = HistoryTransaksi::create([
+                                    /* Create Queue Job History Transkasi */
+                                    ProcessHistoryJob::dispatch([
                                         'username' => $request->Username,
                                         'invoice' =>  $txnid,
                                         'refno' => $request->TransferCode,
@@ -701,7 +708,7 @@ class ApiBolaController extends Controller
                                         "CompanyKey" => env('COMPANY_KEY'),
                                         "ServerId" => env('SERVERID')
                                     ];
-                                    $responseWD = $this->withdraw($data, $createSaldo5->id, $createHistory->id);
+                                    $responseWD = $this->withdraw($data, $createSaldo5->id);
 
                                     if ($responseWD["error"]["id"] === 4501) {
                                         $dataTransMin = TransactionsSaldoMin::where('transfercode', $request->TransferCode)->first();
@@ -729,8 +736,8 @@ class ApiBolaController extends Controller
                         if ($createSaldo6) {
                             $saldoMember = $saldoMember - $totalAmount;
 
-                            /* Create History Transkasi */
-                            $createHistory = HistoryTransaksi::create([
+                            /* Create Queue Job History Transkasi */
+                            ProcessHistoryJob::dispatch([
                                 'username' => $request->Username,
                                 'invoice' =>  $txnid,
                                 'refno' => $request->TransferCode,
@@ -749,7 +756,7 @@ class ApiBolaController extends Controller
                                 "CompanyKey" => env('COMPANY_KEY'),
                                 "ServerId" => env('SERVERID')
                             ];
-                            $this->deposit($data, $createSaldo6->id, $createHistory->id);
+                            $this->deposit($data, $createSaldo6->id);
                         }
                     }
                 }
@@ -767,7 +774,7 @@ class ApiBolaController extends Controller
         }
     }
 
-    private function cancelTransaction(Request $request, $dataTransaction, $lastStatus)
+    private function cancelTransaction(Request $request, $dataTransaction, $lastStatus, $saldoMember)
     {
         $last2ndStatus = TransactionStatus::where('trans_id', $dataTransaction->id)
             ->where('id', '!=', $lastStatus->id)
@@ -787,14 +794,14 @@ class ApiBolaController extends Controller
             $createSaldo1 = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, $jenis, $dataTransactions->amount, 1);
 
             if ($createSaldo1 && $dataTransactions->amount > 0) {
-                $saldoMember = $
-
-                /* Create History Transkasi */$createHistory = HistoryTransaksi::create([
+                $saldoMember = $saldoMember - $dataTransactions->amount;
+                /* Create Queue Job History Transkasi */
+                ProcessHistoryJob::dispatch([
                     'username' => $request->Username,
                     'invoice' =>  $txnid,
                     'refno' => $request->TransferCode,
                     'keterangan' => $request->ExtraInfo["sportType"],
-                    'status' => 'rollback',
+                    'status' => 'cancel',
                     'debit' => $dataTransactions->amount,
                     'kredit' => 0,
                     'balance' => $saldoMember
@@ -809,7 +816,7 @@ class ApiBolaController extends Controller
                     "CompanyKey" => env('COMPANY_KEY'),
                     "ServerId" => env('SERVERID')
                 ];
-                $responseWD = $this->withdraw($data, $createSaldo1->id, $createHistory->id);
+                $responseWD = $this->withdraw($data, $createSaldo1->id);
                 if ($responseWD["error"]["id"] === 4501) {
                     $dataTransMin = TransactionsSaldoMin::where('transfercode', $request->TransferCode)->first();
                     if (!$dataTransMin) {
@@ -832,15 +839,16 @@ class ApiBolaController extends Controller
 
                 $dataHistory = HistoryTransaksi::where('refno', $request->TransferCode)->first();
                 if ($dataHistory) {
-                    /* Create History Transkasi */
-                    $createHistory = HistoryTransaksi::create([
+                    /* Create Queue Job History Transkasi */
+                    $saldoMember = $saldoMember - $dataHistory->kredit;
+                    ProcessHistoryJob::dispatch([
                         'username' => $dataHistory->username,
                         'invoice' =>  $txnid,
                         'refno' => $request->TransferCode,
                         'keterangan' => 'Bonus',
                         'status' => 'rollback',
                         'debit' => $dataHistory->kredit,
-                        'kredit' => 0
+                        'kredit' => $saldoMember
                     ]);
 
                     /* Potong Saldo */
@@ -852,7 +860,7 @@ class ApiBolaController extends Controller
                         "CompanyKey" => env('COMPANY_KEY'),
                         "ServerId" => env('SERVERID')
                     ];
-                    $responseWD = $this->withdraw($data, '', $createHistory->id);
+                    $responseWD = $this->withdraw($data, '');
                     if ($responseWD["error"]["id"] === 4501) {
                         $dataTransMin = TransactionsSaldoMin::where('transfercode', $request->TransferCode)->first();
                         if (!$dataTransMin) {
@@ -883,15 +891,17 @@ class ApiBolaController extends Controller
                 $createSaldo2 = $this->createSaldoTransaction($crteateStatusTransaction->id, $txnid, $jenis, $totalAmount, 2);
 
                 if ($createSaldo2) {
-                    /* Create History Transkasi */
-                    $createHistory = HistoryTransaksi::create([
+                    /* Create Queue Job History Transkasi */
+                    $saldoMember = $saldoMember + $totalAmount;
+                    ProcessHistoryJob::dispatch([
                         'username' => $request->Username,
                         'invoice' =>  $txnid,
                         'refno' => $request->TransferCode,
                         'keterangan' => $request->ExtraInfo["sportType"],
                         'status' => 'rollback',
                         'debit' => 0,
-                        'kredit' => $totalAmount
+                        'kredit' => $totalAmount,
+                        'balance' => $saldoMember
                     ]);
 
                     /* Add Saldo */
@@ -902,11 +912,11 @@ class ApiBolaController extends Controller
                         "CompanyKey" => env('COMPANY_KEY'),
                         "ServerId" => env('SERVERID')
                     ];
-                    $this->deposit($data, $createSaldo2->id, $createHistory->id);
+                    $this->deposit($data, $createSaldo2->id);
                 }
             }
 
-            return $this->rollbackTransaction($request, $dataTransaction, $crteateStatusTransaction);
+            return $this->rollbackTransaction($request, $dataTransaction, $crteateStatusTransaction, $saldoMember);
         }
     }
 
@@ -1085,7 +1095,7 @@ class ApiBolaController extends Controller
         }
     }
 
-    private function deposit($data, $idTransaction, $idHistory)
+    private function deposit($data, $idTransaction)
     {
         $deductBalence = $this->requestApi('deposit', $data);
 
@@ -1098,10 +1108,6 @@ class ApiBolaController extends Controller
             if ($deductBalence["error"]["id"] === 0) {
                 TransactionSaldo::where('id', $idTransaction)->update([
                     'txnid' => $txnid
-                ]);
-
-                HistoryTransaksi::where('id', $idHistory)->update([
-                    'invoice' => $txnid
                 ]);
             }
             $attempt4404++;
@@ -1187,8 +1193,8 @@ class ApiBolaController extends Controller
             }
 
             if ($saldoTransaction) {
-                /* Create History Transkasi */
-                $createHistory = HistoryTransaksi::create([
+                /* Create Queue Job History Transkasi */
+                ProcessHistoryJob::dispatch([
                     'username' => $request->Username,
                     'invoice' =>  $txnid,
                     'refno' => $request->TransferCode,
@@ -1208,7 +1214,7 @@ class ApiBolaController extends Controller
                     "CompanyKey" => env('COMPANY_KEY'),
                     "ServerId" => env('SERVERID')
                 ];
-                $this->withdraw($data, $saldoTransaction->id, $createHistory->id);
+                $this->withdraw($data, $saldoTransaction->id);
 
 
                 /* Create Outstanding */
@@ -1222,7 +1228,7 @@ class ApiBolaController extends Controller
                     "amount" => $amount
                 ]);
 
-                $saldo = $this->apiGetBalance($request)["balance"];
+                $saldo = $saldoMember - $request->Amount;
                 return [
                     'AccountName' => $request->Username,
                     'Balance' => $saldo,
@@ -1233,7 +1239,7 @@ class ApiBolaController extends Controller
         }
     }
 
-    private function withdraw($data, $idsaldo, $idHistory)
+    private function withdraw($data, $idsaldo)
     {
         $WdSaldo = $this->requestApi('withdraw', $data);
 
@@ -1254,12 +1260,6 @@ class ApiBolaController extends Controller
             if ($WdSaldo["error"]["id"] === 0) {
                 if ($idsaldo != '') {
                     TransactionSaldo::where('id', $idsaldo)->update([
-                        "txnid" => $txnid
-                    ]);
-                }
-
-                if ($idsaldo != '') {
-                    HistoryTransaksi::where('id', $idHistory)->update([
                         "txnid" => $txnid
                     ]);
                 }

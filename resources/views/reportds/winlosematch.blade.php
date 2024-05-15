@@ -22,9 +22,9 @@
                     <a href="/reportds/winlosematch" class="tombol grey active">
                         <span class="texttombol">WIN LOSE MATCH</span>
                     </a>
-                    <a href="/reportds/memberstatement" class="tombol grey">
+                    {{-- <a href="/reportds/memberstatement" class="tombol grey">
                         <span class="texttombol">STATEMENT</span>
-                    </a>
+                    </a> --}}
                 </div>
                 <div class="groupdatareportds">
                     <div class="grouphistoryds memberlist winlosematch">
