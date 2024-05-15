@@ -14,7 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Cache;
 
-class ApiBola_backupController extends Controller
+class ApiBolaController extends Controller
 
 {
     public function GetBalance(Request $request)
