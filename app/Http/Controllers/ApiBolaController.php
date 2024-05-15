@@ -601,7 +601,7 @@ class ApiBolaController extends Controller
 
                     /* Record Data Referral */
                     if ($WinLoss <= 0) {
-                        $this->execReferral($request, $dataStatusTransaction, $WinLoss);
+                        // $this->execReferral($request, $dataStatusTransaction, $WinLoss);
                     }
 
                     /* -------------------- */
@@ -703,21 +703,6 @@ class ApiBolaController extends Controller
         $saldoBerjalan = $dataAllTransactionsDP  - $dataAllTransactionsWD;
 
         return $saldoBerjalan;
-    }
-
-    private function requestWitdraw9720(Request $request, $txnid)
-    {
-        set_time_limit(60);
-        sleep(4.5);
-        $addTransactions = $this->withdraw($request, $txnid);
-
-        if ($addTransactions["error"]["id"] === 9720) {
-            sleep(1.5);
-            $addTransactions = $this->withdraw($request, $txnid);
-            return $addTransactions;
-        }
-
-        return $addTransactions;
     }
 
     private function setTransaction(Request $request)
