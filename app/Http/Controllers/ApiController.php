@@ -706,7 +706,8 @@ class ApiController extends Controller
         } else {
             $dataBalance = 0;
         }
-        return $$dataBalance;
+
+        return $dataBalance;
     }
 
     private function requestApi($endpoint, $data)
