@@ -531,9 +531,9 @@ class ApiController extends Controller
 
         if ($data["error"]["id"] === 0) {
             $results = [
-                "username" => $data["username"],
+                "username" => $username,
                 // "balance" => $data["balance"] + $this->saldoBerjalan($username),
-                "balance" => $data["balance"],
+                "balance" => $data,
                 // "balance" => $data["balance"],
             ];
             return $results;
@@ -707,13 +707,13 @@ class ApiController extends Controller
 
     private function reqApiBalance($username)
     {
-        $dataApiCheckBalance = [
-            "Username" => $username,
-            "CompanyKey" => env('COMPANY_KEY'),
-            "ServerId" => env('SERVERID')
-        ];
-
-        return $this->requestApi('get-player-balance', $dataApiCheckBalance);
+        $dataBalance = Balance::where('username', $username)->first();
+        if ($dataBalance) {
+            $dataBalance = $dataBalance->amount;
+        } else {
+            $dataBalance = 0;
+        }
+        return $$dataBalance;
     }
 
     private function requestApi($endpoint, $data)

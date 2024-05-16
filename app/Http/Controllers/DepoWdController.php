@@ -16,6 +16,7 @@ use App\Models\Transactions;
 use App\Models\TransactionStatus;
 use App\Models\TransactionSaldo;
 use App\Models\Xtrans;
+use App\Models\Balance;
 use App\Models\Xcountwddp;
 
 // date_default_timezone_set('Asia/Jakarta');
