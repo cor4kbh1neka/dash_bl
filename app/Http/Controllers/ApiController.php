@@ -529,20 +529,13 @@ class ApiController extends Controller
         $username = $request->input('username');
         $data = $this->reqApiBalance($username);
 
-        if ($data["error"]["id"] === 0) {
-            $results = [
-                "username" => $username,
-                // "balance" => $data["balance"] + $this->saldoBerjalan($username),
-                "balance" => $data,
-                // "balance" => $data["balance"],
-            ];
-            return $results;
-        } else {
-            return response()->json([
-                'status' => 'Error',
-                'message' => $data["error"]["msg"]
-            ]);
-        }
+        $results = [
+            "username" => $username,
+            // "balance" => $data["balance"] + $this->saldoBerjalan($username),
+            "balance" => $data,
+            // "balance" => $data["balance"],
+        ];
+        return $results;
     }
 
     public function getTransactions()
