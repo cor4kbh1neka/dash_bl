@@ -15,6 +15,7 @@ use App\Models\DepoWd;
 use App\Models\Groupbank;
 use App\Models\HistoryTransaksi;
 use App\Models\Outstanding;
+use App\Models\Balance;
 use Carbon\Carbon;
 
 
@@ -125,13 +126,7 @@ class ApiController extends Controller
             'Content-Type' => 'application/json; charset=UTF-8'
         ])->post($url, $data);
 
-        if ($response->successful()) {
-            $responseData = $response->json();
-        } else {
-            $statusCode = $response->status();
-            $errorMessage = $response->body();
-            $responseData = "Error: $statusCode - $errorMessage";
-        }
+        $responseData = $response->json();
         if ($responseData["error"]["id"] === 0) {
             Member::create([
                 'username' => $request->Username,
@@ -152,19 +147,17 @@ class ApiController extends Controller
                 'status' => 0
             ]);
 
+            Balance::create([
+                'username' => $request->Username,
+                'balance' => 0,
+
+            ]);
+
             $dataXreferral = Xreferral::where('username', $request->Referral)->first();
             if ($dataXreferral) {
                 $dataXreferral->update([
                     'count_referral' => $dataXreferral->count_referral + 1
                 ]);
-            } else {
-                if ($request->Referral != '') {
-                    Xreferral::create([
-                        'username' => $request->Referral,
-                        'count_referral' => 1,
-                        'sum_amount' => 0
-                    ]);
-                }
             }
 
             return response()->json([

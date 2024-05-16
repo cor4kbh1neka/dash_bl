@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('member', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('username');
+            $table->string('username')->unique();
             $table->string('referral')->nullable();
             $table->string('bank')->nullable();
             $table->string('namarek')->nullable();
