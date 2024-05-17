@@ -531,9 +531,7 @@ class ApiController extends Controller
 
         $results = [
             "username" => $username,
-            // "balance" => $data["balance"] + $this->saldoBerjalan($username),
             "balance" => $data,
-            // "balance" => $data["balance"],
         ];
         return $results;
     }

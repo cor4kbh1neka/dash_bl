@@ -937,16 +937,16 @@ class ApiBolaController extends Controller
                 if ($porcessBalance["status"] === 'success') {
                     /* Create Queue Job History Transkasi */
                     $saldoMember = $porcessBalance["balance"];
-                    HistoryTransaksi::create([
-                        'username' => $request->Username,
-                        'invoice' =>  '-',
-                        'refno' => $request->TransferCode,
-                        'keterangan' => $request->ExtraInfo["sportType"],
-                        'status' => 'pemasangan',
-                        'debit' => $request->Amount,
-                        'kredit' => 0,
-                        'balance' => $saldoMember
-                    ]);
+                    // HistoryTransaksi::create([
+                    //     'username' => $request->Username,
+                    //     'invoice' =>  '-',
+                    //     'refno' => $request->TransferCode,
+                    //     'keterangan' => $request->ExtraInfo["sportType"],
+                    //     'status' => 'pemasangan',
+                    //     'debit' => $request->Amount,
+                    //     'kredit' => 0,
+                    //     'balance' => $saldoMember
+                    // ]);
 
                     /* Create Outstanding */
                     $this->createOutstanding([
