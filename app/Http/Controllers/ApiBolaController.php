@@ -19,7 +19,6 @@ use App\Models\Balance;
 use App\Models\Xtrans;
 use Illuminate\Support\Facades\DB;
 use App\Models\HistoryTransaksi;
-use App\Models\HistoryTransactions;
 
 use Illuminate\Support\Facades\Http;
 
@@ -276,7 +275,7 @@ class ApiBolaController extends Controller
     /* ======================= HISTORY TRANSKASI ======================= */
     private function createHistory($data)
     {
-        return HistoryTransactions::create([$data]);
+        return HistoryTransaksi::create([$data]);
     }
 
 
@@ -956,15 +955,15 @@ class ApiBolaController extends Controller
                     ]);
 
                     /* Create Outstanding */
-                    $this->createOutstanding([
-                        "transactionid" => $request->TransactionId,
-                        "transfercode" => $request->TransferCode,
-                        "username" => $request->Username,
-                        "portfolio" => ProductType::where('id', $request->ProductType)->first()->portfolio,
-                        "gametype" => isset($request->ExtraInfo['sportType']) ? $request->ExtraInfo['sportType'] : ProductType::where('id', $request->ProductType)->first()->productsname,
-                        "status" => 'Running',
-                        "amount" => $amount
-                    ]);
+                    // $this->createOutstanding([
+                    //     "transactionid" => $request->TransactionId,
+                    //     "transfercode" => $request->TransferCode,
+                    //     "username" => $request->Username,
+                    //     "portfolio" => ProductType::where('id', $request->ProductType)->first()->portfolio,
+                    //     "gametype" => isset($request->ExtraInfo['sportType']) ? $request->ExtraInfo['sportType'] : ProductType::where('id', $request->ProductType)->first()->productsname,
+                    //     "status" => 'Running',
+                    //     "amount" => $amount
+                    // ]);
 
                     $saldo = $saldoMember;
                     return [
