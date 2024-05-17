@@ -766,14 +766,25 @@ class ApiController extends Controller
         return HistoryTransaksi::get();
     }
 
-    public function getDataHistory(Request $request, $username)
+    public function getDataHistory(Request $request)
     {
         $validasiBearer = $this->validasiBearer($request);
         if ($validasiBearer !== true) {
             return $validasiBearer;
         }
 
-        return HistoryTransaksi::where('username', $username)->get();
+        $username = $request->username;
+        if ($username) {
+            return [
+                'status' => 'success',
+                'data' => HistoryTransaksi::where('username', $username)->get()
+            ];
+        } else {
+            return [
+                'status' => 'fail',
+                'message' => 'Username tidak boleh kosong'
+            ];
+        }
     }
 
     public function deleteHistoryTranskasi()

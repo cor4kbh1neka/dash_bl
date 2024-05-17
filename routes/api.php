@@ -58,5 +58,5 @@ Route::post('/getDataOutstanding', [ApiController::class, 'getDataOutstanding'])
 
 Route::post('/getApiBro', [ApiController::class, 'getApiBro']);
 Route::get('/getDataHistory', [ApiController::class, 'getDataHistoryAll']);
-Route::get('/gethistory/{username}', [ApiController::class, 'getDataHistory']);
+Route::post('/gethistory', [ApiController::class, 'getDataHistory']);
 Route::get('/deleteHistoryTranskasi', [ApiController::class, 'deleteHistoryTranskasi']);
