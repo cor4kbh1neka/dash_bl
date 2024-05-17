@@ -306,50 +306,16 @@ class ApiController extends Controller
         }
 
         try {
-            // $validator = Validator::make($request->all(), [
-            //     'username' => 'required|max:50',
-            //     'amount' => 'required|numeric',
-            //     'bank' => 'required|max:100',
-            //     'mbank' => 'required|max:100',
-            //     'mnamarek' => 'required|max:150',
-            //     'mnorek' => 'required|max:30',
-            //     'balance' => 'required|numeric',
-            //     'referral' => 'nullable',
-            // ]);
-            // if ($validator->fails()) {
-            //     return response()->json(['errors' => $validator->errors()->all()], 400);
-            // }
-
-            // $dataMember = Member::where('username', strtolower($request->username))->first();
-            // if (!$dataMember) {
-            //     return response()->json([
-            //         'status' => 'Fail',
-            //         'message' => 'Username tidak terdaftar'
-            //     ], 400);
-            // }
-
-            // $checkBalance = $this->reqApiBalance($request->username);
-            // if ($checkBalance["balance"] < $request->amount) {
-            //     return response()->json([
-            //         'status' => 'Fail',
-            //         'message' => 'Balance tidak cukup'
-            //     ], 400);
-            // }
-            // if ($checkBalance["error"]["id"] !== 0) {
-            //     return response()->json([
-            //         'status' => 'Fail',
-            //         'message' => $checkBalance["error"]["msg"]
-            //     ], 400);
-            // }
-
-            // $dataDepoWd = DepoWd::where('username', strtolower($request->username))->where('jenis', 'WD')->where('status', '0')->first();
-
-            // if ($dataDepoWd) {
-            //     return response()->json([
-            //         'status' => 'Fail',
-            //         'message' => 'Gagal melakukan withdrawal'
-            //     ], 400);
-            // }
+            /* Validasi WD */
+            $dataBalance = Balance::where('username', $request->username)->first();
+            if ($dataBalance) {
+                if ($request->amount >= $dataBalance->amount) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Saldo tidak cukup'
+                    ], 500);
+                }
+            }
 
             /* Request API check transaction */
             $txnid = $this->generateTxnid('W');
