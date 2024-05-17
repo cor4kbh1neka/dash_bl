@@ -765,4 +765,19 @@ class ApiController extends Controller
     {
         return HistoryTransaksi::get();
     }
+
+    public function deleteHistoryTranskasi()
+    {
+        try {
+            HistoryTransaksi::truncate();
+
+            return [
+                "status" => 'success',
+            ];
+        } catch (\Exception $e) {
+            return [
+                "status" => 'fail',
+            ];
+        }
+    }
 }
