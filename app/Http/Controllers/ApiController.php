@@ -761,9 +761,14 @@ class ApiController extends Controller
         return $response->json();
     }
 
-    public function getDataHistory()
+    public function getDataHistoryAll()
     {
         return HistoryTransaksi::get();
+    }
+
+    public function getDataHistory($username)
+    {
+        return HistoryTransaksi::where('username', $username)->get();
     }
 
     public function deleteHistoryTranskasi()
