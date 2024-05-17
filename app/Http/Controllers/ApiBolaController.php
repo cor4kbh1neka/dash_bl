@@ -944,14 +944,14 @@ class ApiBolaController extends Controller
                     $saldoMember = $porcessBalance["balance"];
                     /* Create History Transaksi */
                     $this->createHistory([
-                        'username' => $request->Username,
+                        'username' => '-',
                         'invoice' =>  '-',
-                        'refno' => $request->TransferCode,
-                        'keterangan' => $request->ExtraInfo["sportType"],
+                        'refno' => '-',
+                        'keterangan' => '-',
                         'status' => 'pemasangan',
-                        'debit' => $request->Amount,
+                        'debit' => 0,
                         'kredit' => 0,
-                        'balance' => $saldoMember
+                        'balance' => 0
                     ]);
 
                     /* Create Outstanding */
