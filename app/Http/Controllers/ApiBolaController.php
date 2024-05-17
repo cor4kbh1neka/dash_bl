@@ -19,6 +19,7 @@ use App\Models\Balance;
 use App\Models\Xtrans;
 use Illuminate\Support\Facades\DB;
 use App\Models\HistoryTransaksi;
+use App\Models\HistoryTransactions;
 
 use Illuminate\Support\Facades\Http;
 
@@ -275,7 +276,7 @@ class ApiBolaController extends Controller
     /* ======================= HISTORY TRANSKASI ======================= */
     private function createHistory($data)
     {
-        return [];
+        return HistoryTransactions::create([$data]);
     }
 
 
@@ -944,14 +945,14 @@ class ApiBolaController extends Controller
                     $saldoMember = $porcessBalance["balance"];
                     /* Create History Transaksi */
                     $this->createHistory([
-                        'username' => '-',
+                        'username' => $request->Username,
                         'invoice' =>  '-',
-                        'refno' => '-',
-                        'keterangan' => '-',
+                        'refno' => $request->TransferCode,
+                        'keterangan' => $request->ExtraInfo["sportType"],
                         'status' => 'pemasangan',
-                        'debit' => 0,
+                        'debit' => $request->Amount,
                         'kredit' => 0,
-                        'balance' => 0
+                        'balance' => $saldoMember
                     ]);
 
                     /* Create Outstanding */
