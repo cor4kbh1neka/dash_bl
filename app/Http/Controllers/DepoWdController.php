@@ -157,8 +157,10 @@ class DepoWdController extends Controller
                     ];
 
                     if ($result->jenis == 'DPM') {
+                        $jenis = 'DP';
                         $req = $this->requestApi('deposit', $dataAPI);
                     } elseif ($result->jenis == 'WDM') {
+                        $jenis = 'WD';
                         $dataAPI["IsFullAmount"] = false;
                         $req = $this->requestApi('withdraw', $dataAPI);
                     } else {
@@ -178,14 +180,16 @@ class DepoWdController extends Controller
                             'errorCode' => 500,
                             'message' => 'Gagal melakukan transaksi!'
                         ]);
+                    } else if ($req["error"]["id"] === 0) {
+                        $this->processBalance($result->username, $jenis, $result->amount);
+                        return redirect()->route('manualds')->with([
+                            'title' => 'Proses Manual',
+                            'totalnote' => 0,
+                            'jenis' => $result->jenis,
+                            'errorCode' => 200,
+                            'message' => 'Transaksi berhasil!'
+                        ]);
                     }
-                    return redirect()->route('manualds')->with([
-                        'title' => 'Proses Manual',
-                        'totalnote' => 0,
-                        'jenis' => $result->jenis,
-                        'errorCode' => 200,
-                        'message' => 'Transaksi berhasil!'
-                    ]);
                 }
                 return redirect()->route('manualds')->with([
                     'title' => 'Proses Manual',
@@ -339,6 +343,7 @@ class DepoWdController extends Controller
                                 DepoWd::where('id', $id)->update(['status' => 0, 'approved_by' => null]);
                                 return back()->withInput()->with('error', $resultsApi["error"]["msg"]);
                             } else if ($resultsApi["error"]["id"] === 0) {
+                                $this->processBalance($dataDepo->username, 'DP', $dataDepo->amount);
                                 DepoWd::where('id', $id)->update(['txnid' => $txnid]);
                                 $dataMember = Member::where('username', $dataDepo->username)
                                     ->where('status', 9)
@@ -551,8 +556,36 @@ class DepoWdController extends Controller
     // }
 
 
+    public function processBalance($username, $jenis, $amount)
+    {
+        try {
+            DB::beginTransaction();
 
+            $balance = Balance::where('username', $username)->lockForUpdate()->first();
 
+            if (!$balance) {
+                throw new \Exception('Saldo pengguna tidak ditemukan.');
+            }
 
+            if ($jenis == 'DP') {
+                $balance->amount += $amount;
+            } else {
+                $balance->amount -= $amount;
+            }
 
+            $balance->save();
+
+            DB::commit();
+            return [
+                "status" => 'success',
+                "balance" => $balance->amount
+            ];
+        } catch (\Exception $e) {
+            DB::rollback();
+            return [
+                "status" => 'fail',
+                "balance" => 0
+            ];
+        }
+    }
 }

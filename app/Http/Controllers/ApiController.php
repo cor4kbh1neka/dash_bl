@@ -406,6 +406,15 @@ class ApiController extends Controller
                         'message' => $resultsApi["error"]["msg"]
                     ], 500);
                 }
+
+                if ($resultsApi["error"]["id"] === 0) {
+                    $this->processBalance($dataWD->username, 'WD', $dataWD->amount);
+
+                    return response()->json([
+                        'status' => 'Success',
+                        'message' => 'Withdrawal sedang diproses'
+                    ]);
+                }
             }
 
             return response()->json([
@@ -417,6 +426,39 @@ class ApiController extends Controller
                 'status' => 'error',
                 'message' => 'Gagal menyimpan data: ' . $e->getMessage()
             ], 500);
+        }
+    }
+
+    public function processBalance($username, $jenis, $amount)
+    {
+        try {
+            DB::beginTransaction();
+
+            $balance = Balance::where('username', $username)->lockForUpdate()->first();
+
+            if (!$balance) {
+                throw new \Exception('Saldo pengguna tidak ditemukan.');
+            }
+
+            if ($jenis == 'DP') {
+                $balance->amount += $amount;
+            } else {
+                $balance->amount -= $amount;
+            }
+
+            $balance->save();
+
+            DB::commit();
+            return [
+                "status" => 'success',
+                "balance" => $balance->amount
+            ];
+        } catch (\Exception $e) {
+            DB::rollback();
+            return [
+                "status" => 'fail',
+                "balance" => 0
+            ];
         }
     }
 

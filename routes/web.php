@@ -47,7 +47,7 @@ use App\Models\Notes;
 
 Route::get('/', function () {
     if (Auth::check()) {
-        return redirect()->intended('/transaction/DP');
+        return redirect()->intended('depositds');
     }
     return redirect()->intended('/login');
 });
@@ -124,6 +124,23 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/agents/delete', [AgentsController::class, 'destroy']);
     Route::get('/agents/view/{id}', [AgentsController::class, 'views']);
 
+    /*-- Analyticsds --*/
+    Route::get('/analyticsds', [AnalyticsdsController::class, 'index']);
+    Route::get('/analyticsds/sitemap', [AnalyticsdsController::class, 'sitemap']);
+
+    /*-- Contentds --*/
+    Route::get('/contentds', [ContentdsController::class, 'index']);
+    Route::get('/contentds/promo', [ContentdsController::class, 'promo']);
+    Route::get('/contentds/promo/add', [ContentdsController::class, 'promoadd']);
+    Route::get('/contentds/promo/edit', [ContentdsController::class, 'promoedit']);
+    Route::get('/contentds/slider', [ContentdsController::class, 'slider']);
+    Route::get('/contentds/slider/edit', [ContentdsController::class, 'slideredit']);
+    Route::get('/contentds/link', [ContentdsController::class, 'link']);
+    Route::get('/contentds/link/edit', [ContentdsController::class, 'linkedit']);
+    Route::get('/contentds/socialmedia', [ContentdsController::class, 'socialmedia']);
+    Route::get('/contentds/socialmedia/edit', [ContentdsController::class, 'socialmediaedit']);
+
+
     /*-- Players --*/
     Route::get('/players', [PlayersController::class, 'index']);
     Route::get('/players/add', [PlayersController::class, 'create']);
@@ -174,15 +191,16 @@ Route::middleware(['auth'])->group(function () {
     /*-- Dashboard --*/
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
-    /*-- Despositds --*/
-    Route::get('/transaction/{jenis}', [DepositdsController::class, 'index']);
+    /*-- Despositds & Withdrawtds --*/
+    Route::get('/depositds', [DepositdsController::class, 'index'])->name('depositds');
+    Route::get('/withdrawds', [DepositdsController::class, 'index'])->name('withdrawds');
     Route::get('/getDataHistory/{username}/{jenis}', [DepositdsController::class, 'getDataHistory']);
     Route::get('/getbalance/{username}', [DepoWdController::class, 'getBalancePlayer']);
     Route::get('/datacountwdp', [DepoWdController::class, 'getCountDataDPW']);
 
 
-    /*-- Withdrawds --*/
-    Route::get('/withdrawds', [WithdrawdsController::class, 'index']);
+    // /*-- Withdrawds --*/
+    // Route::get('/withdrawds', [WithdrawdsController::class, 'index']);
 
     /*-- Manualds --*/
     Route::get('/manualds', [ManualdsController::class, 'index'])->name('manualds');

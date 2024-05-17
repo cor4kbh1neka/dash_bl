@@ -6,11 +6,18 @@ use App\Models\DepoWd;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 
 class DepositdsController extends Controller
 {
-    public function index($jenis)
+    public function index()
     {
+        if (Route::is('depositds')) {
+            $jenis = 'DP';
+        } elseif (Route::is('withdrawds')) {
+            $jenis = 'WD';
+        }
+
         $dataCountDepoWd = DepoWd::select('bank', DB::raw('count(id) as count'))
             ->where('status', 0)
             ->where('jenis', $jenis)

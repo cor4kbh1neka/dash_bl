@@ -12,6 +12,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('username', 50)->required();
             $table->string('downline', 50)->required();
+            $table->string('refno', 50)->required();
             $table->decimal('amount', 8, 2)->default(0);
             $table->timestamps();
         });
