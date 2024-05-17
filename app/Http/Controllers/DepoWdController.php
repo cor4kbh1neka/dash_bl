@@ -18,6 +18,7 @@ use App\Models\TransactionSaldo;
 use App\Models\Xtrans;
 use App\Models\Balance;
 use App\Models\Xcountwddp;
+use Illuminate\Support\Facades\DB;
 
 // date_default_timezone_set('Asia/Jakarta');
 
@@ -360,10 +361,12 @@ class DepoWdController extends Controller
                     }
                 }
             }
-            $url = '/transaction/' . $jenis;
+
             if ($jenis == 'DP') {
+                $url = '/depositds';
                 $message = 'Deposit berhasil diproses';
             } else {
+                $url = '/withdrawds';
                 $message = 'Withdrawal berhasil diproses';
             }
             return redirect($url)->with('success', $message);
@@ -430,10 +433,11 @@ class DepoWdController extends Controller
                 }
             }
 
-            $url = '/transaction/' . $jenis;
             if ($jenis == 'DP') {
+                $url = '/depositds';
                 $message = 'Deposit berhasil dibatalkan';
             } else {
+                $url = '/withdrawds';
                 $message = 'Withdrawal berhasil dibatalkan';
             }
             return redirect($url)->with('success', $message);
