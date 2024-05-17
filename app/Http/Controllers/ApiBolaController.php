@@ -275,7 +275,7 @@ class ApiBolaController extends Controller
     /* ======================= HISTORY TRANSKASI ======================= */
     private function createHistory($data)
     {
-        return HistoryTransaksi::create([$data]);
+        return [];
     }
 
 
