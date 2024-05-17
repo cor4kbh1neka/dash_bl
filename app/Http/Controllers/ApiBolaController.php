@@ -554,7 +554,7 @@ class ApiBolaController extends Controller
                                 'username' => $request->Username,
                                 'invoice' =>  $txnid,
                                 'refno' => $request->TransferCode,
-                                'keterangan' => $request->ExtraInfo["sportType"],
+                                'keterangan' => 'test',
                                 'status' => 'cancel',
                                 'debit' => 0,
                                 'kredit' => $totalAmount,
@@ -955,15 +955,15 @@ class ApiBolaController extends Controller
                     ]);
 
                     /* Create Outstanding */
-                    // $this->createOutstanding([
-                    //     "transactionid" => $request->TransactionId,
-                    //     "transfercode" => $request->TransferCode,
-                    //     "username" => $request->Username,
-                    //     "portfolio" => ProductType::where('id', $request->ProductType)->first()->portfolio,
-                    //     "gametype" => isset($request->ExtraInfo['sportType']) ? $request->ExtraInfo['sportType'] : ProductType::where('id', $request->ProductType)->first()->productsname,
-                    //     "status" => 'Running',
-                    //     "amount" => $amount
-                    // ]);
+                    $this->createOutstanding([
+                        "transactionid" => $request->TransactionId,
+                        "transfercode" => $request->TransferCode,
+                        "username" => $request->Username,
+                        "portfolio" => ProductType::where('id', $request->ProductType)->first()->portfolio,
+                        "gametype" => isset($request->ExtraInfo['sportType']) ? $request->ExtraInfo['sportType'] : ProductType::where('id', $request->ProductType)->first()->productsname,
+                        "status" => 'Running',
+                        "amount" => $amount
+                    ]);
 
                     $saldo = $saldoMember;
                     return [
