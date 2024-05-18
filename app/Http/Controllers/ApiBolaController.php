@@ -19,6 +19,7 @@ use App\Models\Balance;
 use App\Models\Xtrans;
 use Illuminate\Support\Facades\DB;
 use App\Models\HistoryTransaksi;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Facades\Http;
 
@@ -893,6 +894,10 @@ class ApiBolaController extends Controller
 
     private function setTransaction(Request $request, $saldoMember)
     {
+        Log::info('Informasi Request:', [
+            'parameters' => $request->all(),
+        ]);
+        dd('test');
         $cekTransaction = Transactions::where('transactionid', $request->TransactionId)->first();
 
         if ($cekTransaction) {

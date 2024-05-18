@@ -42,6 +42,11 @@
                         class="value sportsType">{{ $portfolio == 'SportsBook' ? $data['sportsType'] : $data['productType'] }}</span>
                 </div>
                 <div class="listheaddetail">
+                    <span class="label">Odds Type</span>
+                    <span class="gap">:</span>
+                    <span class="value odds">{{ $data['oddsStyle'] }}</span>
+                </div>
+                <div class="listheaddetail">
                     <span class="label">Odds Bet</span>
                     <span class="gap">:</span>
                     <span class="value odds">{{ $data['odds'] }}</span>

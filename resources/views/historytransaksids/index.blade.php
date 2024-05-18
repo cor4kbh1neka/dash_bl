@@ -121,13 +121,13 @@
                                     <td>{{ $d->created_at }}</td>
                                     <td>
                                         @if ($d->status == 'menang' || $d->status == 'pemasangan')
-                                            <a href="/historygameds/detail/4653610" target="_blank"
+                                            <a href="/historygameds/detail/{{ $d->refno }}" target="_blank"
                                                 class="detailbetingan">
                                                 <span class="texttypebet sportsType">{{ $d->keterangan }}</span>
                                                 <span class="klikdetail"> - <span class="statustransaksi"></span></span>
                                             </a>
                                         @else
-                                            {{ $keterangan }}
+                                            {{ $d->keterangan }}
                                         @endif
                                     </td>
                                     <td>{{ $d->status }}</td>
