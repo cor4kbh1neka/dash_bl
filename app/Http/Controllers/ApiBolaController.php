@@ -279,15 +279,6 @@ class ApiBolaController extends Controller
 
 
 
-
-
-    /* ======================= HISTORY TRANSKASI ======================= */
-    private function createHistory($data)
-    {
-        return HistoryTransaksi::create($data);
-    }
-
-
     /* ======================= OUTSTANDING ======================= */
     private function createOutstanding($data)
     {
@@ -947,9 +938,9 @@ class ApiBolaController extends Controller
 
     private function setTransaction(Request $request, $saldoMember)
     {
-        Log::info('Informasi Request:', [
-            'parameters' => $request->all()
-        ]);
+        // Log::info('Informasi Request:', [
+        //     'parameters' => $request->all()
+        // ]);
 
         $cekTransaction = Transactions::where('transactionid', $request->TransactionId)->first();
 
@@ -1000,12 +991,15 @@ class ApiBolaController extends Controller
                 if ($porcessBalance["status"] === 'success') {
                     /* Create Queue Job History Transkasi */
                     $saldoMember = $porcessBalance["balance"];
-                    /* Create History Transaksi */
-                    $this->createHistory([
+                    $dataPortfolio = ProductType::where('id', $request->ProductType)->first();
+                    $portfolio = $dataPortfolio ? $dataPortfolio->portfolio : '';
+
+                    HistoryTransaksi::create([
                         'username' => $request->Username,
                         'invoice' =>  '-',
                         'refno' => $request->TransferCode,
                         'keterangan' => '-',
+                        'portfolio' => $portfolio,
                         'status' => 'pemasangan',
                         'debit' => $request->Amount,
                         'kredit' => 0,
