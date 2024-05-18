@@ -721,10 +721,14 @@ class ApiBolaController extends Controller
                     if ($porcessBalance["status"] === 'success') {
                         /* Create Queue Job History Transkasi */
                         $saldoMember = $porcessBalance["balance"];
+                        $portfolio = ProductType::where('id', $request->ProductType)->first();
+                        $portfolio = $portfolio ? $portfolio->portfolio : '';
+
                         HistoryTransaksi::create([
                             'username' => $dataHistory->username,
                             'invoice' =>  '-',
                             'refno' => $request->TransferCode,
+                            'portfolio' => $portfolio,
                             'keterangan' => 'Bonus',
                             'status' => 'rollback',
                             'debit' => $dataHistory->kredit,
@@ -751,11 +755,15 @@ class ApiBolaController extends Controller
                     $porcessBalance = $this->processBalance($request->Username, 'DP', $totalAmount);
                     if ($porcessBalance["status"] === 'success') {
                         $saldoMember = $porcessBalance["balance"];
+                        $portfolio = ProductType::where('id', $request->ProductType)->first();
+                        $portfolio = $portfolio ? $portfolio->portfolio : '';
+
                         HistoryTransaksi::create([
                             'username' => $request->Username,
                             'invoice' =>  $txnid,
                             'refno' => $request->TransferCode,
                             'keterangan' => '-',
+                            'portfolio' => $portfolio,
                             'status' => 'rollback',
                             'debit' => 0,
                             'kredit' => $totalAmount,
@@ -812,11 +820,15 @@ class ApiBolaController extends Controller
                         if ($porcessBalance["status"] === 'success') {
                             /* Create History Transaksi */
                             $saldoMember = $porcessBalance["balance"];
+                            $portfolio = ProductType::where('id', $request->ProductType)->first();
+                            $portfolio = $portfolio ? $portfolio->portfolio : '';
+
                             HistoryTransaksi::create([
                                 'username' => $request->Username,
                                 'invoice' =>  $txnid,
                                 'refno' => $request->TransferCode,
                                 'keterangan' => '-',
+                                'portfolio' => $portfolio,
                                 'status' => 'menang',
                                 'debit' => 0,
                                 'kredit' => $WinLoss,
@@ -869,12 +881,15 @@ class ApiBolaController extends Controller
                         'amount' => $referralAmount
                     ]);
 
+                    $portfolio = ProductType::where('id', $request->ProductType)->first();
+                    $portfolio = $portfolio ? $portfolio->portfolio : '';
                     /* Create History Transaksi */
                     HistoryTransaksi::create([
                         'username' => $dataAktif->referral,
                         'invoice' =>  '-',
                         'refno' => $request->TransferCode,
                         'keterangan' => 'Bonus',
+                        'portfolio' => $portfolio,
                         'status' => 'referral',
                         'debit' => 0,
                         'kredit' => $referralAmount
