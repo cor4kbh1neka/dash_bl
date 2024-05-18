@@ -16,6 +16,11 @@ use App\Models\Groupbank;
 use App\Models\HistoryTransaksi;
 use App\Models\Outstanding;
 use App\Models\Balance;
+use App\Models\Referral1;
+use App\Models\Referral2;
+use App\Models\Referral3;
+use App\Models\Referral4;
+use App\Models\Referral5;
 use Carbon\Carbon;
 
 
@@ -149,16 +154,35 @@ class ApiController extends Controller
 
             Balance::create([
                 'username' => $request->Username,
-                'balance' => 0,
-
+                'balance' => 0
             ]);
 
-            $dataXreferral = Xreferral::where('username', $request->Referral)->first();
-            if ($dataXreferral) {
-                $dataXreferral->update([
-                    'count_referral' => $dataXreferral->count_referral + 1
-                ]);
+            if ($request->Referral !== null && $request->Referral !== '') {
+                $dataReferral = [
+                    'upline' => $request->Referral,
+                    'downline' => $request->Username,
+                ];
+
+                if (preg_match('/^[a-e]/i', $request->Referral)) {
+                    Referral1::create($dataReferral);
+                } elseif (preg_match('/^[f-j]/i', $request->Referral)) {
+                    Referral2::create($dataReferral);
+                } elseif (preg_match('/^[k-o]/i', $request->Referral)) {
+                    Referral3::create($dataReferral);
+                } elseif (preg_match('/^[p-t]/i', $request->Referral)) {
+                    Referral4::create($dataReferral);
+                } elseif (preg_match('/^[u-z]/i', $request->Referral)) {
+                    Referral5::create($dataReferral);
+                }
             }
+
+
+            // $dataXreferral = Xreferral::where('username', $request->Referral)->first();
+            // if ($dataXreferral) {
+            //     $dataXreferral->update([
+            //         'count_referral' => $dataXreferral->count_referral + 1
+            //     ]);
+            // }
 
             return response()->json([
                 'message' => 'Data berhasil disimpan.'

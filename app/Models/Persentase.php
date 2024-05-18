@@ -12,6 +12,6 @@ class Persentase extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'persentase', 'keterangan'];
+    protected $fillable = ['id', 'jenis', 'persentase', 'keterangan'];
     protected $table = 'persentase';
 }

@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Settings;
 use App\Models\Companys;
 use App\Models\Currencys;
+use App\Models\Referral1;
+use App\Models\Referral2;
+use App\Models\Referral3;
+use App\Models\Referral4;
+use App\Models\Referral5;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
@@ -14,16 +19,8 @@ class ReferraldsController extends Controller
 {
     public function index()
     {
-        $data = [
-            [
-                'id' => '1',
-                'nama' => 'Waantos',
-                'alamat' => 'Pekanbaru',
-                'notelp' => '0778007711',
-                'tgllhir' => '12-09-1996',
-                'tempatlahir' => 'sukajadi'
-            ]
-        ];
+
+
         return view('referralds.index', [
             'title' => 'Referral',
             'data' => $data,

@@ -19,6 +19,11 @@ use App\Models\Balance;
 use App\Models\Xtrans;
 use Illuminate\Support\Facades\DB;
 use App\Models\HistoryTransaksi;
+use App\Models\ReferralAktif1;
+use App\Models\ReferralAktif2;
+use App\Models\ReferralAktif3;
+use App\Models\ReferralAktif4;
+use App\Models\ReferralAktif5;
 use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Facades\Http;
@@ -100,6 +105,7 @@ class ApiBolaController extends Controller
         if ($dataTransactions->isEmpty()) {
             return $this->errorResponse($request->Username, 6);
         }
+
         foreach ($dataTransactions as $index => $dataTransaction) {
             $results[] = $this->setSettle($request, $dataTransaction, $index, $saldoMember);
         }
@@ -450,22 +456,23 @@ class ApiBolaController extends Controller
                             }
                         }
                     } else {
-                        $dataReferral = HistoryTransaksi::where('refno', $request->TransferCode)->where('status', 'referral')->get();
-                        foreach ($dataReferral as $d) {
-                            $porcessBalance = $this->processBalance($d->username, 'WD', $d->kredit);
+
+                        $dataReferral = HistoryTransaksi::where('refno', $request->TransferCode)->where('status', 'referral')->first();
+                        if ($dataReferral) {
+                            $porcessBalance = $this->processBalance($dataReferral->username, 'WD', $dataReferral->kredit);
                             if ($porcessBalance["status"] === 'success') {
                                 /* Create Queue Job History Transkasi */
                                 $portfolio = ProductType::where('id', $request->ProductType)->first();
                                 $portfolio = $portfolio ? $portfolio->portfolio : '';
 
                                 HistoryTransaksi::create([
-                                    'username' => $d->username,
+                                    'username' => $dataReferral->username,
                                     'invoice' =>  $txnid,
                                     'refno' => $request->TransferCode,
                                     'keterangan' => 'Bonus',
                                     'portfolio' => $portfolio,
                                     'status' => 'cancel',
-                                    'debit' => $d->kredit,
+                                    'debit' => $dataReferral->kredit,
                                     'kredit' => 0,
                                     'balance' => $porcessBalance["balance"]
                                 ]);
@@ -706,9 +713,9 @@ class ApiBolaController extends Controller
                     ]);
                 }
             } else {
-                $dataHistory = HistoryTransaksi::where('refno', $request->TransferCode)->first();
+                $dataHistory = HistoryTransaksi::where('refno', $request->TransferCode)->where('status', 'referral')->first();
                 if ($dataHistory) {
-                    $porcessBalance = $this->processBalance($dataHistory->username, 'DP', $dataHistory->kredit);
+                    $porcessBalance = $this->processBalance($dataHistory->username, 'WD', $dataHistory->kredit);
                     if ($porcessBalance["status"] === 'success') {
                         /* Create Queue Job History Transkasi */
                         $saldoMember = $porcessBalance["balance"];
@@ -721,7 +728,7 @@ class ApiBolaController extends Controller
                             'refno' => $request->TransferCode,
                             'portfolio' => $portfolio,
                             'keterangan' => 'Bonus',
-                            'status' => 'rollback',
+                            'status' => 'cancel',
                             'debit' => $dataHistory->kredit,
                             'kredit' => $saldoMember
                         ]);
@@ -828,7 +835,7 @@ class ApiBolaController extends Controller
                         }
                     } else {
                         /* Record Data Referral */
-                        $this->execReferral($request, $dataStatusTransaction, $WinLoss);
+                        $this->execReferral($request, $dataStatusTransaction);
                     }
 
                     $saldo = $saldoMember;
@@ -849,7 +856,7 @@ class ApiBolaController extends Controller
         }
     }
 
-    private function execReferral(Request $request, $dataStatusTransaction, $WinLoss)
+    private function execReferral(Request $request, $dataStatusTransaction)
     {
         $dataAktif = MemberAktif::where('username', $request->Username)->first();
         if (!$dataAktif) {
@@ -857,56 +864,108 @@ class ApiBolaController extends Controller
         }
 
         if ($dataAktif) {
-            $amount = TransactionSaldo::where('transtatus_id', $dataStatusTransaction->id)->first()->amount;
-            $persentase = Persentase::first();
-            $persentase = $persentase ? $persentase->persentase : 0;
+            if ($dataAktif->referral !== '' && $dataAktif->referral !== null) {
+                $amount = TransactionSaldo::where('transtatus_id', $dataStatusTransaction->id)->orderBy('urutan', 'asc')->first()->amount;
+                $portfolio = ProductType::where('id', $request->ProductType)->first();
+                $portfolio = $portfolio ? $portfolio->portfolio : 'SportsBook';
 
-            $referralAmount = $amount * $persentase;
+                $persentase = Persentase::where('jenis', $portfolio)->first();
+                $persentase = $persentase ? $persentase->persentase : 0;
 
-            if ($referralAmount > 0) {
-                $depositReferral = $this->processBalance($dataAktif->referral, 'DP', $referralAmount);
-                if ($depositReferral["status"] === "success") {
-                    Referral::create([
-                        'username' => $dataAktif->referral,
-                        'downline' => $request->Username,
-                        'amount' => $referralAmount
-                    ]);
+                $referralAmount = $amount * $persentase;
+                if ($referralAmount > 0) {
+                    $depositReferral = $this->processBalance($dataAktif->referral, 'DP', $referralAmount);
+                    if ($depositReferral["status"] === "success") {
 
-                    $portfolio = ProductType::where('id', $request->ProductType)->first();
-                    $portfolio = $portfolio ? $portfolio->portfolio : '';
-                    /* Create History Transaksi */
-                    HistoryTransaksi::create([
-                        'username' => $dataAktif->referral,
-                        'invoice' =>  '-',
-                        'refno' => $request->TransferCode,
-                        'keterangan' => 'Bonus',
-                        'portfolio' => $portfolio,
-                        'status' => 'referral',
-                        'debit' => 0,
-                        'kredit' => $referralAmount
-                    ]);
+                        if ($dataAktif->referral !== null && $dataAktif->referral !== '') {
+                            $dataReferral = [
+                                'upline' => $dataAktif->referral,
+                                'downline' => $request->Username,
+                                'portfolio' => $portfolio,
+                                'amount' => $referralAmount
+                            ];
 
-                    $this->execXreferral($dataAktif->referral, $referralAmount);
+                            if (preg_match('/^[a-e]/i', $dataAktif->referral)) {
+                                $refAktif = ReferralAktif1::where('downline', $request->Username)->whereDate('created_at', date('Y-m-d'))->first();
+                                if ($refAktif) {
+                                    $refAktif->update([
+                                        'amount' => $refAktif->amount + $referralAmount
+                                    ]);
+                                } else {
+                                    ReferralAktif1::create($dataReferral);
+                                }
+                            } elseif (preg_match('/^[f-j]/i', $dataAktif->referral)) {
+                                $refAktif = ReferralAktif2::where('downline', $request->Username)->whereDate('created_at', date('Y-m-d'))->first();
+                                if ($refAktif) {
+                                    $refAktif->update([
+                                        'amount' => $refAktif->amount + $referralAmount
+                                    ]);
+                                } else {
+                                    ReferralAktif2::create($dataReferral);
+                                }
+                            } elseif (preg_match('/^[k-o]/i', $dataAktif->referral)) {
+                                $refAktif = ReferralAktif3::where('downline', $request->Username)->whereDate('created_at', date('Y-m-d'))->first();
+                                if ($refAktif) {
+                                    $refAktif->update([
+                                        'amount' => $refAktif->amount + $referralAmount
+                                    ]);
+                                } else {
+                                    ReferralAktif3::create($dataReferral);
+                                }
+                            } elseif (preg_match('/^[p-t]/i', $dataAktif->referral)) {
+                                $refAktif = ReferralAktif4::where('downline', $request->Username)->whereDate('created_at', date('Y-m-d'))->first();
+                                if ($refAktif) {
+                                    $refAktif->update([
+                                        'amount' => $refAktif->amount + $referralAmount
+                                    ]);
+                                } else {
+                                    ReferralAktif4::create($dataReferral);
+                                }
+                            } elseif (preg_match('/^[u-z]/i', $dataAktif->referral)) {
+                                $refAktif = ReferralAktif4::where('downline', $request->Username)->whereDate('created_at', date('Y-m-d'))->first();
+                                if ($refAktif) {
+                                    $refAktif->update([
+                                        'amount' => $refAktif->amount + $referralAmount
+                                    ]);
+                                } else {
+                                    ReferralAktif4::create($dataReferral);
+                                }
+                            }
+                        }
+                        /* Create History Transaksi */
+                        HistoryTransaksi::create([
+                            'username' => $dataAktif->referral,
+                            'invoice' =>  '-',
+                            'refno' => $request->TransferCode,
+                            'keterangan' => 'Bonus',
+                            'portfolio' => $portfolio,
+                            'status' => 'referral',
+                            'debit' => 0,
+                            'kredit' => $referralAmount
+                        ]);
+
+                        // $this->execXreferral($dataAktif->referral, $referralAmount);
+                    }
                 }
             }
         }
     }
 
-    private function execXreferral($username, $amount)
-    {
-        $dataXreferrral = Xreferral::where('username', $username)->first();
-        if ($dataXreferrral) {
-            $dataXreferrral->update([
-                'sum_amount' => $dataXreferrral->sum_amount + $amount
-            ]);
-        } else {
-            Xreferral::create([
-                'username' => $username,
-                'count_referral' => 0,
-                'sum_amount' => $amount
-            ]);
-        }
-    }
+    // private function execXreferral($username, $amount)
+    // {
+    //     $dataXreferrral = Xreferral::where('username', $username)->first();
+    //     if ($dataXreferrral) {
+    //         $dataXreferrral->update([
+    //             'sum_amount' => $dataXreferrral->sum_amount + $amount
+    //         ]);
+    //     } else {
+    //         Xreferral::create([
+    //             'username' => $username,
+    //             'count_referral' => 0,
+    //             'sum_amount' => $amount
+    //         ]);
+    //     }
+    // }
 
     /* ====================== Deduct ======================= */
     private function saldoBerjalan(Request $request)
@@ -1109,7 +1168,8 @@ class ApiBolaController extends Controller
             DB::rollback();
             return [
                 "status" => 'fail',
-                "balance" => 0
+                "balance" => 0,
+                "message" => $e->getMessage()
             ];
         }
     }

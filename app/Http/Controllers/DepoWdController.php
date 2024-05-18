@@ -17,6 +17,11 @@ use App\Models\TransactionStatus;
 use App\Models\TransactionSaldo;
 use App\Models\Xtrans;
 use App\Models\Balance;
+use App\Models\ReferralDepo1;
+use App\Models\ReferralDepo2;
+use App\Models\ReferralDepo3;
+use App\Models\ReferralDepo4;
+use App\Models\ReferralDepo5;
 use App\Models\Xcountwddp;
 use Illuminate\Support\Facades\DB;
 
@@ -229,6 +234,73 @@ class DepoWdController extends Controller
                 $txnid = $this->generateTxnid('D');
                 if ($dataDepo) {
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
+
+                    /* Create Depo Downline */
+                    if ($dataDepo->referral !== null && $dataDepo->referral !== '') {
+                        $dataReferral = [
+                            'upline' => $dataDepo->referral,
+                            'downline' => $dataDepo->username,
+                            'amount' => $dataDepo->amount
+                        ];
+
+                        if (preg_match('/^[a-e]/i', $dataDepo->referral)) {
+                            $dataRef = ReferralDepo1::where('downline', $dataDepo->username)
+                                ->whereDate('created_at', date('Y-m-d'))
+                                ->first();
+                            if (!$dataRef) {
+                                ReferralDepo1::create($dataReferral);
+                            } else {
+                                $dataRef->update([
+                                    'amount' => $dataRef->amount + $dataDepo->amount
+                                ]);
+                            }
+                        } elseif (preg_match('/^[f-j]/i', $dataDepo->referral)) {
+                            $dataRef = ReferralDepo2::where('downline', $dataDepo->username)
+                                ->whereDate('created_at', date('Y-m-d'))
+                                ->first();
+                            if (!$dataRef) {
+                                ReferralDepo2::create($dataReferral);
+                            } else {
+                                $dataRef->update([
+                                    'amount' => $dataRef->amount + $dataDepo->amount
+                                ]);
+                            }
+                        } elseif (preg_match('/^[k-o]/i', $dataDepo->referral)) {
+                            $dataRef = ReferralDepo3::where('downline', $dataDepo->username)
+                                ->whereDate('created_at', date('Y-m-d'))
+                                ->first();
+                            if (!$dataRef) {
+                                ReferralDepo3::create($dataReferral);
+                            } else {
+                                $dataRef->update([
+                                    'amount' => $dataRef->amount + $dataDepo->amount
+                                ]);
+                            }
+                        } elseif (preg_match('/^[p-t]/i', $dataDepo->referral)) {
+                            $dataRef = ReferralDepo4::where('downline', $dataDepo->username)
+                                ->whereDate('created_at', date('Y-m-d'))
+                                ->first();
+                            if (!$dataRef) {
+                                ReferralDepo4::create($dataReferral);
+                            } else {
+                                $dataRef->update([
+                                    'amount' => $dataRef->amount + $dataDepo->amount
+                                ]);
+                            }
+                        } elseif (preg_match('/^[u-z]/i', $dataDepo->referral)) {
+                            $dataRef = ReferralDepo5::where('downline', $dataDepo->username)
+                                ->whereDate('created_at', date('Y-m-d'))
+                                ->first();
+                            if (!$dataRef) {
+                                ReferralDepo5::create($dataReferral);
+                            } else {
+                                $dataRef->update([
+                                    'amount' => $dataRef->amount + $dataDepo->amount
+                                ]);
+                            }
+                        }
+                    }
+
                     /* Create History Transkasi */
                     if ($jenis == 'DP') {
                         $status = 'deposit';
