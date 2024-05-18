@@ -10,10 +10,11 @@ return new class extends Migration
     {
         Schema::create('history_transaksi', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('username')->nullable();;
-            $table->string('invoice')->nullable();;
+            $table->string('username')->nullable();
+            $table->string('invoice')->nullable();
             $table->string('refno')->nullable();
-            $table->string('keterangan')->nullable();;
+            $table->string('keterangan')->nullable();
+            $table->string('portfolio')->nullable();
             $table->string('status')->nullable();;
             $table->decimal('debit', 15, 2)->default(0);
             $table->decimal('kredit', 15, 2)->default(0);

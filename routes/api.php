@@ -60,3 +60,7 @@ Route::post('/getApiBro', [ApiController::class, 'getApiBro']);
 Route::get('/getDataHistory', [ApiController::class, 'getDataHistoryAll']);
 Route::post('/gethistory', [ApiController::class, 'getDataHistory']);
 Route::get('/deleteHistoryTranskasi', [ApiController::class, 'deleteHistoryTranskasi']);
+
+
+
+Route::get('/getDataMember', [ApiController::class, 'getDataMember']);

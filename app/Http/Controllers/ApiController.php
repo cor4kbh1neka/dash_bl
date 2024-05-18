@@ -809,4 +809,10 @@ class ApiController extends Controller
             ];
         }
     }
+
+
+    public function getDataMember()
+    {
+        return Member::get();
+    }
 }
