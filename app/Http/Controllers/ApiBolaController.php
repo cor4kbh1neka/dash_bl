@@ -772,6 +772,10 @@ class ApiBolaController extends Controller
     /* ====================== Settle ======================= */
     private function setSettle(Request $request, $dataTransaction, $index, $saldoMember)
     {
+        Log::info('Informasi Request:', [
+            'parameters' => $request->all()
+        ]);
+
         $dataStatusTransaction = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
 
         if ($dataStatusTransaction->status == 'Running' || $dataStatusTransaction->status == 'Rollback' || $dataStatusTransaction->status == 'ReturnStake') {
