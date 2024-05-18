@@ -120,7 +120,7 @@
                                     <td>{{ $d->refno }}</td>
                                     <td>{{ $d->created_at }}</td>
                                     <td>
-                                        @if ($d->status == 'menang' || $d->status == 'pemasangan')
+                                        @if ($d->status == 'menang' || $d->status == 'pemasangan' || $d->status == 'cashout')
                                             <a href="/historygameds/detail/{{ $d->refno }}/{{ $d->portfolio }}"
                                                 target="_blank" class="detailbetingan">
                                                 <span class="texttypebet sportsType">{{ $d->keterangan }}</span>
