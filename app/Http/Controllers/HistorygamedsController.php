@@ -119,7 +119,13 @@ class HistorygamedsController extends Controller
             'language' => 'en',
             'serverId' => env('SERVERID')
         ]);
-        $data = $data['result'][0];
+
+        if (!empty($data['result'])) {
+            $data = $data['result'][0];
+        } else {
+            $data = $data['result'];
+        }
+
         return view('historygameds.detail', [
             'title' => 'detail invoice',
             'totalnote' => 0,

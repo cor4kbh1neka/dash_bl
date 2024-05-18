@@ -121,8 +121,8 @@
                                     <td>{{ $d->created_at }}</td>
                                     <td>
                                         @if ($d->status == 'menang' || $d->status == 'pemasangan')
-                                            <a href="/historygameds/detail/{{ $d->refno }}" target="_blank"
-                                                class="detailbetingan">
+                                            <a href="/historygameds/detail/{{ $d->refno }}/{{ $d->portfolio }}"
+                                                target="_blank" class="detailbetingan">
                                                 <span class="texttypebet sportsType">{{ $d->keterangan }}</span>
                                                 <span class="klikdetail"> - <span class="statustransaksi"></span></span>
                                             </a>
