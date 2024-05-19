@@ -176,6 +176,21 @@ class ApiController extends Controller
                 }
             }
 
+            /* Create Xreferral */
+            $dataXreferral = Xreferral::where('upline', $request->Referral)
+                ->whereDate('created_at', now())->first();
+            if ($dataXreferral) {
+                $dataXreferral->increment('total_downline');
+            } else {
+                Xreferral::create([
+                    'upline' => $request->Referral,
+                    'total_downline' => 1,
+                    'downline_deposit' => 0,
+                    'downline_aktif' => 0,
+                    'total_bonus' => 0
+                ]);
+            }
+
 
             // $dataXreferral = Xreferral::where('username', $request->Referral)->first();
             // if ($dataXreferral) {

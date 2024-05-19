@@ -11,10 +11,7 @@ use App\Models\HistoryTransaksi;
 use App\Models\Xdpwd;
 use App\Models\Member;
 use App\Models\MemberAktif;
-use App\Models\Outstanding;
 use App\Models\Transactions;
-use App\Models\TransactionStatus;
-use App\Models\TransactionSaldo;
 use App\Models\Xtrans;
 use App\Models\Balance;
 use App\Models\ReferralDepo1;
@@ -22,7 +19,7 @@ use App\Models\ReferralDepo2;
 use App\Models\ReferralDepo3;
 use App\Models\ReferralDepo4;
 use App\Models\ReferralDepo5;
-use App\Models\Xcountwddp;
+use App\Models\Xreferral;
 use Illuminate\Support\Facades\DB;
 
 // date_default_timezone_set('Asia/Jakarta');
@@ -298,6 +295,21 @@ class DepoWdController extends Controller
                                     'amount' => $dataRef->amount + $dataDepo->amount
                                 ]);
                             }
+                        }
+
+                        /* Create Xreferral */
+                        $dataXreferral = Xreferral::where('upline', $dataDepo->referral)
+                            ->whereDate('created_at', now())->first();
+                        if ($dataXreferral) {
+                            $dataXreferral->increment('downline_deposit');
+                        } else {
+                            Xreferral::create([
+                                'upline' => $dataDepo->referral,
+                                'total_downline' => 0,
+                                'downline_deposit' => 1,
+                                'downline_aktif' => 0,
+                                'total_bonus' => 0
+                            ]);
                         }
                     }
 

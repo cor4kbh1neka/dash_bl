@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('referral_uz', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('upline')->unique();
-            $table->string('downline')->unique();
+            $table->string('upline');
+            $table->string('downline');
             $table->timestamps();
+        });
+
+        Schema::table('referral_uz', function (Blueprint $table) {
+            $table->index('upline');
         });
     }
 

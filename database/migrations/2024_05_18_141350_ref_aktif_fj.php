@@ -13,11 +13,16 @@ return new class extends Migration
     {
         Schema::create('ref_aktif_fj', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('upline')->unique();
-            $table->string('downline')->unique();
-            $table->string('portfolio')->unique();
+            $table->string('upline');
+            $table->string('downline');
+            $table->string('portfolio');
             $table->decimal('amount', 15, 2)->default(0);
             $table->timestamps();
+        });
+
+        // Menambahkan indeks pada kolom upline
+        Schema::table('ref_aktif_fj', function (Blueprint $table) {
+            $table->index('upline');
         });
     }
 

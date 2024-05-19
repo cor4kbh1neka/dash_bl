@@ -13,9 +13,14 @@ return new class extends Migration
     {
         Schema::create('referral_ae', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('upline')->unique();
-            $table->string('downline')->unique();
+            $table->string('upline');
+            $table->string('downline');
             $table->timestamps();
+        });
+
+        // Menambahkan indeks pada kolom upline dan downline
+        Schema::table('referral_ae', function (Blueprint $table) {
+            $table->index('upline');
         });
     }
 

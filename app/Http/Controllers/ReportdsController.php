@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Settings;
 use App\Models\Companys;
-use App\Models\Xreferral;
+// use App\Models\Xreferral;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
@@ -27,17 +27,17 @@ class ReportdsController extends Controller
                 $username = $element['username'];
 
                 /* Referral */
-                $referral = Xreferral::where('username', $username)->first();
-                $referral = $referral ? $referral->sum_amount : 0;
-                $element['referral'] = $referral;
+                // $referral = Xreferral::where('username', $username)->first();
+                // $referral = $referral ? $referral->sum_amount : 0;
+                $element['referral'] = 0;
 
                 /* Amount */
                 $matchingAmount = $dataAmount['username'] === $username ? $dataAmount['balance'] : 0;
                 $element['amount'] = $matchingAmount;
             }
         } else if (!empty($dataAmount)) {
-            $referral = Xreferral::where('username', $username)->first();
-            $referral = $referral ? $referral->sum_amount : 0;
+            // $referral = Xreferral::where('username', $username)->first();
+            $referral = 0;
             $data = [[
                 'username' => $username,
                 'amount' => $dataAmount['balance'],

@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('ref_depo_ae', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('upline')->unique();
-            $table->string('downline')->unique();
+            $table->string('upline');
+            $table->string('downline');
             $table->decimal('amount', 15, 2)->default(0);
             $table->timestamps();
+        });
+
+        Schema::table('ref_depo_ae', function (Blueprint $table) {
+            $table->index('upline');
         });
     }
 
