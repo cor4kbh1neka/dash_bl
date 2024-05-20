@@ -298,19 +298,19 @@ class DepoWdController extends Controller
                         }
 
                         /* Create Xreferral */
-                        $dataXreferral = Xreferral::where('upline', $dataDepo->referral)
-                            ->whereDate('created_at', now())->first();
-                        if ($dataXreferral) {
-                            $dataXreferral->increment('downline_deposit');
-                        } else {
-                            Xreferral::create([
-                                'upline' => $dataDepo->referral,
-                                'total_downline' => 0,
-                                'downline_deposit' => 1,
-                                'downline_aktif' => 0,
-                                'total_bonus' => 0
-                            ]);
-                        }
+                        // $dataXreferral = Xreferral::where('upline', $dataDepo->referral)
+                        //     ->whereDate('created_at', now())->first();
+                        // if ($dataXreferral) {
+                        //     $dataXreferral->increment('downline_deposit');
+                        // } else {
+                        //     Xreferral::create([
+                        //         'upline' => $dataDepo->referral,
+                        //         'total_downline' => 0,
+                        //         'downline_deposit' => 1,
+                        //         'downline_aktif' => 0,
+                        //         'total_bonus' => 0
+                        //     ]);
+                        // }
                     }
 
                     /* Create History Transkasi */
@@ -331,7 +331,7 @@ class DepoWdController extends Controller
                         'status' => $status,
                         'debit' => $debit,
                         'kredit' => $kredit,
-                        'balance' => $this->reqApiBalance($dataDepo->username)["balance"] + $debit + $kredit
+                        'balance' => Balance::where('username', $dataDepo->username)->first()->amount + $debit - $kredit
                     ]);
 
                     /* Create Member Aktif */

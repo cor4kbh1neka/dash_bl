@@ -237,7 +237,7 @@ Route::middleware(['auth'])->group(function () {
 
     /*-- Referralds --*/
     Route::get('/referralds', [ReferraldsController::class, 'index']);
-    Route::get('/referralds/downline/{upline}/{jenis}', [ReferraldsController::class, 'downlinedetail']);
+    Route::get('/referralds/downline/{upline}/{jenis}/{total}/{total_referral}/{total_downline}', [ReferraldsController::class, 'downlinedetail']);
     Route::get('/referralds/bonusreferral', [ReferraldsController::class, 'bonusreferral']);
 
     /*-- Bankds --*/

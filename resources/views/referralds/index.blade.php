@@ -76,11 +76,11 @@
                             </div>
                             <div class="listtotalbonus">
                                 <span class="textbonus">total upline :</span>
-                                <span class="countbonus">280 (upline)</span>
+                                <span class="countbonus">{{ $total_upline }} (upline)</span>
                             </div>
                             <div class="listtotalbonus">
                                 <span class="textbonus">total bonus referral :</span>
-                                <span class="nominalbonus" data-bonus="200000000.69"></span>
+                                <span class="nominalbonus" data-bonus="{{ $total_bonus }}"></span>
                             </div>
                         </div>
                         <div class="tabelproses">
@@ -106,37 +106,37 @@
                                             <td>{{ $i + 1 }}</td>
                                             <td>{{ $d->upline }}</td>
                                             <td>
-                                                <a href="referralds/downline/{{ $d->upline }}/totaldownline?{{ $query }}"
+                                                <a href="referralds/downline/{{ $d->upline }}/totaldownline/{{ $d->total_referral }}/{{ $d->total_referral }}/{{ $d->total_amount }}/?{{ $query }}"
                                                     target="_blank" class="detailbetingan">
                                                     <span class="texttypebet sportsType">{{ $d->total_referral }}</span>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="/referralds/downline/{{ $d->upline }}/deposit?{{ $query }}"
+                                                <a href="/referralds/downline/{{ $d->upline }}/deposit/{{ $d->total_deposit }}/{{ $d->total_referral }}/{{ $d->total_amount }}/?{{ $query }}"
                                                     target="_blank" class="detailbetingan">
                                                     <span class="texttypebet sportsType">{{ $d->total_deposit }}</span>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="/referralds/downline/{{ $d->upline }}/belumdeposit?{{ $query }}"
+                                                <a href="/referralds/downline/{{ $d->upline }}/belumdeposit/{{ $d->total_nondeposit }}/{{ $d->total_referral }}/{{ $d->total_amount }}/?{{ $query }}"
                                                     target="_blank" class="detailbetingan">
                                                     <span class="texttypebet sportsType">{{ $d->total_nondeposit }}</span>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969"
+                                                <a href="/referralds/downline/{{ $d->upline }}/aktif/{{ $d->total_aktif }}/{{ $d->total_referral }}/{{ $d->total_amount }}/?{{ $query }}"
                                                     target="_blank" class="detailbetingan">
                                                     <span class="texttypebet sportsType">{{ $d->total_aktif }}</span>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=tidak%20aktif?upline=lontong6969"
+                                                <a href="/referralds/downline/{{ $d->upline }}/tidakaktif/{{ $d->total_nonaktif }}/{{ $d->total_referral }}/{{ $d->total_amount }}/?{{ $query }}"
                                                     target="_blank" class="detailbetingan">
                                                     <span class="texttypebet sportsType">{{ $d->total_nonaktif }}</span>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="/referralds/bonusreferral?games=all%20games?datefrom=2024-04-17?dateto=2024-04-17?statusdp=aktif?upline=lontong6969"
+                                                <a href="/referralds/downline/{{ $d->upline }}/bonusreferral/{{ $d->total_aktif }}/{{ $d->total_referral }}/{{ $d->total_amount }}/?{{ $query }}"
                                                     target="_blank" class="detailbetingan">
                                                     <span class="texttypebet sportsType nominalreff"
                                                         data-bonusreff="{{ $d->total_amount }}"></span>
