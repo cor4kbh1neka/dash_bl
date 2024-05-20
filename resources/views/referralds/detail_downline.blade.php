@@ -83,8 +83,9 @@
                     @foreach ($data as $i => $d)
                         <tr>
                             <td class="nmr">{{ $i + 1 }}</td>
-                            <td>{{ $d->downline }}</td>
-                            <td class="nominalbonus" data-bonusreff="{{ $d->total_amount }}"></td>
+                            <td>{{ $d->downline . ' ' . $d->total_amount }}</td>
+                            <td class="nominalbonus" data-bonusreff="{{ $d->total_amount }}">{{ $d->total_amount }}
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -102,9 +103,11 @@
     });
 
     $(document).ready(function() {
-        var value = parseFloat($('.nominalbonus').attr('data-bonusreff')).toFixed(2);
-        var formattedValue = formatCurrency(value);
-        $('.nominalbonus').text(formattedValue);
+        $('.nominalbonus').each(function() {
+            var value = parseFloat($(this).attr('data-bonusreff')).toFixed(2);
+            var formattedValue = value;
+            $(this).text(formattedValue);
+        });
     });
 
     function formatCurrency(amount) {
@@ -156,18 +159,20 @@
             }
 
             valueNominal = parseFloat(valueNominal);
-
             $('table tbody tr').show().filter(function() {
                 var balance = parseFloat($(this).find('.nominalbonus').data('bonusreff'));
 
                 if (filterType === 'all') {
                     return false;
                 } else if (filterType === 'kurangdari') {
-                    return balance >= valueNominal;
+                    return balance >= valueNominal || balance == valueNominal;
                 } else if (filterType === 'lebihdari') {
-                    return balance <= valueNominal;
+                    return balance <= valueNominal || balance == valueNominal;
                 }
+
+
             }).hide();
+
         }
 
         $('#filterButton').click(filterData);

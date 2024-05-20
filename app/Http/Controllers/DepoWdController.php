@@ -501,6 +501,10 @@ class DepoWdController extends Controller
                     ];
                     $resultsApi = $this->requestApi('deposit', $dataAPI);
 
+                    if ($resultsApi["error"]["id"] === 0) {
+                        $this->processBalance($updateStatusTransaction->username, 'DP', $updateStatusTransaction->amount);
+                    }
+
                     $maxAttempts4404 = 10;
                     $attempt4404 = 0;
                     while ($resultsApi["error"]["id"] === 4404 && $attempt4404 < $maxAttempts4404) {
@@ -557,13 +561,13 @@ class DepoWdController extends Controller
             'Content-Type' => 'application/json; charset=UTF-8',
         ])->post($url, $data);
 
-        if ($response->successful()) {
-            $responseData = $response->json();
-        } else {
-            $statusCode = $response->status();
-            $errorMessage = $response->body();
-            $responseData = "Error: $statusCode - $errorMessage";
-        }
+        // if ($response->successful()) {
+        $responseData = $response->json();
+        // } else {
+        //     $statusCode = $response->status();
+        //     $errorMessage = $response->body();
+        //     $responseData = "Error: $statusCode - $errorMessage";
+        // }
 
         return $responseData;
     }

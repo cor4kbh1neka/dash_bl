@@ -8,7 +8,8 @@
             <h2>{{ $title }}</h2>
             <div class="fullscreen">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
-                    <path fill="currentColor" d="m5.3 6.7l1.4-1.4l-3-3L5 1H1v4l1.3-1.3zm1.4 4L5.3 9.3l-3 3L1 11v4h4l-1.3-1.3zm4-1.4l-1.4 1.4l3 3L11 15h4v-4l-1.3 1.3zM11 1l1.3 1.3l-3 3l1.4 1.4l3-3L15 5V1z" />
+                    <path fill="currentColor"
+                        d="m5.3 6.7l1.4-1.4l-3-3L5 1H1v4l1.3-1.3zm1.4 4L5.3 9.3l-3 3L1 11v4h4l-1.3-1.3zm4-1.4l-1.4 1.4l3 3L11 15h4v-4l-1.3 1.3zM11 1l1.3 1.3l-3 3l1.4 1.4l3-3L15 5V1z" />
                 </svg>
             </div>
         </div>
@@ -19,7 +20,7 @@
                         <a href="/agentds" class="tombol grey">
                             <span class="texttombol">agent</span>
                         </a>
-                        <a href="/agentds/access" class="tombol grey active">
+                        <a href="#" class="tombol grey active">
                             <span class="texttombol">access grouping</span>
                         </a>
                     </div>
@@ -30,7 +31,8 @@
                                     <defs>
                                         <mask id="ipSAdd0">
                                             <g fill="none" stroke-linejoin="round" stroke-width="4">
-                                                <rect width="36" height="36" x="6" y="6" fill="#fff" stroke="#fff" rx="3" />
+                                                <rect width="36" height="36" x="6" y="6" fill="#fff"
+                                                    stroke="#fff" rx="3" />
                                                 <path stroke="#000" stroke-linecap="round" d="M24 16v16m-8-8h16" />
                                             </g>
                                         </mask>
@@ -51,90 +53,29 @@
                                     <th class="bagaccagent">access type</th>
                                     <th class="action">tools</th>
                                 </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>leader-access</td>
-                                    <td>
-                                        <div class="grouptools">
-                                            <a href="/agentds/accessupdate" target="_blank" class="tombol grey openviewport">
-                                                <span class="texttombol">EDIT</span>
-                                            </a>
-                                            <button class="tombol cancel border">
-                                                <span class="texttombol">DELETE</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>captain-access</td>
-                                    <td>
-                                        <div class="grouptools">
-                                            <a href="/agentds/accessupdate" target="_blank" class="tombol grey openviewport">
-                                                <span class="texttombol">EDIT</span>
-                                            </a>
-                                            <button class="tombol cancel border">
-                                                <span class="texttombol">DELETE</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>CS-access</td>
-                                    <td>
-                                        <div class="grouptools">
-                                            <a href="/agentds/accessupdate" target="_blank" class="tombol grey openviewport">
-                                                <span class="texttombol">EDIT</span>
-                                            </a>
-                                            <button class="tombol cancel border">
-                                                <span class="texttombol">DELETE</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>admin-access</td>
-                                    <td>
-                                        <div class="grouptools">
-                                            <a href="/agentds/accessupdate" target="_blank" class="tombol grey openviewport">
-                                                <span class="texttombol">EDIT</span>
-                                            </a>
-                                            <button class="tombol cancel border">
-                                                <span class="texttombol">DELETE</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>marketing-access</td>
-                                    <td>
-                                        <div class="grouptools">
-                                            <a href="/agentds/accessupdate" target="_blank" class="tombol grey openviewport">
-                                                <span class="texttombol">EDIT</span>
-                                            </a>
-                                            <button class="tombol cancel border">
-                                                <span class="texttombol">DELETE</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>MT-access</td>
-                                    <td>
-                                        <div class="grouptools">
-                                            <a href="/agentds/accessupdate" target="_blank" class="tombol grey openviewport">
-                                                <span class="texttombol">EDIT</span>
-                                            </a>
-                                            <button class="tombol cancel border">
-                                                <span class="texttombol">DELETE</span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @foreach ($data as $i => $d)
+                                    <tr>
+                                        <td>{{ $i + 1 }}</td>
+                                        <td>{{ $d->name_access }}</td>
+                                        <td>
+                                            <div class="grouptools">
+                                                <a href="/agentds/accessupdate/{{ $d->id }}" target="_blank"
+                                                    class="tombol grey openviewport">
+                                                    <span class="texttombol">EDIT</span>
+                                                </a>
+                                                <form action="/agentds/accessdelete/{{ $d->id }}" method="POST"
+                                                    class="deleteForm">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <input type="hidden" name="id" value="{{ $d->id }}">
+                                                    <button type="submit" class="tombol cancel border deleteButton">
+                                                        <span class="texttombol">DELETE</span>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -175,15 +116,16 @@
                 var windowLeft = ($(window).width() - windowWidth) / 1.5;
                 var windowTop = ($(window).height() - windowHeight) / 1.5;
 
-                window.open(url, "_blank", "width=" + windowWidth + ", height=" + windowHeight + ", left=" + windowLeft + ", top=" + windowTop);
+                window.open(url, "_blank", "width=" + windowWidth + ", height=" + windowHeight + ", left=" +
+                    windowLeft + ", top=" + windowTop);
             });
         });
 
         // print text status
-        $(document).ready(function(){
-            $('.statusagent').each(function(){
+        $(document).ready(function() {
+            $('.statusagent').each(function() {
                 var statusValue = $(this).attr('data-status');
-                switch(statusValue) {
+                switch (statusValue) {
                     case '1':
                         $(this).text('Active');
                         break;
@@ -195,6 +137,32 @@
                         break;
                     default:
                         break;
+                }
+            });
+        });
+
+        $('.deleteForm').submit(function(e) {
+            e.preventDefault();
+
+            // Mendapatkan id data dari input tersembunyi dalam formulir yang bersangkutan
+            var dataId = $(this).find('input[name="id"]').val();
+            Swal.fire({
+                title: 'Apakah Anda yakin ingin menghapus data ini?',
+                text: "Anda tidak akan dapat mengembalikan data yang dihapus!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Set action formulir dengan menambahkan data-id ke dalam URL
+                    var formAction = $(this).attr('action');
+                    $(this).attr('action', formAction + '/' + dataId);
+
+                    // Jika pengguna menekan "Ya, hapus!", lanjutkan dengan penghapusan
+                    $(this).unbind('submit').submit();
                 }
             });
         });

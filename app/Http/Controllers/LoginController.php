@@ -28,6 +28,11 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            $user->last_login = date('Y-m-d H:i:s');
+            $user->ip_login = $request->getClientIp();
+            $user->save();
+
             $request->session()->regenerate();
             return redirect()->intended('/');
         }

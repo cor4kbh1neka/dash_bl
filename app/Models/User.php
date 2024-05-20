@@ -23,7 +23,10 @@ class User extends Authenticatable
         'username',
         'divisi',
         'image',
+        'status',
         'password',
+        'last_login',
+        'ip_login'
     ];
 
     /**

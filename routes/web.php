@@ -280,11 +280,15 @@ Route::middleware(['auth'])->group(function () {
     /*-- Agentds --*/
     Route::get('/agentds', [AgentdsController::class, 'index']);
     Route::get('/agentds/create', [AgentdsController::class, 'create']);
+    Route::post('/agentds/store', [AgentdsController::class, 'store']);
     Route::get('/agentds/agentinfo', [AgentdsController::class, 'agentinfo']);
     Route::get('/agentds/agentupdate', [AgentdsController::class, 'agentupdate']);
     Route::get('/agentds/access', [AgentdsController::class, 'access']);
-    Route::get('/agentds/accessupdate', [AgentdsController::class, 'accessupdate']);
+    Route::get('/agentds/accessupdate/{id}', [AgentdsController::class, 'accessupdate']);
     Route::get('/agentds/accessadd', [AgentdsController::class, 'accessadd']);
+    Route::post('/agentds/accessadd/store', [AgentdsController::class, 'store_access']);
+    Route::delete('/agentds/accessdelete/{id}', [AgentdsController::class, 'destroy_access']);
+    Route::post('/agentds/accessupdate/update', [AgentdsController::class, 'update_access']);
 
     /*-- Eventds --*/
     // Route::get('/eventds', [EventdsController::class, 'index']);

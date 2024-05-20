@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Settings;
 use App\Models\Companys;
 use App\Models\Currencys;
+use App\Models\UserAccess;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
@@ -14,16 +16,7 @@ class AgentdsController extends Controller
 {
     public function index()
     {
-        $data = [
-            [
-                'id' => '1',
-                'nama' => 'Waantos',
-                'alamat' => 'Pekanbaru',
-                'notelp' => '0778007711',
-                'tgllhir' => '12-09-1996',
-                'tempatlahir' => 'sukajadi'
-            ]
-        ];
+        $data = User::get();
         return view('agentds.index', [
             'title' => 'Agent',
             'data' => $data,
@@ -33,11 +26,33 @@ class AgentdsController extends Controller
 
     public function create()
     {
-
+        $dataAccess = UserAccess::get();
         return view('agentds.create', [
             'title' => 'Add New Agent',
             'totalnote' => 0,
+            'dataAccess' => $dataAccess
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+            'divisi' => 'required',
+        ]);
+
+        $user = new User();
+        $user->name = $request->username;
+        $user->username = $request->username;
+        $user->divisi = $request->divisi;
+        $user->password = bcrypt($request->password);
+        $user->image = "";
+        $user->status = "active";
+
+        $user->save();
+
+        return redirect('/agentds')->with('success', 'Aget berhasil ditambahkan.');
     }
 
     public function agentupdate()
@@ -60,19 +75,21 @@ class AgentdsController extends Controller
 
     public function access()
     {
-
+        $data = UserAccess::get();
         return view('agentds.access', [
             'title' => 'Access Agent',
             'totalnote' => 0,
+            'data' => $data
         ]);
     }
 
-    public function accessupdate()
+    public function accessupdate($id)
     {
-
+        $data = UserAccess::where('id', $id)->first();
         return view('agentds.access_update', [
             'title' => 'Access Agent Update',
             'totalnote' => 0,
+            'data' => $data
         ]);
     }
 
@@ -83,5 +100,84 @@ class AgentdsController extends Controller
             'title' => 'Add Access Agent',
             'totalnote' => 0,
         ]);
+    }
+
+    public function store_access(Request $request)
+    {
+
+        $request->validate([
+            'name_access' => 'required'
+        ]);
+
+        $user = new UserAccess();
+        $user->name_access = $request->name_access;
+        $user->deposit = isset($request->deposit) ? true : false;
+        $user->withdraw = isset($request->withdraw) ? true : false;
+        $user->manual_transaction = isset($request->manual_transaction) ? true : false;
+        $user->history_coin = isset($request->history_coin) ? true : false;
+
+        $user->member_list = isset($request->member_list) ? true : false;
+        $user->referral = isset($request->referral) ? true : false;
+        $user->history_game = isset($request->history_game) ? true : false;
+        $user->member_outstanding = isset($request->member_outstanding) ? true : false;
+        $user->history_transaction = isset($request->history_transaction) ? true : false;
+        $user->report = isset($request->report) ? true : false;
+
+        $user->bank = isset($request->bank) ? true : false;
+        $user->memo = isset($request->memo) ? true : false;
+
+        $user->agent = isset($request->agent) ? true : false;
+        $user->analytic = isset($request->analytic) ? true : false;
+        $user->content = isset($request->content) ? true : false;
+        $user->apk_setting = isset($request->apk_setting) ? true : false;
+        $user->memo_other = isset($request->memo_other) ? true : false;
+        $user->save();
+
+        return redirect('/agentds')->with('success', 'Access agent berhasil ditambahkan.');
+    }
+
+    public function destroy_access($id)
+    {
+        $data = UserAccess::findOrFail($id);
+        $data->delete();
+
+        return redirect()->back()->with('success', 'Access agent berhasil dihapus.');
+    }
+
+    public function update_access(Request $request)
+    {
+
+        $request->validate([
+            'id' => 'required',
+            'name_access' => 'required'
+        ]);
+
+        $id = $request->id;
+        $user = UserAccess::findOrFail($id);
+
+        $user->name_access = $request->name_access;
+        $user->deposit = isset($request->deposit) ? true : false;
+        $user->withdraw = isset($request->withdraw) ? true : false;
+        $user->manual_transaction = isset($request->manual_transaction) ? true : false;
+        $user->history_coin = isset($request->history_coin) ? true : false;
+
+        $user->member_list = isset($request->member_list) ? true : false;
+        $user->referral = isset($request->referral) ? true : false;
+        $user->history_game = isset($request->history_game) ? true : false;
+        $user->member_outstanding = isset($request->member_outstanding) ? true : false;
+        $user->history_transaction = isset($request->history_transaction) ? true : false;
+        $user->report = isset($request->report) ? true : false;
+
+        $user->bank = isset($request->bank) ? true : false;
+        $user->memo = isset($request->memo) ? true : false;
+
+        $user->agent = isset($request->agent) ? true : false;
+        $user->analytic = isset($request->analytic) ? true : false;
+        $user->content = isset($request->content) ? true : false;
+        $user->apk_setting = isset($request->apk_setting) ? true : false;
+        $user->memo_other = isset($request->memo_other) ? true : false;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Access agent berhasil diupdate.');
     }
 }
