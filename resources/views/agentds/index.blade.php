@@ -90,10 +90,10 @@
                                             </div>
                                         </td>
                                         <td>{{ $d->divisi }}</td>
-                                        <td class="statusagent" data-status="1"></td>
+                                        <td class="statusagent" data-status="{{ $d->status }}"></td>
                                         <td>
                                             <div class="grouptools">
-                                                <a href="/agentds/agentupdate" target="_blank"
+                                                <a href="/agentds/agentupdate/{{ $d->id }}" target="_blank"
                                                     class="tombol grey openviewport">
                                                     <span class="texttombol">EDIT</span>
                                                 </a>

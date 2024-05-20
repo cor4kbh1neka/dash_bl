@@ -48,20 +48,42 @@ class AgentdsController extends Controller
         $user->divisi = $request->divisi;
         $user->password = bcrypt($request->password);
         $user->image = "";
-        $user->status = "active";
+        $user->status = 1;
 
         $user->save();
 
         return redirect('/agentds')->with('success', 'Aget berhasil ditambahkan.');
     }
 
-    public function agentupdate()
+    public function agentupdate($id)
     {
-
+        $data = User::where('id', $id)->first();
+        $dataAccess = UserAccess::get();
         return view('agentds.agent_update', [
             'title' => 'Update Agent',
             'totalnote' => 0,
+            'data' => $data,
+            'dataAccess' => $dataAccess
         ]);
+    }
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+            'username' => 'required',
+            'password' => 'required',
+            'accesstype' => 'required'
+        ]);
+
+        $id = $request->id;
+        $user = User::findOrFail($id);
+        $user->username = $request->username;
+        $user->password = $request->password;
+        $user->accesstype = $request->accesstype;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Access agent berhasil diupdate.');
     }
 
     public function agentinfo()

@@ -282,7 +282,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/agentds/create', [AgentdsController::class, 'create']);
     Route::post('/agentds/store', [AgentdsController::class, 'store']);
     Route::get('/agentds/agentinfo', [AgentdsController::class, 'agentinfo']);
-    Route::get('/agentds/agentupdate', [AgentdsController::class, 'agentupdate']);
+    Route::get('/agentds/agentupdate/{id}', [AgentdsController::class, 'agentupdate']);
+    Route::post('/agentds/update', [AgentdsController::class, 'update']);
     Route::get('/agentds/access', [AgentdsController::class, 'access']);
     Route::get('/agentds/accessupdate/{id}', [AgentdsController::class, 'accessupdate']);
     Route::get('/agentds/accessadd', [AgentdsController::class, 'accessadd']);

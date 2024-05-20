@@ -21,7 +21,7 @@ return new class extends Migration
             // $table->boolean('istransaction')->default(false);
             // $table->boolean('isconfig')->default(false);
             // $table->boolean('isconfigadmin')->default(false);
-            $table->string('status')->default('active');
+            $table->integer('status')->default(1);
             $table->timestamp('last_login')->nullable();
             $table->string('ip_login')->nullable();
             $table->rememberToken();
