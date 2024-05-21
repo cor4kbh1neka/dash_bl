@@ -249,7 +249,7 @@ class DepoWdController extends Controller
                     if (!$dataMember) {
                         $dataMember = Member::where('username', $dataDepo->username)->first();
                     }
-                    dd($dataMember->referral !== null && $dataMember->referral !== '');
+
                     /* Create Depo Downline */
                     if ($dataMember->referral !== null && $dataMember->referral !== '') {
                         $dataReferral = [
@@ -257,7 +257,7 @@ class DepoWdController extends Controller
                             'downline' => $dataDepo->username,
                             'amount' => $dataDepo->amount
                         ];
-
+                        dd(preg_match('/^[a-e]/i', $dataMember->referral));
                         if (preg_match('/^[a-e]/i', $dataMember->referral)) {
                             $dataRef = ReferralDepo1::where('downline', $dataDepo->username)
                                 ->whereDate('created_at', date('Y-m-d'))
