@@ -13,7 +13,7 @@ class DepoWd extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['username', 'referral', 'groupbank', 'amount', 'keterangan', 'jenis', 'bank', 'mbank', 'mnamarek', 'mnorek', 'txnid', 'balance', 'status', 'approved_by'];
+    protected $fillable = ['username', 'referral', 'groupbank', 'masterbank', 'amount', 'keterangan', 'jenis', 'bank', 'mbank', 'mnamarek', 'mnorek', 'txnid', 'balance', 'status', 'approved_by'];
 
     protected $primaryKey = 'id';
 

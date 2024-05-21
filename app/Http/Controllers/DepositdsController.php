@@ -26,7 +26,6 @@ class DepositdsController extends Controller
 
         /* Data master bank */
         $dataBank = $this->getApiMasterBank();
-        dd($dataCountDepoWd);
         $arrayData = [];
         foreach ($dataBank as &$item1) {
             $item1['count'] = 0;
