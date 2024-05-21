@@ -246,6 +246,7 @@ class DepoWdController extends Controller
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
 
                     /* Create Depo Downline */
+                    dd($dataDepo->referral !== null && $dataDepo->referral !== '');
                     if ($dataDepo->referral !== null && $dataDepo->referral !== '') {
                         $dataReferral = [
                             'upline' => $dataDepo->referral,
@@ -336,16 +337,6 @@ class DepoWdController extends Controller
                         $debit = $dataDepo->amount;
                         $kredit = 0;
                     }
-
-                    $historyTrans = HistoryTransaksi::create([
-                        'username' => $dataDepo->username,
-                        'invoice' => $txnid,
-                        'keterangan' => $status,
-                        'status' => $status,
-                        'debit' => $debit,
-                        'kredit' => $kredit,
-                        'balance' => Balance::where('username', $dataDepo->username)->first()->amount
-                    ]);
 
                     /* Create Member Aktif */
                     if ($dataDepo->referral != '' || $dataDepo->referral != null) {
@@ -442,6 +433,15 @@ class DepoWdController extends Controller
                                 return back()->withInput()->with('error', $resultsApi["error"]["msg"]);
                             } else if ($resultsApi["error"]["id"] === 0) {
                                 $this->processBalance($dataDepo->username, 'DP', $dataDepo->amount);
+                                $historyTrans = HistoryTransaksi::create([
+                                    'username' => $dataDepo->username,
+                                    'invoice' => $txnid,
+                                    'keterangan' => $status,
+                                    'status' => $status,
+                                    'debit' => $debit,
+                                    'kredit' => $kredit,
+                                    'balance' => Balance::where('username', $dataDepo->username)->first()->amount
+                                ]);
                                 DepoWd::where('id', $id)->update(['txnid' => $txnid]);
                                 $dataMember = Member::where('username', $dataDepo->username)
                                     ->where('status', 9)
@@ -455,6 +455,16 @@ class DepoWdController extends Controller
                                 }
                             }
                         }
+                    } else {
+                        $historyTrans = HistoryTransaksi::create([
+                            'username' => $dataDepo->username,
+                            'invoice' => $txnid,
+                            'keterangan' => $status,
+                            'status' => $status,
+                            'debit' => $debit,
+                            'kredit' => $kredit,
+                            'balance' => Balance::where('username', $dataDepo->username)->first()->amount
+                        ]);
                     }
                 }
             }
