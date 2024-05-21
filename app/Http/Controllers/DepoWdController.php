@@ -249,6 +249,7 @@ class DepoWdController extends Controller
                     if (!$dataMember) {
                         $dataMember = Member::where('username', $dataDepo->username)->first();
                     }
+                    dd($dataMember->referral !== null && $dataMember->referral !== '');
                     /* Create Depo Downline */
                     if ($dataMember->referral !== null && $dataMember->referral !== '') {
                         $dataReferral = [
@@ -445,8 +446,14 @@ class DepoWdController extends Controller
                                             "txnid" => $txnid
                                         ]);
 
-                                        HistoryTransaksi::where('id', $historyTrans->id)->update([
-                                            "txnid" => $txnid
+                                        HistoryTransaksi::create([
+                                            'username' => $dataDepo->username,
+                                            'invoice' => $txnid,
+                                            'keterangan' => $status,
+                                            'status' => $status,
+                                            'debit' => $debit,
+                                            'kredit' => $kredit,
+                                            'balance' => Balance::where('username', $dataDepo->username)->first()->amount
                                         ]);
                                     }
                                     $attempt4404++;
