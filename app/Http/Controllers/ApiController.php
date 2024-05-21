@@ -348,7 +348,7 @@ class ApiController extends Controller
             /* Validasi WD */
             $dataBalance = Balance::where('username', $request->username)->first();
             if ($dataBalance) {
-                if ($request->amount >= $dataBalance->amount) {
+                if ($request->amount > $dataBalance->amount) {
                     return response()->json([
                         'status' => 'error',
                         'message' => 'Saldo tidak cukup'

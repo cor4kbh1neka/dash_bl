@@ -3144,6 +3144,7 @@ table svg.icon-tabler-x {
 
 .groupdataside {
   width: 40px;
+  min-height: 80dvh;
   display: flex;
   flex-direction: row;
   padding: 10px 10px 10px 0;
