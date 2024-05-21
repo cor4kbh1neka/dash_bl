@@ -18,10 +18,10 @@ class DepositdsController extends Controller
             $jenis = 'WD';
         }
 
-        $dataCountDepoWd = DepoWd::select('bank', DB::raw('count(id) as count'))
+        $dataCountDepoWd = DepoWd::select('masterbank', DB::raw('count(id) as count'))
             ->where('status', 0)
             ->where('jenis', $jenis)
-            ->groupBy('bank')
+            ->groupBy('masterbank')
             ->get();
 
         /* Data master bank */
