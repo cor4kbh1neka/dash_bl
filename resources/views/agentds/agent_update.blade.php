@@ -11,12 +11,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/themes/prism.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             adjustElementSize();
         });
-    </script>
+    </script> --}}
 </head>
 <div class="sec_table">
     <div class="secgrouptitle">
@@ -32,11 +33,7 @@
                         <label for="username">user agent</label>
                         <div class="groupeditinput">
                             <input type="hidden" name="id" value={{ $data->id }}>
-                            <input type="text" readonly id="username" name="username" value="{{ $data->username }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
-                            </svg>
+                            <input type="text" disabled id="username" name="username" value="{{ $data->username }}">
                         </div>
                     </div>
                     <div class="listplayerinfo">
@@ -62,10 +59,14 @@
                         </div>
                     </div>
                     <div class="listplayerinfo">
-                        <label for="accesstype">access type</label>
-                        <select id="accesstype" name="accesstype">
+                        <label for="divisi">access type</label>
+                        <select id="divisi" name="divisi">
+                            <option value="superadmin" {{ $data->divisi == 'superadmin' ? 'selected' : '' }}>
+                                Superadmin-Access</option>
                             @foreach ($dataAccess as $d)
-                                <option value="{{ $d->name_access }}">{{ $d->name_access }}</option>
+                                <option value="{{ $d->name_access }}"
+                                    {{ $data->divisi == $d->name_access ? 'selected' : '' }}>{{ $d->name_access }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -140,3 +141,37 @@
         });
     });
 </script>
+
+@if (session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '{{ session('success') }}',
+        });
+    </script>
+@endif
+
+@if (session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: '{{ session('error') }}',
+        });
+    </script>
+@endif
+
+@if ($errors->any())
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            html: '<ul>' +
+                @foreach ($errors->all() as $error)
+                    '<li>{{ $error }}</li>' +
+                @endforeach
+            '</ul>',
+        });
+    </script>
+@endif

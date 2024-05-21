@@ -71,19 +71,20 @@ class AgentdsController extends Controller
     {
         $request->validate([
             'id' => 'required',
-            'username' => 'required',
-            'password' => 'required',
-            'accesstype' => 'required'
+            'divisi' => 'required',
+            'password' => 'nullable',
         ]);
 
-        $id = $request->id;
-        $user = User::findOrFail($id);
-        $user->username = $request->username;
-        $user->password = $request->password;
-        $user->accesstype = $request->accesstype;
+        $user = User::findOrFail($request->id);
+
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->divisi = $request->divisi;
         $user->save();
 
-        return redirect()->back()->with('success', 'Access agent berhasil diupdate.');
+        return redirect()->back()->with('success', 'Data Agent berhasil diupdate.');
     }
 
     public function agentinfo()

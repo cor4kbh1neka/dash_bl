@@ -331,7 +331,7 @@ class DepoWdController extends Controller
                         'status' => $status,
                         'debit' => $debit,
                         'kredit' => $kredit,
-                        'balance' => Balance::where('username', $dataDepo->username)->first()->amount + $debit - $kredit
+                        'balance' => Balance::where('username', $dataDepo->username)->first()->amount - $debit + $kredit
                     ]);
 
                     /* Create Member Aktif */

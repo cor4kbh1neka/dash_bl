@@ -61,11 +61,12 @@ class MemodsController extends Controller
 
     public function delivered()
     {
-        $response = Http::get('https://back-staging.bosraka.com/memo');
-        $results = [];
-        if ($response->json()['status'] !== 'fail') {
-            $results = $response->json()["data"];
-        }
+        // $response = Http::get('https://back-staging.bosraka.com/memo');
+        // $results = [];
+        // if ($response->json()['status'] !== 'fail') {
+        //     $results = $response->json()["data"];
+        // }
+        // dd($results);
         return view('memods.delivered_memo', [
             'title' => 'Delivered',
             'totalnote' => 0,
