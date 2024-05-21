@@ -84,7 +84,7 @@ class ReferraldsController extends Controller
 
         $results = $finalQuery->get();
 
-        $total_upline = Referral1::whereBetween('created_at', [$gabungdari, $gabunghingga])->count()
+        $total_upline = Referral1::whereBetween('created_at', [$gabungdari . " 00:00:00", $gabunghingga . " 23:59:59"])->count()
             + Referral2::whereBetween('created_at', [$gabungdari . " 00:00:00", $gabunghingga . " 23:59:59"])->count()
             + Referral3::whereBetween('created_at', [$gabungdari . " 00:00:00", $gabunghingga . " 23:59:59"])->count()
             + Referral4::whereBetween('created_at', [$gabungdari . " 00:00:00", $gabunghingga . " 23:59:59"])->count()

@@ -16,7 +16,7 @@ class PersentaseTableSeeder extends Seeder
     {
         DB::table('persentase')->insert(
             [
-                'jenis' => 'SpoortsBook',
+                'jenis' => 'SportsBook',
                 'persentase' => 0.02,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

@@ -23,7 +23,8 @@ class MemberlistdsController extends Controller
         $gabunghingga = $request->input('gabunghingga') == '' ? date('Y-m-d') : $request->input('gabunghingga');
         $status = $request->input('status');
 
-        $query = Member::query();
+        $query = Member::query()->join('balance', 'balance.username', '=', 'member.username')
+            ->select('member.*', 'balance.amount');;
         if ($username) {
             if (!isset($checkusername)) {
                 $query->where('username', 'like', '%' . $username . '%');
@@ -47,13 +48,13 @@ class MemberlistdsController extends Controller
             $query->where('referral', 'like', '%' . $referral . '%');
         }
         if ($gabungdari && $gabunghingga) {
-            $query->whereBetween('created_at', [$gabungdari . " 00:00:00", $gabunghingga . " 23:59:59"]);
+            $query->whereBetween('member.created_at', [$gabungdari . " 00:00:00", $gabunghingga . " 23:59:59"]);
         }
         if ($status) {
             $query->where('status', $status);
         }
 
-        $members = $query->orderBy('created_at', 'DESC')->paginate(10);
+        $members = $query->orderBy('member.created_at', 'DESC')->paginate(10);
 
         // ->map(function ($member) {
         //     $member->status = $member->status == 0 ? 'New Member' : 'Default';

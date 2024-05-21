@@ -127,7 +127,7 @@
                                     <td>{{ $d->referral }}</td>
                                     <td>{{ $d->bank }}, {{ $d->namarek }}, {{ $d->norek }}</td>
                                     <td class="valuenominal">
-                                        <span class="koinasli">{{ $d->balance }}</span>
+                                        <span class="koinasli">{{ $d->amount }}</span>
                                         <span class="cointorp"></span>
                                     </td>
                                     <td class="hsjenisakun" data-statusakun="{{ $d->status }}"></td>

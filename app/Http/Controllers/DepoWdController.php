@@ -176,6 +176,7 @@ class DepoWdController extends Controller
                         ]);
                     }
                     if ($req["error"]["id"] !== 0) {
+                        DepoWd::where('id', $result->id)->delete();
                         return redirect()->route('manualds')->with([
                             'title' => 'Proses Manual',
                             'totalnote' => 0,
@@ -185,6 +186,18 @@ class DepoWdController extends Controller
                         ]);
                     } else if ($req["error"]["id"] === 0) {
                         $this->processBalance($result->username, $jenis, $result->amount);
+                        HistoryTransaksi::create([
+                            'username' => $result->username,
+                            'invoice' =>  $txnid,
+                            'refno' => '',
+                            'keterangan' => $result->jenis == 'DPM' ? 'deposit' : 'withdraw',
+                            'portfolio' => '',
+                            'status' => 'manual',
+                            'debit' => $result->jenis == 'WDM' ? $result->amount : 0,
+                            'kredit' => $result->jenis == 'DPM' ? $result->amount : 0,
+                            'balance' => $result->balance
+                        ]);
+
                         return redirect()->route('manualds')->with([
                             'title' => 'Proses Manual',
                             'totalnote' => 0,
@@ -331,7 +344,7 @@ class DepoWdController extends Controller
                         'status' => $status,
                         'debit' => $debit,
                         'kredit' => $kredit,
-                        'balance' => Balance::where('username', $dataDepo->username)->first()->amount - $debit + $kredit
+                        'balance' => Balance::where('username', $dataDepo->username)->first()->amount
                     ]);
 
                     /* Create Member Aktif */
@@ -612,10 +625,17 @@ class DepoWdController extends Controller
     public function getBalancePlayer($username)
     {
         try {
-            $apiBalance = $this->reqApiBalance($username)["balance"];
-            $saldoBerjalan = $this->saldoBerjalan($username);
+            // $apiBalance = $this->reqApiBalance($username)["balance"];
+            // $saldoBerjalan = $this->saldoBerjalan($username);
 
-            return $apiBalance + $saldoBerjalan;
+            // return $apiBalance + $saldoBerjalan;
+            $dataBalance = Balance::where('username', $username)->first();
+            if ($dataBalance) {
+                $amount = $dataBalance->amount;
+            } else {
+                $amount = 0;
+            }
+            return $amount;
         } catch (\Exception $e) {
             $errorMessage = 'Terjadi kesalahan: ' . $e->getMessage();
             return response()->json(['error' => $errorMessage], 500);
