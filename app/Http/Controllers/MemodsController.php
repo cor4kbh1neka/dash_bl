@@ -66,7 +66,7 @@ class MemodsController extends Controller
         if ($response->json()['status'] !== 'fail') {
             $results = $response->json()["data"];
         }
-        dd($results);
+        // dd($results);
         return view('memods.delivered_memo', [
             'title' => 'Delivered',
             'totalnote' => 0,

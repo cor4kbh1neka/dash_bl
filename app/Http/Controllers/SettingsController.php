@@ -119,7 +119,7 @@ class SettingsController extends Controller
 
                 return $responseData;
             } catch (\Exception $e) {
-                dd($e->getMessage());
+                // dd($e->getMessage());
                 return response()->json(['errors' => ['Terjadi kesalahan saat menyimpan data.']]);
             }
         }

@@ -233,7 +233,7 @@ class UserController extends Controller
                 } catch (\Exception $e) {
                     $errorMessage = $e->getMessage();
                     $errorCode = $e->getCode();
-                    dd($errorMessage);
+                    // dd($errorMessage);
                     $errors[] = ['Terjadi kesalahan saat menyimpan data.'];
                 }
             }
