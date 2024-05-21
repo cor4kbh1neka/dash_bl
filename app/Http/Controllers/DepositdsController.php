@@ -31,7 +31,7 @@ class DepositdsController extends Controller
             $item1['count'] = 0;
 
             foreach ($dataCountDepoWd as $item2) {
-                if ($item1['bnkmstrxyxyx'] === $item2->bank) {
+                if ($item1['bnkmstrxyxyx'] === $item2->masterbank) {
                     $item1['count'] = $item2->count;
                     break;
                 }

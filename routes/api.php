@@ -44,7 +44,7 @@ Route::post('/historylog', [ApiController::class, 'historyLog']);
 Route::post('/register', [ApiController::class, 'register']);
 Route::get('/get-recommend-matches', [ApiController::class, 'getRecomMatch']);
 Route::post('/cekuserreferral', [ApiController::class, 'cekuserreferral']);
-Route::post('/deposit', [ApiController::class, 'de\posit']);
+Route::post('/deposit', [ApiController::class, 'deposit']);
 Route::post('/withdrawal', [ApiController::class, 'withdrawal']);
 Route::post('/getHistoryDw', [ApiController::class, 'getHistoryDepoWd']);
 Route::post('/checkLastTransaction', [ApiController::class, 'getLastStatusTransaction']);
