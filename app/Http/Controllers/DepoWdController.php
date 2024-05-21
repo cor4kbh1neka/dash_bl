@@ -246,8 +246,8 @@ class DepoWdController extends Controller
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
 
                     /* Create Depo Downline */
-                    dd($dataDepo->referral !== null && $dataDepo->referral !== '');
-                    if ($dataDepo->referral !== null && $dataDepo->referral !== '') {
+                    dd($dataDepo);
+                    if ($dataDepo->referral != null || $dataDepo->referral != '') {
                         $dataReferral = [
                             'upline' => $dataDepo->referral,
                             'downline' => $dataDepo->username,
