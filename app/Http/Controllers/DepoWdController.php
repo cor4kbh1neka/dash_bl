@@ -722,4 +722,9 @@ class DepoWdController extends Controller
             ];
         }
     }
+
+    public function getDataDepoWd()
+    {
+        return DepoWd::get();
+    }
 }

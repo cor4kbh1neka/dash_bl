@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiBolaController;
 use App\Http\Controllers\ApiController;
-
+use App\Http\Controllers\DepoWdController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +44,7 @@ Route::post('/historylog', [ApiController::class, 'historyLog']);
 Route::post('/register', [ApiController::class, 'register']);
 Route::get('/get-recommend-matches', [ApiController::class, 'getRecomMatch']);
 Route::post('/cekuserreferral', [ApiController::class, 'cekuserreferral']);
-Route::post('/deposit', [ApiController::class, 'deposit']);
+Route::post('/deposit', [ApiController::class, 'de\posit']);
 Route::post('/withdrawal', [ApiController::class, 'withdrawal']);
 Route::post('/getHistoryDw', [ApiController::class, 'getHistoryDepoWd']);
 Route::post('/checkLastTransaction', [ApiController::class, 'getLastStatusTransaction']);
@@ -64,3 +64,4 @@ Route::get('/deleteHistoryTranskasi', [ApiController::class, 'deleteHistoryTrans
 
 
 Route::get('/getDataMember', [ApiController::class, 'getDataMember']);
+Route::get('/getDataDepoWd', [DepoWdController::class, 'getDataDepoWd']);
