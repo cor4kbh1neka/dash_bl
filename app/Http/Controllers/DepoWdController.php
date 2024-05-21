@@ -245,16 +245,19 @@ class DepoWdController extends Controller
                 if ($dataDepo) {
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
 
+                    $dataMember = MemberAktif::where('username', $dataDepo->username)->first();
+                    if (!$dataMember) {
+                        $dataMember = Member::where('username', $dataDepo->username)->first();
+                    }
                     /* Create Depo Downline */
-                    dd($dataDepo);
-                    if ($dataDepo->referral != null || $dataDepo->referral != '') {
+                    if ($dataMember->referral !== null && $dataMember->referral !== '') {
                         $dataReferral = [
-                            'upline' => $dataDepo->referral,
+                            'upline' => $dataMember->referral,
                             'downline' => $dataDepo->username,
                             'amount' => $dataDepo->amount
                         ];
 
-                        if (preg_match('/^[a-e]/i', $dataDepo->referral)) {
+                        if (preg_match('/^[a-e]/i', $dataMember->referral)) {
                             $dataRef = ReferralDepo1::where('downline', $dataDepo->username)
                                 ->whereDate('created_at', date('Y-m-d'))
                                 ->first();
@@ -265,7 +268,7 @@ class DepoWdController extends Controller
                                     'amount' => $dataRef->amount + $dataDepo->amount
                                 ]);
                             }
-                        } elseif (preg_match('/^[f-j]/i', $dataDepo->referral)) {
+                        } elseif (preg_match('/^[f-j]/i', $dataMember->referral)) {
                             $dataRef = ReferralDepo2::where('downline', $dataDepo->username)
                                 ->whereDate('created_at', date('Y-m-d'))
                                 ->first();
@@ -276,7 +279,7 @@ class DepoWdController extends Controller
                                     'amount' => $dataRef->amount + $dataDepo->amount
                                 ]);
                             }
-                        } elseif (preg_match('/^[k-o]/i', $dataDepo->referral)) {
+                        } elseif (preg_match('/^[k-o]/i', $dataMember->referral)) {
                             $dataRef = ReferralDepo3::where('downline', $dataDepo->username)
                                 ->whereDate('created_at', date('Y-m-d'))
                                 ->first();
@@ -287,7 +290,7 @@ class DepoWdController extends Controller
                                     'amount' => $dataRef->amount + $dataDepo->amount
                                 ]);
                             }
-                        } elseif (preg_match('/^[p-t]/i', $dataDepo->referral)) {
+                        } elseif (preg_match('/^[p-t]/i', $dataMember->referral)) {
                             $dataRef = ReferralDepo4::where('downline', $dataDepo->username)
                                 ->whereDate('created_at', date('Y-m-d'))
                                 ->first();
@@ -298,7 +301,7 @@ class DepoWdController extends Controller
                                     'amount' => $dataRef->amount + $dataDepo->amount
                                 ]);
                             }
-                        } elseif (preg_match('/^[u-z]/i', $dataDepo->referral)) {
+                        } elseif (preg_match('/^[u-z]/i', $dataMember->referral)) {
                             $dataRef = ReferralDepo5::where('downline', $dataDepo->username)
                                 ->whereDate('created_at', date('Y-m-d'))
                                 ->first();
@@ -312,13 +315,13 @@ class DepoWdController extends Controller
                         }
 
                         /* Create Xreferral */
-                        // $dataXreferral = Xreferral::where('upline', $dataDepo->referral)
+                        // $dataXreferral = Xreferral::where('upline', $dataMember->referral)
                         //     ->whereDate('created_at', now())->first();
                         // if ($dataXreferral) {
                         //     $dataXreferral->increment('downline_deposit');
                         // } else {
                         //     Xreferral::create([
-                        //         'upline' => $dataDepo->referral,
+                        //         'upline' => $dataMember->referral,
                         //         'total_downline' => 0,
                         //         'downline_deposit' => 1,
                         //         'downline_aktif' => 0,
@@ -339,12 +342,12 @@ class DepoWdController extends Controller
                     }
 
                     /* Create Member Aktif */
-                    if ($dataDepo->referral != '' || $dataDepo->referral != null) {
+                    if ($dataMember->referral != '' || $dataMember->referral != null) {
                         $dataMemberAktif = MemberAktif::where('username', $dataDepo->username)->first();
                         if (!$dataMemberAktif) {
                             MemberAktif::create([
                                 'username' => $dataDepo->username,
-                                'referral' => $dataDepo->referral
+                                'referral' => $dataMember->referral
                             ]);
                         }
                     }
