@@ -257,7 +257,7 @@ class DepoWdController extends Controller
                             'downline' => $dataDepo->username,
                             'amount' => $dataDepo->amount
                         ];
-                        dd(preg_match('/^[a-e]/i', $dataMember->referral));
+
                         if (preg_match('/^[a-e]/i', $dataMember->referral)) {
                             $dataRef = ReferralDepo1::where('downline', $dataDepo->username)
                                 ->whereDate('created_at', date('Y-m-d'))
@@ -269,6 +269,7 @@ class DepoWdController extends Controller
                                     'amount' => $dataRef->amount + $dataDepo->amount
                                 ]);
                             }
+                            dd($dataRef);
                         } elseif (preg_match('/^[f-j]/i', $dataMember->referral)) {
                             $dataRef = ReferralDepo2::where('downline', $dataDepo->username)
                                 ->whereDate('created_at', date('Y-m-d'))
