@@ -20,8 +20,9 @@ return new class extends Migration
             $table->string('keterangan', 20)->nullable();
             $table->string('jenis', 20)->required();
             $table->string('groupbank', 100)->nullable();
-            $table->string('masterbank', 100)->nullable();
             $table->string('bank', 100)->nullable();
+            $table->string('namarek', 150)->nullable();
+            $table->string('norek', 30)->nullable();
             $table->string('mbank', 100)->nullable();
             $table->string('mnamarek', 150)->nullable();
             $table->string('mnorek', 30)->nullable();

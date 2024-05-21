@@ -96,8 +96,9 @@
                                     <td class="valuebank">{{ $d->mbank }}, {{ $d->mnamarek }}, {{ $d->mnorek }}
                                     </td>
                                     <td class="valuenominal">{{ $d->balance }}</td>
-                                    <td class="valuebank">BRI, DAMIANUS PARSI, 472501058193535</td>
-                                    <td>maksimal 20 karakter</td>
+                                    <td class="valuebank">{{ $d->bank }}, {{ $d->namarek }}, {{ $d->norek }}
+                                    </td>
+                                    <td>{{ $d->keterangan }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

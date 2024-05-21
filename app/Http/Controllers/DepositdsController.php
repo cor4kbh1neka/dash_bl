@@ -18,10 +18,10 @@ class DepositdsController extends Controller
             $jenis = 'WD';
         }
 
-        $dataCountDepoWd = DepoWd::select('masterbank', DB::raw('count(id) as count'))
+        $dataCountDepoWd = DepoWd::select('bank', DB::raw('count(id) as count'))
             ->where('status', 0)
             ->where('jenis', $jenis)
-            ->groupBy('masterbank')
+            ->groupBy('bank')
             ->get();
 
         /* Data master bank */
@@ -31,7 +31,7 @@ class DepositdsController extends Controller
             $item1['count'] = 0;
 
             foreach ($dataCountDepoWd as $item2) {
-                if ($item1['bnkmstrxyxyx'] === $item2->masterbank) {
+                if ($item1['bnkmstrxyxyx'] === $item2->bank) {
                     $item1['count'] = $item2->count;
                     break;
                 }
