@@ -410,6 +410,30 @@ class DepoWdController extends Controller
                             if ($dataDepo->jenis == 'DP') {
                                 $resultsApi = $this->requestApi('deposit', $dataAPI);
 
+                                if ($resultsApi["error"]["id"] === 0) {
+                                    $this->processBalance($dataDepo->username, 'DP', $dataDepo->amount);
+                                    $historyTrans = HistoryTransaksi::create([
+                                        'username' => $dataDepo->username,
+                                        'invoice' => $txnid,
+                                        'keterangan' => $status,
+                                        'status' => $status,
+                                        'debit' => $debit,
+                                        'kredit' => $kredit,
+                                        'balance' => Balance::where('username', $dataDepo->username)->first()->amount
+                                    ]);
+                                    DepoWd::where('id', $id)->update(['txnid' => $txnid]);
+                                    $dataMember = Member::where('username', $dataDepo->username)
+                                        ->where('status', 9)
+                                        ->where('is_notnew', true)
+                                        ->first();
+
+                                    if ($dataMember) {
+                                        $dataMember->update([
+                                            'status' => 1
+                                        ]);
+                                    }
+                                }
+
                                 $maxAttempts4404 = 10;
                                 $attempt4404 = 0;
                                 while ($resultsApi["error"]["id"] === 4404 && $attempt4404 < $maxAttempts4404) {
@@ -434,28 +458,6 @@ class DepoWdController extends Controller
                             if ($resultsApi["error"]["id"] !== 0) {
                                 DepoWd::where('id', $id)->update(['status' => 0, 'approved_by' => null]);
                                 return back()->withInput()->with('error', $resultsApi["error"]["msg"]);
-                            } else if ($resultsApi["error"]["id"] === 0) {
-                                $this->processBalance($dataDepo->username, 'DP', $dataDepo->amount);
-                                $historyTrans = HistoryTransaksi::create([
-                                    'username' => $dataDepo->username,
-                                    'invoice' => $txnid,
-                                    'keterangan' => $status,
-                                    'status' => $status,
-                                    'debit' => $debit,
-                                    'kredit' => $kredit,
-                                    'balance' => Balance::where('username', $dataDepo->username)->first()->amount
-                                ]);
-                                DepoWd::where('id', $id)->update(['txnid' => $txnid]);
-                                $dataMember = Member::where('username', $dataDepo->username)
-                                    ->where('status', 9)
-                                    ->where('is_notnew', true)
-                                    ->first();
-
-                                if ($dataMember) {
-                                    $dataMember->update([
-                                        'status' => 1
-                                    ]);
-                                }
                             }
                         }
                     } else {
