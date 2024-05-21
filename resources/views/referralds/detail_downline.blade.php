@@ -83,7 +83,7 @@
                     @foreach ($data as $i => $d)
                         <tr>
                             <td class="nmr">{{ $i + 1 }}</td>
-                            <td>{{ $d->downline . ' ' . $d->total_amount }}</td>
+                            <td>{{ $d->downline }}</td>
                             <td class="nominalbonus" data-bonusreff="{{ $d->total_amount }}">{{ $d->total_amount }}
                             </td>
                         </tr>
