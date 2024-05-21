@@ -270,6 +270,7 @@ class DepoWdController extends Controller
                                 ]);
                             }
                             dd($dataRef);
+                            dd('test');
                         } elseif (preg_match('/^[f-j]/i', $dataMember->referral)) {
                             $dataRef = ReferralDepo2::where('downline', $dataDepo->username)
                                 ->whereDate('created_at', date('Y-m-d'))
