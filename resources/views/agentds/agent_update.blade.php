@@ -78,8 +78,9 @@
                 </div>
             </form>
             <spann class="titleeditmemberds change">agent setting</spann>
-            <form method="POST" action="/agentds/storesetting" class="groupplayerinfo">
-                @csrf
+            {{-- <form method="POST" action="/agentds/storesetting" class="groupplayerinfo">
+                @csrf --}}
+            <div class="groupplayerinfo">
                 <div class="listgroupplayerinfo left">
                     <div class="listplayerinfo">
                         <label for="min">minimal bet</label>
@@ -127,7 +128,8 @@
                         <span class="texttombol">SAVE DATA</span>
                     </button>
                 </div>
-            </form>
+            </div>
+            {{-- </form> --}}
         </div>
     </div>
 </div>
