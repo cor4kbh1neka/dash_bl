@@ -27,7 +27,7 @@ class DepositdsController extends Controller
 
         /* Data master bank */
         $dataBank = $this->getApiMasterBank();
-        $dataBank = sort($dataBank);
+        sort($dataBank);
         $allDataBank = [];
         foreach ($dataBank as $index => $item1) {
             $allDataBank[$index]['bnkmstrxyxyx'] = $item1;
