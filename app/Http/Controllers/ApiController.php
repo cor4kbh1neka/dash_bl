@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\Transactions;
 use App\Models\TransactionStatus;
 use App\Models\TransactionSaldo;
@@ -21,6 +20,12 @@ use App\Models\Referral2;
 use App\Models\Referral3;
 use App\Models\Referral4;
 use App\Models\Referral5;
+use App\Models\ReferralAktif1;
+use App\Models\ReferralAktif2;
+use App\Models\ReferralAktif3;
+use App\Models\ReferralAktif4;
+use App\Models\ReferralAktif5;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 
@@ -53,7 +58,11 @@ class ApiController extends Controller
             $dataLogin['ServerId'] = "YY-TEST";
             $getLogin = $this->requestApiLogin($dataLogin);
             if ($getLogin["url"] !== "") {
-                $getLogin["url"] = 'https://' . $getLogin["url"] .  '/welcome2.aspx?token=token&lang=en&oddstyle=ID&theme=black&oddsmode=double&device=' . $device;
+                if ($device == 'd') {
+                    $getLogin["url"] = 'https://' . $getLogin["url"] .  '/welcome2.aspx?token=token&lang=en&oddstyle=ID&theme=black&oddsmode=double&device=' . $device;
+                } else {
+                    $getLogin["url"] = 'https://' . $getLogin["url"] .  '/welcome2.aspx?token=token&lang=en&oddstyle=ID&oddsmode=double&device=' . $device;
+                }
             }
 
             return $getLogin;
@@ -853,5 +862,72 @@ class ApiController extends Controller
     public function getDataMember()
     {
         return Member::get();
+    }
+
+    public function getDataReferral(Request $request)
+    {
+        $validasiBearer = $this->validasiBearer($request);
+        if ($validasiBearer !== true) {
+            return $validasiBearer;
+        }
+
+        $username = $request->username;
+
+        /* Count Referral */
+        $Referral1 = Referral1::where('upline', $username)->count();
+        $Referral2 = Referral2::where('upline', $username)->count();
+        $Referral3 = Referral3::where('upline', $username)->count();
+        $Referral4 = Referral4::where('upline', $username)->count();
+        $Referral5 = Referral5::where('upline', $username)->count();
+        $allCount = $Referral1 + $Referral2 + $Referral3 + $Referral4 + $Referral5;
+
+        /* Sum Referral */
+        $ReferralAktif1 = ReferralAktif1::where('upline', $username)->sum('amount');
+        $ReferralAktif2 = ReferralAktif2::where('upline', $username)->sum('amount');
+        $ReferralAktif3 = ReferralAktif3::where('upline', $username)->sum('amount');
+        $ReferralAktif4 = ReferralAktif4::where('upline', $username)->sum('amount');
+        $ReferralAktif5 = ReferralAktif5::where('upline', $username)->sum('amount');
+        $allSum = $ReferralAktif1 + $ReferralAktif2 + $ReferralAktif3 + $ReferralAktif4 + $ReferralAktif5;
+
+        /* Data Referral Member */
+        $DataReferral1 = Referral1::where('upline', $username)->get();
+        $DataReferral2 = Referral2::where('upline', $username)->get();
+        $DataReferral3 = Referral3::where('upline', $username)->get();
+        $DataReferral4 = Referral4::where('upline', $username)->get();
+        $DataReferral5 = Referral5::where('upline', $username)->get();
+        $allData = $DataReferral1->union($DataReferral2)
+            ->union($DataReferral3)
+            ->union($DataReferral4)
+            ->union($DataReferral5)->toArray();
+
+        /* Data Komisi Referral Member */
+        $DataAktif1 = ReferralAktif1::select('upline', DB::raw('SUM(amount) as total_amount'))
+            ->where('upline', $username)
+            ->groupBy('upline')
+            ->get();
+        $DataAktif2 = ReferralAktif2::select('upline', DB::raw('SUM(amount) as total_amount'))
+            ->where('upline', $username)
+            ->groupBy('upline')
+            ->get();
+        $DataAktif3 = ReferralAktif3::select('upline', DB::raw('SUM(amount) as total_amount'))
+            ->where('upline', $username)
+            ->groupBy('upline')
+            ->get();
+        $DataAktif4 = ReferralAktif4::select('upline', DB::raw('SUM(amount) as total_amount'))
+            ->where('upline', $username)
+            ->groupBy('upline')
+            ->get();
+        $DataAktif5 = ReferralAktif5::select('upline', DB::raw('SUM(amount) as total_amount'))
+            ->where('upline', $username)
+            ->groupBy('upline')
+            ->get();
+        $allDataKomisi = $DataAktif1->union($DataAktif2)->union($DataAktif3)->union($DataAktif4)->union($DataAktif5);
+
+        return [
+            'totalReferral' => $allCount,
+            'totalKomisi' => $allSum,
+            'dataReferral' => $allData,
+            'dataKomisi' => $allDataKomisi
+        ];
     }
 }

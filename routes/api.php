@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiBolaController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\DepoWdController;
+use App\Http\Controllers\ReferraldsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +43,7 @@ Route::delete('/deleteTransactions', [ApiController::class, 'deleteTransactions'
 Route::post('/login', [ApiController::class, 'login']);
 Route::post('/historylog', [ApiController::class, 'historyLog']);
 Route::post('/register', [ApiController::class, 'register']);
-Route::get('/get-recommend-matches', [ApiController::class, 'getRecomMatch']);
+Route::post('/get-recommend-matches', [ApiController::class, 'getRecomMatch']);
 Route::post('/cekuserreferral', [ApiController::class, 'cekuserreferral']);
 Route::post('/deposit', [ApiController::class, 'deposit']);
 Route::post('/withdrawal', [ApiController::class, 'withdrawal']);
@@ -53,6 +54,10 @@ Route::post('/getHistoryGame', [ApiController::class, 'getHistoryGame']);
 Route::post('/getHistoryGameById', [ApiController::class, 'getHistoryGameById']);
 Route::post('/getDataOutstanding', [ApiController::class, 'getDataOutstanding']);
 // });
+
+
+/* Referral */
+Route::post('/getDataReferral', [ApiController::class, 'getDataReferral']);
 
 
 
