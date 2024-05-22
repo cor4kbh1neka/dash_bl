@@ -416,6 +416,13 @@ class DepoWdController extends Controller
                                         'kredit' => $kredit,
                                         'balance' => $prosesBalance["balance"]
                                     ]);
+
+                                    /* Delete Notif */
+                                    $dataToDelete = Xdpwd::where('username', $dataDepo->username)->where('jenis', $dataDepo->jenis)->first();
+                                    if ($dataToDelete) {
+                                        $dataToDelete->delete();
+                                    }
+
                                     DepoWd::where('id', $id)->update(['txnid' => $txnid]);
                                     $dataMember = Member::where('username', $dataDepo->username)
                                         ->where('status', 9)
@@ -462,6 +469,12 @@ class DepoWdController extends Controller
                             }
                         }
                     } else {
+                        /* Delete Notif */
+                        $dataToDelete = Xdpwd::where('username', $dataDepo->username)->where('jenis', $dataDepo->jenis)->first();
+                        if ($dataToDelete) {
+                            $dataToDelete->delete();
+                        }
+
                         HistoryTransaksi::create([
                             'username' => $dataDepo->username,
                             'invoice' => $txnid,
@@ -482,6 +495,7 @@ class DepoWdController extends Controller
                 $url = '/withdrawds';
                 $message = 'Withdrawal berhasil diproses';
             }
+
             return redirect($url)->with('success', $message);
         } catch (\Exception $e) {
             return back()->withInput()->with('error', $e->getMessage());

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DepoWd;
+use App\Models\Xdpwd;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +18,10 @@ class DepositdsController extends Controller
         } elseif (Route::is('withdrawds')) {
             $jenis = 'WD';
         }
+
+        /* Delete Notif */
+        $dataToDelete = Xdpwd::where('username', '!=', 'jakatingkir')->delete();
+
 
         $dataCountDepoWd = DepoWd::select('bank', DB::raw('count(id) as count'))
             ->where('status', 0)
