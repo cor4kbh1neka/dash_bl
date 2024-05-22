@@ -27,17 +27,20 @@ class DepositdsController extends Controller
 
         /* Data master bank */
         $dataBank = $this->getApiMasterBank();
-        $arrayData = [];
-        foreach ($dataBank as &$item1) {
-            $item1['count'] = 0;
+        $allDataBank = [];
+        foreach ($dataBank as $index => $item1) {
+            $allDataBank[$index]['bnkmstrxyxyx'] = $item1;
+            $allDataBank[$index]['count'] = 0;
 
             foreach ($dataCountDepoWd as $item2) {
-                if ($item1['bnkmstrxyxyx'] === $item2->bank) {
-                    $item1['count'] = $item2->count;
+                if ($item1 === $item2->bank) {
+                    $allDataBank[$index]['count'] = $item2->count;
                     break;
                 }
             }
         }
+
+        $dataBank = $allDataBank;
 
         /* History transkasi */
         $dataTransaksi = DepoWd::whereIn('status', [1, 2])->where('jenis', $jenis)->orderBy('updated_at', 'DESC')->get();
@@ -66,7 +69,36 @@ class DepositdsController extends Controller
     private function getApiMasterBank()
     {
         // "status" => "success"
-        $response = Http::get('https://back-staging.bosraka.com/banks/master');
+        $ApiBank = $this->getApi('https://back-staging.bosraka.com/banks/v2/groupbank3');
+        unset($ApiBank['headers']);
+        $ApiBankExcept = $this->getApi('https://back-staging.bosraka.com/banks/exc/groupbank3');
+        unset($ApiBankExcept['headers']);
+
+        $data1 = [];
+        foreach ($ApiBank as $dts) {
+            foreach ($dts as $dt) {
+                foreach ($dt["data_bank"] as $d) {
+                    $data1[] = $d['namebankxxyy'];
+                }
+            }
+        }
+
+        $data2 = [];
+        foreach ($ApiBankExcept as $dts) {
+            foreach ($dts as $dt) {
+                foreach ($dt["data_bank"] as $d) {
+                    $data2[] = $d['namebankxxyy'];
+                }
+            }
+        }
+
+        $allDataBank = array_merge($data1, $data2);
+        return $allDataBank;
+    }
+
+    private function getApi($url)
+    {
+        $response = Http::get($url);
         $response = $response->json();
 
         if ($response['status'] == 'success') {

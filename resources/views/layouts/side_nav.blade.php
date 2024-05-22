@@ -45,7 +45,7 @@
                             d="M32 259.5V160c0-21.67 12-58 53.65-65.87C121 87.5 156 87.5 156 87.5s23 16 4 16s-18.5 24.5 0 24.5s0 23.5 0 23.5L85.5 236Z" />
                     </svg>
                     <span class="nav_title1">deposit</span>
-                    <span class="countdatapend">{{ $dataCount['countDP'] }}</span>
+                    <span class="countdatapend" id="countDP">{{ $dataCount['countDP'] }}</span>
                 </a>
             </div>
             <div class="data_sidejsx">
@@ -55,7 +55,7 @@
                             d="M16 12c2.76 0 5-2.24 5-5s-2.24-5-5-5s-5 2.24-5 5s2.24 5 5 5m5.45 5.6c-.39-.4-.88-.6-1.45-.6h-7l-2.08-.73l.33-.94L13 16h2.8c.35 0 .63-.14.86-.37s.34-.51.34-.82c0-.54-.26-.91-.78-1.12L8.95 11H7v9l7 2l8.03-3c.01-.53-.19-1-.58-1.4M5 11H.984v11H5z" />
                     </svg>
                     <span class="nav_title1">withdraw</span>
-                    <span class="countdatapend">{{ $dataCount['countWD'] }}</span>
+                    <span class="countdatapend" id="countWD">{{ $dataCount['countWD'] }}</span>
                 </a>
             </div>
             <div class="data_sidejsx">

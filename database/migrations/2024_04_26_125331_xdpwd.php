@@ -26,6 +26,7 @@ return new class extends Migration
             $table->decimal('balance', 10, 2);
             $table->integer('status');
             $table->string('approved_by', 50)->nullable();
+            $table->boolean('isnotif')->default(false);
             $table->timestamps();
         });
     }

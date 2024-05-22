@@ -320,5 +320,9 @@ Route::middleware(['auth'])->group(function () {
     /*-- MENU 2 --*/
     Route::get('/menu2', [Menu2Controller::class, 'index']);
     Route::get('/menu2/add', [Menu2Controller::class, 'create']);
+
+
+    /*-- GET NOTIFICATION --*/
+    Route::get('/getNotifikasi', [DepoWdController::class, 'getNotifikasi']);
 });
 // });

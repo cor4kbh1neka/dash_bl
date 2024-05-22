@@ -238,12 +238,12 @@ $(document).ready(function () {
 
     function checkCountPendingData() {
         $('.countpendingdata, .countdatapend').each(function () {
-            var countValue = $(this).text().trim();
-            if (countValue === '' || countValue === '0') {
-                $(this).css('display', 'none');
-            } else {
-                $(this).css('display', '');
-            }
+            // var countValue = $(this).text().trim();
+            // if (countValue === '' || countValue === '0') {
+            //     $(this).css('display', 'none');
+            // } else {
+            //     $(this).css('display', '');
+            // }
         });
     }
 
@@ -293,4 +293,40 @@ $('#sec_sidebar').on('input', '#searchTabel', function () {
             $parentSubData.removeClass('active');
         }
     });
+});
+
+//Notifikasi Sound
+function playSound(url) {
+    const audio = new Audio(url);
+    audio.play().catch(function (error) {
+        console.log('Audio playback failed:', error);
+    });
+}
+
+$(document).ready(function () {
+    function checkNotifications() {
+        $.ajax({
+            url: '/getNotifikasi',
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response.countDP > 0) {
+                    $('#countDP').text(response.countDP);
+                }
+
+                if (response.countWD > 0) {
+                    $('#countWD').text(response.countWD);
+                }
+
+                if (response.countDP > 0 || response.countDP > 0) {
+                    // playSound('/assets/notification/notif.wav');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log('Error:', error);
+            }
+        });
+    }
+
+    setInterval(checkNotifications, 5000);
 });

@@ -13,7 +13,7 @@ class Xdpwd extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ['username', 'amount', 'keterangan', 'jenis', 'bank', 'mbank', 'mnamarek', 'mnorek', 'txnid', 'balance', 'status', 'approved_by'];
+    protected $fillable = ['username', 'amount', 'keterangan', 'jenis', 'bank', 'mbank', 'mnamarek', 'mnorek', 'txnid', 'balance', 'status', 'approved_by', 'isnotif'];
 
     protected $primaryKey = 'id';
 

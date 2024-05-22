@@ -731,8 +731,17 @@ class DepoWdController extends Controller
         }
     }
 
+    public function getNotifikasi()
+    {
+        return [
+            'countDP' => Xdpwd::where('jenis', 'DP')->count(),
+            'countWD' => Xdpwd::where('jenis', 'WD')->count()
+        ];
+    }
+
     public function getDataDepoWd()
     {
+        /* ga dipake cumba buat cek doang */
         return DepoWd::get();
     }
 }
