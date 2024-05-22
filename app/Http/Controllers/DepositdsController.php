@@ -19,10 +19,6 @@ class DepositdsController extends Controller
             $jenis = 'WD';
         }
 
-        /* Delete Notif */
-        $dataToDelete = Xdpwd::where('username', 'jakatingkir')->delete();
-
-
         $dataCountDepoWd = DepoWd::select('bank', DB::raw('count(id) as count'))
             ->where('status', 0)
             ->where('jenis', $jenis)
