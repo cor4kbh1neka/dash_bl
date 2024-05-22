@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BetSetting;
 use App\Models\Settings;
 use App\Models\Companys;
 use App\Models\Currencys;
+use App\Models\Persentase;
 use App\Models\UserAccess;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -202,5 +204,78 @@ class AgentdsController extends Controller
         $user->save();
 
         return redirect()->back()->with('success', 'Access agent berhasil diupdate.');
+    }
+
+    public function storesetting(Request $request)
+    {
+        $request->validate([
+            'min' => 'required',
+            'max' => 'required',
+            'sportsbook' => 'required',
+            'virtualsports' => 'required',
+            'games' => 'required'
+        ]);
+
+        $dataBetSetting = BetSetting::where('id', 1)->first();
+        $reqBetSetting = [
+            'min' => $request->min,
+            'max' => $request->max
+        ];
+        if ($dataBetSetting) {
+            $dataBetSetting->update($reqBetSetting);
+        } else {
+            BetSetting::create($reqBetSetting);
+        }
+
+        $dataPersentaseSB = Persentase::where('jenis', 'SportsBook')->first();
+        if ($dataPersentaseSB) {
+            $dataPersentaseSB->update([
+                'persentase' => $request->sportsbook
+            ]);
+        } else {
+            Persentase::create([
+                'jenis' => 'SportsBook',
+                'persentase' => $request->sportsbook
+            ]);
+        }
+
+
+        $dataPersentaseVS = Persentase::where('jenis', 'VirtualSports')->first();
+        if ($dataPersentaseVS) {
+            $dataPersentaseVS->update([
+                'persentase' => $request->virtualsports
+            ]);
+        } else {
+            Persentase::create([
+                'jenis' => 'SportsBook',
+                'persentase' => $request->virtualsports
+            ]);
+        }
+
+        $dataPersentaseG = Persentase::where('jenis', 'Games')->first();
+        if ($dataPersentaseG) {
+            $dataPersentaseG->update([
+                'persentase' => $request->games
+            ]);
+        } else {
+            Persentase::create([
+                'jenis' => 'SportsBook',
+                'persentase' => $request->games
+            ]);
+        }
+
+
+
+        $user = new User();
+        $user->name = $request->username;
+        $user->username = $request->username;
+        $user->divisi = $request->divisi;
+        $user->password = bcrypt($request->password);
+        $user->image = "";
+        $user->status = 1;
+
+        $user->save();
+
+        return redirect('/agentds')->with('success', 'Aget berhasil ditambahkan.');
     }
 }

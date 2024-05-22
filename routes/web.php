@@ -290,6 +290,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/agentds/accessadd/store', [AgentdsController::class, 'store_access']);
     Route::delete('/agentds/accessdelete/{id}', [AgentdsController::class, 'destroy_access']);
     Route::post('/agentds/accessupdate/update', [AgentdsController::class, 'update_access']);
+    Route::post('/agentds/storesetting', [AgentdsController::class, 'storesetting']);
 
     /*-- Eventds --*/
     // Route::get('/eventds', [EventdsController::class, 'index']);
