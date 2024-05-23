@@ -19,6 +19,7 @@ use App\Models\ReferralDepo2;
 use App\Models\ReferralDepo3;
 use App\Models\ReferralDepo4;
 use App\Models\ReferralDepo5;
+use App\Models\winlossDay;
 use App\Models\Xreferral;
 use Illuminate\Support\Facades\DB;
 
@@ -416,6 +417,23 @@ class DepoWdController extends Controller
                                         'kredit' => $kredit,
                                         'balance' => $prosesBalance["balance"]
                                     ]);
+
+                                    $winLoss = WinlossDay::whereDate('created_at', date('Y-m-d'))->first();
+                                    if (!$winLoss) {
+                                        WinlossDay::create([
+                                            'username' => $dataDepo->username,
+                                            'count' => 1,
+                                            'day' => date("d"),
+                                            'month' => date("M"),
+                                            'year' => date("Y"),
+                                            'deposit' => $dataDepo->amount,
+                                            'withdrawal' => 0
+                                        ]);
+                                    } else {
+                                        $winLoss->increment('count');
+                                        $winLoss->increment('deposit', $dataDepo->amount);
+                                        $winLoss->save();
+                                    }
 
                                     /* Delete Notif */
                                     $dataToDelete = Xdpwd::where('username', $dataDepo->username)->where('jenis', $dataDepo->jenis)->first();

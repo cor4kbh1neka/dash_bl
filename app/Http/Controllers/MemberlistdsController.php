@@ -27,9 +27,9 @@ class MemberlistdsController extends Controller
             ->select('member.*', 'balance.amount');;
         if ($username) {
             if (!isset($checkusername)) {
-                $query->where('username', 'like', '%' . $username . '%');
+                $query->where('member.username', 'like', '%' . $username . '%');
             } else {
-                $query->where('username',  $username);
+                $query->where('member.username',  $username);
             }
         }
         if ($norek) {
