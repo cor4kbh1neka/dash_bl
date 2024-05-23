@@ -776,4 +776,9 @@ class DepoWdController extends Controller
         }
         return ['status' => 'success'];
     }
+
+    public function getDataXdpwd()
+    {
+        return Xdpwd::get();
+    }
 }
