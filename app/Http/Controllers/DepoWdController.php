@@ -774,6 +774,6 @@ class DepoWdController extends Controller
                 'isnotif' => 1
             ]);
         }
-        return ['status' => 'succes'];
+        return ['status' => 'success'];
     }
 }
