@@ -324,5 +324,6 @@ Route::middleware(['auth'])->group(function () {
 
     /*-- GET NOTIFICATION --*/
     Route::get('/getNotifikasi', [DepoWdController::class, 'getNotifikasi']);
+    Route::get('/updateNotifikasi/{id}', [DepoWdController::class, 'updateNotifikasi']);
 });
 // });

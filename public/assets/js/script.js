@@ -318,9 +318,25 @@ $(document).ready(function () {
                     $('#countWD').text(response.countWD);
                 }
 
-                if (response.countDP > 0 || response.countDP > 0) {
-                    // playSound('/assets/notification/notif.wav');
+                if (response.dataDepo && response.dataDepo.length > 0) {
+                    response.dataDepo.forEach(function (item) {
+                        updateIsnotif(item.id);
+                    });
                 }
+            },
+            error: function (xhr, status, error) {
+                console.log('Error:', error);
+            }
+        });
+    }
+
+    function updateIsnotif(id) {
+        $.ajax({
+            url: '/updateNotifikasi/' + id,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                playSound('/assets/notification/notif.wav');
             },
             error: function (xhr, status, error) {
                 console.log('Error:', error);

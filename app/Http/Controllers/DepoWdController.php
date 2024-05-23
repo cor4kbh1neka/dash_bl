@@ -418,6 +418,7 @@ class DepoWdController extends Controller
                                         'balance' => $prosesBalance["balance"]
                                     ]);
 
+                                    /**/
                                     $winLoss = WinlossDay::whereDate('created_at', date('Y-m-d'))->first();
                                     if (!$winLoss) {
                                         WinlossDay::create([
@@ -752,6 +753,8 @@ class DepoWdController extends Controller
     public function getNotifikasi()
     {
         return [
+            'dataDepo' => Xdpwd::select('id')->where('jenis', 'DP')->where('isnotif', 0)->get(),
+            'dataWd' => Xdpwd::select('id')->where('jenis', 'WD')->where('isnotif', 0)->get(),
             'countDP' => Xdpwd::where('jenis', 'DP')->count(),
             'countWD' => Xdpwd::where('jenis', 'WD')->count()
         ];
@@ -761,5 +764,16 @@ class DepoWdController extends Controller
     {
         /* ga dipake cumba buat cek doang */
         return DepoWd::get();
+    }
+
+    public function updateNotifikasi($id)
+    {
+        $dataXdpwd = Xdpwd::where('id', $id)->first();
+        if ($dataXdpwd) {
+            $dataXdpwd->update([
+                'isnotif' => 1
+            ]);
+        }
+        return ['status' => 'success'];
     }
 }
