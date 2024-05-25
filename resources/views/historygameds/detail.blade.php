@@ -42,9 +42,7 @@
                         @if ($portfolio == 'SportsBook')
                             {{ $data['sportsType'] }}
                         @elseif($portfolio == 'SeamlessGame')
-                            {
                             {{ $data['gameType'] }}
-                            }
                         @else
                             {{ $data['productType'] }}
                         @endif
