@@ -20,8 +20,11 @@ use App\Models\ReferralDepo3;
 use App\Models\ReferralDepo4;
 use App\Models\ReferralDepo5;
 use App\Models\winlossDay;
+use App\Models\winlossMonth;
+use App\Models\winlossYear;
 use App\Models\Xreferral;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 // date_default_timezone_set('Asia/Jakarta');
 
@@ -187,17 +190,12 @@ class DepoWdController extends Controller
                         ]);
                     } else if ($req["error"]["id"] === 0) {
                         $processBalance = $this->processBalance($result->username, $jenis, $result->amount);
-                        HistoryTransaksi::create([
-                            'username' => $result->username,
-                            'invoice' =>  $txnid,
-                            'refno' => '',
-                            'keterangan' => $result->jenis == 'DPM' ? 'deposit' : 'withdraw',
-                            'portfolio' => '',
-                            'status' => 'manual',
-                            'debit' => $result->jenis == 'WDM' ? $result->amount : 0,
-                            'kredit' => $result->jenis == 'DPM' ? $result->amount : 0,
-                            'balance' => $processBalance["balance"]
-                        ]);
+
+                        /* Create History */
+                        $keterangan = $result->jenis == 'DPM' ? 'deposit' : 'withdraw';
+                        $debit = $result->jenis == 'WDM' ? $result->amount : 0;
+                        $kredit = $result->jenis == 'DPM' ? $result->amount : 0;
+                        $this->addDataHistory($result->username, $txnid, '', $keterangan, 'manual', $debit, $kredit, $processBalance["balance"]);
 
                         return redirect()->route('manualds')->with([
                             'title' => 'Proses Manual',
@@ -243,266 +241,152 @@ class DepoWdController extends Controller
             foreach ($ids as $id) {
                 $dataDepo = DepoWd::where('id', $id)->where('status', 0)->first();
                 $txnid = $this->generateTxnid('D');
+
                 if ($dataDepo) {
                     $updateDepo = $dataDepo->update(['status' => 1, 'approved_by' => Auth::user()->username]);
+                    if ($updateDepo) {
 
-                    $dataMember = MemberAktif::where('username', $dataDepo->username)->first();
-                    if (!$dataMember) {
-                        $dataMember = Member::where('username', $dataDepo->username)->first();
-                    }
-
-                    /* Create Depo Downline */
-                    if ($dataMember->referral !== null && $dataMember->referral !== '') {
-                        $dataReferral = [
-                            'upline' => $dataMember->referral,
-                            'downline' => $dataDepo->username,
-                            'amount' => $dataDepo->amount
-                        ];
-
-                        if (preg_match('/^[a-e]/i', $dataMember->referral)) {
-                            $dataRef = ReferralDepo1::where('downline', $dataDepo->username)
-                                ->whereDate('created_at', date('Y-m-d'))
-                                ->first();
-                            if (!$dataRef) {
-                                ReferralDepo1::create($dataReferral);
-                            } else {
-                                $dataRef->update([
-                                    'amount' => $dataRef->amount + $dataDepo->amount
-                                ]);
-                            }
-                        } elseif (preg_match('/^[f-j]/i', $dataMember->referral)) {
-                            $dataRef = ReferralDepo2::where('downline', $dataDepo->username)
-                                ->whereDate('created_at', date('Y-m-d'))
-                                ->first();
-                            if (!$dataRef) {
-                                ReferralDepo2::create($dataReferral);
-                            } else {
-                                $dataRef->update([
-                                    'amount' => $dataRef->amount + $dataDepo->amount
-                                ]);
-                            }
-                        } elseif (preg_match('/^[k-o]/i', $dataMember->referral)) {
-                            $dataRef = ReferralDepo3::where('downline', $dataDepo->username)
-                                ->whereDate('created_at', date('Y-m-d'))
-                                ->first();
-                            if (!$dataRef) {
-                                ReferralDepo3::create($dataReferral);
-                            } else {
-                                $dataRef->update([
-                                    'amount' => $dataRef->amount + $dataDepo->amount
-                                ]);
-                            }
-                        } elseif (preg_match('/^[p-t]/i', $dataMember->referral)) {
-                            $dataRef = ReferralDepo4::where('downline', $dataDepo->username)
-                                ->whereDate('created_at', date('Y-m-d'))
-                                ->first();
-                            if (!$dataRef) {
-                                ReferralDepo4::create($dataReferral);
-                            } else {
-                                $dataRef->update([
-                                    'amount' => $dataRef->amount + $dataDepo->amount
-                                ]);
-                            }
-                        } elseif (preg_match('/^[u-z]/i', $dataMember->referral)) {
-                            $dataRef = ReferralDepo5::where('downline', $dataDepo->username)
-                                ->whereDate('created_at', date('Y-m-d'))
-                                ->first();
-                            if (!$dataRef) {
-                                ReferralDepo5::create($dataReferral);
-                            } else {
-                                $dataRef->update([
-                                    'amount' => $dataRef->amount + $dataDepo->amount
-                                ]);
-                            }
+                        /* Cek Data Member */
+                        $dataMember = MemberAktif::where('username', $dataDepo->username)->first();
+                        if (!$dataMember) {
+                            $dataMember = Member::where('username', $dataDepo->username)->first();
                         }
 
-                        /* Create Xreferral */
-                        // $dataXreferral = Xreferral::where('upline', $dataMember->referral)
-                        //     ->whereDate('created_at', now())->first();
-                        // if ($dataXreferral) {
-                        //     $dataXreferral->increment('downline_deposit');
-                        // } else {
-                        //     Xreferral::create([
-                        //         'upline' => $dataMember->referral,
-                        //         'total_downline' => 0,
-                        //         'downline_deposit' => 1,
-                        //         'downline_aktif' => 0,
-                        //         'total_bonus' => 0
-                        //     ]);
-                        // }
-                    }
+                        if ($dataMember) {
+                            /* Create Depo Downline */
+                            if ($dataMember->referral !== null && $dataMember->referral !== '') {
+                                $this->addDataDepoDownline($dataMember->referral, $dataDepo->username, $dataDepo->amount);
+                            }
 
-                    /* Create History Transkasi */
-                    if ($jenis == 'DP') {
-                        $status = 'deposit';
-                        $debit = 0;
-                        $kredit = $dataDepo->amount;
-                    } else {
-                        $status = 'witdhraw';
-                        $debit = $dataDepo->amount;
-                        $kredit = 0;
-                    }
-
-                    /* Create Member Aktif */
-                    if ($dataMember->referral != '' || $dataMember->referral != null) {
-                        $dataMemberAktif = MemberAktif::where('username', $dataDepo->username)->first();
-                        if (!$dataMemberAktif) {
-                            MemberAktif::create([
-                                'username' => $dataDepo->username,
-                                'referral' => $dataMember->referral
-                            ]);
-                        }
-                    }
-
-                    /* count xdepo wd */
-                    $dataXtrans = Xtrans::where('username', $dataDepo->username)->where('bank', $dataDepo->bank)->first();
-
-                    if (!$dataXtrans) {
-                        if ($dataDepo->jenis == 'WD') {
-                            Xtrans::create([
-                                'bank' => $dataDepo->bank,
-                                'username' => $dataDepo->username,
-                                'count_wd' => 1,
-                                'sum_wd' => $dataDepo->amount,
-                                'count_dp' => 0,
-                                'sum_dp' => 0,
-                                'groupbank' => $dataDepo->groupbank
-                            ]);
-                        } else {
-                            Xtrans::create([
-                                'bank' => $dataDepo->bank,
-                                'username' => $dataDepo->username,
-                                'count_wd' => 0,
-                                'sum_wd' => 0,
-                                'count_dp' => 1,
-                                'sum_dp' => $dataDepo->amount,
-                                'groupbank' => $dataDepo->groupbank
-                            ]);
-                        }
-                    } else {
-                        if ($dataDepo->jenis == 'WD') {
-                            $dataXtrans->update([
-                                'count_wd' => $dataXtrans->count_wd + 1,
-                                'sum_wd' => $dataXtrans->sum_wd + $dataDepo->amount
-                            ]);
-                        } else {
-                            $dataXtrans->update([
-                                'count_dp' => $dataXtrans->count_dp + 1,
-                                'sum_dp' => $dataXtrans->sum_dp + $dataDepo->amount
-                            ]);
-                        }
-                    }
-
-                    if ($dataDepo->jenis !== 'WD') {
-                        if ($updateDepo) {
-                            $dataAPI = [
-                                "Username" => $dataDepo->username,
-                                "TxnId" => $txnid,
-                                "Amount" => $dataDepo->amount,
-                                "CompanyKey" => env('COMPANY_KEY'),
-                                "ServerId" => env('SERVERID')
-                            ];
-
-                            if ($dataDepo->jenis == 'DP') {
-                                $resultsApi = $this->requestApi('deposit', $dataAPI);
-
-                                if ($resultsApi["error"]["id"] === 0) {
-                                    $prosesBalance = $this->processBalance($dataDepo->username, 'DP', $dataDepo->amount);
-                                    HistoryTransaksi::create([
+                            /* Create Member Aktif */
+                            if ($dataMember->referral != '' || $dataMember->referral != null) {
+                                $dataMemberAktif = MemberAktif::where('username', $dataDepo->username)->first();
+                                if (!$dataMemberAktif) {
+                                    MemberAktif::create([
                                         'username' => $dataDepo->username,
-                                        'invoice' => $txnid,
-                                        'keterangan' => $status,
-                                        'status' => $status,
-                                        'debit' => $debit,
-                                        'kredit' => $kredit,
-                                        'balance' => $prosesBalance["balance"]
+                                        'referral' => $dataMember->referral
                                     ]);
-
-                                    /* W/L harian */
-                                    $winLoss = WinlossDay::where('username', $dataDepo->username)->whereDate('created_at', date('Y-m-d'))->first();
-                                    if (!$winLoss) {
-                                        WinlossDay::create([
-                                            'username' => $dataDepo->username,
-                                            'count' => 1,
-                                            'day' => date("d"),
-                                            'month' => date("m"),
-                                            'year' => date("Y"),
-                                            'deposit' => $dataDepo->amount,
-                                            'withdrawal' => 0
-                                        ]);
-                                    } else {
-                                        $winLoss->increment('count');
-                                        $winLoss->increment('deposit', $dataDepo->amount);
-                                        $winLoss->save();
-                                    }
-
-                                    /* Delete Notif */
-                                    $dataToDelete = Xdpwd::where('username', $dataDepo->username)->where('jenis', $dataDepo->jenis)->first();
-                                    if ($dataToDelete) {
-                                        $dataToDelete->delete();
-                                    }
-
-                                    DepoWd::where('id', $id)->update(['txnid' => $txnid]);
-                                    $dataMember = Member::where('username', $dataDepo->username)
-                                        ->where('status', 9)
-                                        ->where('is_notnew', true)
-                                        ->first();
-
-                                    if ($dataMember) {
-                                        $dataMember->update([
-                                            'status' => 1
-                                        ]);
-                                    }
                                 }
+                            }
 
-                                $maxAttempts4404 = 10;
-                                $attempt4404 = 0;
-                                while ($resultsApi["error"]["id"] === 4404 && $attempt4404 < $maxAttempts4404) {
-                                    $txnid = $this->generateTxnid('D');
-                                    $data["txnId"] = $txnid;
-                                    $resultsApi = $this->requestApi('deposit', $dataAPI);
-                                    if ($resultsApi["error"]["id"] === 0) {
-                                        $dataDepo->update([
-                                            "txnid" => $txnid
-                                        ]);
-                                        $prosesBalance = $this->processBalance($dataDepo->username, 'DP', $dataDepo->amount);
-                                        HistoryTransaksi::create([
-                                            'username' => $dataDepo->username,
-                                            'invoice' => $txnid,
-                                            'keterangan' => $status,
-                                            'status' => $status,
-                                            'debit' => $debit,
-                                            'kredit' => $kredit,
-                                            'balance' => $prosesBalance["balance"]
-                                        ]);
-                                    }
-                                    $attempt4404++;
+                            /* count xdepo wd */
+                            $dataXtrans = Xtrans::where('username', $dataDepo->username)->where('bank', $dataDepo->bank)->first();
+                            if (!$dataXtrans) {
+                                if ($dataDepo->jenis == 'WD') {
+                                    Xtrans::create([
+                                        'bank' => $dataDepo->bank,
+                                        'username' => $dataDepo->username,
+                                        'count_wd' => 1,
+                                        'sum_wd' => $dataDepo->amount,
+                                        'count_dp' => 0,
+                                        'sum_dp' => 0,
+                                        'groupbank' => $dataDepo->groupbank
+                                    ]);
+                                } else {
+                                    Xtrans::create([
+                                        'bank' => $dataDepo->bank,
+                                        'username' => $dataDepo->username,
+                                        'count_wd' => 0,
+                                        'sum_wd' => 0,
+                                        'count_dp' => 1,
+                                        'sum_dp' => $dataDepo->amount,
+                                        'groupbank' => $dataDepo->groupbank
+                                    ]);
                                 }
                             } else {
-                                return back()->withInput()->with('error', 'Gagal melakukan transaksi!');
+                                if ($dataDepo->jenis == 'WD') {
+                                    $dataXtrans->increment('count_wd');
+                                    $dataXtrans->increment('sum_wd', $dataDepo->amount);
+                                    $dataXtrans->save();
+                                } else {
+                                    $dataXtrans->increment('count_dp');
+                                    $dataXtrans->increment('sum_dp', $dataDepo->amount);
+                                    $dataXtrans->save();
+                                }
                             }
 
-                            if ($resultsApi["error"]["id"] !== 0) {
-                                DepoWd::where('id', $id)->update(['status' => 0, 'approved_by' => null]);
-                                return back()->withInput()->with('error', $resultsApi["error"]["msg"]);
+                            if ($dataDepo->jenis !== 'WD') {
+                                $dataAPI = [
+                                    "Username" => $dataDepo->username,
+                                    "TxnId" => $txnid,
+                                    "Amount" => $dataDepo->amount,
+                                    "CompanyKey" => env('COMPANY_KEY'),
+                                    "ServerId" => env('SERVERID')
+                                ];
+
+                                if ($dataDepo->jenis == 'DP') {
+                                    $resultsApi = $this->requestApi('deposit', $dataAPI);
+
+                                    if ($resultsApi["error"]["id"] === 0) {
+                                        $prosesBalance = $this->processBalance($dataDepo->username, 'DP', $dataDepo->amount);
+
+                                        /* Create History Depo */
+                                        $this->addDataHistory($dataDepo->username, $txnid, '', 'deposit', 'deposit', 0, $dataDepo->amount, $prosesBalance["balance"]);
+
+                                        /* Win Loss DP */
+                                        $this->addDataWinLoss($dataDepo->username, $dataDepo->amount, "deposit");
+
+                                        /* Delete Notif */
+                                        $dataToDelete = Xdpwd::where('username', $dataDepo->username)->where('jenis', $dataDepo->jenis)->first();
+                                        if ($dataToDelete) {
+                                            $dataToDelete->delete();
+                                        }
+
+                                        DepoWd::where('id', $id)->update(['txnid' => $txnid]);
+                                        $dataMember = Member::where('username', $dataDepo->username)
+                                            ->where('status', 9)
+                                            ->where('is_notnew', true)
+                                            ->first();
+
+                                        if ($dataMember) {
+                                            $dataMember->update([
+                                                'status' => 1
+                                            ]);
+                                        }
+                                    }
+
+                                    $maxAttempts4404 = 10;
+                                    $attempt4404 = 0;
+                                    while ($resultsApi["error"]["id"] === 4404 && $attempt4404 < $maxAttempts4404) {
+                                        $txnid = $this->generateTxnid('D');
+                                        $data["txnId"] = $txnid;
+                                        $resultsApi = $this->requestApi('deposit', $dataAPI);
+                                        if ($resultsApi["error"]["id"] === 0) {
+                                            $dataDepo->update([
+                                                "txnid" => $txnid
+                                            ]);
+
+                                            /* Proses Deduct Saldo */
+                                            $prosesBalance = $this->processBalance($dataDepo->username, 'DP', $dataDepo->amount);
+
+                                            /* Create History Depo */
+                                            $this->addDataHistory($dataDepo->username, $txnid, '', 'deposit', 'deposit', 0, $dataDepo->amount, $prosesBalance["balance"]);
+                                        }
+                                        $attempt4404++;
+                                    }
+                                } else {
+                                    return back()->withInput()->with('error', 'Gagal melakukan transaksi!');
+                                }
+
+                                if ($resultsApi["error"]["id"] !== 0) {
+                                    DepoWd::where('id', $id)->update(['status' => 0, 'approved_by' => null]);
+                                    return back()->withInput()->with('error', $resultsApi["error"]["msg"]);
+                                }
+                            } else {
+                                /* Delete Notif */
+                                $dataToDelete = Xdpwd::where('username', $dataDepo->username)->where('jenis', $dataDepo->jenis)->first();
+                                if ($dataToDelete) {
+                                    $dataToDelete->delete();
+                                }
+
+                                /* Create History WD */
+                                $balance = Balance::where('username', $dataDepo->username)->first()->amount;
+                                $this->addDataHistory($dataDepo->username, $txnid, '', 'witdhraw', 'witdhraw', $dataDepo->amount, 0, $balance);
+
+                                /* Win Loss WD */
+                                $this->addDataWinLoss($dataDepo->username, $dataDepo->amount, "withdraw");
                             }
                         }
-                    } else {
-                        /* Delete Notif */
-                        $dataToDelete = Xdpwd::where('username', $dataDepo->username)->where('jenis', $dataDepo->jenis)->first();
-                        if ($dataToDelete) {
-                            $dataToDelete->delete();
-                        }
-
-                        HistoryTransaksi::create([
-                            'username' => $dataDepo->username,
-                            'invoice' => $txnid,
-                            'keterangan' => $status,
-                            'status' => $status,
-                            'debit' => $debit,
-                            'kredit' => $kredit,
-                            'balance' => Balance::where('username', $dataDepo->username)->first()->amount
-                        ]);
                     }
                 }
             }
@@ -515,10 +399,8 @@ class DepoWdController extends Controller
                 $message = 'Withdrawal berhasil diproses';
             }
 
-            dd($message);
             return redirect($url)->with('success', $message);
         } catch (\Exception $e) {
-            dd($e->getMessage());
             return back()->withInput()->with('error', $e->getMessage());
         }
     }
@@ -782,5 +664,145 @@ class DepoWdController extends Controller
     public function getDataXdpwd()
     {
         return Xdpwd::get();
+    }
+
+    public function addDataWinLoss($username, $amount, $jenis)
+    {
+
+        /* W/L harian */
+        $winLoss = WinlossDay::where('username', $username)->where('day', date("d"))->where('month', date("m"))->where('year', date("Y"))->first();
+        if (!$winLoss) {
+            WinlossDay::create([
+                'username' => $username,
+                'count' => 1,
+                'day' => date("d"),
+                'month' => date("m"),
+                'year' => date("Y"),
+                'deposit' => $jenis == 'deposit' ? $amount : 0,
+                'withdraw' => $jenis == 'withdraw' ? $amount : 0
+            ]);
+        } else {
+            $winLoss->increment('count');
+            if ($jenis == 'deposit') {
+                $winLoss->increment('deposit', $amount);
+            } else {
+                $winLoss->increment('withdraw', $amount);
+            }
+        }
+
+        /* W/L bulanan */
+        $winLossMonth = winlossMonth::where('username', $username)->where('month', date("m"))->where('year', date("Y"))->first();
+        if (!$winLossMonth) {
+            winlossMonth::create([
+                'username' => $username,
+                'count' => 1,
+                'month' => date("m"),
+                'year' => date("Y"),
+                'deposit' => $jenis == 'deposit' ? $amount : 0,
+                'withdraw' => $jenis == 'withdraw' ? $amount : 0
+            ]);
+        } else {
+            $winLossMonth->increment('count');
+            if ($jenis == 'deposit') {
+                $winLossMonth->increment('deposit', $amount);
+            } else {
+                $winLossMonth->increment('withdraw', $amount);
+            }
+        }
+
+        /* W/L tahunan */
+        $winLossYear = winlossYear::where('username', $username)->where('year', date("Y"))->first();
+        if (!$winLossYear) {
+            winlossYear::create([
+                'username' => $username,
+                'count' => 1,
+                'year' => date("Y"),
+                'deposit' => $jenis == 'deposit' ? $amount : 0,
+                'withdraw' => $jenis == 'withdraw' ? $amount : 0
+            ]);
+        } else {
+            $winLossYear->increment('count');
+            if ($jenis == 'deposit') {
+                $winLossYear->increment('deposit', $amount);
+            } else {
+                $winLossYear->increment('withdraw', $amount);
+            }
+        }
+
+        return;
+    }
+
+    public function addDataDepoDownline($referral, $username, $amount)
+    {
+        $dataReferral = [
+            'upline' => $referral,
+            'downline' => $username,
+            'amount' => $amount
+        ];
+
+        if (preg_match('/^[a-e]/i', $referral)) {
+            $dataRef = ReferralDepo1::where('downline', $username)
+                ->whereDate('created_at', date('Y-m-d'))
+                ->first();
+            if (!$dataRef) {
+                ReferralDepo1::create($dataReferral);
+            } else {
+                $dataRef->increment('amount', $amount);
+            }
+        } elseif (preg_match('/^[f-j]/i', $referral)) {
+            $dataRef = ReferralDepo2::where('downline', $username)
+                ->whereDate('created_at', date('Y-m-d'))
+                ->first();
+            if (!$dataRef) {
+                ReferralDepo2::create($dataReferral);
+            } else {
+                $dataRef->increment('amount', $amount);
+            }
+        } elseif (preg_match('/^[k-o]/i', $referral)) {
+            $dataRef = ReferralDepo3::where('downline', $username)
+                ->whereDate('created_at', date('Y-m-d'))
+                ->first();
+            if (!$dataRef) {
+                ReferralDepo3::create($dataReferral);
+            } else {
+                $dataRef->increment('amount', $amount);
+            }
+        } elseif (preg_match('/^[p-t]/i', $referral)) {
+            $dataRef = ReferralDepo4::where('downline', $username)
+                ->whereDate('created_at', date('Y-m-d'))
+                ->first();
+            if (!$dataRef) {
+                ReferralDepo4::create($dataReferral);
+            } else {
+                $dataRef->increment('amount', $amount);
+            }
+        } elseif (preg_match('/^[u-z]/i', $referral)) {
+            $dataRef = ReferralDepo5::where('downline', $username)
+                ->whereDate('created_at', date('Y-m-d'))
+                ->first();
+            if (!$dataRef) {
+                ReferralDepo5::create($dataReferral);
+            } else {
+                $dataRef->increment('amount', $amount);
+            }
+        }
+
+        return;
+    }
+
+    public function addDataHistory($username, $txnid, $refno, $keterangan, $status, $debit, $kredit, $balance)
+    {
+        HistoryTransaksi::create([
+            'username' => $username,
+            'invoice' => $txnid,
+            'refno' => $refno,
+            'keterangan' => $keterangan,
+            'status' => $status,
+            'debit' => $debit,
+            'kredit' => $kredit,
+            'balance' => $balance
+        ]);
+
+        return;
     }
 }

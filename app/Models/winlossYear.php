@@ -12,6 +12,5 @@ class winlossYear extends Model
 
     public $incrementing = false;
     protected $fillable = ['username', 'count', 'year', 'deposit', 'withdraw'];
-    protected $table = 'winloss_year
-    ';
+    protected $table = 'winloss_year';
 }

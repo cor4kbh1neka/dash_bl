@@ -218,9 +218,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/memberlistds/updateuser/{id}', [MemberlistdsController::class, 'updateUser']);
     Route::post('/memberlistds/updatepassword/{id}', [MemberlistdsController::class, 'updatePassowrd']);
     Route::post('/memberlistds/updateinfomember/{id}', [MemberlistdsController::class, 'updateMember']);
-    Route::get('/memberlistds/winloseyear', [MemberlistdsController::class, 'winloseyear']);
-    Route::get('/memberlistds/winlosemonth', [MemberlistdsController::class, 'winlosemonth']);
-    Route::get('/memberlistds/winloseday', [MemberlistdsController::class, 'winloseday']);
+    Route::get('/memberlistds/winloseyear/{username}', [MemberlistdsController::class, 'winloseyear']);
+    Route::get('/memberlistds/winlosemonth/{username}/{year}', [MemberlistdsController::class, 'winlosemonth']);
+    Route::get('/memberlistds/winloseday/{username}/{year}/{month}', [MemberlistdsController::class, 'winloseday']);
     Route::get('/memberlistds/history/{username}', [MemberlistdsController::class, 'historybank']);
 
     /*-- Historygameds --*/

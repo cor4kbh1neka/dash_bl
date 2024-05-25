@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use App\Models\DepoWd;
+use App\Models\winlossDay;
+use App\Models\winlossMonth;
+use App\Models\winlossYear;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
@@ -265,30 +268,39 @@ class MemberlistdsController extends Controller
         return $responseData;
     }
 
-    public function winloseyear()
+    public function winloseyear($username)
     {
-
+        $data = winlossYear::where('username', $username)->get();
         return view('memberlistds.winlose_year', [
             'title' => 'Win Lose Informasi',
             'totalnote' => 0,
+            'data' => $data,
+            'username' => $username
         ]);
     }
 
-    public function winlosemonth()
+    public function winlosemonth($username, $year)
     {
-
+        $data = winlossMonth::where('username', $username)->where('year', $year)->get();
         return view('memberlistds.winlose_month', [
             'title' => 'Win Lose Informasi',
             'totalnote' => 0,
+            'data' => $data,
+            'username' => $username,
+            'year' => $year
         ]);
     }
 
-    public function winloseday()
+    public function winloseday($username, $year, $month)
     {
-
+        $data = winlossDay::where('username', $username)->where('year', $year)->where('month', $month)->get();
         return view('memberlistds.winlose_day', [
             'title' => 'Win Lose Informasi',
             'totalnote' => 0,
+            'username' => $username,
+            'data' => $data,
+            'year' => $year,
+            'month' => $month
         ]);
     }
 
