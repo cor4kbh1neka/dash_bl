@@ -271,7 +271,6 @@ class MemberlistdsController extends Controller
     public function winloseyear($username)
     {
         $data = winlossYear::where('username', $username)->get();
-        dd($data);
         return view('memberlistds.winlose_year', [
             'title' => 'Win Lose Informasi',
             'totalnote' => 0,
