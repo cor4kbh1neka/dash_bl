@@ -38,19 +38,31 @@
                 <div class="listheaddetail">
                     <span class="label">Game Type</span>
                     <span class="gap">:</span>
-                    <span
-                        class="value sportsType">{{ $portfolio == 'SportsBook' ? $data['sportsType'] : $data['productType'] }}</span>
+                    <span class="value sportsType">
+                        @if ($portfolio == 'SportsBook')
+                            {{ $data['sportsType'] }}
+                        @elseif($portfolio == 'SeamlessGame')
+                            {
+                            {{ $data['gameType'] }}
+                            }
+                        @else
+                            {{ $data['productType'] }}
+                        @endif
+
+                    </span>
                 </div>
-                <div class="listheaddetail">
-                    <span class="label">Odds Type</span>
-                    <span class="gap">:</span>
-                    <span class="value odds">{{ $data['oddsStyle'] }}</span>
-                </div>
-                <div class="listheaddetail">
-                    <span class="label">Odds Bet</span>
-                    <span class="gap">:</span>
-                    <span class="value odds">{{ $data['odds'] }}</span>
-                </div>
+                @if ($portfolio != 'SeamlessGame')
+                    <div class="listheaddetail">
+                        <span class="label">Odds Type</span>
+                        <span class="gap">:</span>
+                        <span class="value odds">{{ $data['oddsStyle'] }}</span>
+                    </div>
+                    <div class="listheaddetail">
+                        <span class="label">Odds Bet</span>
+                        <span class="gap">:</span>
+                        <span class="value odds">{{ $data['odds'] }}</span>
+                    </div>
+                @endif
                 <div class="listheaddetail">
                     <span class="label">Nominal Bet(IDR)</span>
                     <span class="gap">:</span>
@@ -70,61 +82,64 @@
         <div class="table_detailhistorygameds">
             <table>
                 <tbody>
-                    @foreach ($data['subBet'] as $i => $d)
-                        <tr>
-                            <td class="bagnomor">{{ $i + 1 }}</td>
-                            <td>
-                                <div class="groupdetailmatch">
-                                    @if (isset($d['league']))
-                                        <span class="namaliga subBet-league">{{ $d['league'] }}</span>
-                                    @endif
-                                    <span class="pertandingan subBet-match">{{ $d['match'] }}</span>
-                                    <div class="allscore">
-                                        <div class="listscore">
-                                            <span class="labelscore">HT</span>
-                                            <span class="valuescore subBet-htScore">{{ $d['htScore'] }}</span>
+                    @if ($portfolio != 'SeamlessGame')
+                        @foreach ($data['subBet'] as $i => $d)
+                            <tr>
+                                <td class="bagnomor">{{ $i + 1 }}</td>
+                                <td>
+                                    <div class="groupdetailmatch">
+                                        @if (isset($d['league']))
+                                            <span class="namaliga subBet-league">{{ $d['league'] }}</span>
+                                        @endif
+                                        <span class="pertandingan subBet-match">{{ $d['match'] }}</span>
+                                        <div class="allscore">
+                                            <div class="listscore">
+                                                <span class="labelscore">HT</span>
+                                                <span class="valuescore subBet-htScore">{{ $d['htScore'] }}</span>
+                                            </div>
+                                            <div class="listscore">
+                                                <span class="labelscore">FT</span>
+                                                <span class="valuescore subBet-ftScore">{{ $d['ftScore'] }}</span>
+                                            </div>
                                         </div>
-                                        <div class="listscore">
-                                            <span class="labelscore">FT</span>
-                                            <span class="valuescore subBet-ftScore">{{ $d['ftScore'] }}</span>
+                                        @if (isset($d['isHalfWonLose']))
+                                            <span class="detailbetting">detail bet : <span class="htft isHalfWonLose"
+                                                    data-isHalfWonLose="{{ $d['isHalfWonLose'] }}"></span></span>
+                                        @endif
+                                        <div class="listdetailbettting">
+                                            <div class="dddetailbetting">
+                                                <span class="labelbet">type :</span>
+                                                <span
+                                                    class="valuebet subBet-marketType_sportType">{{ $d['marketType'] }}
+                                                    @if (isset($d['sportType']))
+                                                        ({{ $d['sportType'] }})
+                                                    @endif
+                                                </span>
+                                            </div>
+                                            <div class="dddetailbetting">
+                                                <span class="labelbet">odds :</span>
+                                                <span class="valuebet subBet-odds"
+                                                    data-valueodds="{{ $d['odds'] }}">{{ $d['odds'] }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="listdetailbettting">
+                                            <div class="dddetailbetting">
+                                                <span class="labelbet">pilihan :</span>
+                                                <span class="valuebet subBet-betOption">{{ $d['betOption'] }} <span
+                                                        class="subBet-hdp"
+                                                        data-hdp="{{ $d['hdp'] }}">({{ $d['hdp'] }})</span></span>
+                                            </div>
+                                            <div class="dddetailbetting">
+                                                <span class="labelbet">status :</span>
+                                                <span class="valuebet subBet status"
+                                                    data-statusbet="{{ $d['status'] }}">{{ $d['status'] }}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                    @if (isset($d['isHalfWonLose']))
-                                        <span class="detailbetting">detail bet : <span class="htft isHalfWonLose"
-                                                data-isHalfWonLose="{{ $d['isHalfWonLose'] }}"></span></span>
-                                    @endif
-                                    <div class="listdetailbettting">
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">type :</span>
-                                            <span class="valuebet subBet-marketType_sportType">{{ $d['marketType'] }}
-                                                @if (isset($d['sportType']))
-                                                    ({{ $d['sportType'] }})
-                                                @endif
-                                            </span>
-                                        </div>
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">odds :</span>
-                                            <span class="valuebet subBet-odds"
-                                                data-valueodds="{{ $d['odds'] }}">{{ $d['odds'] }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="listdetailbettting">
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">pilihan :</span>
-                                            <span class="valuebet subBet-betOption">{{ $d['betOption'] }} <span
-                                                    class="subBet-hdp"
-                                                    data-hdp="{{ $d['hdp'] }}">({{ $d['hdp'] }})</span></span>
-                                        </div>
-                                        <div class="dddetailbetting">
-                                            <span class="labelbet">status :</span>
-                                            <span class="valuebet subBet status"
-                                                data-statusbet="{{ $d['status'] }}">{{ $d['status'] }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
