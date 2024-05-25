@@ -90,6 +90,10 @@ class ApiBolaController extends Controller
 
     public function Settle(Request $request)
     {
+
+        Log::info('Informasi Request:', [
+            'parameters' => $request->all()
+        ]);
         $saldoMember = $this->GetBalance($request);
         if ($saldoMember["ErrorCode"] === 0) {
             $saldoMember = $saldoMember["Balance"];

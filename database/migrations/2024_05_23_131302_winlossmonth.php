@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('username');
             $table->integer('count')->default(0);
-            $table->integer('month')->default(0);
-            $table->integer('year')->default(0);
+            $table->string('month');
+            $table->string('year');
             $table->decimal('deposit', 15, 2)->default(0);
             $table->decimal('withdraw', 15, 2)->default(0);
             $table->timestamps();

@@ -67,20 +67,21 @@ class AppServiceProvider extends ServiceProvider
             ];
         })->count();
 
-        $responseMemo = Http::get('https://back-staging.bosraka.com/memo');
-        $resultMemo = $responseMemo->json();
-        if ($resultMemo['status'] == 'success') {
-            $countMemo = count($resultMemo['data']);
-        } else {
-            $countMemo = 0;
-        }
+        // $responseMemo = Http::get('https://back-staging.bosraka.com/memo');
+        // $resultMemo = $responseMemo->json();
+        // if ($resultMemo['status'] == 'success') {
+        //     $countMemo = count($resultMemo['data']);
+        // } else {
+        //     $countMemo = 0;
+        // }
 
 
         return [
             'countDP' => $countDataDP,
             'countWD' => $countDataWD,
             'countOuts' => $dataOuts,
-            'countMemo' => $countMemo
+            // 'countMemo' => $countMemo
+            'countMemo' => 0
         ];
     }
 }

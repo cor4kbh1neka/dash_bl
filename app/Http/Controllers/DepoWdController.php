@@ -418,23 +418,23 @@ class DepoWdController extends Controller
                                         'balance' => $prosesBalance["balance"]
                                     ]);
 
-                                    /**/
-                                    // $winLoss = WinlossDay::whereDate('created_at', date('Y-m-d'))->first();
-                                    // if (!$winLoss) {
-                                    //     WinlossDay::create([
-                                    //         'username' => $dataDepo->username,
-                                    //         'count' => 1,
-                                    //         'day' => date("d"),
-                                    //         'month' => date("M"),
-                                    //         'year' => date("Y"),
-                                    //         'deposit' => $dataDepo->amount,
-                                    //         'withdrawal' => 0
-                                    //     ]);
-                                    // } else {
-                                    //     $winLoss->increment('count');
-                                    //     $winLoss->increment('deposit', $dataDepo->amount);
-                                    //     $winLoss->save();
-                                    // }
+                                    /* W/L harian */
+                                    $winLoss = WinlossDay::where('username', $dataDepo->username)->whereDate('created_at', date('Y-m-d'))->first();
+                                    if (!$winLoss) {
+                                        WinlossDay::create([
+                                            'username' => $dataDepo->username,
+                                            'count' => 1,
+                                            'day' => date("d"),
+                                            'month' => date("m"),
+                                            'year' => date("Y"),
+                                            'deposit' => $dataDepo->amount,
+                                            'withdrawal' => 0
+                                        ]);
+                                    } else {
+                                        $winLoss->increment('count');
+                                        $winLoss->increment('deposit', $dataDepo->amount);
+                                        $winLoss->save();
+                                    }
 
                                     /* Delete Notif */
                                     $dataToDelete = Xdpwd::where('username', $dataDepo->username)->where('jenis', $dataDepo->jenis)->first();
@@ -515,8 +515,10 @@ class DepoWdController extends Controller
                 $message = 'Withdrawal berhasil diproses';
             }
 
+            dd($message);
             return redirect($url)->with('success', $message);
         } catch (\Exception $e) {
+            dd($e->getMessage());
             return back()->withInput()->with('error', $e->getMessage());
         }
     }
