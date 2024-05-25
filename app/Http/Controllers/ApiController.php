@@ -833,7 +833,7 @@ class ApiController extends Controller
         if ($username) {
             return [
                 'status' => 'success',
-                'data' => HistoryTransaksi::where('username', $username)->get()
+                'data' => HistoryTransaksi::where('username', $username)->orderBy('created_at', 'DESC')->get()
             ];
         } else {
             return [
