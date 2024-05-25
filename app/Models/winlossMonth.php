@@ -10,7 +10,6 @@ class winlossMonth extends Model
 {
     use HasFactory;
 
-    public $incrementing = false;
     protected $fillable = ['username', 'count', 'month', 'year', 'deposit', 'withdraw'];
     protected $table = 'winloss_month';
 }

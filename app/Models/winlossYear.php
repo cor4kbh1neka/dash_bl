@@ -10,7 +10,6 @@ class winlossYear extends Model
 {
     use HasFactory;
 
-    public $incrementing = false;
     protected $fillable = ['username', 'count', 'year', 'deposit', 'withdraw'];
     protected $table = 'winloss_year';
 }

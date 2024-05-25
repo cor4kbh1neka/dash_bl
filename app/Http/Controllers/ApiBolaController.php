@@ -20,6 +20,9 @@ use App\Models\ReferralAktif2;
 use App\Models\ReferralAktif3;
 use App\Models\ReferralAktif4;
 use App\Models\ReferralAktif5;
+use App\Models\WinlossbetDay;
+use App\Models\WinlossbetMonth;
+use App\Models\WinlossbetYear;
 use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Facades\Http;
@@ -844,6 +847,8 @@ class ApiBolaController extends Controller
                 if ($saldoTransaction) {
 
                     // $checkXtrans = Xtrans::where('username', $request->Username)->whereDate('created_at', '=', date('Y-m-d'))->first();
+                    $portfolio = ProductType::where('id', $request->ProductType)->first();
+                    $portfolio = $portfolio ? $portfolio->portfolio : '';
 
                     if ($WinLoss > 0) {
                         // if ($checkXtrans) {
@@ -869,8 +874,6 @@ class ApiBolaController extends Controller
                         if ($porcessBalance["status"] === 'success') {
                             /* Create History Transaksi */
                             $saldoMember = $porcessBalance["balance"];
-                            $portfolio = ProductType::where('id', $request->ProductType)->first();
-                            $portfolio = $portfolio ? $portfolio->portfolio : '';
 
                             HistoryTransaksi::create([
                                 'username' => $request->Username,
@@ -888,6 +891,9 @@ class ApiBolaController extends Controller
                         /* Referral */
                         $this->execReferral($request, $dataStatusTransaction);
                     }
+
+                    /* Winloss Bet Rekap */
+                    $this->addWinlossStake($request->Username, $portfolio, $WinLoss, 'settle');
 
                     $saldo = $saldoMember;
                     return [
@@ -1156,6 +1162,10 @@ class ApiBolaController extends Controller
                         "amount" => $amount
                     ]);
 
+
+                    /* Winloss Bet Rekap */
+                    $this->addWinlossStake($request->Username, ProductType::where('id', $request->ProductType)->first()->portfolio, $amount, 'deduct');
+
                     $saldo = $saldoMember;
                     return [
                         'AccountName' => $request->Username,
@@ -1325,5 +1335,85 @@ class ApiBolaController extends Controller
             'ErrorCode' => $errorCode,
             'ErrorMessage' => $errorMessage
         ];
+    }
+
+    private function addWinlossStake($username, $portfolio, $amount, $jenis)
+    {
+        /* Winloss Bet Day */
+        $winlossbet_day = WinlossbetDay::where('username', $username)
+            ->where('portfolio', $portfolio)
+            ->where('day', date('d'))
+            ->where('month', date('m'))
+            ->where('year', date('Y'))->frist();
+
+        if ($winlossbet_day) {
+            $winlossbet_day->increment('count');
+            if ($jenis == 'deduct') {
+                $winlossbet_day->increment('stake', $amount);
+            } else if ($jenis == 'settle') {
+                $winlossbet_day->increment('winloss', $amount);
+            }
+        } else {
+            WinlossbetDay::create([
+                'username' => $username,
+                'portfolio' => $portfolio,
+                'count' => 1,
+                'day' => date('d'),
+                'month' => date('m'),
+                'year' => date('Y'),
+                'stake' => $jenis == 'deduct' ? $amount : 0,
+                'winloss' => $jenis == 'settle' ? $amount : 0
+            ]);
+        }
+
+        /* Winloss Bet Month */
+        $winlossbet_month = WinlossbetMonth::where('username', $username)
+            ->where('portfolio', $portfolio)
+            ->where('month', date('m'))
+            ->where('year', date('Y'))->frist();
+
+        if ($winlossbet_month) {
+            $winlossbet_month->increment('count');
+            if ($jenis == 'deduct') {
+                $winlossbet_month->increment('stake', $amount);
+            } else if ($jenis == 'settle') {
+                $winlossbet_month->increment('winloss', $amount);
+            }
+        } else {
+            WinlossbetMonth::create([
+                'username' => $username,
+                'portfolio' => $portfolio,
+                'count' => 1,
+                'month' => date('m'),
+                'year' => date('Y'),
+                'stake' => $jenis == 'deduct' ? $amount : 0,
+                'winloss' => $jenis == 'settle' ? $amount : 0
+            ]);
+        }
+
+        /* Winloss Bet Year */
+        $winlossbet_year = WinlossbetYear::where('username', $username)
+            ->where('portfolio', $portfolio)
+            ->where('year', date('Y'))->frist();
+
+        if ($winlossbet_year) {
+            $winlossbet_year->increment('count');
+            if ($jenis == 'deduct') {
+                $winlossbet_year->increment('stake', $amount);
+            } else if ($jenis == 'settle') {
+                $winlossbet_year->increment('winloss', $amount);
+            }
+        } else {
+            WinlossbetYear::create([
+                'username' => $username,
+                'portfolio' => $portfolio,
+                'count' => 1,
+                'year' => date('Y'),
+                'stake' => $jenis == 'deduct' ? $amount : 0,
+                'winloss' => $jenis == 'settle' ? $amount : 0
+            ]);
+        }
+
+        return;
     }
 }

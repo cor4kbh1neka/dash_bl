@@ -6,10 +6,10 @@ use App\Models\Companys;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class winlossDay extends Model
+class WinlossbetYear extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['username', 'count', 'day', 'month', 'year', 'deposit', 'withdraw'];
-    protected $table = 'winloss_day';
+    protected $fillable = ['username', 'portfolio', 'count', 'year', 'stake', 'winloss'];
+    protected $table = 'winlossbet_year';
 }
