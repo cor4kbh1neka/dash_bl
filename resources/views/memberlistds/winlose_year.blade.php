@@ -19,7 +19,7 @@
 <div class="body_openwindow datawinlose">
     <div class="sec_openwindow">
         <div class="table_detailhistorygameds">
-            <span class="titlewinloseuser">W/L - thanos989898</span>
+            <span class="titlewinloseuser">W/L - {{ $username }}</span>
             <table>
                 <tbody>
                     <tr>
