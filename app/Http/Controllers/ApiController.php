@@ -125,6 +125,7 @@ class ApiController extends Controller
         if ($validasiBearer !== true) {
             return $validasiBearer;
         }
+
         $ipaddress = $request->ipadress;
         $data = [
             "Username" => $request->Username,
@@ -142,12 +143,27 @@ class ApiController extends Controller
 
         $responseData = $response->json();
         if ($responseData["error"]["id"] === 0) {
+            $dataCore = [
+                "xyusernamexxy" => $request->Username,
+                "password" => $request->Password,
+                "xybanknamexyy" => $request->ddBankmm,
+                "xybankuserxy" => $request->ddNamarekmm,
+                "xxybanknumberxy" => $request->ddNorekmm,
+                "xyx11xuser_mailxxyy" => $request->ddEmailmm,
+                "xynumbphonexyyy" => $request->ddPhonemm
+            ];
+
+            Http::withHeaders([
+                'Content-Type' => 'application/json; charset=UTF-8'
+            ])->post('https://back-staging.bosraka.com/users', $dataCore);
+
+
             Member::create([
                 'username' => $request->Username,
                 'referral' => $request->Referral,
-                'bank' => $request->xybanknamexyy,
-                'namarek' => $request->xybankuserxy,
-                'norek' => $request->xxybanknumberxy,
+                'bank' => $dataCore['xybanknamexyy'],
+                'namarek' => $dataCore['xybankuserxy'],
+                'norek' => $dataCore['xxybanknumberxy'],
                 'nohp' => 0,
                 'balance' => 0,
                 'ip_reg' => $ipaddress,
