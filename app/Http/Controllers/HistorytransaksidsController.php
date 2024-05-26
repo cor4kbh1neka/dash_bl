@@ -49,6 +49,7 @@ class HistorytransaksidsController extends Controller
                     $query->whereBetween('created_at', [$tgldari, $tglsampai]);
                 })
                 ->orderBy('created_at', 'desc')
+                ->orderBy('urutan', 'desc')
                 ->paginate(10);
         } else {
             $data = [];

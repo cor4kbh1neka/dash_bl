@@ -10,6 +10,6 @@ class WinlossbetDay extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['username', 'portfolio', 'count', 'day', 'month', 'year', 'stake', 'winloss'];
+    protected $fillable = ['username', 'portfolio', 'day', 'month', 'year', 'stake', 'winloss'];
     protected $table = 'winlossbet_day';
 }

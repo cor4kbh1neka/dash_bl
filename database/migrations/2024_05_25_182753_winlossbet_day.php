@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('username');
             $table->string('portfolio');
-            $table->integer('count')->default(0);
             $table->string('day');
             $table->string('month');
             $table->string('year');

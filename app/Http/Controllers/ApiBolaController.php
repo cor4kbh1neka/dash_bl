@@ -330,7 +330,7 @@ class ApiBolaController extends Controller
     private function setRollback(Request $request, $dataTransaction, $saldoMember)
     {
         try {
-            $dataTransactions = Transactions::where('transactionid', $dataTransaction->transactionid)->first();
+            // $dataTransactions = Transactions::where('transactionid', $dataTransaction->transactionid)->first();
             $lastStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
             if ($lastStatus->status === 'Cancel') {
                 $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Rollback');
@@ -396,6 +396,7 @@ class ApiBolaController extends Controller
                         // ]);
 
                         $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'rollback', $totalAmount, 0, $saldoMember);
+                        $this->cancelWinlossStake($request->Username, $portfolio, $totalAmount, 'deduct');
                     }
 
                     $saldo = $saldoMember;
@@ -460,6 +461,7 @@ class ApiBolaController extends Controller
                                 // ]);
 
                                 $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', $dataTransactions->amount, 0, $saldoMember);
+                                $this->cancelWinlossStake($request->Username, $portfolio, $dataTransactions->amount, 'deduct');
                             }
                         }
                     } else {
@@ -524,6 +526,7 @@ class ApiBolaController extends Controller
                                 // ]);
 
                                 $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', 0, $totalAmount, $saldoMember);
+                                $this->cancelWinlossStake($request->Username, $portfolio, $totalAmount, 'settle');
                             }
                         }
 
@@ -564,6 +567,7 @@ class ApiBolaController extends Controller
                                         // ]);
 
                                         $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, 'ReturnStake', $portfolio, 'cancel', $trReturnStake->amount, 0, $saldoMember);
+                                        $this->cancelWinlossStake($request->Username, $portfolio, $trReturnStake->amount, 'deduct');
                                     }
                                 }
                             }
@@ -603,6 +607,7 @@ class ApiBolaController extends Controller
                             // ]);
 
                             $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', 0, $totalAmount, $saldoMember);
+                            $this->cancelWinlossStake($request->Username, $portfolio, $totalAmount, 'settle');
                         }
                     }
                 } else if ($lastStatus->status == 'ReturnStake') {
@@ -732,6 +737,7 @@ class ApiBolaController extends Controller
                     // ]);
 
                     $this->addHistoryTranskasi($request->Username, '', $request->TransferCode, $portfolio, $portfolio, 'cancel', $dataTransactions->amount, 0, $saldoMember);
+                    $this->cancelWinlossStake($request->Username, $portfolio, $dataTransactions->amount, 'deduct');
                 }
             } else {
                 /* Cancel Referral */
@@ -848,6 +854,7 @@ class ApiBolaController extends Controller
                         // ]);
 
                         $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'rollback', 0, $totalAmount, $saldoMember);
+                        $this->cancelWinlossStake($request->Username, $portfolio, $totalAmount, 'settle');
                     }
                     /* Create Queue Job History Transkasi */
                 }
@@ -1381,20 +1388,18 @@ class ApiBolaController extends Controller
             ->where('portfolio', $portfolio)
             ->where('day', date('d'))
             ->where('month', date('m'))
-            ->where('year', date('Y'))->frist();
+            ->where('year', date('Y'))->first();
 
         if ($winlossbet_day) {
-            $winlossbet_day->increment('count');
             if ($jenis == 'deduct') {
                 $winlossbet_day->increment('stake', $amount);
             } else if ($jenis == 'settle') {
                 $winlossbet_day->increment('winloss', $amount);
             }
         } else {
-            WinlossbetDay::create([
+            $winlossbet_day = WinlossbetDay::create([
                 'username' => $username,
                 'portfolio' => $portfolio,
-                'count' => 1,
                 'day' => date('d'),
                 'month' => date('m'),
                 'year' => date('Y'),
@@ -1407,20 +1412,18 @@ class ApiBolaController extends Controller
         $winlossbet_month = WinlossbetMonth::where('username', $username)
             ->where('portfolio', $portfolio)
             ->where('month', date('m'))
-            ->where('year', date('Y'))->frist();
+            ->where('year', date('Y'))->first();
 
         if ($winlossbet_month) {
-            $winlossbet_month->increment('count');
             if ($jenis == 'deduct') {
                 $winlossbet_month->increment('stake', $amount);
             } else if ($jenis == 'settle') {
                 $winlossbet_month->increment('winloss', $amount);
             }
         } else {
-            WinlossbetMonth::create([
+            $winlossbet_month = WinlossbetMonth::create([
                 'username' => $username,
                 'portfolio' => $portfolio,
-                'count' => 1,
                 'month' => date('m'),
                 'year' => date('Y'),
                 'stake' => $jenis == 'deduct' ? $amount : 0,
@@ -1431,10 +1434,9 @@ class ApiBolaController extends Controller
         /* Winloss Bet Year */
         $winlossbet_year = WinlossbetYear::where('username', $username)
             ->where('portfolio', $portfolio)
-            ->where('year', date('Y'))->frist();
+            ->where('year', date('Y'))->first();
 
         if ($winlossbet_year) {
-            $winlossbet_year->increment('count');
             if ($jenis == 'deduct') {
                 $winlossbet_year->increment('stake', $amount);
             } else if ($jenis == 'settle') {
@@ -1444,11 +1446,56 @@ class ApiBolaController extends Controller
             WinlossbetYear::create([
                 'username' => $username,
                 'portfolio' => $portfolio,
-                'count' => 1,
                 'year' => date('Y'),
                 'stake' => $jenis == 'deduct' ? $amount : 0,
                 'winloss' => $jenis == 'settle' ? $amount : 0
             ]);
+        }
+
+        return;
+    }
+
+    private function cancelWinlossStake($username, $portfolio, $amount, $jenis)
+    {
+        /* Winloss Bet Day */
+        $winlossbet_day = WinlossbetDay::where('username', $username)
+            ->where('portfolio', $portfolio)
+            ->where('day', date('d'))
+            ->where('month', date('m'))
+            ->where('year', date('Y'))->first();
+        if ($winlossbet_day) {
+            if ($jenis == 'deduct') {
+                $winlossbet_day->decrement('stake', $amount);
+            } else if ($jenis == 'settle') {
+                $winlossbet_day->decrement('winloss', $amount);
+            }
+        }
+
+        /* Winloss Bet Month */
+        $winlossbet_month = WinlossbetMonth::where('username', $username)
+            ->where('portfolio', $portfolio)
+            ->where('month', date('m'))
+            ->where('year', date('Y'))->first();
+
+        if ($winlossbet_month) {
+            if ($jenis == 'deduct') {
+                $winlossbet_month->decrement('stake', $amount);
+            } else if ($jenis == 'settle') {
+                $winlossbet_month->decrement('winloss', $amount);
+            }
+        }
+
+        /* Winloss Bet Year */
+        $winlossbet_year = WinlossbetYear::where('username', $username)
+            ->where('portfolio', $portfolio)
+            ->where('year', date('Y'))->first();
+
+        if ($winlossbet_year) {
+            if ($jenis == 'deduct') {
+                $winlossbet_year->decrement('stake', $amount);
+            } else if ($jenis == 'settle') {
+                $winlossbet_year->decrement('winloss', $amount);
+            }
         }
 
         return;

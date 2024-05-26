@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Balance;
 use App\Models\Member;
 use App\Models\DepoWd;
+use App\Models\ListError;
+use App\Models\Referral1;
+use App\Models\Referral2;
+use App\Models\Referral3;
+use App\Models\Referral4;
+use App\Models\Referral5;
 use App\Models\winlossDay;
 use App\Models\winlossMonth;
 use App\Models\winlossYear;
@@ -27,7 +34,7 @@ class MemberlistdsController extends Controller
         $status = $request->input('status');
 
         $query = Member::query()->join('balance', 'balance.username', '=', 'member.username')
-            ->select('member.*', 'balance.amount');;
+            ->select('member.*', 'balance.amount');
         if ($username) {
             if (!isset($checkusername)) {
                 $query->where('member.username', 'like', '%' . $username . '%');
@@ -39,7 +46,7 @@ class MemberlistdsController extends Controller
             $query->where('norek', 'like', '%' . $norek . '%');
         }
         if ($namerek) {
-            $query->where('namerek', 'like', '%' . $namerek . '%');
+            $query->where('namarek', 'like', '%' . $namerek . '%');
         }
         if ($bank) {
             $query->where('bank', 'like', '%' . $bank . '%');
@@ -332,4 +339,106 @@ class MemberlistdsController extends Controller
             'username' => $username
         ]);
     }
+
+    public function addmember()
+    {
+        return view('memberlistds.create', [
+            'title' => 'Add Member',
+            'totalnote' => 0,
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+
+        $data = [
+            "Username" => $request->username,
+            "UserGroup" => "c",
+            "Agent" => env('AGENTID'),
+            "CompanyKey" => env('COMPANY_KEY'),
+            "ServerId" => "YY-TEST"
+        ];
+
+        $url = 'https://ex-api-demo-yy.568win.com/web-root/restricted/player/register-player.aspx';
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json; charset=UTF-8'
+        ])->post($url, $data);
+
+        $responseData = $response->json();
+        if ($responseData["error"]["id"] === 0) {
+
+            try {
+                Member::create([
+                    'username' => $request->username,
+                    'referral' => $request->referral,
+                    'bank' => $request->bank,
+                    'namarek' => $request->namarek,
+                    'norek' => $request->norek,
+                    'nohp' => 0,
+                    'balance' => 0,
+                    'ip_reg' => null,
+                    'ip_log' => null,
+                    'lastlogin' => null,
+                    'domain' => null,
+                    'lastlogin2' => null,
+                    'domain2' => null,
+                    'lastlogin3' => null,
+                    'domain3' => null,
+                    'status' => 0
+                ]);
+
+                Balance::create([
+                    'username' => $request->username,
+                    'balance' => 0
+                ]);
+
+                if ($request->Referral !== null && $request->Referral !== '') {
+                    $dataReferral = [
+                        'upline' => $request->Referral,
+                        'downline' => $request->Username,
+                    ];
+
+                    if (preg_match('/^[a-e]/i', $request->Referral)) {
+                        Referral1::create($dataReferral);
+                    } elseif (preg_match('/^[f-j]/i', $request->Referral)) {
+                        Referral2::create($dataReferral);
+                    } elseif (preg_match('/^[k-o]/i', $request->Referral)) {
+                        Referral3::create($dataReferral);
+                    } elseif (preg_match('/^[p-t]/i', $request->Referral)) {
+                        Referral4::create($dataReferral);
+                    } elseif (preg_match('/^[u-z]/i', $request->Referral)) {
+                        Referral5::create($dataReferral);
+                    }
+                }
+            } catch (\Exception $e) {
+                ListError::create([
+                    'fungsi' => 'register',
+                    'pesan_error' => $e->getMessage(),
+                    'keterangan' => '-'
+                ]);
+            }
+
+            return redirect('/memberlistds')->with('success', 'Tambah data member berhasil.');
+        } else {
+            ListError::create([
+                'fungsi' => 'register',
+                'pesan_error' => $responseData["error"]["msg"],
+                'keterangan' => '-'
+            ]);
+            return redirect()->back()->with('error', 'Gagal menambahkan data member');
+        }
+    }
 }
+
+
+
+
+
+
+
+
+// return redirect('/memberlistds/edit/' . $id)->with('success', 'Update data member berhasil.');
+//                 }
+
+//                 return redirect()->back()->with('error', $updateUser["status"]);

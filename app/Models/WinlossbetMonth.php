@@ -10,6 +10,6 @@ class WinlossbetMonth extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['username', 'portfolio', 'count', 'month', 'year', 'stake', 'winloss'];
+    protected $fillable = ['username', 'portfolio', 'month', 'year', 'stake', 'winloss'];
     protected $table = 'winlossbet_month';
 }

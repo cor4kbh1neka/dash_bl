@@ -91,6 +91,9 @@
                                     d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11zm-6 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z" />
                             </svg>
                         </div>
+                        <a href="/memberlistds/addmember" type="button" class="tombol primary">
+                            <span class="texttombol">add new</span>
+                        </a>
                     </div>
                 </form>
                 <div class="tabelproses">
@@ -387,4 +390,24 @@
             });
         });
     </script>
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '{{ session('success') }}',
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ session('error') }}',
+            });
+        </script>
+    @endif
 @endsection

@@ -222,6 +222,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/memberlistds/winlosemonth/{username}/{year}', [MemberlistdsController::class, 'winlosemonth']);
     Route::get('/memberlistds/winloseday/{username}/{year}/{month}', [MemberlistdsController::class, 'winloseday']);
     Route::get('/memberlistds/history/{username}', [MemberlistdsController::class, 'historybank']);
+    Route::get('/memberlistds/addmember', [MemberlistdsController::class, 'addmember']);
+    Route::post('/memberlistds/store', [MemberlistdsController::class, 'store']);
 
     /*-- Historygameds --*/
     Route::get('/historygameds', [HistorygamedsController::class, 'index']);
