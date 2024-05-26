@@ -250,7 +250,7 @@ class ApiBolaController extends Controller
                     if ($porcessBalance["status"] === 'success') {
                         /* Create Queue Job History Transkasi */
                         $saldoMember = $porcessBalance["balance"];
-                        $$portfolio = ProductType::where('id', $request->ProductType)->first();
+                        $portfolio = ProductType::where('id', $request->ProductType)->first();
                         $portfolio = $portfolio ? $portfolio->portfolio : '';
 
                         // HistoryTransaksi::create([
