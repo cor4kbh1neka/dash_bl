@@ -396,7 +396,7 @@ class ApiBolaController extends Controller
                         // ]);
 
                         $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'rollback', $totalAmount, 0, $saldoMember);
-                        $this->cancelWinlossStake($request->Username, $portfolio, $totalAmount, 'deduct');
+                        $this->addWinlossStake($request->Username, $portfolio, $totalAmount, 'deduct');
                     }
 
                     $saldo = $saldoMember;
@@ -461,7 +461,7 @@ class ApiBolaController extends Controller
                                 // ]);
 
                                 $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', $dataTransactions->amount, 0, $saldoMember);
-                                $this->cancelWinlossStake($request->Username, $portfolio, $dataTransactions->amount, 'deduct');
+                                $this->cancelWinlossStake($request->Username, $portfolio, $dataTransactions->amount, 'settle');
                             }
                         }
                     } else {
@@ -526,7 +526,7 @@ class ApiBolaController extends Controller
                                 // ]);
 
                                 $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', 0, $totalAmount, $saldoMember);
-                                $this->cancelWinlossStake($request->Username, $portfolio, $totalAmount, 'settle');
+                                $this->cancelWinlossStake($request->Username, $portfolio, $totalAmount, 'deduct');
                             }
                         }
 
@@ -567,7 +567,7 @@ class ApiBolaController extends Controller
                                         // ]);
 
                                         $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, 'ReturnStake', $portfolio, 'cancel', $trReturnStake->amount, 0, $saldoMember);
-                                        $this->cancelWinlossStake($request->Username, $portfolio, $trReturnStake->amount, 'deduct');
+                                        $this->cancelWinlossStake($request->Username, $portfolio, $trReturnStake->amount, 'settle');
                                     }
                                 }
                             }
@@ -607,7 +607,7 @@ class ApiBolaController extends Controller
                             // ]);
 
                             $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', 0, $totalAmount, $saldoMember);
-                            $this->cancelWinlossStake($request->Username, $portfolio, $totalAmount, 'settle');
+                            $this->cancelWinlossStake($request->Username, $portfolio, $totalAmount, 'deduct');
                         }
                     }
                 } else if ($lastStatus->status == 'ReturnStake') {
@@ -737,7 +737,7 @@ class ApiBolaController extends Controller
                     // ]);
 
                     $this->addHistoryTranskasi($request->Username, '', $request->TransferCode, $portfolio, $portfolio, 'cancel', $dataTransactions->amount, 0, $saldoMember);
-                    $this->cancelWinlossStake($request->Username, $portfolio, $dataTransactions->amount, 'deduct');
+                    $this->cancelWinlossStake($request->Username, $portfolio, $dataTransactions->amount, 'settle');
                 }
             } else {
                 /* Cancel Referral */
@@ -854,7 +854,7 @@ class ApiBolaController extends Controller
                         // ]);
 
                         $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'rollback', 0, $totalAmount, $saldoMember);
-                        $this->cancelWinlossStake($request->Username, $portfolio, $totalAmount, 'settle');
+                        $this->cancelWinlossStake($request->Username, $portfolio, $totalAmount, 'deduct');
                     }
                     /* Create Queue Job History Transkasi */
                 }

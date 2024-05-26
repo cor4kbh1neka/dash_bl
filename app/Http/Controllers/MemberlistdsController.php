@@ -179,9 +179,10 @@ class MemberlistdsController extends Controller
 
     private function updateIsVerif($username, $isverified)
     {
+
         $url = 'https://back-staging.bosraka.com/users/vip/' . $username;
         $data = [
-            "is_verified" => $isverified
+            "is_verified" => $isverified == 1 ? true : false
         ];
 
         $response = Http::withHeaders([
