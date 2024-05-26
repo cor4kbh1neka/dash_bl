@@ -237,9 +237,7 @@ class ApiController extends Controller
                 //     ]);
                 // }
 
-                return response()->json([
-                    'message' => 'Data berhasil disimpan.'
-                ], 200);
+                return $responseCore;
             } else {
                 ListError::create([
                     'fungsi' => 'register',
