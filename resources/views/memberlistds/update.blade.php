@@ -33,6 +33,7 @@
                 <div class="listgroupplayerinfo left">
                     <div class="listplayerinfo">
                         <label for="xyusernamexxy">username</label>
+                        <input type="hidden" value="{{ $datauser['xyusernamexxy'] }}" name="xyusernamexxy">
                         <input class="nosabel" readonly type="text" id="xyusernamexxy" name="xyusernamexxy"
                             value="{{ $datauser['xyusernamexxy'] }}">
                     </div>

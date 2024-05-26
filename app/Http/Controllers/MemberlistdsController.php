@@ -133,7 +133,7 @@ class MemberlistdsController extends Controller
             'xybankuserxy' => 'required',
             'group' => 'required',
             'groupwd' => 'required',
-            'xxybanknumberxy' => 'required'
+            'xxybanknumberxy' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -150,6 +150,9 @@ class MemberlistdsController extends Controller
                 $updateUser = $this->reqApiUpdateUser($data, $request->xyusernamexxy);
 
                 if ($updateUser["status"] === 'success') {
+
+                    $this->updateIsVerif($request->xyusernamexxy, $request->isverified);
+
                     Member::where('username', $request->xyusernamexxy)->update([
                         'bank' => $request->xybanknamexyy,
                         'namarek' => $request->xybankuserxy,
@@ -165,6 +168,21 @@ class MemberlistdsController extends Controller
                 return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan data.');
             }
         }
+    }
+
+    private function updateIsVerif($username, $isverified)
+    {
+        $url = 'https://back-staging.bosraka.com/users/vip/' . $username;
+        $data = [
+            "is_verified" => $isverified
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json; charset=UTF-8',
+        ])->put($url, $data);
+
+        $responseData = $response->json();
+        return $responseData;
     }
 
     public function updatePassowrd(Request $request, $id)

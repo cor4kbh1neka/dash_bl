@@ -47,24 +47,4 @@ class OutstandingdsController extends Controller
             // 'isList' => $isList
         ]);
     }
-
-    private function requestApi($endpoint, $data)
-    {
-        $url = 'https://ex-api-demo-yy.568win.com/web-root/restricted/report/' . $endpoint . '.aspx';
-
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/json; charset=UTF-8',
-        ])->post($url, $data);
-
-        if ($response->successful()) {
-            $responseData = $response->json();
-        } else {
-            // $statusCode = $response->status();
-            // $errorMessage = $response->body();
-            // $responseData = "Error: $statusCode - $errorMessage";
-            $responseData = $response->json();
-        }
-
-        return $responseData;
-    }
 }

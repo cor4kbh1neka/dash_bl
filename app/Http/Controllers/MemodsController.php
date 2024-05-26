@@ -66,7 +66,11 @@ class MemodsController extends Controller
         if ($response->json()['status'] !== 'fail') {
             $results = $response->json()["data"];
         }
-        // dd($results);
+
+        usort($results, function ($a, $b) {
+            return strtotime($b['created_at']) - strtotime($a['created_at']);
+        });
+
         return view('memods.delivered_memo', [
             'title' => 'Delivered',
             'totalnote' => 0,

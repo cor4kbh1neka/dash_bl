@@ -15,6 +15,7 @@ use App\Models\Groupbank;
 use App\Models\HistoryTransaksi;
 use App\Models\Outstanding;
 use App\Models\Balance;
+use App\Models\ListError;
 use App\Models\Referral1;
 use App\Models\Referral2;
 use App\Models\Referral3;
@@ -127,110 +128,135 @@ class ApiController extends Controller
         }
 
         $ipaddress = $request->ipadress;
-        $data = [
-            "Username" => $request->Username,
-            "UserGroup" => "c",
-            "Agent" => env('AGENTID'),
-            "CompanyKey" => env('COMPANY_KEY'),
-            "ServerId" => "YY-TEST"
+
+
+        $dataCore = [
+            "xyusernamexxy" => $request->Username,
+            "password" => $request->Password,
+            "xybanknamexyy" => $request->ddBankmm,
+            "xybankuserxy" => $request->ddNamarekmm,
+            "xxybanknumberxy" => $request->ddNorekmm,
+            "xyx11xuser_mailxxyy" => $request->ddEmailmm,
+            "xynumbphonexyyy" => $request->ddPhonemm
         ];
 
-        $url = 'https://ex-api-demo-yy.568win.com/web-root/restricted/player/register-player.aspx';
-
-        $response = Http::withHeaders([
+        $responseCore = Http::withHeaders([
             'Content-Type' => 'application/json; charset=UTF-8'
-        ])->post($url, $data);
+        ])->post('https://back-staging.bosraka.com/users', $dataCore);
 
-        $responseData = $response->json();
-        if ($responseData["error"]["id"] === 0) {
-            $dataCore = [
-                "xyusernamexxy" => $request->Username,
-                "password" => $request->Password,
-                "xybanknamexyy" => $request->ddBankmm,
-                "xybankuserxy" => $request->ddNamarekmm,
-                "xxybanknumberxy" => $request->ddNorekmm,
-                "xyx11xuser_mailxxyy" => $request->ddEmailmm,
-                "xynumbphonexyyy" => $request->ddPhonemm
+        $responseCore = $responseCore->json();
+        if ($responseCore["status"] === "success") {
+            $data = [
+                "Username" => $request->Username,
+                "UserGroup" => "c",
+                "Agent" => env('AGENTID'),
+                "CompanyKey" => env('COMPANY_KEY'),
+                "ServerId" => "YY-TEST"
             ];
 
-            Http::withHeaders([
+            $url = 'https://ex-api-demo-yy.568win.com/web-root/restricted/player/register-player.aspx';
+
+            $response = Http::withHeaders([
                 'Content-Type' => 'application/json; charset=UTF-8'
-            ])->post('https://back-staging.bosraka.com/users', $dataCore);
+            ])->post($url, $data);
 
+            $responseData = $response->json();
+            if ($responseData["error"]["id"] === 0) {
 
-            Member::create([
-                'username' => $request->Username,
-                'referral' => $request->Referral,
-                'bank' => $dataCore['xybanknamexyy'],
-                'namarek' => $dataCore['xybankuserxy'],
-                'norek' => $dataCore['xxybanknumberxy'],
-                'nohp' => 0,
-                'balance' => 0,
-                'ip_reg' => $ipaddress,
-                'ip_log' => null,
-                'lastlogin' => null,
-                'domain' => null,
-                'lastlogin2' => null,
-                'domain2' => null,
-                'lastlogin3' => null,
-                'domain3' => null,
-                'status' => 0
-            ]);
+                try {
+                    $createMember = Member::create([
+                        'username' => $request->Username,
+                        'referral' => $request->Referral,
+                        'bank' => $dataCore['xybanknamexyy'],
+                        'namarek' => $dataCore['xybankuserxy'],
+                        'norek' => $dataCore['xxybanknumberxy'],
+                        'nohp' => 0,
+                        'balance' => 0,
+                        'ip_reg' => $ipaddress,
+                        'ip_log' => null,
+                        'lastlogin' => null,
+                        'domain' => null,
+                        'lastlogin2' => null,
+                        'domain2' => null,
+                        'lastlogin3' => null,
+                        'domain3' => null,
+                        'status' => 0
+                    ]);
 
-            Balance::create([
-                'username' => $request->Username,
-                'balance' => 0
-            ]);
+                    Balance::create([
+                        'username' => $request->Username,
+                        'balance' => 0
+                    ]);
 
-            if ($request->Referral !== null && $request->Referral !== '') {
-                $dataReferral = [
-                    'upline' => $request->Referral,
-                    'downline' => $request->Username,
-                ];
+                    if ($request->Referral !== null && $request->Referral !== '') {
+                        $dataReferral = [
+                            'upline' => $request->Referral,
+                            'downline' => $request->Username,
+                        ];
 
-                if (preg_match('/^[a-e]/i', $request->Referral)) {
-                    Referral1::create($dataReferral);
-                } elseif (preg_match('/^[f-j]/i', $request->Referral)) {
-                    Referral2::create($dataReferral);
-                } elseif (preg_match('/^[k-o]/i', $request->Referral)) {
-                    Referral3::create($dataReferral);
-                } elseif (preg_match('/^[p-t]/i', $request->Referral)) {
-                    Referral4::create($dataReferral);
-                } elseif (preg_match('/^[u-z]/i', $request->Referral)) {
-                    Referral5::create($dataReferral);
+                        if (preg_match('/^[a-e]/i', $request->Referral)) {
+                            Referral1::create($dataReferral);
+                        } elseif (preg_match('/^[f-j]/i', $request->Referral)) {
+                            Referral2::create($dataReferral);
+                        } elseif (preg_match('/^[k-o]/i', $request->Referral)) {
+                            Referral3::create($dataReferral);
+                        } elseif (preg_match('/^[p-t]/i', $request->Referral)) {
+                            Referral4::create($dataReferral);
+                        } elseif (preg_match('/^[u-z]/i', $request->Referral)) {
+                            Referral5::create($dataReferral);
+                        }
+                    }
+                } catch (\Exception $e) {
+                    ListError::create([
+                        'fungsi' => 'register',
+                        'pesan_error' => $e->getMessage(),
+                        'keterangan' => '-'
+                    ]);
                 }
+
+                /* Create Xreferral */
+                // $dataXreferral = Xreferral::where('upline', $request->Referral)
+                //     ->whereDate('created_at', now())->first();
+                // if ($dataXreferral) {
+                //     $dataXreferral->increment('total_downline');
+                // } else {
+                //     Xreferral::create([
+                //         'upline' => $request->Referral,
+                //         'total_downline' => 1,
+                //         'downline_deposit' => 0,
+                //         'downline_aktif' => 0,
+                //         'total_bonus' => 0
+                //     ]);
+                // }
+
+
+                // $dataXreferral = Xreferral::where('username', $request->Referral)->first();
+                // if ($dataXreferral) {
+                //     $dataXreferral->update([
+                //         'count_referral' => $dataXreferral->count_referral + 1
+                //     ]);
+                // }
+
+                return response()->json([
+                    'message' => 'Data berhasil disimpan.'
+                ], 200);
+            } else {
+                ListError::create([
+                    'fungsi' => 'register',
+                    'pesan_error' => $responseData["error"]["msg"],
+                    'keterangan' => '-'
+                ]);
+                return response()->json([
+                    'message' => $responseData["error"]["msg"] ?? 'Error tidak teridentifikasi.'
+                ], 400);
             }
-
-            /* Create Xreferral */
-            // $dataXreferral = Xreferral::where('upline', $request->Referral)
-            //     ->whereDate('created_at', now())->first();
-            // if ($dataXreferral) {
-            //     $dataXreferral->increment('total_downline');
-            // } else {
-            //     Xreferral::create([
-            //         'upline' => $request->Referral,
-            //         'total_downline' => 1,
-            //         'downline_deposit' => 0,
-            //         'downline_aktif' => 0,
-            //         'total_bonus' => 0
-            //     ]);
-            // }
-
-
-            // $dataXreferral = Xreferral::where('username', $request->Referral)->first();
-            // if ($dataXreferral) {
-            //     $dataXreferral->update([
-            //         'count_referral' => $dataXreferral->count_referral + 1
-            //     ]);
-            // }
-
-            return response()->json([
-                'message' => 'Data berhasil disimpan.'
-            ], 200);
         } else {
-            return response()->json([
-                'message' => $responseData["error"]["msg"] ?? 'Error tidak teridentifikasi.'
-            ], 400);
+            ListError::create([
+                'fungsi' => 'register',
+                'pesan_error' => $responseCore["message"],
+                'keterangan' => '-'
+            ]);
+            return $responseCore;
         }
     }
 
@@ -322,13 +348,13 @@ class ApiController extends Controller
             //     ], 400);
             // }
 
-            // $dataDepoWd = DepoWd::where('username', strtolower($request->username))->where('jenis', 'DP')->where('status', '0')->first();
-            // if ($dataDepoWd) {
-            //     return response()->json([
-            //         'status' => 'Fail',
-            //         'message' => 'Gagal melakukan deposit'
-            //     ], 400);
-            // }
+            $dataDepoWd = DepoWd::where('username', strtolower($request->username))->where('jenis', 'DP')->where('status', '0')->first();
+            if ($dataDepoWd) {
+                return response()->json([
+                    'status' => 'Fail',
+                    'message' => 'Deposit anda sedang dalam proses'
+                ], 400);
+            }
 
             // $dataDepoWd = DepoWd::where('username', strtolower($request->username))->where('jenis', 'DP')->where('status', '1')->first();
             // if (!$dataDepoWd) {
