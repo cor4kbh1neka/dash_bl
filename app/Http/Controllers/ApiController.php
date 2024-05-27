@@ -129,7 +129,6 @@ class ApiController extends Controller
 
         $ipaddress = $request->ipadress;
 
-
         $dataCore = [
             "xyusernamexxy" => $request->Username,
             "password" => $request->Password,
