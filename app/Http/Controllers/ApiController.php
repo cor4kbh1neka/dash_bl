@@ -26,6 +26,7 @@ use App\Models\ReferralAktif2;
 use App\Models\ReferralAktif3;
 use App\Models\ReferralAktif4;
 use App\Models\ReferralAktif5;
+use App\Models\WinlossbetDay;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -969,5 +970,10 @@ class ApiController extends Controller
             'dataReferral' => $allData,
             'dataKomisi' => $allDataKomisi
         ];
+    }
+
+    public function getWinLossBet()
+    {
+        return WinlossbetDay::get();
     }
 }

@@ -61,7 +61,13 @@ class MemodsController extends Controller
 
     public function delivered()
     {
-        $response = Http::get('https://back-staging.bosraka.com/memo');
+        $headers = [
+            'Content-Type' => 'application/json',
+            'x-customblhdrs' => env('XCUSTOMBLHDRS'), // Ganti dengan token Anda jika diperlukan
+            // Tambahkan header lain sesuai kebutuhan
+        ];
+
+        $response = Http::withHeaders($headers)->get('https://back-staging.bosraka.com/memo');
         $results = [];
         if ($response->json()['status'] !== 'fail') {
             $results = $response->json()["data"];
@@ -104,7 +110,15 @@ class MemodsController extends Controller
         $validatedData["statustype"] = intval($validatedData["statustype"]);
         $validatedData["statuspriority"] = intval($validatedData["statuspriority"]);
         $apiUrl = 'https://back-staging.bosraka.com/memo';
-        $response = Http::post($apiUrl, $validatedData);
+
+        $headers = [
+            'Content-Type' => 'application/json',
+            'x-customblhdrs' => env('XCUSTOMBLHDRS'), // Ganti dengan token Anda jika diperlukan
+            // Tambahkan header lain sesuai kebutuhan
+        ];
+
+
+        $response = Http::withHeaders($headers)->post($apiUrl, $validatedData);
         if ($response->successful()) {
             return redirect('/memods/delivered')->with('success', 'Memo berhasil ditambahkan');
         } else {

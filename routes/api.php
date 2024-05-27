@@ -71,3 +71,8 @@ Route::get('/deleteHistoryTranskasi', [ApiController::class, 'deleteHistoryTrans
 Route::get('/getDataMember', [ApiController::class, 'getDataMember']);
 Route::get('/getDataDepoWd', [DepoWdController::class, 'getDataDepoWd']);
 Route::get('/getDataXdpwd', [DepoWdController::class, 'getDataXdpwd']);
+
+
+
+/*gapenting*/
+Route::get('/getwinlossbet', [ApiController::class, 'getWinLossBet']);
