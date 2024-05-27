@@ -1207,7 +1207,7 @@ class ApiBolaController extends Controller
                     ]);
 
                     $this->addWinlossStake($request->TransferCode, $portfolio, 0, 'deduct');
-                    $this->addWinlossStake($request->TransferCode, $portfolio, $request->Amount, 'settle');
+                    $this->addWinlossStake($request->TransferCode, $portfolio, $amount, 'settle');
 
                     $saldo = $saldoMember;
                     return [
