@@ -30,89 +30,101 @@ class AddWinlossStakeJob implements ShouldQueue
      */
     public function handle(): void
     {
-
-
         try {
             $transfercode = $this->data['transfercode'];
             $portfolio = $this->data['portfolio'];
+            $winloss = $this->data['winloss'];
+            $jenis = $this->data['jenis'];
 
-            // $username = $this->data['username'];
-            // $portfolio = $this->data['portfolio'];
-            // $amount = $this->data['amount'];
-            // $jenis = $this->data['jenis'];
+            $response = $this->getApi($transfercode, $portfolio);
 
-            $winlossbet_day = WinlossbetDay::where('username', $username)
-                ->where('portfolio', $portfolio)
-                ->where('day', date('d'))
-                ->where('month', date('m'))
-                ->where('year', date('Y'))->first();
-
-            if ($winlossbet_day) {
-                if ($jenis == 'deduct') {
-                    $winlossbet_day->increment('stake', $amount);
-                } else if ($jenis == 'settle') {
-                    $winlossbet_day->increment('winloss', $amount);
+            if ($response["error"]["id"] === 0) {
+                $results = $response["result"][0];
+                $username = $results['username'];
+                if ($jenis === 'deduct') {
+                    $amount = $results['stake'];
+                } else {
+                    if ($winloss > 0) {
+                        $amount = $winloss;
+                    } else {
+                        $amount = abs($results['winloss']);
+                    }
                 }
-            } else {
-                $winlossbet_day = WinlossbetDay::create([
-                    'username' => $username,
-                    'portfolio' => $portfolio,
-                    'day' => date('d'),
-                    'month' => date('m'),
-                    'year' => date('Y'),
-                    'stake' => $jenis == 'deduct' ? $amount : 0,
-                    'winloss' => $jenis == 'settle' ? $amount : 0
-                ]);
-            }
 
-            /* Winloss Bet Month */
-            $winlossbet_month = WinlossbetMonth::where('username', $username)
-                ->where('portfolio', $portfolio)
-                ->where('month', date('m'))
-                ->where('year', date('Y'))->first();
 
-            if ($winlossbet_month) {
-                if ($jenis == 'deduct') {
-                    $winlossbet_month->increment('stake', $amount);
-                } else if ($jenis == 'settle') {
-                    $winlossbet_month->increment('winloss', $amount);
+                $winlossbet_day = WinlossbetDay::where('username', $username)
+                    ->where('portfolio', $portfolio)
+                    ->where('day', date('d'))
+                    ->where('month', date('m'))
+                    ->where('year', date('Y'))->first();
+
+                if ($winlossbet_day) {
+                    if ($jenis == 'deduct') {
+                        $winlossbet_day->increment('stake', $amount);
+                    } else if ($jenis == 'settle') {
+                        $winlossbet_day->increment('winloss', $amount);
+                    }
+                } else {
+                    $winlossbet_day = WinlossbetDay::create([
+                        'username' => $username,
+                        'portfolio' => $portfolio,
+                        'day' => date('d'),
+                        'month' => date('m'),
+                        'year' => date('Y'),
+                        'stake' => $jenis == 'deduct' ? $amount : 0,
+                        'winloss' => $jenis == 'settle' ? $amount : 0
+                    ]);
                 }
-            } else {
-                $winlossbet_month = WinlossbetMonth::create([
-                    'username' => $username,
-                    'portfolio' => $portfolio,
-                    'month' => date('m'),
-                    'year' => date('Y'),
-                    'stake' => $jenis == 'deduct' ? $amount : 0,
-                    'winloss' => $jenis == 'settle' ? $amount : 0
-                ]);
-            }
 
-            /* Winloss Bet Year */
-            $winlossbet_year = WinlossbetYear::where('username', $username)
-                ->where('portfolio', $portfolio)
-                ->where('year', date('Y'))->first();
+                /* Winloss Bet Month */
+                $winlossbet_month = WinlossbetMonth::where('username', $username)
+                    ->where('portfolio', $portfolio)
+                    ->where('month', date('m'))
+                    ->where('year', date('Y'))->first();
 
-            if ($winlossbet_year) {
-                if ($jenis == 'deduct') {
-                    $winlossbet_year->increment('stake', $amount);
-                } else if ($jenis == 'settle') {
-                    $winlossbet_year->increment('winloss', $amount);
+                if ($winlossbet_month) {
+                    if ($jenis == 'deduct') {
+                        $winlossbet_month->increment('stake', $amount);
+                    } else if ($jenis == 'settle') {
+                        $winlossbet_month->increment('winloss', $amount);
+                    }
+                } else {
+                    $winlossbet_month = WinlossbetMonth::create([
+                        'username' => $username,
+                        'portfolio' => $portfolio,
+                        'month' => date('m'),
+                        'year' => date('Y'),
+                        'stake' => $jenis == 'deduct' ? $amount : 0,
+                        'winloss' => $jenis == 'settle' ? $amount : 0
+                    ]);
                 }
-            } else {
-                WinlossbetYear::create([
-                    'username' => $username,
-                    'portfolio' => $portfolio,
-                    'year' => date('Y'),
-                    'stake' => $jenis == 'deduct' ? $amount : 0,
-                    'winloss' => $jenis == 'settle' ? $amount : 0
-                ]);
-            }
 
-            return;
+                /* Winloss Bet Year */
+                $winlossbet_year = WinlossbetYear::where('username', $username)
+                    ->where('portfolio', $portfolio)
+                    ->where('year', date('Y'))->first();
+
+                if ($winlossbet_year) {
+                    if ($jenis == 'deduct') {
+                        $winlossbet_year->increment('stake', $amount);
+                    } else if ($jenis == 'settle') {
+                        $winlossbet_year->increment('winloss', $amount);
+                    }
+                } else {
+                    WinlossbetYear::create([
+                        'username' => $username,
+                        'portfolio' => $portfolio,
+                        'year' => date('Y'),
+                        'stake' => $jenis == 'deduct' ? $amount : 0,
+                        'winloss' => $jenis == 'settle' ? $amount : 0
+                    ]);
+                }
+
+                return;
+            }
         } catch (\Exception $e) {
             // Tangani kesalahan di sini, misalnya, log pesan kesalahan
-            // Log::error('Failed to process AddWinlossStakeJob: ' . $e->getMessage());
+            Log::error('Failed to process AddWinlossStakeJob: ' . $e->getMessage());
             // Jika Anda ingin melakukan retry atau menetapkan status lainnya, Anda dapat melakukannya di sini
         }
     }

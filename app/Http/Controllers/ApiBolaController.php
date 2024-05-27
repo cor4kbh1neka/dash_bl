@@ -9,7 +9,6 @@ use App\Models\TransactionSaldo;
 use App\Models\ProductType;
 use App\Models\Member;
 use App\Models\MemberAktif;
-use App\Models\Outstanding;
 use App\Models\Xreferral;
 use App\Models\Persentase;
 use App\Models\Balance;
@@ -20,11 +19,12 @@ use App\Models\ReferralAktif2;
 use App\Models\ReferralAktif3;
 use App\Models\ReferralAktif4;
 use App\Models\ReferralAktif5;
-use App\Models\WinlossbetDay;
-use App\Models\WinlossbetMonth;
-use App\Models\WinlossbetYear;
 use Illuminate\Support\Facades\Log;
-
+use App\Jobs\AddHistoryJob;
+use App\Jobs\AddOutstandingJob;
+use App\Jobs\AddWinlossStakeJob;
+use App\Jobs\CancelWinlossStakeJob;
+use App\Jobs\DeleteOutstandingJob;
 
 use Illuminate\Support\Facades\Http;
 
@@ -292,16 +292,14 @@ class ApiBolaController extends Controller
     /* ======================= OUTSTANDING ======================= */
     private function createOutstanding($data)
     {
-        $dataOutstanding = Outstanding::where('transactionid', $data["transactionid"])->first();
-        if (!$dataOutstanding) {
-            return Outstanding::create($data);
-        }
-        return [];
+        AddOutstandingJob::dispatch($data);
+        return;
     }
 
     private function deleteOutstanding($transfercode)
     {
-        return Outstanding::where('transfercode', $transfercode)->delete();
+        deleteOutstandingJob::dispatch($transfercode);
+        return;
     }
 
 
@@ -397,7 +395,7 @@ class ApiBolaController extends Controller
                         // ]);
 
                         $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'rollback', $totalAmount, 0, $saldoMember);
-                        $this->addWinlossStake($request->Username, $portfolio, $totalAmount, 'deduct');
+                        $this->addWinlossStake($request->TransferCode, $portfolio, $totalAmount, 'deduct');
                     }
 
                     $saldo = $saldoMember;
@@ -462,7 +460,7 @@ class ApiBolaController extends Controller
                                 // ]);
 
                                 $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', $dataTransactions->amount, 0, $saldoMember);
-                                $this->cancelWinlossStake($request->Username, $portfolio, $dataTransactions->amount, 'settle');
+                                $this->cancelWinlossStake($request->TransferCode, $portfolio, $dataTransactions->amount, 'settle');
                             }
                         }
                     } else {
@@ -527,7 +525,7 @@ class ApiBolaController extends Controller
                                 // ]);
 
                                 $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', 0, $totalAmount, $saldoMember);
-                                $this->cancelWinlossStake($request->Username, $portfolio, $totalAmount, 'deduct');
+                                $this->cancelWinlossStake($request->TransferCode, $portfolio, $totalAmount, 'deduct');
                             }
                         }
 
@@ -568,7 +566,7 @@ class ApiBolaController extends Controller
                                         // ]);
 
                                         $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, 'ReturnStake', $portfolio, 'cancel', $trReturnStake->amount, 0, $saldoMember);
-                                        $this->cancelWinlossStake($request->Username, $portfolio, $trReturnStake->amount, 'settle');
+                                        $this->cancelWinlossStake($request->TransferCode, $portfolio, $trReturnStake->amount, 'settle');
                                     }
                                 }
                             }
@@ -608,7 +606,7 @@ class ApiBolaController extends Controller
                             // ]);
 
                             $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', 0, $totalAmount, $saldoMember);
-                            $this->cancelWinlossStake($request->Username, $portfolio, $totalAmount, 'deduct');
+                            $this->cancelWinlossStake($request->TransferCode, $portfolio, $totalAmount, 'deduct');
                         }
                     }
                 } else if ($lastStatus->status == 'ReturnStake') {
@@ -738,7 +736,7 @@ class ApiBolaController extends Controller
                     // ]);
 
                     $this->addHistoryTranskasi($request->Username, '', $request->TransferCode, $portfolio, $portfolio, 'cancel', $dataTransactions->amount, 0, $saldoMember);
-                    $this->cancelWinlossStake($request->Username, $portfolio, $dataTransactions->amount, 'settle');
+                    $this->cancelWinlossStake($request->TransferCode, $portfolio, $dataTransactions->amount, 'settle');
                 }
             } else {
                 /* Cancel Referral */
@@ -855,7 +853,7 @@ class ApiBolaController extends Controller
                         // ]);
 
                         $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'rollback', 0, $totalAmount, $saldoMember);
-                        $this->cancelWinlossStake($request->Username, $portfolio, $totalAmount, 'deduct');
+                        $this->cancelWinlossStake($request->TransferCode, $portfolio, $totalAmount, 'deduct');
                     }
                     /* Create Queue Job History Transkasi */
                 }
@@ -931,7 +929,8 @@ class ApiBolaController extends Controller
 
                     // if ($request->IsCashOut !== true) {
                     /* Winloss Bet Rekap */
-                    $this->addWinlossStake($request->Username, $portfolio, $WinLoss, 'settle');
+                    $this->addWinlossStake($request->TransferCode, $portfolio, 0, 'deduct');
+                    $this->addWinlossStake($request->TransferCode, $portfolio, $WinLoss, 'settle');
                     // }
 
                     $saldo = $saldoMember;
@@ -1207,10 +1206,6 @@ class ApiBolaController extends Controller
                         "amount" => $amount
                     ]);
 
-
-                    /* Winloss Bet Rekap */
-                    $this->addWinlossStake($request->Username, ProductType::where('id', $request->ProductType)->first()->portfolio, $amount, 'deduct');
-
                     $saldo = $saldoMember;
                     return [
                         'AccountName' => $request->Username,
@@ -1382,129 +1377,48 @@ class ApiBolaController extends Controller
         ];
     }
 
-    private function addWinlossStake($username, $portfolio, $amount, $jenis)
+    private function addWinlossStake($transfercode, $portfolio, $winloss, $jenis)
     {
-        /* Winloss Bet Day */
-        $winlossbet_day = WinlossbetDay::where('username', $username)
-            ->where('portfolio', $portfolio)
-            ->where('day', date('d'))
-            ->where('month', date('m'))
-            ->where('year', date('Y'))->first();
+        $winlossData = [
+            'transfercode' => $transfercode,
+            'portfolio' => $portfolio,
+            'amount' => $winloss,
+            'jenis' => $jenis
+        ];
 
-        if ($winlossbet_day) {
-            if ($jenis == 'deduct') {
-                $winlossbet_day->increment('stake', $amount);
-            } else if ($jenis == 'settle') {
-                $winlossbet_day->increment('winloss', $amount);
-            }
-        } else {
-            $winlossbet_day = WinlossbetDay::create([
-                'username' => $username,
-                'portfolio' => $portfolio,
-                'day' => date('d'),
-                'month' => date('m'),
-                'year' => date('Y'),
-                'stake' => $jenis == 'deduct' ? $amount : 0,
-                'winloss' => $jenis == 'settle' ? $amount : 0
-            ]);
-        }
-
-        /* Winloss Bet Month */
-        $winlossbet_month = WinlossbetMonth::where('username', $username)
-            ->where('portfolio', $portfolio)
-            ->where('month', date('m'))
-            ->where('year', date('Y'))->first();
-
-        if ($winlossbet_month) {
-            if ($jenis == 'deduct') {
-                $winlossbet_month->increment('stake', $amount);
-            } else if ($jenis == 'settle') {
-                $winlossbet_month->increment('winloss', $amount);
-            }
-        } else {
-            $winlossbet_month = WinlossbetMonth::create([
-                'username' => $username,
-                'portfolio' => $portfolio,
-                'month' => date('m'),
-                'year' => date('Y'),
-                'stake' => $jenis == 'deduct' ? $amount : 0,
-                'winloss' => $jenis == 'settle' ? $amount : 0
-            ]);
-        }
-
-        /* Winloss Bet Year */
-        $winlossbet_year = WinlossbetYear::where('username', $username)
-            ->where('portfolio', $portfolio)
-            ->where('year', date('Y'))->first();
-
-        if ($winlossbet_year) {
-            if ($jenis == 'deduct') {
-                $winlossbet_year->increment('stake', $amount);
-            } else if ($jenis == 'settle') {
-                $winlossbet_year->increment('winloss', $amount);
-            }
-        } else {
-            WinlossbetYear::create([
-                'username' => $username,
-                'portfolio' => $portfolio,
-                'year' => date('Y'),
-                'stake' => $jenis == 'deduct' ? $amount : 0,
-                'winloss' => $jenis == 'settle' ? $amount : 0
-            ]);
-        }
-
-        return;
+        AddWinlossStakeJob::dispatch($winlossData);
     }
 
-    private function cancelWinlossStake($username, $portfolio, $amount, $jenis)
+    // private function getApi($refNos, $portfolio)
+    // {
+    //     $data = [
+    //         'refNos' => $refNos,
+    //         'portfolio' => $portfolio,
+    //         'companyKey' => env('COMPANY_KEY'),
+    //         'language' => 'en',
+    //         'serverId' => env('SERVERID')
+    //     ];
+    //     $apiUrl = 'https://ex-api-demo-yy.568win.com/web-root/restricted/report/get-bet-list-by-refnos.aspx';
+
+    //     $response = Http::post($apiUrl, $data);
+    //     return $response->json();
+    // }
+
+    private function cancelWinlossStake($transfercode, $portfolio, $amount, $jenis)
     {
-        /* Winloss Bet Day */
-        $winlossbet_day = WinlossbetDay::where('username', $username)
-            ->where('portfolio', $portfolio)
-            ->where('day', date('d'))
-            ->where('month', date('m'))
-            ->where('year', date('Y'))->first();
-        if ($winlossbet_day) {
-            if ($jenis == 'deduct') {
-                $winlossbet_day->decrement('stake', $amount);
-            } else if ($jenis == 'settle') {
-                $winlossbet_day->decrement('winloss', $amount);
-            }
-        }
-
-        /* Winloss Bet Month */
-        $winlossbet_month = WinlossbetMonth::where('username', $username)
-            ->where('portfolio', $portfolio)
-            ->where('month', date('m'))
-            ->where('year', date('Y'))->first();
-
-        if ($winlossbet_month) {
-            if ($jenis == 'deduct') {
-                $winlossbet_month->decrement('stake', $amount);
-            } else if ($jenis == 'settle') {
-                $winlossbet_month->decrement('winloss', $amount);
-            }
-        }
-
-        /* Winloss Bet Year */
-        $winlossbet_year = WinlossbetYear::where('username', $username)
-            ->where('portfolio', $portfolio)
-            ->where('year', date('Y'))->first();
-
-        if ($winlossbet_year) {
-            if ($jenis == 'deduct') {
-                $winlossbet_year->decrement('stake', $amount);
-            } else if ($jenis == 'settle') {
-                $winlossbet_year->decrement('winloss', $amount);
-            }
-        }
-
+        $winlossData = [
+            'transfercode' => $transfercode,
+            'portfolio' => $portfolio,
+            'winloss' => $amount,
+            'jenis' => $jenis
+        ];
+        CancelWinlossStakeJob::dispatch($winlossData);
         return;
     }
 
     private function addHistoryTranskasi($username, $txnid, $refno, $keterangan, $portfolio, $status, $debit, $kredit, $balance)
     {
-        HistoryTransaksi::create([
+        $historyData = [
             'username' => $username,
             'invoice' =>  $txnid,
             'refno' => $refno,
@@ -1514,7 +1428,9 @@ class ApiBolaController extends Controller
             'debit' => $debit,
             'kredit' => $kredit,
             'balance' => $balance
-        ]);
+        ];
+
+        AddHistoryJob::dispatch($historyData);
 
         return;
     }
