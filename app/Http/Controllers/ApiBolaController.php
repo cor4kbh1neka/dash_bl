@@ -24,6 +24,11 @@ use App\Models\WinlossbetDay;
 use App\Models\WinlossbetMonth;
 use App\Models\WinlossbetYear;
 use Illuminate\Support\Facades\Log;
+use App\Jobs\AddHistoryJob;
+use App\Jobs\AddOutstandingJob;
+use App\Jobs\AddWinlossStakeJob;
+use App\Jobs\CancelWinlossStakeJob;
+use App\Jobs\DeleteOutstandingJob;
 
 use Illuminate\Support\Facades\Http;
 
@@ -291,16 +296,14 @@ class ApiBolaController extends Controller
     /* ======================= OUTSTANDING ======================= */
     private function createOutstanding($data)
     {
-        $dataOutstanding = Outstanding::where('transactionid', $data["transactionid"])->first();
-        if (!$dataOutstanding) {
-            return Outstanding::create($data);
-        }
+        AddOutstandingJob::dispatch($data);
         return [];
     }
 
     private function deleteOutstanding($transfercode)
     {
-        return Outstanding::where('transfercode', $transfercode)->delete();
+        deleteOutstandingJob::dispatch($transfercode);
+        return;
     }
 
 
@@ -1205,6 +1208,7 @@ class ApiBolaController extends Controller
                         "status" => 'Running',
                         "amount" => $amount
                     ]);
+                    dd('test');
 
 
                     /* Winloss Bet Rekap */
@@ -1383,127 +1387,19 @@ class ApiBolaController extends Controller
 
     private function addWinlossStake($username, $portfolio, $amount, $jenis)
     {
-        /* Winloss Bet Day */
-        $winlossbet_day = WinlossbetDay::where('username', $username)
-            ->where('portfolio', $portfolio)
-            ->where('day', date('d'))
-            ->where('month', date('m'))
-            ->where('year', date('Y'))->first();
-
-        if ($winlossbet_day) {
-            if ($jenis == 'deduct') {
-                $winlossbet_day->increment('stake', $amount);
-            } else if ($jenis == 'settle') {
-                $winlossbet_day->increment('winloss', $amount);
-            }
-        } else {
-            $winlossbet_day = WinlossbetDay::create([
-                'username' => $username,
-                'portfolio' => $portfolio,
-                'day' => date('d'),
-                'month' => date('m'),
-                'year' => date('Y'),
-                'stake' => $jenis == 'deduct' ? $amount : 0,
-                'winloss' => $jenis == 'settle' ? $amount : 0
-            ]);
-        }
-
-        /* Winloss Bet Month */
-        $winlossbet_month = WinlossbetMonth::where('username', $username)
-            ->where('portfolio', $portfolio)
-            ->where('month', date('m'))
-            ->where('year', date('Y'))->first();
-
-        if ($winlossbet_month) {
-            if ($jenis == 'deduct') {
-                $winlossbet_month->increment('stake', $amount);
-            } else if ($jenis == 'settle') {
-                $winlossbet_month->increment('winloss', $amount);
-            }
-        } else {
-            $winlossbet_month = WinlossbetMonth::create([
-                'username' => $username,
-                'portfolio' => $portfolio,
-                'month' => date('m'),
-                'year' => date('Y'),
-                'stake' => $jenis == 'deduct' ? $amount : 0,
-                'winloss' => $jenis == 'settle' ? $amount : 0
-            ]);
-        }
-
-        /* Winloss Bet Year */
-        $winlossbet_year = WinlossbetYear::where('username', $username)
-            ->where('portfolio', $portfolio)
-            ->where('year', date('Y'))->first();
-
-        if ($winlossbet_year) {
-            if ($jenis == 'deduct') {
-                $winlossbet_year->increment('stake', $amount);
-            } else if ($jenis == 'settle') {
-                $winlossbet_year->increment('winloss', $amount);
-            }
-        } else {
-            WinlossbetYear::create([
-                'username' => $username,
-                'portfolio' => $portfolio,
-                'year' => date('Y'),
-                'stake' => $jenis == 'deduct' ? $amount : 0,
-                'winloss' => $jenis == 'settle' ? $amount : 0
-            ]);
-        }
-
+        AddWinlossStakeJob::dispatch($username, $portfolio, $amount, $jenis);
         return;
     }
 
     private function cancelWinlossStake($username, $portfolio, $amount, $jenis)
     {
-        /* Winloss Bet Day */
-        $winlossbet_day = WinlossbetDay::where('username', $username)
-            ->where('portfolio', $portfolio)
-            ->where('day', date('d'))
-            ->where('month', date('m'))
-            ->where('year', date('Y'))->first();
-        if ($winlossbet_day) {
-            if ($jenis == 'deduct') {
-                $winlossbet_day->decrement('stake', $amount);
-            } else if ($jenis == 'settle') {
-                $winlossbet_day->decrement('winloss', $amount);
-            }
-        }
-
-        /* Winloss Bet Month */
-        $winlossbet_month = WinlossbetMonth::where('username', $username)
-            ->where('portfolio', $portfolio)
-            ->where('month', date('m'))
-            ->where('year', date('Y'))->first();
-
-        if ($winlossbet_month) {
-            if ($jenis == 'deduct') {
-                $winlossbet_month->decrement('stake', $amount);
-            } else if ($jenis == 'settle') {
-                $winlossbet_month->decrement('winloss', $amount);
-            }
-        }
-
-        /* Winloss Bet Year */
-        $winlossbet_year = WinlossbetYear::where('username', $username)
-            ->where('portfolio', $portfolio)
-            ->where('year', date('Y'))->first();
-
-        if ($winlossbet_year) {
-            if ($jenis == 'deduct') {
-                $winlossbet_year->decrement('stake', $amount);
-            } else if ($jenis == 'settle') {
-                $winlossbet_year->decrement('winloss', $amount);
-            }
-        }
-
+        CancelWinlossStakeJob::dispatch($username, $portfolio, $amount, $jenis);
         return;
     }
 
     private function addHistoryTranskasi($username, $txnid, $refno, $keterangan, $portfolio, $status, $debit, $kredit, $balance)
     {
-        HistoryTransaksi::create([
+        $historyData = [
             'username' => $username,
             'invoice' =>  $txnid,
             'refno' => $refno,
@@ -1513,7 +1409,9 @@ class ApiBolaController extends Controller
             'debit' => $debit,
             'kredit' => $kredit,
             'balance' => $balance
-        ]);
+        ];
+
+        AddHistoryJob::dispatch($historyData);
 
         return;
     }
