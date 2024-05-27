@@ -11,6 +11,7 @@ use App\Models\WinlossbetDay;
 use App\Models\WinlossbetMonth;
 use App\Models\WinlossbetYear;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 class AddWinlossStakeJob implements ShouldQueue
 {
@@ -30,34 +31,15 @@ class AddWinlossStakeJob implements ShouldQueue
     public function handle(): void
     {
 
-        $validasiBearer = $this->validasiBearer($request);
-        if ($validasiBearer !== true) {
-            return $validasiBearer;
-        }
-
-        $refNos = $request->refNos;
-        $portfolio = $request->portfolio;
-
-        $data = [
-            'refNos' => $refNos,
-            'portfolio' => $portfolio,
-            'companyKey' => env('COMPANY_KEY'),
-            'language' => 'en',
-            'serverId' => env('SERVERID')
-        ];
-        $apiUrl = 'https://ex-api-demo-yy.568win.com/web-root/restricted/report/get-bet-list-by-refnos.aspx';
-
-        $response = Http::post($apiUrl, $data);
-        return $response->json();
-
-
-
 
         try {
-            $username = $this->data['username'];
+            $transfercode = $this->data['transfercode'];
             $portfolio = $this->data['portfolio'];
-            $amount = $this->data['amount'];
-            $jenis = $this->data['jenis'];
+
+            // $username = $this->data['username'];
+            // $portfolio = $this->data['portfolio'];
+            // $amount = $this->data['amount'];
+            // $jenis = $this->data['jenis'];
 
             $winlossbet_day = WinlossbetDay::where('username', $username)
                 ->where('portfolio', $portfolio)
@@ -133,5 +115,20 @@ class AddWinlossStakeJob implements ShouldQueue
             // Log::error('Failed to process AddWinlossStakeJob: ' . $e->getMessage());
             // Jika Anda ingin melakukan retry atau menetapkan status lainnya, Anda dapat melakukannya di sini
         }
+    }
+
+    private function getApi($refNos, $portfolio)
+    {
+        $data = [
+            'refNos' => $refNos,
+            'portfolio' => $portfolio,
+            'companyKey' => env('COMPANY_KEY'),
+            'language' => 'en',
+            'serverId' => env('SERVERID')
+        ];
+        $apiUrl = 'https://ex-api-demo-yy.568win.com/web-root/restricted/report/get-bet-list-by-refnos.aspx';
+
+        $response = Http::post($apiUrl, $data);
+        return $response->json();
     }
 }

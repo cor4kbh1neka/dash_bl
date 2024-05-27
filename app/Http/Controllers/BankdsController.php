@@ -169,6 +169,7 @@ class BankdsController extends Controller
 
     private function requestApi($endpoint)
     {
+
         $url = 'https://back-staging.bosraka.com/banks/' . $endpoint;
         $response = Http::withHeaders([
             'Content-Type' => 'application/json; charset=UTF-8',

@@ -381,7 +381,7 @@ class DepoWdController extends Controller
 
                                 /* Create History WD */
                                 $balance = Balance::where('username', $dataDepo->username)->first()->amount;
-                                $this->addDataHistory($dataDepo->username, $txnid, '', 'witdhraw', 'witdhraw', $dataDepo->amount, 0, $balance);
+                                $this->addDataHistory($dataDepo->username, $txnid, '', 'withdraw', 'withdraw', $dataDepo->amount, 0, $balance);
 
                                 /* Win Loss WD */
                                 $this->addDataWinLoss($dataDepo->username, $dataDepo->amount, "withdraw");
