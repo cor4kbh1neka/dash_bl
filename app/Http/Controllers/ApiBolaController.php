@@ -1385,7 +1385,7 @@ class ApiBolaController extends Controller
         $winlossData = [
             'transfercode' => $transfercode,
             'portfolio' => $portfolio,
-            'amount' => $winloss,
+            'winloss' => $winloss,
             'jenis' => $jenis
         ];
 
