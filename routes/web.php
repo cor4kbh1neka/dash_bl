@@ -36,6 +36,7 @@ use App\Http\Controllers\UsermanagementdsController;
 use App\Http\Controllers\NotifikasidsController;
 use App\Http\Controllers\Menu2Controller;
 use App\Http\Controllers\PersentasedsController;
+use App\Http\Controllers\BonusdsController;
 use App\Models\Xdpwd;
 use App\Models\Outstanding;
 use App\Models\DepoWd;
@@ -327,5 +328,8 @@ Route::middleware(['auth'])->group(function () {
     /*-- GET NOTIFICATION --*/
     Route::get('/getNotifikasi', [DepoWdController::class, 'getNotifikasi']);
     Route::get('/updateNotifikasi/{id}', [DepoWdController::class, 'updateNotifikasi']);
+
+    /*-- Bonusds --*/
+    Route::get('/bonusds', [BonusdsController::class, 'index']);
 });
 // });

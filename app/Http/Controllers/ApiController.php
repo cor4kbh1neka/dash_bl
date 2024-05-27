@@ -141,7 +141,8 @@ class ApiController extends Controller
         ];
 
         $responseCore = Http::withHeaders([
-            'Content-Type' => 'application/json; charset=UTF-8'
+            'Content-Type' => 'application/json; charset=UTF-8',
+            'X-CUSTOMBLHDRS' => env('COMPANY_KEY')
         ])->post('https://back-staging.bosraka.com/users', $dataCore);
 
         $responseCore = $responseCore->json();

@@ -7,26 +7,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Models\winlossDay;
-use App\Models\winlossMonth;
-use App\Models\winlossYear;
+use App\Models\WinlossbetDay;
+use App\Models\WinlossbetMonth;
+use App\Models\WinlossbetYear;
 
 class CancelWinlossStakeJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $username;
-    protected $portfolio;
-    protected $amount;
-    protected $jenis;
+
+    protected $data;
     /**
      * Create a new job instance.
      */
-    public function __construct($username, $portfolio, $amount, $jenis)
+    public function __construct(array $data)
     {
-        $this->username = $username;
-        $this->portfolio = $portfolio;
-        $this->amount = $amount;
-        $this->jenis = $jenis;
+        $this->data = $data;
     }
 
     /**
@@ -34,73 +29,79 @@ class CancelWinlossStakeJob implements ShouldQueue
      */
     public function handle(): void
     {
-        /* Winloss Bet Day */
-        $winloss_day = winlossDay::where('username', $this->username)
-            ->where('portfolio', $this->portfolio)
+        $username = $this->data['username'];
+        $portfolio = $this->data['portfolio'];
+        $amount = $this->data['amount'];
+        $jenis = $this->data['jenis'];
+
+        $winlossbet_day = WinlossbetDay::where('username', $username)
+            ->where('portfolio', $portfolio)
             ->where('day', date('d'))
             ->where('month', date('m'))
             ->where('year', date('Y'))->first();
 
-        if ($winloss_day) {
-            if ($this->jenis == 'deduct') {
-                $winloss_day->decrement('stake', $this->amount);
-            } else if ($this->jenis == 'settle') {
-                $winloss_day->decrement('winloss', $this->amount);
+        if ($winlossbet_day) {
+            if ($jenis == 'deduct') {
+                $winlossbet_day->decrement('stake', $amount);
+            } else if ($jenis == 'settle') {
+                $winlossbet_day->decrement('winloss', $amount);
             }
         } else {
-            $winloss_day = winlossDay::create([
-                'username' => $this->username,
-                'portfolio' => $this->portfolio,
+            $winlossbet_day = WinlossbetDay::create([
+                'username' => $username,
+                'portfolio' => $portfolio,
                 'day' => date('d'),
                 'month' => date('m'),
                 'year' => date('Y'),
-                'stake' => $this->jenis == 'deduct' ? $this->amount : 0,
-                'winloss' => $this->jenis == 'settle' ? $this->amount : 0
+                'stake' => $jenis == 'deduct' ? $amount : 0,
+                'winloss' => $jenis == 'settle' ? $amount : 0
             ]);
         }
 
         /* Winloss Bet Month */
-        $winloss_month = winlossMonth::where('username', $this->username)
-            ->where('portfolio', $this->portfolio)
+        $winlossbet_month = WinlossbetMonth::where('username', $username)
+            ->where('portfolio', $portfolio)
             ->where('month', date('m'))
             ->where('year', date('Y'))->first();
 
-        if ($winloss_month) {
-            if ($this->jenis == 'deduct') {
-                $winloss_month->decrement('stake', $this->amount);
-            } else if ($this->jenis == 'settle') {
-                $winloss_month->decrement('winloss', $this->amount);
+        if ($winlossbet_month) {
+            if ($jenis == 'deduct') {
+                $winlossbet_month->decrement('stake', $amount);
+            } else if ($jenis == 'settle') {
+                $winlossbet_month->decrement('winloss', $amount);
             }
         } else {
-            $winloss_month = winlossMonth::create([
-                'username' => $this->username,
-                'portfolio' => $this->portfolio,
+            $winlossbet_month = WinlossbetMonth::create([
+                'username' => $username,
+                'portfolio' => $portfolio,
                 'month' => date('m'),
                 'year' => date('Y'),
-                'stake' => $this->jenis == 'deduct' ? $this->amount : 0,
-                'winloss' => $this->jenis == 'settle' ? $this->amount : 0
+                'stake' => $jenis == 'deduct' ? $amount : 0,
+                'winloss' => $jenis == 'settle' ? $amount : 0
             ]);
         }
 
         /* Winloss Bet Year */
-        $winloss_year = winlossYear::where('username', $this->username)
-            ->where('portfolio', $this->portfolio)
+        $winlossbet_year = WinlossbetYear::where('username', $username)
+            ->where('portfolio', $portfolio)
             ->where('year', date('Y'))->first();
 
-        if ($winloss_year) {
-            if ($this->jenis == 'deduct') {
-                $winloss_year->decrement('stake', $this->amount);
-            } else if ($this->jenis == 'settle') {
-                $winloss_year->decrement('winloss', $this->amount);
+        if ($winlossbet_year) {
+            if ($jenis == 'deduct') {
+                $winlossbet_year->decrement('stake', $amount);
+            } else if ($jenis == 'settle') {
+                $winlossbet_year->decrement('winloss', $amount);
             }
         } else {
-            winlossYear::create([
-                'username' => $this->username,
-                'portfolio' => $this->portfolio,
+            WinlossbetYear::create([
+                'username' => $username,
+                'portfolio' => $portfolio,
                 'year' => date('Y'),
-                'stake' => $this->jenis == 'deduct' ? $this->amount : 0,
-                'winloss' => $this->jenis == 'settle' ? $this->amount : 0
+                'stake' => $jenis == 'deduct' ? $amount : 0,
+                'winloss' => $jenis == 'settle' ? $amount : 0
             ]);
         }
+
+        return;
     }
 }

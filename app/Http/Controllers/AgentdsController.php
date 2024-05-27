@@ -18,7 +18,7 @@ class AgentdsController extends Controller
 {
     public function index()
     {
-        $data = User::get();
+        $data = User::paginate(10);
         return view('agentds.index', [
             'title' => 'Agent',
             'data' => $data,

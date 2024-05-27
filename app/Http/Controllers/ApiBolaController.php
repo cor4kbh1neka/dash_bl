@@ -9,7 +9,6 @@ use App\Models\TransactionSaldo;
 use App\Models\ProductType;
 use App\Models\Member;
 use App\Models\MemberAktif;
-use App\Models\Outstanding;
 use App\Models\Xreferral;
 use App\Models\Persentase;
 use App\Models\Balance;
@@ -20,9 +19,6 @@ use App\Models\ReferralAktif2;
 use App\Models\ReferralAktif3;
 use App\Models\ReferralAktif4;
 use App\Models\ReferralAktif5;
-use App\Models\WinlossbetDay;
-use App\Models\WinlossbetMonth;
-use App\Models\WinlossbetYear;
 use Illuminate\Support\Facades\Log;
 use App\Jobs\AddHistoryJob;
 use App\Jobs\AddOutstandingJob;
@@ -297,7 +293,7 @@ class ApiBolaController extends Controller
     private function createOutstanding($data)
     {
         AddOutstandingJob::dispatch($data);
-        return [];
+        return;
     }
 
     private function deleteOutstanding($transfercode)
@@ -1208,7 +1204,7 @@ class ApiBolaController extends Controller
                         "status" => 'Running',
                         "amount" => $amount
                     ]);
-                    dd('test');
+
 
 
                     /* Winloss Bet Rekap */
@@ -1387,13 +1383,25 @@ class ApiBolaController extends Controller
 
     private function addWinlossStake($username, $portfolio, $amount, $jenis)
     {
-        AddWinlossStakeJob::dispatch($username, $portfolio, $amount, $jenis);
+        $winlossData = [
+            'username' => $username,
+            'portfolio' => $portfolio,
+            'amount' => $amount,
+            'jenis' => $jenis
+        ];
+        AddWinlossStakeJob::dispatch($winlossData);
         return;
     }
 
     private function cancelWinlossStake($username, $portfolio, $amount, $jenis)
     {
-        CancelWinlossStakeJob::dispatch($username, $portfolio, $amount, $jenis);
+        $winlossData = [
+            'username' => $username,
+            'portfolio' => $portfolio,
+            'amount' => $amount,
+            'jenis' => $jenis
+        ];
+        CancelWinlossStakeJob::dispatch($winlossData);
         return;
     }
 
