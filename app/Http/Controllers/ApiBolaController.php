@@ -1382,28 +1382,14 @@ class ApiBolaController extends Controller
 
     private function addWinlossStake($transfercode, $portfolio, $winloss, $jenis)
     {
-        // $winlossData = [
-        //     'transfercode' => $transfercode,
-        //     'portfolio' => $portfolio,
-        //     'winloss' => $winloss,
-        //     'jenis' => $jenis
-        // ];
-
-        // AddWinlossStakeJob::dispatch($winlossData);
-
-        $data = [
-            'refNos' => $transfercode,
+        $winlossData = [
+            'transfercode' => $transfercode,
             'portfolio' => $portfolio,
-            'companyKey' => env('COMPANY_KEY'),
-            'language' => 'en',
-            'serverId' => env('SERVERID')
+            'winloss' => $winloss,
+            'jenis' => $jenis
         ];
 
-        $apiUrl = 'https://ex-api-demo-yy.568win.com/web-root/restricted/report/get-bet-list-by-refnos.aspx';
-
-        $response = Http::post($apiUrl, $data);
-        Log::info('get Data Api:', ['data' => $response]);
-        return $response->json();
+        AddWinlossStakeJob::dispatch($winlossData);
     }
 
     // private function getApi($refNos, $portfolio)
