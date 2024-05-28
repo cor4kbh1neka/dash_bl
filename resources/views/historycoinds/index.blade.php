@@ -191,51 +191,6 @@
 
         });
 
-        $(document).ready(function() {
-            var currentPage = getCurrentPageNumber();
-
-            $(".numberpage").eq(currentPage - 1).addClass("active");
-
-            function getCurrentPageNumber() {
-                var urlParams = new URLSearchParams(window.location.search);
-                return parseInt(urlParams.get("page")) || 1;
-            }
-
-            $(".numberpage").click(function() {
-                var pageNumber = $(this).text();
-                updatePageQuery(pageNumber);
-            });
-
-            function updatePageQuery(pageNumber) {
-                var url = new URL(window.location.href);
-                var searchParams = url.searchParams;
-                searchParams.set("page", pageNumber);
-                window.location.href = url.toString();
-            }
-        });
-
-        $(document).ready(function() {
-            // $("#searchbutton").click(function() {
-            //     var search_username = $('#search_username').val();
-            //     var search_status = $('#search_status').val();
-            //     var search_agent = $('#search_agent').val();
-            //     var tgldari = $('#tgldari').val();
-            //     var tglsampai = $('#tglsampai').val();
-
-            //     var searchParams = '';
-            //     searchParams += 'search_username=' + encodeURIComponent(search_username) + '&';
-            //     searchParams += 'search_status=' + encodeURIComponent(search_status) + '&';
-            //     searchParams += 'search_agent=' + encodeURIComponent(search_agent) + '&';
-            //     searchParams += 'tgldari=' + encodeURIComponent(tgldari) + '&';
-            //     searchParams += 'tglsampai=' + encodeURIComponent(tglsampai) + '&';
-
-            //     var currentUrl = window.location.href;
-            //     var newUrl = currentUrl.split('?')[0] + '?' + searchParams.slice(0, -1);
-
-            //     // Memperbarui URL
-            //     window.location.href = newUrl;
-            // });
-        });
 
         $(document).ready(function() {
             $('#search_username').keypress(function(event) {
