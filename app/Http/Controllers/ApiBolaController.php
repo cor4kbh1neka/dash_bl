@@ -929,8 +929,8 @@ class ApiBolaController extends Controller
 
                     // if ($request->IsCashOut !== true) {
                     /* Winloss Bet Rekap */
-                    // $this->addWinlossStake($request->TransferCode, $portfolio, 0, 'deduct');
-                    // $this->addWinlossStake($request->TransferCode, $portfolio, $WinLoss, 'settle');
+                    $this->addWinlossStake($request->TransferCode, $portfolio, 0, 'deduct');
+                    $this->addWinlossStake($request->TransferCode, $portfolio, $WinLoss, 'settle');
                     // }
 
                     $saldo = $saldoMember;
