@@ -138,6 +138,7 @@ class AddWinlossStakeJob implements ShouldQueue
             'language' => 'en',
             'serverId' => env('SERVERID')
         ];
+        Log::info('get Data Api:', ['data' => $data]);
         $apiUrl = 'https://ex-api-demo-yy.568win.com/web-root/restricted/report/get-bet-list-by-refnos.aspx';
 
         $response = Http::post($apiUrl, $data);
