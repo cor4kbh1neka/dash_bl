@@ -1,6 +1,10 @@
 @extends('layouts.index')
 
 @section('container')
+    {{-- @dd(session('error')) --}}
+    {{-- @php
+        dd(session()->all());
+    @endphp --}}
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/themes/prism.css">
     <div class="sec_table">
@@ -79,8 +83,9 @@
                                                     </svg>
                                                 </a>
                                             </span>
-                                            <span class="datadetailuser showmodal" data-modal="1"
-                                                data-username="{{ $d->username }}" data-jenis="DP">Deposit</span>
+                                            <a href="memberlistds/history/{{ $d->username }}"
+                                                class="datadetailuser openviewport" target="_blank"
+                                                data-username="{{ $d->username }}" data-jenis="DP">Deposit</a>
                                         </div>
                                     </td>
                                     <td>

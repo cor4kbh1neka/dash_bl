@@ -95,7 +95,6 @@
                         <td><span class="name">{{ $d['barcodexrxr'] }}</span></td>
                         <td><span class="name">{{ $d['zwzwshowbarcode'] == 1 ? 'ON' : 'OFF' }}</span></td>
                         <td><span class="name">{{ $d['statusxxyy'] == 1 ? 'Active' : 'Non-Active' }}</span></td>
-                        {{-- <td><span class="name">{{ date('d-m-Y H:i:s', strtotime($d['']tgl_berita)) }}</span></td> --}}
 
                         <td class="kolom_action">
                             <div class="dot_action">

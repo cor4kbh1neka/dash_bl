@@ -28,6 +28,7 @@ class HistoryTransaksi extends Model
 
         static::creating(function ($transaction) {
             $transaction->id = Str::uuid()->toString();
+            $transaction->urutan = static::where('username', $transaction->username)->max('urutan') + 1;
         });
     }
 

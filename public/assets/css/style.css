@@ -2869,6 +2869,14 @@ table svg.icon-tabler-x {
   position: relative;
 }
 
+.tabelproses .bagnot {
+  width: 3%;
+}
+
+.tabelproses .check_box.boxme {
+  width: 3%;
+}
+
 .tabelproses .bagno {
   width: 4%;
 }
@@ -2879,6 +2887,10 @@ table svg.icon-tabler-x {
 
 .tabelproses .baguser {
   width: 15%;
+}
+
+.tabelproses .bagusercc {
+  width: 10%;
 }
 
 .tabelproses .bagtanggal {
@@ -3110,7 +3122,7 @@ table svg.icon-tabler-x {
 
 .groupbuttonproses {
   width: 100%;
-  display: none;
+  display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 20px;
@@ -3144,7 +3156,7 @@ table svg.icon-tabler-x {
 
 .groupdataside {
   width: 40px;
-  min-height: 80dvh;
+  min-height: 80vh;
   display: flex;
   flex-direction: row;
   padding: 10px 10px 10px 0;
@@ -6342,6 +6354,39 @@ input#agentname {
 
 .historybetcc .tabelproses .bagno {
   width: 8%;
+}
+
+.grouprightbtn {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.grouprightbtn .listinputmember .tombol {
+  width: unset;
+}
+
+.grouprightbtn .exportdata {
+  position: relative;
+}
+
+.grouprightbtn .listinputmember .tombol[disabled] {
+  opacity: 0.5;
+}
+
+.tdsearch {
+  padding: unset;
+}
+
+.tdsearch .grubsearchtable {
+  border: unset;
+}
+
+.tabelproses .hdtable.search {
+  top: 36px;
 }
 
 @media screen and (max-width: 800px) {

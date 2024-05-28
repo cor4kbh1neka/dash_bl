@@ -63,6 +63,8 @@
                                             VirtualSports
                                         </option>
                                         <option value="Games" {{ $portfolio == 'Games' ? 'selected' : '' }}>Games</option>
+                                        <option value="SeamlessGame" {{ $portfolio == 'SeamlessGame' ? 'selected' : '' }}>
+                                            SeamlessGame</option>
                                     </select>
                                 </div>
                                 <div class="listinputmember">

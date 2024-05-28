@@ -33,14 +33,17 @@
                 <div class="listgroupplayerinfo left">
                     <div class="listplayerinfo">
                         <label for="xyusernamexxy">username</label>
+                        <input type="hidden" value="{{ $datauser['xyusernamexxy'] }}" name="xyusernamexxy">
                         <input class="nosabel" readonly type="text" id="xyusernamexxy" name="xyusernamexxy"
                             value="{{ $datauser['xyusernamexxy'] }}">
                     </div>
                     <div class="listplayerinfo">
                         <label for="isverified">verified status</label>
-                        <select name="isverified" id="isverified" value="0">
-                            <option value="0" selected>not verified</option>
-                            <option value="1">verified</option>
+                        <select name="isverified" id="isverified" value="">
+                            <option value="0" {{ $datauser['is_verified'] == '0' ? 'selected' : '' }}>not verified
+                            </option>
+                            <option value="1" {{ $datauser['is_verified'] == '1' ? 'selected' : '' }}>verified
+                            </option>
                         </select>
                     </div>
                     <div class="listplayerinfo">

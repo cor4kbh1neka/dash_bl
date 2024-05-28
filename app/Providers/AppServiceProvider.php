@@ -87,7 +87,8 @@ class AppServiceProvider extends ServiceProvider
             'countDP' => $countDataDP,
             'countWD' => $countDataWD,
             'countOuts' => $dataOuts,
-            'countMemo' => $countMemo
+            // 'countMemo' => $countMemo
+            'countMemo' => 0
         ];
     }
 }

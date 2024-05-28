@@ -93,8 +93,6 @@
                         <td><span class="name">{{ $d['tgllhir'] }}</span></td>
                         <td><span class="name">{{ $d['tempatlahir'] }}</span></td>
 
-                        {{-- <td><span class="name">{{ date('d-m-Y H:i:s', strtotime($d['']tgl_berita)) }}</span></td> --}}
-
                         <td class="kolom_action">
                             <div class="dot_action">
                                 <span>•</span>

@@ -2,8 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Balance;
 use App\Models\Member;
 use App\Models\DepoWd;
+use App\Models\ListError;
+use App\Models\Referral1;
+use App\Models\Referral2;
+use App\Models\Referral3;
+use App\Models\Referral4;
+use App\Models\Referral5;
+use App\Models\winlossDay;
+use App\Models\winlossMonth;
+use App\Models\winlossYear;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
@@ -85,7 +95,7 @@ class MemberlistdsController extends Controller
     {
         $query = Member::query()->join('balance', 'balance.username', '=', 'member.username')
                     ->select('member.*', 'balance.amount');
-        $data = $this->filterAndPaginate($query->get(), 2);
+        $data = $this->filterAndPaginate($query->get(), 10);
         return view('memberlistds.index', [
             'title' => 'Member List',
             'data' => $data,
@@ -144,7 +154,7 @@ class MemberlistdsController extends Controller
             'xybankuserxy' => 'required',
             'group' => 'required',
             'groupwd' => 'required',
-            'xxybanknumberxy' => 'required'
+            'xxybanknumberxy' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -161,6 +171,9 @@ class MemberlistdsController extends Controller
                 $updateUser = $this->reqApiUpdateUser($data, $request->xyusernamexxy);
 
                 if ($updateUser["status"] === 'success') {
+
+                    $this->updateIsVerif($request->xyusernamexxy, $request->isverified);
+
                     Member::where('username', $request->xyusernamexxy)->update([
                         'bank' => $request->xybanknamexyy,
                         'namarek' => $request->xybankuserxy,
@@ -176,6 +189,22 @@ class MemberlistdsController extends Controller
                 return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan data.');
             }
         }
+    }
+
+    private function updateIsVerif($username, $isverified)
+    {
+
+        $url = 'https://back-staging.bosraka.com/users/vip/' . $username;
+        $data = [
+            "is_verified" => $isverified == 1 ? true : false
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json; charset=UTF-8',
+        ])->put($url, $data);
+
+        $responseData = $response->json();
+        return $responseData;
     }
 
     public function updatePassowrd(Request $request, $id)
@@ -279,30 +308,39 @@ class MemberlistdsController extends Controller
         return $responseData;
     }
 
-    public function winloseyear()
+    public function winloseyear($username)
     {
-
+        $data = winlossYear::where('username', $username)->get();
         return view('memberlistds.winlose_year', [
             'title' => 'Win Lose Informasi',
             'totalnote' => 0,
+            'data' => $data,
+            'username' => $username
         ]);
     }
 
-    public function winlosemonth()
+    public function winlosemonth($username, $year)
     {
-
+        $data = winlossMonth::where('username', $username)->where('year', $year)->get();
         return view('memberlistds.winlose_month', [
             'title' => 'Win Lose Informasi',
             'totalnote' => 0,
+            'data' => $data,
+            'username' => $username,
+            'year' => $year
         ]);
     }
 
-    public function winloseday()
+    public function winloseday($username, $year, $month)
     {
-
+        $data = winlossDay::where('username', $username)->where('year', $year)->where('month', $month)->get();
         return view('memberlistds.winlose_day', [
             'title' => 'Win Lose Informasi',
             'totalnote' => 0,
+            'username' => $username,
+            'data' => $data,
+            'year' => $year,
+            'month' => $month
         ]);
     }
 

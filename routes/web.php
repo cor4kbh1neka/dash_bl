@@ -36,6 +36,7 @@ use App\Http\Controllers\UsermanagementdsController;
 use App\Http\Controllers\NotifikasidsController;
 use App\Http\Controllers\Menu2Controller;
 use App\Http\Controllers\PersentasedsController;
+use App\Http\Controllers\BonusdsController;
 use App\Models\Xdpwd;
 use App\Models\Outstanding;
 use App\Models\DepoWd;
@@ -240,10 +241,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/memberlistds/updateuser/{id}', [MemberlistdsController::class, 'updateUser']);
     Route::post('/memberlistds/updatepassword/{id}', [MemberlistdsController::class, 'updatePassowrd']);
     Route::post('/memberlistds/updateinfomember/{id}', [MemberlistdsController::class, 'updateMember']);
-    Route::get('/memberlistds/winloseyear', [MemberlistdsController::class, 'winloseyear']);
-    Route::get('/memberlistds/winlosemonth', [MemberlistdsController::class, 'winlosemonth']);
-    Route::get('/memberlistds/winloseday', [MemberlistdsController::class, 'winloseday']);
+    Route::get('/memberlistds/winloseyear/{username}', [MemberlistdsController::class, 'winloseyear']);
+    Route::get('/memberlistds/winlosemonth/{username}/{year}', [MemberlistdsController::class, 'winlosemonth']);
+    Route::get('/memberlistds/winloseday/{username}/{year}/{month}', [MemberlistdsController::class, 'winloseday']);
     Route::get('/memberlistds/history/{username}', [MemberlistdsController::class, 'historybank']);
+    Route::get('/memberlistds/addmember', [MemberlistdsController::class, 'addmember']);
+    Route::post('/memberlistds/store', [MemberlistdsController::class, 'store']);
 
     /*-- Historygameds --*/
     Route::get('/historygameds', [HistorygamedsController::class, 'index']);
@@ -347,5 +350,8 @@ Route::middleware(['auth'])->group(function () {
     /*-- GET NOTIFICATION --*/
     Route::get('/getNotifikasi', [DepoWdController::class, 'getNotifikasi']);
     Route::get('/updateNotifikasi/{id}', [DepoWdController::class, 'updateNotifikasi']);
+
+    /*-- Bonusds --*/
+    Route::get('/bonusds', [BonusdsController::class, 'index']);
 });
 // });

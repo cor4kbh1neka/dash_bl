@@ -140,8 +140,6 @@
                         <td><span class="name">{{ $d['bannerurl'] }}</span></td>
                         <td><span class="name">{{ $d['linkevent'] }}</span></td>
 
-                        {{-- <td><span class="name">{{ date('d-m-Y H:i:s', strtotime($d['']tgl_berita)) }}</span></td> --}}
-
                         <td class="kolom_action">
                             <div class="dot_action">
                                 <span>•</span>

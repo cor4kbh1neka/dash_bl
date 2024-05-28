@@ -9,7 +9,6 @@ use App\Models\TransactionSaldo;
 use App\Models\ProductType;
 use App\Models\Member;
 use App\Models\MemberAktif;
-use App\Models\Outstanding;
 use App\Models\Xreferral;
 use App\Models\Persentase;
 use App\Models\Balance;
@@ -21,6 +20,10 @@ use App\Models\ReferralAktif3;
 use App\Models\ReferralAktif4;
 use App\Models\ReferralAktif5;
 use Illuminate\Support\Facades\Log;
+use App\Jobs\AddHistoryJob;
+use App\Jobs\AddOutstandingJob;
+use App\Jobs\AddWinlossStakeJob;
+use App\Jobs\DeleteOutstandingJob;
 
 use Illuminate\Support\Facades\Http;
 
@@ -194,17 +197,19 @@ class ApiBolaController extends Controller
                     $portfolio = ProductType::where('id', $request->ProductType)->first();
                     $portfolio = $portfolio ? $portfolio->portfolio : '';
 
-                    HistoryTransaksi::create([
-                        'username' => $request->Username,
-                        'invoice' =>  '',
-                        'refno' => $request->TransferCode,
-                        'keterangan' => 'Bonus',
-                        'portfolio' => $portfolio,
-                        'status' => 'bonus',
-                        'debit' => 0,
-                        'kredit' => $request->Amount,
-                        'balance' => $saldoMember
-                    ]);
+                    // HistoryTransaksi::create([
+                    //     'username' => $request->Username,
+                    //     'invoice' =>  '',
+                    //     'refno' => $request->TransferCode,
+                    //     'keterangan' => 'Bonus',
+                    //     'portfolio' => $portfolio,
+                    //     'status' => 'bonus',
+                    //     'debit' => 0,
+                    //     'kredit' => $request->Amount,
+                    //     'balance' => $saldoMember
+                    // ]);
+
+                    $this->addHistoryTranskasi($request->Username, '', $request->TransferCode, 'Bonus', $portfolio, 'bonus', 0, $request->Amount, $saldoMember);
                 }
 
                 $saldo = $saldoMember;
@@ -245,20 +250,22 @@ class ApiBolaController extends Controller
                     if ($porcessBalance["status"] === 'success') {
                         /* Create Queue Job History Transkasi */
                         $saldoMember = $porcessBalance["balance"];
-                        $$portfolio = ProductType::where('id', $request->ProductType)->first();
+                        $portfolio = ProductType::where('id', $request->ProductType)->first();
                         $portfolio = $portfolio ? $portfolio->portfolio : '';
 
-                        HistoryTransaksi::create([
-                            'username' => $request->Username,
-                            'invoice' =>  $txnid,
-                            'refno' => $request->TransferCode,
-                            'keterangan' => 'Returnstake',
-                            'portfolio' => $portfolio,
-                            'status' => 'returnstake',
-                            'debit' => 0,
-                            'kredit' => $request->CurrentStake,
-                            'balance' => $saldoMember
-                        ]);
+                        // HistoryTransaksi::create([
+                        //     'username' => $request->Username,
+                        //     'invoice' =>  $txnid,
+                        //     'refno' => $request->TransferCode,
+                        //     'keterangan' => 'Returnstake',
+                        //     'portfolio' => $portfolio,
+                        //     'status' => 'returnstake',
+                        //     'debit' => 0,
+                        //     'kredit' => $request->CurrentStake,
+                        //     'balance' => $saldoMember
+                        // ]);
+
+                        $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, 'Returnstake', $portfolio, 'returnstake', 0, $request->CurrentStake, $saldoMember);
                     }
 
 
@@ -284,16 +291,14 @@ class ApiBolaController extends Controller
     /* ======================= OUTSTANDING ======================= */
     private function createOutstanding($data)
     {
-        $dataOutstanding = Outstanding::where('transactionid', $data["transactionid"])->first();
-        if (!$dataOutstanding) {
-            return Outstanding::create($data);
-        }
-        return [];
+        AddOutstandingJob::dispatch($data);
+        return;
     }
 
     private function deleteOutstanding($transfercode)
     {
-        return Outstanding::where('transfercode', $transfercode)->delete();
+        deleteOutstandingJob::dispatch($transfercode);
+        return;
     }
 
 
@@ -323,7 +328,7 @@ class ApiBolaController extends Controller
     private function setRollback(Request $request, $dataTransaction, $saldoMember)
     {
         try {
-            $dataTransactions = Transactions::where('transactionid', $dataTransaction->transactionid)->first();
+            // $dataTransactions = Transactions::where('transactionid', $dataTransaction->transactionid)->first();
             $lastStatus = TransactionStatus::where('trans_id', $dataTransaction->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
             if ($lastStatus->status === 'Cancel') {
                 $crteateStatusTransaction = $this->updateTranStatus($dataTransaction->id, 'Rollback');
@@ -376,17 +381,19 @@ class ApiBolaController extends Controller
                         $dataPortfolio = ProductType::where('id', $request->ProductType)->first();
                         $portfolio = $dataPortfolio ? $dataPortfolio->portfolio : '';
 
-                        HistoryTransaksi::create([
-                            'username' => $request->Username,
-                            'invoice' =>  $txnid,
-                            'refno' => $request->TransferCode,
-                            'keterangan' => $portfolio,
-                            'portfolio' => $portfolio,
-                            'status' => 'rollback',
-                            'debit' => $totalAmount,
-                            'kredit' => 0,
-                            'balance' => $saldoMember
-                        ]);
+                        // HistoryTransaksi::create([
+                        //     'username' => $request->Username,
+                        //     'invoice' =>  $txnid,
+                        //     'refno' => $request->TransferCode,
+                        //     'keterangan' => $portfolio,
+                        //     'portfolio' => $portfolio,
+                        //     'status' => 'rollback',
+                        //     'debit' => $totalAmount,
+                        //     'kredit' => 0,
+                        //     'balance' => $saldoMember
+                        // ]);
+
+                        $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'rollback', $totalAmount, 0, $saldoMember);
                     }
 
                     $saldo = $saldoMember;
@@ -438,21 +445,23 @@ class ApiBolaController extends Controller
                                 $portfolio = ProductType::where('id', $request->ProductType)->first();
                                 $portfolio = $portfolio ? $portfolio->portfolio : '';
                                 /* Create Queue Job History Transkasi */
-                                HistoryTransaksi::create([
-                                    'username' => $request->Username,
-                                    'invoice' =>  $txnid,
-                                    'refno' => $request->TransferCode,
-                                    'keterangan' => $portfolio,
-                                    'portfolio' => $portfolio,
-                                    'status' => 'cancel',
-                                    'debit' => $dataTransactions->amount,
-                                    'kredit' => 0,
-                                    'balance' => $saldoMember
-                                ]);
+                                // HistoryTransaksi::create([
+                                //     'username' => $request->Username,
+                                //     'invoice' =>  $txnid,
+                                //     'refno' => $request->TransferCode,
+                                //     'keterangan' => $portfolio,
+                                //     'portfolio' => $portfolio,
+                                //     'status' => 'cancel',
+                                //     'debit' => $dataTransactions->amount,
+                                //     'kredit' => 0,
+                                //     'balance' => $saldoMember
+                                // ]);
+
+                                $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', $dataTransactions->amount, 0, $saldoMember);
+                                $this->addWinlossStake($request->TransferCode, $portfolio, $dataTransactions->amount, 'cancel');
                             }
                         }
                     } else {
-
                         $dataReferral = HistoryTransaksi::where('refno', $request->TransferCode)->where('status', 'referral')->first();
                         if ($dataReferral) {
                             $porcessBalance = $this->processBalance($dataReferral->username, 'WD', $dataReferral->kredit);
@@ -461,17 +470,21 @@ class ApiBolaController extends Controller
                                 $portfolio = ProductType::where('id', $request->ProductType)->first();
                                 $portfolio = $portfolio ? $portfolio->portfolio : '';
 
-                                HistoryTransaksi::create([
-                                    'username' => $dataReferral->username,
-                                    'invoice' =>  $txnid,
-                                    'refno' => $request->TransferCode,
-                                    'keterangan' => 'Bonus',
-                                    'portfolio' => $portfolio,
-                                    'status' => 'cancel',
-                                    'debit' => $dataReferral->kredit,
-                                    'kredit' => 0,
-                                    'balance' => $porcessBalance["balance"]
-                                ]);
+                                // HistoryTransaksi::create([
+                                //     'username' => $dataReferral->username,
+                                //     'invoice' =>  $txnid,
+                                //     'refno' => $request->TransferCode,
+                                //     'keterangan' => 'Bonus',
+                                //     'portfolio' => $portfolio,
+                                //     'status' => 'cancel',
+                                //     'debit' => $dataReferral->kredit,
+                                //     'kredit' => 0,
+                                //     'balance' => $porcessBalance["balance"]
+                                // ]);
+
+                                $this->addHistoryTranskasi($dataReferral->username, $txnid, $request->TransferCode, 'Bonus', $portfolio, 'cancel', $dataReferral->kredit, 0, $porcessBalance["balance"]);
+                                $dataTransactionsS2 = TransactionSaldo::where('transtatus_id', $last2ndStatus->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
+                                $this->addWinlossStake($request->TransferCode, $portfolio, ($dataTransactionsS2->amount * -1), 'cancel');
                             }
                         }
                     }
@@ -498,17 +511,19 @@ class ApiBolaController extends Controller
                                 $portfolio = $portfolio ? $portfolio->portfolio : '';
 
                                 /* Create Queue Job History Transkasi */
-                                HistoryTransaksi::create([
-                                    'username' => $request->Username,
-                                    'invoice' =>  $txnid,
-                                    'refno' => $request->TransferCode,
-                                    'keterangan' => $portfolio,
-                                    'portfolio' => $portfolio,
-                                    'status' => 'cancel',
-                                    'debit' => 0,
-                                    'kredit' => $totalAmount,
-                                    'balance' => $saldoMember
-                                ]);
+                                // HistoryTransaksi::create([
+                                //     'username' => $request->Username,
+                                //     'invoice' =>  $txnid,
+                                //     'refno' => $request->TransferCode,
+                                //     'keterangan' => $portfolio,
+                                //     'portfolio' => $portfolio,
+                                //     'status' => 'cancel',
+                                //     'debit' => 0,
+                                //     'kredit' => $totalAmount,
+                                //     'balance' => $saldoMember
+                                // ]);
+
+                                $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', 0, $totalAmount, $saldoMember);
                             }
                         }
 
@@ -536,17 +551,19 @@ class ApiBolaController extends Controller
                                         $portfolio = ProductType::where('id', $request->ProductType)->first();
                                         $portfolio = $portfolio ? $portfolio->portfolio : '';
                                         /* Create Queue Job History Transkasi */
-                                        HistoryTransaksi::create([
-                                            'username' => $request->Username,
-                                            'invoice' =>  $txnid,
-                                            'refno' => $request->TransferCode,
-                                            'keterangan' => 'ReturnStake',
-                                            'portfolio' => $portfolio,
-                                            'status' => 'cancel',
-                                            'debit' => $trReturnStake->amount,
-                                            'kredit' => 0,
-                                            'balance' => $saldoMember
-                                        ]);
+                                        // HistoryTransaksi::create([
+                                        //     'username' => $request->Username,
+                                        //     'invoice' =>  $txnid,
+                                        //     'refno' => $request->TransferCode,
+                                        //     'keterangan' => 'ReturnStake',
+                                        //     'portfolio' => $portfolio,
+                                        //     'status' => 'cancel',
+                                        //     'debit' => $trReturnStake->amount,
+                                        //     'kredit' => 0,
+                                        //     'balance' => $saldoMember
+                                        // ]);
+
+                                        $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, 'ReturnStake', $portfolio, 'cancel', $trReturnStake->amount, 0, $saldoMember);
                                     }
                                 }
                             }
@@ -573,17 +590,19 @@ class ApiBolaController extends Controller
                             $portfolio = ProductType::where('id', $request->ProductType)->first();
                             $portfolio = $portfolio ? $portfolio->portfolio : '';
                             /* Create Queue Job History Transkasi */
-                            HistoryTransaksi::create([
-                                'username' => $request->Username,
-                                'invoice' =>  $txnid,
-                                'refno' => $request->TransferCode,
-                                'keterangan' => $portfolio,
-                                'portfolio' => $portfolio,
-                                'status' => 'cancel',
-                                'debit' => 0,
-                                'kredit' => $totalAmount,
-                                'balance' => $saldoMember
-                            ]);
+                            // HistoryTransaksi::create([
+                            //     'username' => $request->Username,
+                            //     'invoice' =>  $txnid,
+                            //     'refno' => $request->TransferCode,
+                            //     'keterangan' => $portfolio,
+                            //     'portfolio' => $portfolio,
+                            //     'status' => 'cancel',
+                            //     'debit' => 0,
+                            //     'kredit' => $totalAmount,
+                            //     'balance' => $saldoMember
+                            // ]);
+
+                            $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', 0, $totalAmount, $saldoMember);
                         }
                     }
                 } else if ($lastStatus->status == 'ReturnStake') {
@@ -618,17 +637,19 @@ class ApiBolaController extends Controller
                                         $portfolio = ProductType::where('id', $request->ProductType)->first();
                                         $portfolio = $portfolio ? $portfolio->portfolio : '';
                                         /* Create Queue Job History Transkasi */
-                                        HistoryTransaksi::create([
-                                            'username' => $request->Username,
-                                            'invoice' =>  $txnid,
-                                            'refno' => $request->TransferCode,
-                                            'keterangan' => 'ReturnStake',
-                                            'portfolio' => $portfolio,
-                                            'status' => 'cancel',
-                                            'debit' => $trReturnStake->amount,
-                                            'kredit' => 0,
-                                            'balance' => $saldoMember
-                                        ]);
+                                        // HistoryTransaksi::create([
+                                        //     'username' => $request->Username,
+                                        //     'invoice' =>  $txnid,
+                                        //     'refno' => $request->TransferCode,
+                                        //     'keterangan' => $portfolio,
+                                        //     'portfolio' => $portfolio,
+                                        //     'status' => 'cancel',
+                                        //     'debit' => $trReturnStake->amount,
+                                        //     'kredit' => 0,
+                                        //     'balance' => $saldoMember
+                                        // ]);
+
+                                        $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', $trReturnStake->amount, 0, $saldoMember);
                                     }
                                 }
                             }
@@ -645,17 +666,19 @@ class ApiBolaController extends Controller
                                 $portfolio = ProductType::where('id', $request->ProductType)->first();
                                 $portfolio = $portfolio ? $portfolio->portfolio : '';
                                 /* Create Queue Job History Transkasi */
-                                HistoryTransaksi::create([
-                                    'username' => $request->Username,
-                                    'invoice' =>  $txnid,
-                                    'refno' => $request->TransferCode,
-                                    'keterangan' => 'ReturnStake',
-                                    'portfolio' => $portfolio,
-                                    'status' => 'cancel',
-                                    'debit' => 0,
-                                    'kredit' => $totalAmount,
-                                    'balance' => $saldoMember
-                                ]);
+                                // HistoryTransaksi::create([
+                                //     'username' => $request->Username,
+                                //     'invoice' =>  $txnid,
+                                //     'refno' => $request->TransferCode,
+                                //     'keterangan' => 'ReturnStake',
+                                //     'portfolio' => $portfolio,
+                                //     'status' => 'cancel',
+                                //     'debit' => 0,
+                                //     'kredit' => $totalAmount,
+                                //     'balance' => $saldoMember
+                                // ]);
+
+                                $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, 'ReturnStake', $portfolio, 'cancel', 0, $totalAmount, $saldoMember);
                             }
                         }
                     }
@@ -678,7 +701,7 @@ class ApiBolaController extends Controller
     {
         $last2ndStatus = TransactionStatus::where('trans_id', $dataTransaction->id)
             ->where('id', '!=', $lastStatus->id)
-            ->whereIn('status', ['Running', 'Settled', 'Rollback'])
+            ->whereIn('status', ['Running', 'Rollback'])
             ->orderBy('created_at', 'DESC')
             ->orderBy('urutan', 'DESC')
             ->first();
@@ -696,17 +719,20 @@ class ApiBolaController extends Controller
                     $portfolio = ProductType::where('id', $request->ProductType)->first();
                     $portfolio = $portfolio ? $portfolio->portfolio : '';
                     /* Create Queue Job History Transkasi */
-                    HistoryTransaksi::create([
-                        'username' => $request->Username,
-                        'invoice' =>  '',
-                        'refno' => $request->TransferCode,
-                        'keterangan' => $portfolio,
-                        'portfolio' => $portfolio,
-                        'status' => 'cancel',
-                        'debit' => $dataTransactions->amount,
-                        'kredit' => 0,
-                        'balance' => $saldoMember
-                    ]);
+                    // HistoryTransaksi::create([
+                    //     'username' => $request->Username,
+                    //     'invoice' =>  '',
+                    //     'refno' => $request->TransferCode,
+                    //     'keterangan' => $portfolio,
+                    //     'portfolio' => $portfolio,
+                    //     'status' => 'cancel',
+                    //     'debit' => $dataTransactions->amount,
+                    //     'kredit' => 0,
+                    //     'balance' => $saldoMember
+                    // ]);
+
+                    $this->addHistoryTranskasi($request->Username, '', $request->TransferCode, $portfolio, $portfolio, 'cancel', $dataTransactions->amount, 0, $saldoMember);
+                    $this->addWinlossStake($request->TransferCode, $portfolio, ($dataTransactions->amount * -1), 'rollback');
                 }
             } else {
                 /* Cancel Referral */
@@ -720,16 +746,23 @@ class ApiBolaController extends Controller
                         $portfolio = ProductType::where('id', $request->ProductType)->first();
                         $portfolio = $portfolio ? $portfolio->portfolio : '';
 
-                        HistoryTransaksi::create([
-                            'username' => $dataHistory->username,
-                            'invoice' =>  '-',
-                            'refno' => $request->TransferCode,
-                            'portfolio' => $portfolio,
-                            'keterangan' => 'Bonus',
-                            'status' => 'cancel',
-                            'debit' => $dataHistory->kredit,
-                            'kredit' => $saldoMember
-                        ]);
+                        // HistoryTransaksi::create([
+                        //     'username' => $dataHistory->username,
+                        //     'invoice' =>  '',
+                        //     'refno' => $request->TransferCode,
+                        //     'portfolio' => $portfolio,
+                        //     'keterangan' => 'Bonus',
+                        //     'status' => 'cancel',
+                        //     'debit' => $dataHistory->kredit,
+                        //     'kredit' => 0,
+                        //     'kredit' => $saldoMember
+                        // ]);
+
+                        $this->addHistoryTranskasi($dataHistory->username, '', $request->TransferCode, 'Bonus', $portfolio, 'cancel', $dataHistory->kredit, 0, $saldoMember);
+
+                        /* Win Loss */
+                        $dataTransactionsS2 = TransactionSaldo::where('transtatus_id', $last2ndStatus->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
+                        $this->addWinlossStake($request->TransferCode, $portfolio, ($dataTransactionsS2->amount * -1), 'rollback');
 
                         /* Update Data Referral */
                         // if (preg_match('/^[a-e]/i', $dataHistory->referral)) {
@@ -807,22 +840,23 @@ class ApiBolaController extends Controller
                         $portfolio = ProductType::where('id', $request->ProductType)->first();
                         $portfolio = $portfolio ? $portfolio->portfolio : '';
 
-                        HistoryTransaksi::create([
-                            'username' => $request->Username,
-                            'invoice' =>  $txnid,
-                            'refno' => $request->TransferCode,
-                            'keterangan' => $portfolio,
-                            'portfolio' => $portfolio,
-                            'status' => 'rollback',
-                            'debit' => 0,
-                            'kredit' => $totalAmount,
-                            'balance' => $saldoMember
-                        ]);
+                        // HistoryTransaksi::create([
+                        //     'username' => $request->Username,
+                        //     'invoice' =>  $txnid,
+                        //     'refno' => $request->TransferCode,
+                        //     'keterangan' => $portfolio,
+                        //     'portfolio' => $portfolio,
+                        //     'status' => 'rollback',
+                        //     'debit' => 0,
+                        //     'kredit' => $totalAmount,
+                        //     'balance' => $saldoMember
+                        // ]);
+
+                        $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'rollback', 0, $totalAmount, $saldoMember);
                     }
                     /* Create Queue Job History Transkasi */
                 }
             }
-
             return $this->rollbackTransaction($request, $dataTransaction, $crteateStatusTransaction, $saldoMember);
         }
     }
@@ -844,6 +878,8 @@ class ApiBolaController extends Controller
                 if ($saldoTransaction) {
 
                     // $checkXtrans = Xtrans::where('username', $request->Username)->whereDate('created_at', '=', date('Y-m-d'))->first();
+                    $portfolio = ProductType::where('id', $request->ProductType)->first();
+                    $portfolio = $portfolio ? $portfolio->portfolio : '';
 
                     if ($WinLoss > 0) {
                         // if ($checkXtrans) {
@@ -869,25 +905,33 @@ class ApiBolaController extends Controller
                         if ($porcessBalance["status"] === 'success') {
                             /* Create History Transaksi */
                             $saldoMember = $porcessBalance["balance"];
-                            $portfolio = ProductType::where('id', $request->ProductType)->first();
-                            $portfolio = $portfolio ? $portfolio->portfolio : '';
 
-                            HistoryTransaksi::create([
-                                'username' => $request->Username,
-                                'invoice' =>  $txnid,
-                                'refno' => $request->TransferCode,
-                                'keterangan' => $portfolio,
-                                'portfolio' => $portfolio,
-                                'status' => $request->IsCashOut === true ? 'cashout' : 'menang',
-                                'debit' => 0,
-                                'kredit' => $WinLoss,
-                                'balance' => $saldoMember
-                            ]);
+                            // HistoryTransaksi::create([
+                            //     'username' => $request->Username,
+                            //     'invoice' =>  $txnid,
+                            //     'refno' => $request->TransferCode,
+                            //     'keterangan' => $portfolio,
+                            //     'portfolio' => $portfolio,
+                            //     'status' => $request->IsCashOut === true ? 'cashout' : 'menang',
+                            //     'debit' => 0,
+                            //     'kredit' => $WinLoss,
+                            //     'balance' => $saldoMember
+                            // ]);
+
+                            $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, $request->IsCashOut === true ? 'cashout' : 'menang', 0, $WinLoss, $saldoMember);
+                            $this->addWinlossStake($request->TransferCode, $portfolio, $WinLoss, 'settle');
                         }
                     } else {
+                        $WinLoss = TransactionSaldo::where('transtatus_id', $dataStatusTransaction->id)->orderBy('urutan', 'asc')->first()->amount;
+                        $this->addWinlossStake($request->TransferCode, $portfolio, ($WinLoss * -1), 'settle');
                         /* Referral */
-                        $this->execReferral($request, $dataStatusTransaction);
+                        $this->execReferral($request, $WinLoss);
                     }
+
+                    // if ($request->IsCashOut !== true) {
+                    /* Winloss Bet Rekap */
+
+                    // }
 
                     $saldo = $saldoMember;
                     return [
@@ -907,7 +951,7 @@ class ApiBolaController extends Controller
         }
     }
 
-    private function execReferral(Request $request, $dataStatusTransaction)
+    private function execReferral(Request $request, $amount)
     {
         $dataAktif = MemberAktif::where('username', $request->Username)->first();
         if (!$dataAktif) {
@@ -916,7 +960,6 @@ class ApiBolaController extends Controller
 
         if ($dataAktif) {
             if ($dataAktif->referral !== '' && $dataAktif->referral !== null) {
-                $amount = TransactionSaldo::where('transtatus_id', $dataStatusTransaction->id)->orderBy('urutan', 'asc')->first()->amount;
                 $portfolio = ProductType::where('id', $request->ProductType)->first();
                 $portfolio = $portfolio ? $portfolio->portfolio : 'SportsBook';
 
@@ -1005,16 +1048,20 @@ class ApiBolaController extends Controller
                         }
 
                         /* Create History Transaksi */
-                        HistoryTransaksi::create([
-                            'username' => $dataAktif->referral,
-                            'invoice' =>  '-',
-                            'refno' => $request->TransferCode,
-                            'keterangan' => 'Bonus',
-                            'portfolio' => $portfolio,
-                            'status' => 'referral',
-                            'debit' => 0,
-                            'kredit' => $referralAmount
-                        ]);
+                        $saldoMember = Balance::where('username', $dataAktif->referral)->first()->amount;
+                        // HistoryTransaksi::create([
+                        //     'username' => $dataAktif->referral,
+                        //     'invoice' =>  '',
+                        //     'refno' => $request->TransferCode,
+                        //     'keterangan' => 'Bonus',
+                        //     'portfolio' => $portfolio,
+                        //     'status' => 'referral',
+                        //     'debit' => 0,
+                        //     'kredit' => $referralAmount,
+                        //     'balance' => $saldoMember
+                        // ]);
+
+                        $this->addHistoryTranskasi($dataAktif->referral, '', $request->TransferCode, 'Bonus', $portfolio, 'referral', 0, $referralAmount, $saldoMember);
                     }
                 }
             }
@@ -1133,17 +1180,19 @@ class ApiBolaController extends Controller
                     $dataPortfolio = ProductType::where('id', $request->ProductType)->first();
                     $portfolio = $dataPortfolio ? $dataPortfolio->portfolio : '';
 
-                    HistoryTransaksi::create([
-                        'username' => $request->Username,
-                        'invoice' =>  '-',
-                        'refno' => $request->TransferCode,
-                        'keterangan' => $portfolio,
-                        'portfolio' => $portfolio,
-                        'status' => 'pemasangan',
-                        'debit' => $request->Amount,
-                        'kredit' => 0,
-                        'balance' => $saldoMember
-                    ]);
+                    // HistoryTransaksi::create([
+                    //     'username' => $request->Username,
+                    //     'invoice' =>  '',
+                    //     'refno' => $request->TransferCode,
+                    //     'keterangan' => $portfolio,
+                    //     'portfolio' => $portfolio,
+                    //     'status' => 'pemasangan',
+                    //     'debit' => $request->Amount,
+                    //     'kredit' => 0,
+                    //     'balance' => $saldoMember
+                    // ]);
+
+                    $this->addHistoryTranskasi($request->Username, '', $request->TransferCode, $portfolio, $portfolio, 'pemasangan', $request->Amount, 0, $saldoMember);
 
                     /* Create Outstanding */
                     $this->createOutstanding([
@@ -1325,5 +1374,61 @@ class ApiBolaController extends Controller
             'ErrorCode' => $errorCode,
             'ErrorMessage' => $errorMessage
         ];
+    }
+
+    private function addWinlossStake($transfercode, $portfolio, $amount, $jenis)
+    {
+        $winlossData = [
+            'transfercode' => '4669397',
+            'portfolio' => $portfolio,
+            'amount' => $amount,
+            'jenis' => $jenis
+        ];
+
+        AddWinlossStakeJob::dispatch($winlossData);
+    }
+
+    // private function getApi($refNos, $portfolio)
+    // {
+    //     $data = [
+    //         'refNos' => $refNos,
+    //         'portfolio' => $portfolio,
+    //         'companyKey' => env('COMPANY_KEY'),
+    //         'language' => 'en',
+    //         'serverId' => env('SERVERID')
+    //     ];
+    //     $apiUrl = 'https://ex-api-demo-yy.568win.com/web-root/restricted/report/get-bet-list-by-refnos.aspx';
+
+    //     $response = Http::post($apiUrl, $data);
+    //     return $response->json();
+    // }
+
+    // private function cancelWinlossStake($transfercode, $portfolio)
+    // {
+    //     $winlossData = [
+    //         'transfercode' => '4668995',
+    //         'portfolio' => $portfolio
+    //     ];
+    //     CancelWinlossStakeJob::dispatch($winlossData);
+    //     return;
+    // }
+
+    private function addHistoryTranskasi($username, $txnid, $refno, $keterangan, $portfolio, $status, $debit, $kredit, $balance)
+    {
+        $historyData = [
+            'username' => $username,
+            'invoice' =>  $txnid,
+            'refno' => $refno,
+            'keterangan' => $keterangan,
+            'portfolio' => $portfolio,
+            'status' => $status,
+            'debit' => $debit,
+            'kredit' => $kredit,
+            'balance' => $balance
+        ];
+
+        AddHistoryJob::dispatch($historyData);
+
+        return;
     }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('debit', 15, 2)->default(0);
             $table->decimal('kredit', 15, 2)->default(0);
             $table->decimal('balance', 15, 2)->default(0);
+            $table->integer('urutan')->default(1);
             $table->timestamps();
         });
     }

@@ -96,7 +96,6 @@
                         </td>
                         <td><span class="name">{{ $d['title'] }}</span></td>
                         <td><span class="name">{{ $d['content'] }}</span></td>
-                        {{-- <td><span class="name">{{ date('d-m-Y H:i:s', strtotime($d['']tgl_berita)) }}</span></td> --}}
 
                         <td class="kolom_action">
                             <div class="dot_action">

@@ -9,7 +9,7 @@ use App\Models\Agents;
 class Players extends Model
 {
     use HasFactory;
-    public $incrementing = false;
+
     protected $fillable = ['id', 'agentid', 'username', 'password', 'usergroup'];
     protected $table = 'user_players';
 
