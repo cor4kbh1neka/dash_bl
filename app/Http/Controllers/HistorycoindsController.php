@@ -10,7 +10,6 @@ class HistorycoindsController extends Controller
     public function index(Request $request)
     {
 
-
         if ($request->query('search_status') == 'accept') {
             $status = 1;
         } else if ($request->query('search_status') == 'cancel') {

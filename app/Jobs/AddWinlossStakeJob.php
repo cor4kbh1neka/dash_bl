@@ -37,12 +37,11 @@ class AddWinlossStakeJob implements ShouldQueue
             $jenis = $this->data['jenis'];
 
             $response = $this->getApi($transfercode, $portfolio);
-            Log::info('get Data Api:', ['response' => $response]);
+            Log::info('get Data Api:', ['amountWL' => $amountWL]);
             if ($response["error"]["id"] === 0) {
                 $results = $response["result"][0];
                 $username = $results['username'];
                 $amount = $results['stake'];
-                $winloss = $results['winLost'];
 
                 $winlossbet_day = WinlossbetDay::where('username', $username)
                     ->where('portfolio', $portfolio)
@@ -50,14 +49,14 @@ class AddWinlossStakeJob implements ShouldQueue
                     ->where('month', date('m'))
                     ->where('year', date('Y'))->first();
 
-                // Log::info('get Data Api:', ['amount' => $amount, 'winloss' => $winloss == 0 ? $amountWL : $winloss]);
+                // Log::info('get Data Api:', ['amount' => $amount, 'winloss' => $amountWL]);
                 if ($winlossbet_day) {
                     if ($jenis == 'settle') {
                         $winlossbet_day->increment('stake', $amount);
-                        $winlossbet_day->increment('winloss', $winloss == 0 ? $amountWL : $winloss);
+                        $winlossbet_day->increment('winloss', $amountWL);
                     } else if ($jenis == 'cancel' || $jenis == 'rollback') {
                         $winlossbet_day->decrement('stake', $amount);
-                        $winlossbet_day->decrement('winloss', $winloss == 0 ? $amountWL : $winloss);
+                        $winlossbet_day->decrement('winloss', $amountWL);
                     }
                 } else {
                     $winlossbet_day = WinlossbetDay::create([
@@ -67,7 +66,7 @@ class AddWinlossStakeJob implements ShouldQueue
                         'month' => date('m'),
                         'year' => date('Y'),
                         'stake' => $amount,
-                        'winloss' => $winloss == 0 ? $amountWL : $winloss
+                        'winloss' => $amountWL
                     ]);
                 }
 
@@ -80,10 +79,10 @@ class AddWinlossStakeJob implements ShouldQueue
                 if ($winlossbet_month) {
                     if ($jenis == 'settle') {
                         $winlossbet_month->increment('stake', $amount);
-                        $winlossbet_month->increment('winloss', $winloss == 0 ? $amountWL : $winloss);
+                        $winlossbet_month->increment('winloss', $amountWL);
                     } else if ($jenis == 'cancel' || $jenis == 'rollback') {
                         $winlossbet_month->decrement('stake', $amount);
-                        $winlossbet_month->decrement('winloss', $winloss == 0 ? $amountWL : $winloss);
+                        $winlossbet_month->decrement('winloss', $amountWL);
                     }
                 } else {
                     $winlossbet_month = WinlossbetMonth::create([
@@ -92,7 +91,7 @@ class AddWinlossStakeJob implements ShouldQueue
                         'month' => date('m'),
                         'year' => date('Y'),
                         'stake' => $amount,
-                        'winloss' => $winloss == 0 ? $amountWL : $winloss
+                        'winloss' => $amountWL
                     ]);
                 }
 
@@ -104,10 +103,10 @@ class AddWinlossStakeJob implements ShouldQueue
                 if ($winlossbet_year) {
                     if ($jenis == 'settle') {
                         $winlossbet_year->increment('stake', $amount);
-                        $winlossbet_year->increment('winloss', $winloss == 0 ? $amountWL : $winloss);
+                        $winlossbet_year->increment('winloss', $amountWL);
                     } else if ($jenis == 'cancel' || $jenis == 'rollback') {
                         $winlossbet_year->decrement('stake', $amount);
-                        $winlossbet_year->decrement('winloss', $winloss == 0 ? $amountWL : $winloss);
+                        $winlossbet_year->decrement('winloss', $amountWL);
                     }
                 } else {
                     WinlossbetYear::create([
@@ -115,7 +114,7 @@ class AddWinlossStakeJob implements ShouldQueue
                         'portfolio' => $portfolio,
                         'year' => date('Y'),
                         'stake' => $amount,
-                        'winloss' => $winloss == 0 ? $amountWL : $winloss
+                        'winloss' => $amountWL
                     ]);
                 }
 

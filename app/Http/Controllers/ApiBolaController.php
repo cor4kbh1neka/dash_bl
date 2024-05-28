@@ -458,6 +458,7 @@ class ApiBolaController extends Controller
                                 // ]);
 
                                 $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', $dataTransactions->amount, 0, $saldoMember);
+                                $this->addWinlossStake($request->TransferCode, $portfolio, $dataTransactions->amount, 'cancel');
                             }
                         }
                     } else {
@@ -482,6 +483,8 @@ class ApiBolaController extends Controller
                                 // ]);
 
                                 $this->addHistoryTranskasi($dataReferral->username, $txnid, $request->TransferCode, 'Bonus', $portfolio, 'cancel', $dataReferral->kredit, 0, $porcessBalance["balance"]);
+                                $dataTransactionsS2 = TransactionSaldo::where('transtatus_id', $last2ndStatus->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
+                                $this->addWinlossStake($request->TransferCode, $portfolio, ($dataTransactionsS2->amount * -1), 'cancel');
                             }
                         }
                     }
@@ -566,7 +569,6 @@ class ApiBolaController extends Controller
                             }
                         }
                     }
-                    $this->addWinlossStake($request->TransferCode, $portfolio, $dataTransactions->amount, 'cancel');
                 } else if ($lastStatus->status == 'Running' || $lastStatus->status == 'Rollback') {
                     if ($request->ProductType == 3 || $request->ProductType == 7) {
                         $totalAmount = TransactionSaldo::where('transtatus_id', $lastStatus->id)->sum('amount');
@@ -699,7 +701,7 @@ class ApiBolaController extends Controller
     {
         $last2ndStatus = TransactionStatus::where('trans_id', $dataTransaction->id)
             ->where('id', '!=', $lastStatus->id)
-            ->whereIn('status', ['Running', 'Settled', 'Rollback'])
+            ->whereIn('status', ['Running', 'Rollback'])
             ->orderBy('created_at', 'DESC')
             ->orderBy('urutan', 'DESC')
             ->first();
@@ -730,6 +732,7 @@ class ApiBolaController extends Controller
                     // ]);
 
                     $this->addHistoryTranskasi($request->Username, '', $request->TransferCode, $portfolio, $portfolio, 'cancel', $dataTransactions->amount, 0, $saldoMember);
+                    $this->addWinlossStake($request->TransferCode, $portfolio, ($dataTransactions->amount * -1), 'rollback');
                 }
             } else {
                 /* Cancel Referral */
@@ -756,6 +759,10 @@ class ApiBolaController extends Controller
                         // ]);
 
                         $this->addHistoryTranskasi($dataHistory->username, '', $request->TransferCode, 'Bonus', $portfolio, 'cancel', $dataHistory->kredit, 0, $saldoMember);
+
+                        /* Win Loss */
+                        $dataTransactionsS2 = TransactionSaldo::where('transtatus_id', $last2ndStatus->id)->orderBy('created_at', 'DESC')->orderBy('urutan', 'DESC')->first();
+                        $this->addWinlossStake($request->TransferCode, $portfolio, ($dataTransactionsS2->amount * -1), 'rollback');
 
                         /* Update Data Referral */
                         // if (preg_match('/^[a-e]/i', $dataHistory->referral)) {
@@ -850,7 +857,6 @@ class ApiBolaController extends Controller
                     /* Create Queue Job History Transkasi */
                 }
             }
-            $this->addWinlossStake($request->TransferCode, $portfolio, $dataTransactions->amount, 'rollback');
             return $this->rollbackTransaction($request, $dataTransaction, $crteateStatusTransaction, $saldoMember);
         }
     }
@@ -913,11 +919,11 @@ class ApiBolaController extends Controller
                             // ]);
 
                             $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, $request->IsCashOut === true ? 'cashout' : 'menang', 0, $WinLoss, $saldoMember);
+                            $this->addWinlossStake($request->TransferCode, $portfolio, $WinLoss, 'settle');
                         }
-                        $this->addWinlossStake($request->TransferCode, $portfolio, $WinLoss, 'settle');
                     } else {
                         $WinLoss = TransactionSaldo::where('transtatus_id', $dataStatusTransaction->id)->orderBy('urutan', 'asc')->first()->amount;
-                        $this->addWinlossStake($request->TransferCode, $portfolio, $WinLoss, 'settle');
+                        $this->addWinlossStake($request->TransferCode, $portfolio, ($WinLoss * -1), 'settle');
                         /* Referral */
                         $this->execReferral($request, $WinLoss);
                     }
