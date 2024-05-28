@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Log;
 use App\Jobs\AddHistoryJob;
 use App\Jobs\AddOutstandingJob;
 use App\Jobs\AddWinlossStakeJob;
-use App\Jobs\CancelWinlossStakeJob;
 use App\Jobs\DeleteOutstandingJob;
 
 use Illuminate\Support\Facades\Http;
@@ -395,7 +394,6 @@ class ApiBolaController extends Controller
                         // ]);
 
                         $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'rollback', $totalAmount, 0, $saldoMember);
-                        $this->addWinlossStake($request->TransferCode, $portfolio, $totalAmount, 'deduct');
                     }
 
                     $saldo = $saldoMember;
@@ -460,11 +458,9 @@ class ApiBolaController extends Controller
                                 // ]);
 
                                 $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', $dataTransactions->amount, 0, $saldoMember);
-                                $this->cancelWinlossStake($request->TransferCode, $portfolio, $dataTransactions->amount, 'settle');
                             }
                         }
                     } else {
-
                         $dataReferral = HistoryTransaksi::where('refno', $request->TransferCode)->where('status', 'referral')->first();
                         if ($dataReferral) {
                             $porcessBalance = $this->processBalance($dataReferral->username, 'WD', $dataReferral->kredit);
@@ -525,7 +521,6 @@ class ApiBolaController extends Controller
                                 // ]);
 
                                 $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', 0, $totalAmount, $saldoMember);
-                                $this->cancelWinlossStake($request->TransferCode, $portfolio, $totalAmount, 'deduct');
                             }
                         }
 
@@ -566,12 +561,12 @@ class ApiBolaController extends Controller
                                         // ]);
 
                                         $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, 'ReturnStake', $portfolio, 'cancel', $trReturnStake->amount, 0, $saldoMember);
-                                        $this->cancelWinlossStake($request->TransferCode, $portfolio, $trReturnStake->amount, 'settle');
                                     }
                                 }
                             }
                         }
                     }
+                    $this->addWinlossStake($request->TransferCode, $portfolio, $dataTransactions->amount, 'cancel');
                 } else if ($lastStatus->status == 'Running' || $lastStatus->status == 'Rollback') {
                     if ($request->ProductType == 3 || $request->ProductType == 7) {
                         $totalAmount = TransactionSaldo::where('transtatus_id', $lastStatus->id)->sum('amount');
@@ -606,7 +601,6 @@ class ApiBolaController extends Controller
                             // ]);
 
                             $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'cancel', 0, $totalAmount, $saldoMember);
-                            $this->cancelWinlossStake($request->TransferCode, $portfolio, $totalAmount, 'deduct');
                         }
                     }
                 } else if ($lastStatus->status == 'ReturnStake') {
@@ -736,7 +730,6 @@ class ApiBolaController extends Controller
                     // ]);
 
                     $this->addHistoryTranskasi($request->Username, '', $request->TransferCode, $portfolio, $portfolio, 'cancel', $dataTransactions->amount, 0, $saldoMember);
-                    $this->cancelWinlossStake($request->TransferCode, $portfolio, $dataTransactions->amount, 'settle');
                 }
             } else {
                 /* Cancel Referral */
@@ -853,12 +846,11 @@ class ApiBolaController extends Controller
                         // ]);
 
                         $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, 'rollback', 0, $totalAmount, $saldoMember);
-                        $this->cancelWinlossStake($request->TransferCode, $portfolio, $totalAmount, 'deduct');
                     }
                     /* Create Queue Job History Transkasi */
                 }
             }
-
+            $this->addWinlossStake($request->TransferCode, $portfolio, $dataTransactions->amount, 'rollback');
             return $this->rollbackTransaction($request, $dataTransaction, $crteateStatusTransaction, $saldoMember);
         }
     }
@@ -922,15 +914,17 @@ class ApiBolaController extends Controller
 
                             $this->addHistoryTranskasi($request->Username, $txnid, $request->TransferCode, $portfolio, $portfolio, $request->IsCashOut === true ? 'cashout' : 'menang', 0, $WinLoss, $saldoMember);
                         }
+                        $this->addWinlossStake($request->TransferCode, $portfolio, $WinLoss, 'settle');
                     } else {
+                        $WinLoss = TransactionSaldo::where('transtatus_id', $dataStatusTransaction->id)->orderBy('urutan', 'asc')->first()->amount;
+                        $this->addWinlossStake($request->TransferCode, $portfolio, $WinLoss, 'settle');
                         /* Referral */
-                        $this->execReferral($request, $dataStatusTransaction);
+                        $this->execReferral($request, $WinLoss);
                     }
 
                     // if ($request->IsCashOut !== true) {
                     /* Winloss Bet Rekap */
-                    $this->addWinlossStake($request->TransferCode, $portfolio, 0, 'deduct');
-                    $this->addWinlossStake($request->TransferCode, $portfolio, $WinLoss, 'settle');
+
                     // }
 
                     $saldo = $saldoMember;
@@ -951,7 +945,7 @@ class ApiBolaController extends Controller
         }
     }
 
-    private function execReferral(Request $request, $dataStatusTransaction)
+    private function execReferral(Request $request, $mount)
     {
         $dataAktif = MemberAktif::where('username', $request->Username)->first();
         if (!$dataAktif) {
@@ -960,7 +954,6 @@ class ApiBolaController extends Controller
 
         if ($dataAktif) {
             if ($dataAktif->referral !== '' && $dataAktif->referral !== null) {
-                $amount = TransactionSaldo::where('transtatus_id', $dataStatusTransaction->id)->orderBy('urutan', 'asc')->first()->amount;
                 $portfolio = ProductType::where('id', $request->ProductType)->first();
                 $portfolio = $portfolio ? $portfolio->portfolio : 'SportsBook';
 
@@ -1206,9 +1199,6 @@ class ApiBolaController extends Controller
                         "amount" => $amount
                     ]);
 
-                    $this->addWinlossStake($request->TransferCode, $portfolio, 0, 'deduct');
-                    $this->addWinlossStake($request->TransferCode, $portfolio, $amount, 'settle');
-
                     $saldo = $saldoMember;
                     return [
                         'AccountName' => $request->Username,
@@ -1380,12 +1370,12 @@ class ApiBolaController extends Controller
         ];
     }
 
-    private function addWinlossStake($transfercode, $portfolio, $winloss, $jenis)
+    private function addWinlossStake($transfercode, $portfolio, $amount, $jenis)
     {
         $winlossData = [
-            'transfercode' => $transfercode,
+            'transfercode' => '4668995',
             'portfolio' => $portfolio,
-            'winloss' => $winloss,
+            'amount' => $amount,
             'jenis' => $jenis
         ];
 
@@ -1407,17 +1397,15 @@ class ApiBolaController extends Controller
     //     return $response->json();
     // }
 
-    private function cancelWinlossStake($transfercode, $portfolio, $amount, $jenis)
-    {
-        $winlossData = [
-            'transfercode' => $transfercode,
-            'portfolio' => $portfolio,
-            'winloss' => $amount,
-            'jenis' => $jenis
-        ];
-        CancelWinlossStakeJob::dispatch($winlossData);
-        return;
-    }
+    // private function cancelWinlossStake($transfercode, $portfolio)
+    // {
+    //     $winlossData = [
+    //         'transfercode' => '4668995',
+    //         'portfolio' => $portfolio
+    //     ];
+    //     CancelWinlossStakeJob::dispatch($winlossData);
+    //     return;
+    // }
 
     private function addHistoryTranskasi($username, $txnid, $refno, $keterangan, $portfolio, $status, $debit, $kredit, $balance)
     {

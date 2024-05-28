@@ -67,7 +67,7 @@ class MemodsController extends Controller
             // Tambahkan header lain sesuai kebutuhan
         ];
 
-        $response = Http::withHeaders($headers)->get('https://back-staging.bosraka.com/memo');
+        $response = Http::withHeaders($headers)->get('https://back-staging.bosraka.com/memo/1');
         $results = [];
         if ($response->json()['status'] !== 'fail') {
             $results = $response->json()["data"];
