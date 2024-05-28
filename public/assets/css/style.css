@@ -4845,6 +4845,54 @@ table svg.icon-tabler-x {
   overflow: hidden;
 }
 
+.listgrpstatusbank input.status_warning[type="radio"] {
+  border: 1px solid var(--yellow-color);
+}
+
+.listgrpstatusbank input.status_warning[type="radio"]:checked::before {
+  background-color: var(--yellow-color);
+}
+
+.listgrpstatusbank input.status_warning[type="radio" i]:hover {
+  border: 2px solid var(--yellow-color);
+}
+
+.listgrpstatusbank input.status_warning[type="radio" i]:hover {
+  box-shadow: 0 0 10px var(--yellow-color);
+}
+
+.listgrpstatusbank input.status_warning[type="radio"]:checked {
+  background-color: var(--yellow-color);
+  position: relative;
+  border: 2px solid white;
+  box-shadow: 0px 0px 5px var(--yellow-color);
+  overflow: hidden;
+}
+
+.listgrpstatusbank input.status_lainnya[type="radio"] {
+  border: 1px solid var(--blue-color);
+}
+
+.listgrpstatusbank input.status_lainnya[type="radio"]:checked::before {
+  background-color: var(--blue-color);
+}
+
+.listgrpstatusbank input.status_lainnya[type="radio" i]:hover {
+  border: 2px solid var(--blue-color);
+}
+
+.listgrpstatusbank input.status_lainnya[type="radio" i]:hover {
+  box-shadow: 0 0 10px var(--blue-color);
+}
+
+.listgrpstatusbank input.status_lainnya[type="radio"]:checked {
+  background-color: var(--blue-color);
+  position: relative;
+  border: 2px solid white;
+  box-shadow: 0px 0px 5px var(--yellow-color);
+  overflow: hidden;
+}
+
 .listgrpstatusbank input.status_trouble[type="radio"] {
   border: 1px solid var(--yellow-color);
 }
@@ -5863,9 +5911,9 @@ input#agentname {
 }
 
 .headseccontentds {
-  width: 60%;
+  width:80%;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 10px;
 }
 

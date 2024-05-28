@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Outstanding;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 class OutstandingdsController extends Controller
 {
     public function index(Request $request, $userid = "")
@@ -28,7 +29,6 @@ class OutstandingdsController extends Controller
                 'count' => $count,
             ];
         })->values();
-
         $countOuts = $dataOuts->count();
 
         if ($userid != '') {
@@ -36,14 +36,15 @@ class OutstandingdsController extends Controller
         } else {
             $dataOtstandingDetail = [];
         }
-
+        $data = $this->paginate($dataOuts, 10);
+        $dataOtstandingPaginate = $this->paginate2($dataOtstandingDetail, 10);
         return view('outstandingds.index', [
             'title' => 'Member Outstanding',
-            'data' => $dataOuts,
+            'data' => $data,
             'totalnote' => 0,
             'username' => $username,
             'countOuts' => $countOuts,
-            'dataouts' => $dataOtstandingDetail
+            'dataouts' => $dataOtstandingPaginate
             // 'isList' => $isList
         ]);
     }
@@ -67,4 +68,42 @@ class OutstandingdsController extends Controller
 
         return $responseData;
     }
+    public function paginate($data, $page)
+    {
+        $query = collect($data);
+
+        // Mengambil halaman saat ini untuk tabel pertama
+        $currentPage = Paginator::resolveCurrentPage('page1'); // Menggunakan 'page1' sebagai query string parameter
+        $perPage = $page;
+        $currentPageItems = $query->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $paginatedItems = new LengthAwarePaginator(
+            $currentPageItems,
+            $query->count(),
+            $perPage,
+            $currentPage,
+            ['path' => Paginator::resolveCurrentPath(), 'pageName' => 'page1']
+        );
+
+        return $paginatedItems;
+    }
+
+    public function paginate2($data, $page)
+    {
+        $query = collect($data);
+
+        // Mengambil halaman saat ini untuk tabel kedua
+        $currentPage = Paginator::resolveCurrentPage('page2'); // Menggunakan 'page2' sebagai query string parameter
+        $perPage = $page;
+        $currentPageItems = $query->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $paginatedItems = new LengthAwarePaginator(
+            $currentPageItems,
+            $query->count(),
+            $perPage,
+            $currentPage,
+            ['path' => Paginator::resolveCurrentPath(), 'pageName' => 'page2']
+        );
+
+        return $paginatedItems;
+    }
+
 }

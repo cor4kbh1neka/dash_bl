@@ -7,74 +7,88 @@ use App\Models\DepoWd;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 class MemberlistdsController extends Controller
 {
-    public function index(Request $request)
+    // public function index(Request $request)
+    // {
+    //     $username = $request->input('username');
+    //     $checkusername = $request->input('checkusername');
+    //     $norek = $request->input('norek');
+    //     $namerek = $request->input('namerek');
+    //     $bank = $request->input('bank');
+    //     $nope = $request->input('nope');
+    //     $referral = $request->input('referral');
+    //     $gabungdari = $request->input('gabungdari') == '' ? date('Y-m-d') : $request->input('gabungdari');
+    //     $gabunghingga = $request->input('gabunghingga') == '' ? date('Y-m-d') : $request->input('gabunghingga');
+    //     $status = $request->input('status');
+
+    //     $query = Member::query()->join('balance', 'balance.username', '=', 'member.username')
+    //         ->select('member.*', 'balance.amount');;
+    //     if ($username) {
+    //         if (!isset($checkusername)) {
+    //             $query->where('member.username', 'like', '%' . $username . '%');
+    //         } else {
+    //             $query->where('member.username',  $username);
+    //         }
+    //     }
+    //     if ($norek) {
+    //         $query->where('norek', 'like', '%' . $norek . '%');
+    //     }
+    //     if ($namerek) {
+    //         $query->where('namerek', 'like', '%' . $namerek . '%');
+    //     }
+    //     if ($bank) {
+    //         $query->where('bank', 'like', '%' . $bank . '%');
+    //     }
+    //     if ($nope) {
+    //         $query->where('nohp', 'like', '%' . $nope . '%');
+    //     }
+    //     if ($referral) {
+    //         $query->where('referral', 'like', '%' . $referral . '%');
+    //     }
+    //     if ($gabungdari && $gabunghingga) {
+    //        $query->whereBetween('member.created_at', [$gabungdari . " 00:00:00", $gabunghingga . " 23:59:59"]);
+    //     }
+    //     if ($status) {
+    //         $query->where('status', $status);
+    //     }
+
+    //     $members = $query->orderBy('member.created_at', 'DESC')->get();
+    //     dd($members);
+    //     // $data = $this->filterAndPaginate($members, 10);
+
+    //     // ->map(function ($member) {
+    //     //     $member->status = $member->status == 0 ? 'New Member' : 'Default';
+    //     //     return $member;
+    //     // });
+
+    //     return view('memberlistds.index', [
+    //         'title' => 'Member List',
+    //         'data' => $members,
+    //         'totalnote' => 0,
+    //         'username' => $username,
+    //         'norek' => $norek,
+    //         'namerek' => $namerek,
+    //         'bank' => $bank,
+    //         'nope' => $nope,
+    //         'referral' => $referral,
+    //         'gabungdari' => $gabungdari,
+    //         'gabunghingga' => $gabunghingga,
+    //         'status' => $status,
+    //         'checkusername' => $checkusername
+    //     ]);
+    // }
+    public function index()
     {
-        $username = $request->input('username');
-        $checkusername = $request->input('checkusername');
-        $norek = $request->input('norek');
-        $namerek = $request->input('namerek');
-        $bank = $request->input('bank');
-        $nope = $request->input('nope');
-        $referral = $request->input('referral');
-        $gabungdari = $request->input('gabungdari') == '' ? date('Y-m-d') : $request->input('gabungdari');
-        $gabunghingga = $request->input('gabunghingga') == '' ? date('Y-m-d') : $request->input('gabunghingga');
-        $status = $request->input('status');
-
         $query = Member::query()->join('balance', 'balance.username', '=', 'member.username')
-            ->select('member.*', 'balance.amount');;
-        if ($username) {
-            if (!isset($checkusername)) {
-                $query->where('member.username', 'like', '%' . $username . '%');
-            } else {
-                $query->where('member.username',  $username);
-            }
-        }
-        if ($norek) {
-            $query->where('norek', 'like', '%' . $norek . '%');
-        }
-        if ($namerek) {
-            $query->where('namerek', 'like', '%' . $namerek . '%');
-        }
-        if ($bank) {
-            $query->where('bank', 'like', '%' . $bank . '%');
-        }
-        if ($nope) {
-            $query->where('nohp', 'like', '%' . $nope . '%');
-        }
-        if ($referral) {
-            $query->where('referral', 'like', '%' . $referral . '%');
-        }
-        if ($gabungdari && $gabunghingga) {
-            $query->whereBetween('member.created_at', [$gabungdari . " 00:00:00", $gabunghingga . " 23:59:59"]);
-        }
-        if ($status) {
-            $query->where('status', $status);
-        }
-
-        $members = $query->orderBy('member.created_at', 'DESC')->paginate(10);
-
-        // ->map(function ($member) {
-        //     $member->status = $member->status == 0 ? 'New Member' : 'Default';
-        //     return $member;
-        // });
-
+                    ->select('member.*', 'balance.amount');
+        $data = $this->filterAndPaginate($query->get(), 2);
         return view('memberlistds.index', [
             'title' => 'Member List',
-            'data' => $members,
-            'totalnote' => 0,
-            'username' => $username,
-            'norek' => $norek,
-            'namerek' => $namerek,
-            'bank' => $bank,
-            'nope' => $nope,
-            'referral' => $referral,
-            'gabungdari' => $gabungdari,
-            'gabunghingga' => $gabunghingga,
-            'status' => $status,
-            'checkusername' => $checkusername
+            'data' => $data,
         ]);
     }
 
@@ -301,5 +315,62 @@ class MemberlistdsController extends Controller
             'data' => $data,
             'username' => $username
         ]);
+    }
+    public function filterAndPaginate($data, $page) // ini versi yang lengkap
+    {
+        $query = collect($data);
+        $parameter = [
+            'username',
+            'norek',
+            'namarek',
+            'bank',
+            'nohp',
+            'referral',
+            'status',
+        ]; 
+
+        foreach ($parameter as $isiSearch) {
+            if (request($isiSearch)) {
+                $query = $query->filter(function ($item) use ($isiSearch) {
+                    return stripos($item[$isiSearch], request($isiSearch)) !== false;
+                });
+            }
+        }
+        // Tambahan Filter Tanggal, comment aja klau tidak terpakai :D
+        if (request('gabungdari') && request('gabunghingga')) {
+            $gabungdari = request('gabungdari') . " 00:00:00";
+            $gabunghingga = request('gabunghingga') . " 23:59:59";
+            $query = $query->whereBetween('created_at', [$gabungdari, $gabunghingga]);
+        }
+        // Filter untuk strict username
+        if (request('checkusername')) {
+            $inputUsername = request('username');
+            $query = $query->filter(function ($item) use ($inputUsername) {
+                return $item['username'] === $inputUsername;
+            });
+        }
+
+        $parameter = array_merge($parameter, [
+            'gabungdari', 
+            'gabunghingga', 
+            'checkusername'
+        ]);
+
+        $currentPage = Paginator::resolveCurrentPage();
+        $perPage = $page;
+        $currentPageItems = $query->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $paginatedItems = new LengthAwarePaginator(
+            $currentPageItems,
+            $query->count(),
+            $perPage,
+            $currentPage,
+            ['path' => Paginator::resolveCurrentPath()]
+        );
+        foreach ($parameter as $isiSearch) {
+            if (request($isiSearch)) {
+                $paginatedItems->appends($isiSearch, request($isiSearch));
+            }
+        }
+        return $paginatedItems;
     }
 }

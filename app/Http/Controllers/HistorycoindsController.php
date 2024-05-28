@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\DepoWd;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 class HistorycoindsController extends Controller
 {
-    public function index(Request $request)
+    public function index1(Request $request)
     {
 
 
@@ -24,7 +26,7 @@ class HistorycoindsController extends Controller
         $agent = $request->query('search_agent');
         $tgldari = $request->query('tgldari') != '' ? date('Y-m-d 00:00:00', strtotime($request->query('tgldari'))) : date("Y-m-d 00:00:00");
         $tglsampai =  $request->query('tglsampai') != '' ?  date('Y-m-d 23:59:59', strtotime($request->query('tglsampai'))) : date("Y-m-d 23:59:59");
-
+        dd($datHistory = DepoWd::whereIn('status', [1, 2]));
         $datHistory = DepoWd::whereIn('status', [1, 2])
             ->when($jenis, function ($query) use ($jenis) {
                 if ($jenis === 'M') {
@@ -75,4 +77,55 @@ class HistorycoindsController extends Controller
             'tglsampai' => $tglsampai != '' ? date("Y-m-d", strtotime($tglsampai)) : $tglsampai,
         ]);
     }
+    public function index()
+    {
+        $data = $this->filterAndPaginate(10);
+        return view('historycoinds.index', [
+            'title' => 'List History',
+            'data' => $data,
+        ]);
+    }
+    public function filterAndPaginate($page)
+    {
+        $query = DepoWD::query(); // untuk saat ini yang penting jalan, nanti pelajari lagi
+
+        $parameter = [
+            'username',
+            'approved_by',
+        ]; 
+
+        foreach ($parameter as $isiSearch) {
+            if (request($isiSearch)) {
+                $query->where($isiSearch, 'like', '%' . request($isiSearch) . '%');
+            }
+        }
+
+        // Filter status unique
+        if (request('status') == "accept") {
+            $query->where('status', 1);
+        } elseif (request('status') == "cancel") {
+            $query->where('status', 2);
+        }
+
+        // Filter berdasarkan jenis
+        if (request('jenis') === 'DP'){
+            $query->where('jenis', 'DP');
+        } elseif (request('jenis') === "WD"){
+            $query->where('jenis', 'WD');
+        } elseif (request('jenis') === "M"){
+            $query->whereIn('jenis', ['DPM', 'WDM']);
+        }
+
+        // Tambahan Filter Tanggal
+        if (request('tgldari') && request('tglsampai')) {
+            $tgldari = request('tgldari') . " 00:00:00";
+            $tglsampai = request('tglsampai') . " 23:59:59";
+            $query->whereBetween('created_at', [$tgldari, $tglsampai]);
+        }
+        
+        $paginatedItems = $query->paginate($page)->appends(request()->except('page'));
+
+        return $paginatedItems;
+    }
+
 }

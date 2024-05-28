@@ -31,40 +31,41 @@
                 </div>
                 <div class="groupdataanalyticds">
                     <div class="groupsetbankmaster">
-                        <div class="groupplayerinfo">
-                            <div class="listgroupplayerinfo left">
-                                <div class="listplayerinfo">
-                                    <label for="metatag">meta tag HTML</label>
-                                    <div class="groupeditinput">
-                                        <textarea type="text" id="metatag" name="metatag" cols="30" rows="5" placeholder="isi data dengan benar"></textarea>
+                        <form action="/analyticsds" method="post">
+                            @csrf
+                            <div class="groupplayerinfo">
+                                <div class="listgroupplayerinfo left">
+                                    <div class="listplayerinfo">
+                                        <label for="metatag">meta tag HTML</label>
+                                        <div class="groupeditinput">
+                                            <textarea type="text" id="metatag" name="metatag" cols="30" rows="5" placeholder="{{ $data->mttag }}"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="listplayerinfo">
+                                        <label for="article">article</label>
+                                        <div class="groupeditinput">
+                                            <textarea type="text" id="article" name="article" cols="30" rows="5" placeholder="{{ $data->artcl }}"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="listplayerinfo">
+                                        <label for="script_livechat">script livechat</label>
+                                        <div class="groupeditinput">
+                                            <textarea type="text" id="script_livechat" name="script_livechat" cols="30" rows="5" placeholder="{{ $data->scrptlvc }}"></textarea>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="listplayerinfo">
-                                    <label for="metatag">article</label>
-                                    <div class="groupeditinput">
-                                        <textarea type="text" id="metatag" name="metatag" cols="30" rows="5" placeholder="isi data dengan benar"></textarea>
-                                    </div>
-                                </div>
-                                <div class="listplayerinfo">
-                                    <label for="metatag">script livechat</label>
-                                    <div class="groupeditinput">
-                                        <textarea type="text" id="metatag" name="metatag" cols="30" rows="5" placeholder="isi data dengan benar"></textarea>
-                                    </div>
+                                <div class="listgroupplayerinfo right solo">
+                                    <button class="tombol primary" type="submit">
+                                        <span class="texttombol">SAVE DATA</span>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="listgroupplayerinfo right solo">
-                                <button class="tombol primary">
-                                    <span class="texttombol">SAVE DATA</span>
-                                </button>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
     <script>
         $(document).ready(function() {
             $('#myCheckbox').change(function() {
@@ -86,4 +87,21 @@
 
         });
     </script>
+    @if(session()->has('success'))
+    <script>
+        Swal.fire({
+            text: '{{ session('success') }}',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    </script>
+    @elseif(session()->has('error'))
+    <script>
+        Swal.fire({
+            text: '{{ session('error') }}',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    </script>
+    @endif
 @endsection

@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 class MemodsController extends Controller
 {
@@ -66,11 +68,11 @@ class MemodsController extends Controller
         if ($response->json()['status'] !== 'fail') {
             $results = $response->json()["data"];
         }
-        // dd($results);
+        $data = $this->filterAndPaginate($results, 10);
         return view('memods.delivered_memo', [
             'title' => 'Delivered',
             'totalnote' => 0,
-            'data' => $results
+            'data' => $data
         ]);
     }
 
@@ -116,5 +118,38 @@ class MemodsController extends Controller
         } else {
             return back()->withInput()->with('error', $response->json()["message"]);
         }
+    }
+    public function filterAndPaginate($data, $page) 
+    {
+        $query = collect($data);
+        $parameter = [
+            'statustype',
+            'idmemo',
+        ]; 
+
+        foreach ($parameter as $isiSearch) {
+            if (request($isiSearch)) {
+                $query = $query->filter(function ($item) use ($isiSearch) {
+                    return stripos($item[$isiSearch], request($isiSearch)) !== false;
+                });
+            }
+        }
+
+        $currentPage = Paginator::resolveCurrentPage();
+        $perPage = $page;
+        $currentPageItems = $query->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $paginatedItems = new LengthAwarePaginator(
+            $currentPageItems,
+            $query->count(),
+            $perPage,
+            $currentPage,
+            ['path' => Paginator::resolveCurrentPath()]
+        );
+        foreach ($parameter as $isiSearch) {
+            if (request($isiSearch)) {
+                $paginatedItems->appends($isiSearch, request($isiSearch));
+            }
+        }
+        return $paginatedItems;
     }
 }

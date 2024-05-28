@@ -30,6 +30,9 @@
                     <a href="/contentds/socialmedia" class="tombol grey">
                         <span class="texttombol">SOCIAL MEDIA</span>
                     </a>
+                    <a href="/contentds/maintenance" class="tombol grey">
+                        <span class="texttombol">STATUS MAINTENANCE</span>
+                    </a>
                 </div>
                 <div class="listheadsecagentds bottom">
                     <button class="tombol primary setrow">
@@ -52,93 +55,37 @@
                                     <th class="bagstatus">status</th>
                                     <th class="action">tools</th>
                                 </tr>
-                                <tr class="dinamicrow" data-row="1" data-statusactive="1">
-                                    <td>
-                                        <div class="statuspromorow slider">1</div>
-                                    </td>
-                                    <td class="dragmenu">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                            <path fill="currentColor" d="M3 18v-2h18v2zm0-5v-2h18v2zm0-5V6h18v2z" />
-                                        </svg>
-                                    </td>
-                                    <td>
-                                        <img src="https://via.placeholder.com/184x184" alt="image">
-                                    </td>
-                                    <td class="datamini">BONUS DEPOSIT HARIAN ALL GAME UP TO 10%</td>
-                                    <td class="datamini">https://www.loremipsum.com</td>
-                                    <td class="statuspromo" data-status="1"></td>
-                                    <td>
-                                        <div class="grouptools">
-                                            <a href="/contentds/slider/edit" target="_blank" class="tombol grey openviewport">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                        <path d="M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1" />
-                                                        <path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3zM16 5l3 3" />
-                                                    </g>
-                                                </svg>
-                                                <span class="texttombol">edit</span>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="dinamicrow" data-row="2" data-statusactive="1">
-                                    <td>
-                                        <div class="statuspromorow slider">2</div>
-                                    </td>
-                                    <td class="dragmenu">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                            <path fill="currentColor" d="M3 18v-2h18v2zm0-5v-2h18v2zm0-5V6h18v2z" />
-                                        </svg>
-                                    </td>
-                                    <td>
-                                        <img src="https://via.placeholder.com/184x184" alt="image">
-                                    </td>
-                                    <td class="datamini">BONUS DEPOSIT HARIAN ALL GAME UP TO 10%</td>
-                                    <td class="datamini">https://www.loremipsum.com</td>
-                                    <td class="statuspromo" data-status="1"></td>
-                                    <td>
-                                        <div class="grouptools">
-                                            <a href="/contentds/slider/edit" target="_blank" class="tombol grey openviewport">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                        <path d="M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1" />
-                                                        <path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3zM16 5l3 3" />
-                                                    </g>
-                                                </svg>
-                                                <span class="texttombol">edit</span>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="dinamicrow" data-row="3" data-statusactive="2">
-                                    <td>
-                                        <div class="statuspromorow slider">3</div>
-                                    </td>
-                                    <td class="dragmenu">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                            <path fill="currentColor" d="M3 18v-2h18v2zm0-5v-2h18v2zm0-5V6h18v2z" />
-                                        </svg>
-                                    </td>
-                                    <td>
-                                        <img src="https://via.placeholder.com/184x184" alt="image">
-                                    </td>
-                                    <td class="datamini">BONUS DEPOSIT HARIAN ALL GAME UP TO 10%</td>
-                                    <td class="datamini">https://www.loremipsum.com</td>
-                                    <td class="statuspromo" data-status="2"></td>
-                                    <td>
-                                        <div class="grouptools">
-                                            <a href="/contentds/slider/edit" target="_blank" class="tombol grey openviewport">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                        <path d="M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1" />
-                                                        <path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3zM16 5l3 3" />
-                                                    </g>
-                                                </svg>
-                                                <span class="texttombol">edit</span>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @foreach($data as $d)
+                                    <tr class="dinamicrow" data-row="1" data-statusactive="1">
+                                        <td>
+                                            <div class="statuspromorow slider">{{ $loop->iteration }}</div>
+                                        </td>
+                                        <td class="dragmenu">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M3 18v-2h18v2zm0-5v-2h18v2zm0-5V6h18v2z" />
+                                            </svg>
+                                        </td>
+                                        <td>
+                                            <img src="https://via.placeholder.com/184x184" alt="image">
+                                        </td>
+                                        <td class="datamini">{{ $d->ttlectsldr }}</td>
+                                        <td class="datamini">{{ $d->trgturctsldr }}</td>
+                                        <td class="statuspromo" data-status="{{ $d->statusctsldr }}"></td>
+                                        <td>
+                                            <div class="grouptools">
+                                                <a href="/contentds/slider/{{ $d->idctsldr }}/edit" target="_blank" class="tombol grey openviewport">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                            <path d="M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1" />
+                                                            <path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3zM16 5l3 3" />
+                                                        </g>
+                                                    </svg>
+                                                    <span class="texttombol">edit</span>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -147,7 +94,35 @@
         </div>
     </div>
 
-
+    @if(session('success'))
+        <script>
+            Swal.fire({
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        </script>
+        <script>
+            // Menutup jendela setelah 2 detik
+            setTimeout(function() {
+                window.close();
+            }, 2000);
+        </script>
+    @elseif(session()->has('error'))
+        <script>
+            Swal.fire({
+                text: '{{ session('error') }}',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        </script>
+        <script>
+            // Menutup jendela setelah 2 detik
+            setTimeout(function() {
+                window.close();
+            }, 2000);
+        </script>
+    @endif
     <script>
         //open jendela edit agent
         $(document).ready(function() {

@@ -24,13 +24,13 @@
                     <a href="/contentds/slider" class="tombol grey">
                         <span class="texttombol">SLIDER</span>
                     </a>
-                    <a href="/contentds/link" class="tombol grey active">
+                    <a href="/contentds/link" class="tombol grey">
                         <span class="texttombol">LINK</span>
                     </a>
                     <a href="/contentds/socialmedia" class="tombol grey">
                         <span class="texttombol">SOCIAL MEDIA</span>
                     </a>
-                    <a href="/contentds/maintenance" class="tombol grey">
+                    <a href="/contentds/maintenance" class="tombol grey active">
                         <span class="texttombol">STATUS MAINTENANCE</span>
                     </a>
                 </div>
@@ -40,34 +40,51 @@
                             <tbody>
                                 <tr class="hdtable">
                                     <th class="bagno">#</th>
-                                    <th class="bagtitle">name</th>
-                                    <th class="bagurltarget">url domain</th>
-                                    <th class="bagstatus">status</th>
-                                    <th class="action">tools</th>
+                                    <th class="action">Status Maintenance</th>
+                                    <th class="action">Tools</th>
                                 </tr>
-                                @foreach($data as $d)
-                                    <tr class="dinamicrow">
-                                        <td>
-                                            <div class="statuspromorow slider">{{ $loop->iteration }}</div>
-                                        </td>
-                                        <td class="datamini">{{ $d->ctlnkname }}</td>
-                                        <td class="datamini">{{ $d->ctlnkdmn }}</td>
-                                        <td class="statuspromo" data-status="{{ $d->statusctlnk }}"></td>
-                                        <td>
-                                            <div class="grouptools">
-                                                <a href="/contentds/link/{{ $d->idctlnk }}/edit" target="_blank" class="tombol grey openviewport">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                            <path d="M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1" />
-                                                            <path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3zM16 5l3 3" />
-                                                        </g>
-                                                    </svg>
-                                                    <span class="texttombol">edit</span>
-                                                </a>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <div class="sec_card_count">
+                                            <div class="prog_icon_circle primary">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-news" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11" />
+                                                    <path d="M8 8l4 0" />
+                                                    <path d="M8 12l4 0" />
+                                                    <path d="M8 16l4 0" />
+                                                </svg>
+                                                <div class="half_circle"></div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                            <div class="detail_count">
+                                                @if($data->stsmtncnc == 1)
+                                                <h3>Running</h3>
+                                                @elseif($data->stsmtncnc == 2)
+                                                <h3>Maintenance</h3>
+                                                @elseif($data->stsmtncnc == 3)
+                                                <h3>Backup</h3>
+                                                @elseif($data->stsmtncnc == 4)
+                                                <h3>Error</h3>
+                                                @endif
+                                                <span>Status</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="grouptools">
+                                            <a href="/contentds/maintenance/status/edit" target="_blank" class="tombol grey openviewport">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1" />
+                                                        <path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3zM16 5l3 3" />
+                                                    </g>
+                                                </svg>
+                                                <span class="texttombol">edit</span>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -75,8 +92,7 @@
             </div>
         </div>
     </div>
-
-@if(session('success'))
+    @if(session('success'))
     <script>
         Swal.fire({
             text: '{{ session('success') }}',
@@ -90,7 +106,21 @@
             window.close();
         }, 2000);
     </script>
-@endif
+    @elseif(session()->has('error'))
+        <script>
+            Swal.fire({
+                text: '{{ session('error') }}',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        </script>
+        <script>
+            // Menutup jendela setelah 2 detik
+            setTimeout(function() {
+                window.close();
+            }, 2000);
+        </script>
+    @endif
 
     <script>
         //open jendela edit agent

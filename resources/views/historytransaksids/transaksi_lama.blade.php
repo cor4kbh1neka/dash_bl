@@ -16,7 +16,7 @@
         <div class="sechistoryds">
             <div class="grouphistoryds">
                 <div class="groupheadhistoryds">
-                    <form method="GET" action="/historytransaksids/transaksilama" class="listmembergroup historytransds">
+                    <form id="searchForm" method="GET" action="/historytransaksids/transaksilama" class="listmembergroup historytransds">
                         <div class="listinputmember">
                             <label for="username">username<span class="required">*</span></label>
                             <input type="text" id="username" name="username" placeholder="username"
@@ -138,7 +138,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="grouppagination">
+                    {{-- <div class="grouppagination">
                         <div class="grouppaginationcc">
                             <div class="trigger left">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
@@ -170,7 +170,7 @@
                             <span class="numberpage">...</span>
                             <span class="numberpage">12</span>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -230,6 +230,26 @@
             $('.statusketerangan').each(function() {
                 var status = $(this).data('status');
                 $(this).find('.statustransaksi').text(status);
+            });
+        });
+
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+        const inputs = [
+            'username',
+            'invoice',
+            'status',
+            'transdari',
+            'transhingga',
+            'checkinvoice',
+            'checkstatus',
+            'checktransdari',
+            'checktranshingga',
+        ];
+            inputs.forEach(id => {
+                const inputElement = document.getElementById(id);
+                if (!inputElement.value) {
+                    inputElement.disabled = true; // Untuk disabled input kalau tidak ada filter :D
+                }
             });
         });
     </script>

@@ -16,41 +16,41 @@
         <div class="sechistoryds">
             <div class="grouphistoryds">
                 <div class="groupheadhistoryds">
-                    <form method="GET" action="/historytransaksids" class="listmembergroup historytransds">
+                    <form id="searchForm" method="GET" action="/historytransaksids" class="listmembergroup historytransds">
                         <div class="listinputmember">
                             <label for="username">username<span class="required">*</span></label>
                             <input type="text" id="username" name="username" placeholder="username"
-                                value="{{ $username }}" required>
+                                value="{{ request('username') }}" required>
                         </div>
                         <div class="listinputmember">
                             <label for="invoice">
                                 periode/invoice
                                 <div class="check_box">
                                     <input type="checkbox" id="checkinvoice" name="checkinvoice"
-                                        {{ $checkinvoice == 'on' ? 'checked' : '' }}>
+                                        {{ request('checkinvoice') == 'on' ? 'checked' : '' }}>
                                 </div>
                             </label>
                             <input type="text" id="invoice" name="invoice" placeholder="invoice"
-                                value="{{ $invoice }}">
+                                value="{{ request('invoice') }}">
                         </div>
                         <div class="listinputmember">
                             <label for="status">
                                 status
                                 <div class="check_box">
                                     <input type="checkbox" id="checkstatus" name="checkstatus"
-                                        {{ $checkstatus == 'on' ? 'checked' : '' }}>
+                                        {{ request('checkstatus') == 'on' ? 'checked' : '' }}>
                                 </div>
                             </label>
                             <select name="status" id="status">
                                 <option value="" selected="" place=""
                                     style="color: #838383; font-style: italic;" disabled="">Status</option>
-                                <option value="deposit" {{ $status == 'deposit' ? 'selected' : '' }}>deposit</option>
-                                <option value="withdraw" {{ $status == 'withdraw' ? 'selected' : '' }}>withdraw</option>
-                                <option value="manual" {{ $status == 'manual' ? 'selected' : '' }}>manual</option>
-                                <option value="pemasangan" {{ $status == 'pemasangan' ? 'selected' : '' }}>pemasangan
+                                <option value="deposit" {{ request('status') == 'deposit' ? 'selected' : '' }}>deposit</option>
+                                <option value="withdraw" {{ request('status') == 'withdraw' ? 'selected' : '' }}>withdraw</option>
+                                <option value="manual" {{ request('status') == 'manual' ? 'selected' : '' }}>manual</option>
+                                <option value="pemasangan" {{ request('status') == 'pemasangan' ? 'selected' : '' }}>pemasangan
                                 </option>
-                                <option value="menang" {{ $status == 'menang' ? 'selected' : '' }}>menang</option>
-                                <option value="referral" {{ $status == 'referral' ? 'selected' : '' }}>referral</option>
+                                <option value="menang" {{ request('status') == 'menang' ? 'selected' : '' }}>menang</option>
+                                <option value="referral" {{ request('status') == 'referral' ? 'selected' : '' }}>referral</option>
                             </select>
                         </div>
                         <div class="listinputmember">
@@ -58,22 +58,28 @@
                                 transaksi dari
                                 <div class="check_box">
                                     <input type="checkbox" id="checktransdari" name="checktransdari"
-                                        {{ $checktransdari == 'on' ? 'checked' : '' }}>
+                                        {{ request('checktransdari') == 'on' ? 'checked' : '' }}>
                                 </div>
                             </label>
-                            <input type="datetime-local" id="transdari" name="transdari" value="{{ $transdari }}">
+                            <input type="datetime-local" id="transdari" name="transdari" value="{{ request('transdari') }}">
                         </div>
                         <div class="listinputmember">
                             <label for="transhingga">
                                 transaksi hingga
                                 <div class="check_box">
                                     <input type="checkbox" id="checktranshingga" name="checktranshingga"
-                                        {{ $checktranshingga == 'on' ? 'checked' : '' }}>
+                                        {{ request('checktranshingga') == 'on' ? 'checked' : '' }}>
                                 </div>
                             </label>
-                            <input type="datetime-local" id="transhingga" name="transhingga" value="{{ $transhingga }}">
+                            <input type="datetime-local" id="transhingga" name="transhingga" value="{{ request('transhingga') }}">
                         </div>
                         <div class="listinputmember">
+                            <label for="transdari">
+                                Check All
+                                <div class="check_box">
+                                    <input type="checkbox" id="checkall" name="checkall" {{ request('checkall') == 'on' ? 'checked' : '' }}>
+                                </div>
+                            </label>
                             <button class="tombol primary">
                                 <span class="texttombol">SUBMIT</span>
                             </button>
@@ -89,7 +95,8 @@
                     <div class="groupmaksimaldata">
                         <span class="textmaksimaldata">Data yang di tampilkan adalah data <span class="dataterakhir">5
                                 minggu terakhir</span>, </span>
-                        <a href="/historytransaksids/transaksilama{{ $query != '' ? '?' . $query : '' }}"
+                        <a href="/historytransaksids/transaksilama"
+                        {{-- <a href="/historytransaksids/transaksilama{{ $query != '' ? '?' . $query : '' }}" --}}
                             class="transaksilama tombol primary">
                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                                 <path fill="currentColor"
@@ -139,7 +146,14 @@
 
                         </tbody>
                     </table>
-                    <div class="grouppagination">
+                    
+                    <div class="grouppagination" style="padding: 25px;">
+                        @if($data !== [])
+                            {{ $data->links('vendor.pagination.customdashboard') }}
+                        @endif
+                    </div>
+                    
+                    {{-- <div class="grouppagination">
                         <div class="grouppaginationcc">
                             <div class="trigger left">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
@@ -171,7 +185,7 @@
                             <span class="numberpage">...</span>
                             <span class="numberpage">12</span>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -231,6 +245,39 @@
             $('.statusketerangan').each(function() {
                 var status = $(this).data('status');
                 $(this).find('.statustransaksi').text(status);
+            });
+        });
+
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+        const inputs = [
+            'username',
+            'invoice',
+            'status',
+            'transdari',
+            'transhingga',
+            'checkinvoice',
+            'checkstatus',
+            'checktransdari',
+            'checktranshingga',
+            'checkall',
+        ];
+            inputs.forEach(id => {
+                const inputElement = document.getElementById(id);
+                if (!inputElement.value) {
+                    inputElement.disabled = true; // Untuk disabled input kalau tidak ada filter :D
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const checkAll = document.getElementById('checkall');
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:not(#checkall)');
+
+            checkAll.addEventListener('change', (e) => {
+                const isChecked = e.target.checked;
+                checkboxes.forEach((checkbox) => {
+                    checkbox.checked = isChecked;
+                });
             });
         });
     </script>

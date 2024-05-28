@@ -24,232 +24,62 @@
                 </div>
                 <div class="groupdataanalyticds">
                     <div class="groupsetbankmaster">
-                        <div class="groupplayerinfo">
+                        <a href="/analyticsds/sitemap/create" class="tombol proses">
+                            <span class="texttombol">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
+                                    <defs>
+                                        <mask id="ipSAdd0">
+                                            <g fill="none" stroke-linejoin="round" stroke-width="4">
+                                                <rect width="36" height="36" x="6" y="6" fill="#fff" stroke="#fff" rx="3" />
+                                                <path stroke="#000" stroke-linecap="round" d="M24 16v16m-8-8h16" />
+                                            </g>
+                                        </mask>
+                                    </defs>
+                                    <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSAdd0)" />
+                                </svg>
+                                ADD PAGE
+                            </span>
+                        </a>
+                        <div>
                             <div class="listdatasitemap">
-                                <div class="listgroupplayerinfo left sitemap">
-                                    <div class="listplayerinfo url">
-                                        <label for="urlpage">url page</label>
-                                        <div class="groupeditinput">
-                                            <span class="textslice">/</span>
-                                            <input type="text" id="urlpage" name="urlpage" value="home" placeholder="input halaman" />
+                                @foreach($data as $d)
+                                    <div class="listgroupplayerinfo sitemap">
+                                        <div class="listplayerinfo url">
+                                            <label for="urpage_{{ $loop->index }}">URL Page</label>
+                                            <div class="groupeditinput">
+                                                <span class="textslice">/</span>
+                                                <input type="text" id="urpage_{{ $loop->index }}" name="urpage" value="{{ $d->urpage }}" placeholder="Input halaman" />
+                                            </div>
+                                        </div>
+                                        <div class="listplayerinfo">
+                                            <label for="lastmod_{{ $loop->index }}">last modified</label>
+                                            <div class="groupeditinput">
+                                                <input type="date" id="lastmod_{{ $loop->index }}" name="lastmod" value="{{ $d->updated_at }}" />
+                                            </div>
+                                        </div>
+                                        <div class="listgroupplayerinfo right sitemap">
+                                            <div>
+                                                <form action="/analyticsds/sitemap/{{ $d->urpage }}" method="POST">
+                                                    @method('put')
+                                                    @csrf
+                                                    <input type="hidden" id="hiddenUrlPage_{{ $loop->index }}" name="urpage" value="">
+                                                    <button class="tombol primary" type="submit">
+                                                        <span class="texttombol">UPDATE</span>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div>
+                                                <form action="/analyticsds/sitemap/{{ $d->urpage }}" method="POST">
+                                                    @method('delete')
+                                                    @csrf
+                                                    <button class="tombol primary" type="submit" onclick="return confirm('Yakin ingin hapus data ini?')">
+                                                        <span class="texttombol">Delete</span>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="listplayerinfo">
-                                        <label for="lastmod">last modified</label>
-                                        <div class="groupeditinput">
-                                            <input type="date" id="lastmod" name="lastmod" value="2024-04-30" />
-                                        </div>
-                                    </div>
-                                    <div class="groupdeleterow">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
-                                            <defs>
-                                                <mask id="ipSDeleteTwo0">
-                                                    <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
-                                                        <path fill="#fff" stroke="#fff" d="M14 11L4 24l10 13h30V11z" />
-                                                        <path stroke="#000" d="m21 19l10 10m0-10L21 29" />
-                                                    </g>
-                                                </mask>
-                                            </defs>
-                                            <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSDeleteTwo0)" />
-                                        </svg>
-                                        <span class="textdelete">delete</span>
-                                    </div>
-                                </div>
-                                <div class="listgroupplayerinfo left sitemap">
-                                    <div class="listplayerinfo url">
-                                        <label for="urlpage">url page</label>
-                                        <div class="groupeditinput">
-                                            <span class="textslice">/</span>
-                                            <input type="text" id="urlpage" name="urlpage" value="login" placeholder="input halaman" />
-                                        </div>
-                                    </div>
-                                    <div class="listplayerinfo">
-                                        <label for="lastmod">last modified</label>
-                                        <div class="groupeditinput">
-                                            <input type="date" id="lastmod" name="lastmod" value="2024-04-30" />
-                                        </div>
-                                    </div>
-                                    <div class="groupdeleterow">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
-                                            <defs>
-                                                <mask id="ipSDeleteTwo0">
-                                                    <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
-                                                        <path fill="#fff" stroke="#fff" d="M14 11L4 24l10 13h30V11z" />
-                                                        <path stroke="#000" d="m21 19l10 10m0-10L21 29" />
-                                                    </g>
-                                                </mask>
-                                            </defs>
-                                            <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSDeleteTwo0)" />
-                                        </svg>
-                                        <span class="textdelete">delete</span>
-                                    </div>
-                                </div>
-                                <div class="listgroupplayerinfo left sitemap">
-                                    <div class="listplayerinfo url">
-                                        <label for="urlpage">url page</label>
-                                        <div class="groupeditinput">
-                                            <span class="textslice">/</span>
-                                            <input type="text" id="urlpage" name="urlpage" value="register" placeholder="input halaman" />
-                                        </div>
-                                    </div>
-                                    <div class="listplayerinfo">
-                                        <label for="lastmod">last modified</label>
-                                        <div class="groupeditinput">
-                                            <input type="date" id="lastmod" name="lastmod" value="2024-04-30" />
-                                        </div>
-                                    </div>
-                                    <div class="groupdeleterow">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
-                                            <defs>
-                                                <mask id="ipSDeleteTwo0">
-                                                    <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
-                                                        <path fill="#fff" stroke="#fff" d="M14 11L4 24l10 13h30V11z" />
-                                                        <path stroke="#000" d="m21 19l10 10m0-10L21 29" />
-                                                    </g>
-                                                </mask>
-                                            </defs>
-                                            <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSDeleteTwo0)" />
-                                        </svg>
-                                        <span class="textdelete">delete</span>
-                                    </div>
-                                </div>
-                                <div class="listgroupplayerinfo left sitemap">
-                                    <div class="listplayerinfo url">
-                                        <label for="urlpage">url page</label>
-                                        <div class="groupeditinput">
-                                            <span class="textslice">/</span>
-                                            <input type="text" id="urlpage" name="urlpage" value="promosihome" placeholder="input halaman" />
-                                        </div>
-                                    </div>
-                                    <div class="listplayerinfo">
-                                        <label for="lastmod">last modified</label>
-                                        <div class="groupeditinput">
-                                            <input type="date" id="lastmod" name="lastmod" value="2024-04-30" />
-                                        </div>
-                                    </div>
-                                    <div class="groupdeleterow">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
-                                            <defs>
-                                                <mask id="ipSDeleteTwo0">
-                                                    <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
-                                                        <path fill="#fff" stroke="#fff" d="M14 11L4 24l10 13h30V11z" />
-                                                        <path stroke="#000" d="m21 19l10 10m0-10L21 29" />
-                                                    </g>
-                                                </mask>
-                                            </defs>
-                                            <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSDeleteTwo0)" />
-                                        </svg>
-                                        <span class="textdelete">delete</span>
-                                    </div>
-                                </div>
-                                <div class="listgroupplayerinfo left sitemap">
-                                    <div class="listplayerinfo url">
-                                        <label for="urlpage">url page</label>
-                                        <div class="groupeditinput">
-                                            <span class="textslice">/</span>
-                                            <input type="text" id="urlpage" name="urlpage" value="klasemenhome" placeholder="input halaman" />
-                                        </div>
-                                    </div>
-                                    <div class="listplayerinfo">
-                                        <label for="lastmod">last modified</label>
-                                        <div class="groupeditinput">
-                                            <input type="date" id="lastmod" name="lastmod" value="2024-04-30" />
-                                        </div>
-                                    </div>
-                                    <div class="groupdeleterow">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
-                                            <defs>
-                                                <mask id="ipSDeleteTwo0">
-                                                    <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
-                                                        <path fill="#fff" stroke="#fff" d="M14 11L4 24l10 13h30V11z" />
-                                                        <path stroke="#000" d="m21 19l10 10m0-10L21 29" />
-                                                    </g>
-                                                </mask>
-                                            </defs>
-                                            <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSDeleteTwo0)" />
-                                        </svg>
-                                        <span class="textdelete">delete</span>
-                                    </div>
-                                </div>
-                                <div class="listgroupplayerinfo left sitemap">
-                                    <div class="listplayerinfo url">
-                                        <label for="urlpage">url page</label>
-                                        <div class="groupeditinput">
-                                            <span class="textslice">/</span>
-                                            <input type="text" id="urlpage" name="urlpage" value="livescorehome" placeholder="input halaman" />
-                                        </div>
-                                    </div>
-                                    <div class="listplayerinfo">
-                                        <label for="lastmod">last modified</label>
-                                        <div class="groupeditinput">
-                                            <input type="date" id="lastmod" name="lastmod" value="2024-04-30" />
-                                        </div>
-                                    </div>
-                                    <div class="groupdeleterow">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
-                                            <defs>
-                                                <mask id="ipSDeleteTwo0">
-                                                    <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
-                                                        <path fill="#fff" stroke="#fff" d="M14 11L4 24l10 13h30V11z" />
-                                                        <path stroke="#000" d="m21 19l10 10m0-10L21 29" />
-                                                    </g>
-                                                </mask>
-                                            </defs>
-                                            <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSDeleteTwo0)" />
-                                        </svg>
-                                        <span class="textdelete">delete</span>
-                                    </div>
-                                </div>
-                                <div class="listgroupplayerinfo left sitemap">
-                                    <div class="listplayerinfo url">
-                                        <label for="urlpage">url page</label>
-                                        <div class="groupeditinput">
-                                            <span class="textslice">/</span>
-                                            <input type="text" id="urlpage" name="urlpage" value="peraturanhome" placeholder="input halaman" />
-                                        </div>
-                                    </div>
-                                    <div class="listplayerinfo">
-                                        <label for="lastmod">last modified</label>
-                                        <div class="groupeditinput">
-                                            <input type="date" id="lastmod" name="lastmod" value="2024-04-30" />
-                                        </div>
-                                    </div>
-                                    <div class="groupdeleterow">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
-                                            <defs>
-                                                <mask id="ipSDeleteTwo0">
-                                                    <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
-                                                        <path fill="#fff" stroke="#fff" d="M14 11L4 24l10 13h30V11z" />
-                                                        <path stroke="#000" d="m21 19l10 10m0-10L21 29" />
-                                                    </g>
-                                                </mask>
-                                            </defs>
-                                            <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSDeleteTwo0)" />
-                                        </svg>
-                                        <span class="textdelete">delete</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="listgroupplayerinfo right">
-                                <button class="tombol proses">
-                                    <span class="texttombol">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
-                                            <defs>
-                                                <mask id="ipSAdd0">
-                                                    <g fill="none" stroke-linejoin="round" stroke-width="4">
-                                                        <rect width="36" height="36" x="6" y="6" fill="#fff" stroke="#fff" rx="3" />
-                                                        <path stroke="#000" stroke-linecap="round" d="M24 16v16m-8-8h16" />
-                                                    </g>
-                                                </mask>
-                                            </defs>
-                                            <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSAdd0)" />
-                                        </svg>
-                                        ADD PAGE
-                                    </span>
-                                </button>
-                                <button class="tombol primary">
-                                    <span class="texttombol">SAVE DATA</span>
-                                </button>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -279,5 +109,37 @@
             });
 
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlPageInputs = document.querySelectorAll('input[id^="urpage_"]');
+            urlPageInputs.forEach(function(input) {
+                const index = input.id.split('_')[1];
+                const hiddenUrlPageInput = document.getElementById('hiddenUrlPage_' + index);
+
+                input.addEventListener('input', function() {
+                    hiddenUrlPageInput.value = input.value;
+                });
+
+                hiddenUrlPageInput.value = input.value;
+            });
+        });
+
     </script>
+    @if(session()->has('success'))
+    <script>
+        Swal.fire({
+            text: '{{ session('success') }}',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    </script>
+    @elseif(session()->has('error'))
+    <script>
+        Swal.fire({
+            text: '{{ session('error') }}',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    </script>
+    @endif
 @endsection

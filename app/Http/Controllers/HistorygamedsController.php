@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 class HistorygamedsController extends Controller
 {
@@ -87,7 +89,7 @@ class HistorygamedsController extends Controller
                 return $item['status'] === $status;
             });
         }
-
+        $data = $this->filterAndPaginate(collect($data), 10);
 
         //DATA SPORT TYPE   
         // $dataSportType = [
@@ -152,5 +154,46 @@ class HistorygamedsController extends Controller
         }
 
         return $responseData;
+    }
+    public function filterAndPaginate($data, $page) // ini versi yang lengkap
+    {
+        $query = collect($data);
+        $parameter = [
+            'username'
+        ]; 
+
+        foreach ($parameter as $isiSearch) {
+            if (request($isiSearch)) {
+                $query = $query->filter(function ($item) use ($isiSearch) {
+                    return stripos($item[$isiSearch], request($isiSearch)) !== false;
+                });
+            }
+        }
+
+        $parameter = array_merge($parameter, [
+            'portfolio',
+            'startDate',
+            'endDate',
+            'refNo',
+            'sportsType',
+            'status',
+        ]);
+
+        $currentPage = Paginator::resolveCurrentPage();
+        $perPage = $page;
+        $currentPageItems = $query->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $paginatedItems = new LengthAwarePaginator(
+            $currentPageItems,
+            $query->count(),
+            $perPage,
+            $currentPage,
+            ['path' => Paginator::resolveCurrentPath()]
+        );
+        foreach ($parameter as $isiSearch) {
+            if (request($isiSearch)) {
+                $paginatedItems->appends($isiSearch, request($isiSearch));
+            }
+        }
+        return $paginatedItems;
     }
 }

@@ -39,25 +39,29 @@
                 </div>
                 <div class="groupdatamemo inbox">
                     <div class="headfilter">
-                        <div class="groupinputfilter">
-                            <div class="listinputmember">
-                                <label for="penerima">penerima</label>
-                                <select name="penerima" id="penerima">
-                                    <option value="">Lihat Semua</option>
-                                    <option value="0">all player</option>
-                                    <option value="1">to user</option>
-                                </select>
+                        <form id="searchForm" action="/memods/delivered" method="GET">
+                            <div class="groupinputfilter">
+                                <div class="listinputmember">
+                                    <label for="statustype">penerima</label>
+                                    <select name="statustype" id="statustype">
+                                        <option value="" {{ request('statustype') === null || request('statustype') === '' ? 'selected' : '' }}>
+                                            Lihat Semua
+                                        </option>
+                                        <option value="1" {{ request('statustype') == 1 ? 'selected' : '' }}>All Player</option>
+                                        <option value="2" {{ request('statustype') == 2 ? 'selected' : '' }}>VIP Only</option>
+                                    </select>
+                                </div>
+                                <div class="listinputmember">
+                                    <label for="idmemo">ID delivered</label>
+                                    <input type="text" id="idmemo" name="idmemo" placeholder="Cari ID Memo" value="{{ request('idmemo') }}">
+                                </div>
+                                <div class="listinputmember">
+                                    <button class="tombol primary">
+                                        <span class="texttombol">SUBMIT</span>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="listinputmember">
-                                <label for="iddelivered">ID delivered</label>
-                                <input type="text" id="iddelivered" name="iddelivered" placeholder="ID delivered">
-                            </div>
-                            <div class="listinputmember">
-                                <button class="tombol primary">
-                                    <span class="texttombol">SUBMIT</span>
-                                </button>
-                            </div>
-                        </div>
+                        </form>
                         <div class="exportdata">
                             <span class="textdownload">download</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
@@ -122,7 +126,7 @@
                                                             method="POST">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit"
+                                                            <button type="submit" style="border:none;background:#fff"
                                                                 onclick="confirmDelete('{{ $d['idmemo'] }}')">
                                                                 <div class="list_action">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="1em"
@@ -141,38 +145,8 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            <div class="grouppagination">
-                                <div class="grouppaginationcc">
-                                    <div class="trigger left">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                            viewBox="0 0 24 24">
-                                            <g fill="none" fill-rule="evenodd">
-                                                <path
-                                                    d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
-                                                <path fill="currentColor"
-                                                    d="M7.94 13.06a1.5 1.5 0 0 1 0-2.12l5.656-5.658a1.5 1.5 0 1 1 2.121 2.122L11.122 12l4.596 4.596a1.5 1.5 0 1 1-2.12 2.122l-5.66-5.658Z" />
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <div class="trigger right">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                            viewBox="0 0 24 24">
-                                            <g fill="none" fill-rule="evenodd">
-                                                <path
-                                                    d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
-                                                <path fill="currentColor"
-                                                    d="M16.06 10.94a1.5 1.5 0 0 1 0 2.12l-5.656 5.658a1.5 1.5 0 1 1-2.121-2.122L12.879 12L8.283 7.404a1.5 1.5 0 0 1 2.12-2.122l5.658 5.657Z" />
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <span class="numberpage active">1</span>
-                                    <span class="numberpage">2</span>
-                                    <span class="numberpage">3</span>
-                                    <span class="numberpage">4</span>
-                                    <span class="numberpage">5</span>
-                                    <span class="numberpage">...</span>
-                                    <span class="numberpage">12</span>
-                                </div>
+                            <div style="padding-left:25px;padding-right:25px">
+                                {{ $data->links('vendor.pagination.customdashboard') }}
                             </div>
                         </div>
                     </div>
@@ -260,6 +234,18 @@
                 }
             });
         }
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+        const inputs = [
+            'statustype',
+            'idmemo',
+        ];
+            inputs.forEach(id => {
+                const inputElement = document.getElementById(id);
+                if (!inputElement.value) {
+                    inputElement.disabled = true; // Untuk disabled input kalau tidak ada filter :D
+                }
+            });
+        });
     </script>
 
     @if (session('success'))

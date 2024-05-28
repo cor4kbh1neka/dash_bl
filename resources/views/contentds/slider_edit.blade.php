@@ -25,69 +25,78 @@
         <div class="seceditmemberds updateagent">
             <div class="groupseceditmemberds">
                 <spann class="titleeditmemberds">edit slider</spann>
-                <div class="groupplayerinfo editpromo">
-                    <div class="listgroupplayerinfo left">
-                        <div class="listplayerinfo">
-                            <label for="titleslider">title slider</label>
-                            <div class="groupeditinput">
-                                <input type="text" readonly id="titleslider" name="titleslider" value="BONUS DEPOSIT HARIAN ALL GAME UP TO 10%" placeholder="isi judul slider">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                    <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="listplayerinfo">
-                            <label for="imgurl">image slider url</label>
-                            <div class="groupeditinput">
-                                <input type="text" readonly id="imgurl" name="imgurl" value="https://via.placeholder.com/184x184" placeholder="ukuran 184x184 contoh: https://via.placeholder.com/184x184">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                    <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="listplayerinfo ssimage">
-                            <label for=""></label>
-                            <img class="showimage" src="" alt="image"> <!-- value src tidak perlu di isi, sudah di handle pada javascript -->
-                        </div>
-                        <div class="listplayerinfo">
-                            <label for="targeturl">target url</label>
-                            <div class="groupeditinput">
-                                <input type="text" readonly id="targeturl" name="targeturl" value="https://slider.test" placeholder="isi link target slider">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                    <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="listplayerinfo">
-                            <label for="urutanslider">urutan slider</label>
-                            <div class="groupeditinput">
-                                <input type="text" readonly id="urutanslider" name="urutanslider" value="1">
-                            </div>
-                        </div>
-                        <div class="listplayerinfo">
-                            <span class="labelbetpl">STATUS</span>
-                            <div class="groupradiooption" data-chekced="1">
-                                <div class="listgrpstatusbank">
-                                    <input class="status_online" type="radio" id="active" name="statuspromo" value="1">
-                                    <label for="active">active</label>
-                                </div>
-                                <div class="listgrpstatusbank">
-                                    <input class="status_offline" type="radio" id="inactive" name="statuspromo" value="2">
-                                    <label for="inactive">in-active</label>
+                <form action="/contentds/slider/{{ $data->idctsldr }}" method="POST">
+                    @method('put')
+                    @csrf
+                    <div class="groupplayerinfo editpromo">
+                        <div class="listgroupplayerinfo left">
+                            <div class="listplayerinfo">
+                                <label for="titleslider">title slider</label>
+                                <div class="groupeditinput">
+                                    <input type="text" readonly id="titleslider" name="titleslider" value="{{ $data->ttlectsldr }}" placeholder="isi judul slider">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                                    </svg>
                                 </div>
                             </div>
+                            <div class="listplayerinfo">
+                                <label for="imgurl">image slider url</label>
+                                <div class="groupeditinput">
+                                    @if(strpos($data->ctsldrur , 'example') !== false)
+                                    <input type="text" readonly id="imgurl" name="imgurl" value="https://via.placeholder.com/184x184" placeholder="ukuran 184x184 contoh: https://via.placeholder.com/184x184">
+                                    @else
+                                    <input type="text" readonly id="imgurl" name="imgurl" value="{{ $data->ctsldrur }}" placeholder="ukuran 184x184 contoh: https://via.placeholder.com/184x184">
+                                    @endif
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="listplayerinfo ssimage">
+                                <label for=""></label>
+                                <img class="showimage" src="" alt="image"> <!-- value src tidak perlu di isi, sudah di handle pada javascript -->
+                            </div>
+                            <div class="listplayerinfo">
+                                <label for="targeturl">target url</label>
+                                <div class="groupeditinput">
+                                    <input type="text" readonly id="targeturl" name="targeturl" value="{{ $data->trgturctsldr }}" placeholder="isi link target slider">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="listplayerinfo">
+                                <label for="urutanslider">urutan slider</label>
+                                <div class="groupeditinput">
+                                    <input type="text" readonly id="urutanslider" name="urutanslider" value="1">
+                                </div>
+                            </div>
+                            <div class="listplayerinfo">
+                                <span class="labelbetpl">STATUS</span>
+                                <div class="groupradiooption" data-chekced="1">
+                                    <div class="listgrpstatusbank">
+                                        <input class="status_online" type="radio" id="active" name="statuspromo" value="1">
+                                        <label for="active">active</label>
+                                    </div>
+                                    <div class="listgrpstatusbank">
+                                        <input class="status_offline" type="radio" id="inactive" name="statuspromo" value="2">
+                                        <label for="inactive">in-active</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="listgroupplayerinfo right solo">
+                            <button class="tombol primary" type="submit">
+                                <span class="texttombol">SAVE DATA</span>
+                            </button>
                         </div>
                     </div>
-                    <div class="listgroupplayerinfo right solo">
-                        <button class="tombol primary">
-                            <span class="texttombol">SAVE DATA</span>
-                        </button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
 
+    
     <script>
         $(document).ready(function() {
             $('.groupeditinput svg').click(function() {

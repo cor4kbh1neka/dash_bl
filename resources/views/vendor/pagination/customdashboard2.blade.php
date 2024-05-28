@@ -1,8 +1,8 @@
 
 @if ($paginator->hasPages())
 
-<div class="grouppagination">
-    <div style="margin-right: auto;" >
+<div class="grouppaginationcc">
+    <div style="margin-right: auto;">
         @php
             $x = $paginator->currentPage();
             $y = $paginator->perPage();
@@ -10,7 +10,7 @@
 
             $awal = min(($x - 1) * $y + 1, $z);
             $akhir = min($x * $y, $z);
-            echo "Show data $awal to $akhir from $z results.";
+            echo "Data $awal to $akhir from $z ";
         @endphp
     </div>
     <div class="grouppaginationcc">

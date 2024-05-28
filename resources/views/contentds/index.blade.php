@@ -30,76 +30,83 @@
                     <a href="/contentds/socialmedia" class="tombol grey">
                         <span class="texttombol">SOCIAL MEDIA</span>
                     </a>
+                    <a href="/contentds/maintenance" class="tombol grey">
+                        <span class="texttombol">STATUS MAINTENANCE</span>
+                    </a>
                 </div>
                 <div class="groupdataanalyticds">
                     <div class="groupsetbankmaster">
-                        <div class="groupplayerinfo">
-                            <div class="listgroupplayerinfo left">
-                                <div class="listplayerinfo">
-                                    <label for="sitename">nama website</label>
-                                    <div class="groupeditinput">
-                                        <input type="text" id="sitename" name="sitename" value="globalbola" readonly placeholder="nama website">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                            <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
-                                        </svg>
+                        <form action="/contentds/{{ $data->idnmwebst }}" method="POST">
+                            @method('put')
+                            @csrf
+                            <div class="groupplayerinfo">
+                                <div class="listgroupplayerinfo left">
+                                    <div class="listplayerinfo">
+                                        <label for="sitename">nama website</label>
+                                        <div class="groupeditinput">
+                                            <input type="text" id="sitename" name="sitename" value="{{ $data->nmwebsite }}" readonly placeholder="nama website">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                                            </svg>
+                                        </div>
                                     </div>
+                                    <div class="listplayerinfo">
+                                        <label for="urllogo">url logo</label>
+                                        <div class="groupeditinput">
+                                            <input type="text" id="urllogo" name="urllogo" value="{{ $data->logrl }}" readonly placeholder="url logo">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="listplayerinfo">
+                                        <label for="urlicon">url icon</label>
+                                        <div class="groupeditinput">
+                                            <input type="text" id="urlicon" name="urlicon" value="{{ $data->icrl }}" readonly placeholder="url icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="listplayerinfo">
+                                        <label for="urlapk">url apk download</label>
+                                        <div class="groupeditinput">
+                                            <input type="text" id="urlapk" name="urlapk" value="{{ $data->pkrl }}" readonly placeholder="url download apk">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="listplayerinfo">
+                                        <label for="runningtext">running text</label>
+                                        <div class="groupeditinput">
+                                            <input type="text" id="runningtext" name="runningtext" value="{{ $data->rnntxt }}" readonly placeholder="isi running text">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    {{-- <div class="listplayerinfo">
+                                        <label for="mtschedule">maintenance schedule</label>
+                                        <div class="groupeditinput">
+                                            <input type="datetime-local" id="mtschedule" name="mtschedule" value="">
+                                        </div>
+                                    </div>
+                                    <div class="listplayerinfo">
+                                        <label for="maintenance">maintenance</label>
+                                        <div class="sec_togle">
+                                            <input type="checkbox" id="maintenance" name="switch_active[]" value="0"> <!-- value adalah nilai dari switch maintenance -->
+                                            <label for="maintenance" class="sec_switch"></label>
+                                        </div>
+                                    </div> --}}
                                 </div>
-                                <div class="listplayerinfo">
-                                    <label for="urllogo">url logo</label>
-                                    <div class="groupeditinput">
-                                        <input type="text" id="urllogo" name="urllogo" value="global-bola-logo.webp" readonly placeholder="url logo">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                            <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="listplayerinfo">
-                                    <label for="urlicon">url icon</label>
-                                    <div class="groupeditinput">
-                                        <input type="text" id="urlicon" name="urlicon" value="global-bola-icon.webp" readonly placeholder="url icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                            <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="listplayerinfo">
-                                    <label for="urlapk">url apk download</label>
-                                    <div class="groupeditinput">
-                                        <input type="text" id="urlapk" name="urlapk" value="https://apkdownload.com/" readonly placeholder="url download apk">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                            <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="listplayerinfo">
-                                    <label for="runningtext">running text</label>
-                                    <div class="groupeditinput">
-                                        <input type="text" id="runningtext" name="runningtext" value="GLOBALBOLA SITUS RESMI | Situs Betting Parlay Terlengkap & Terpercaya | proses transaksi kurang dari 1 menit" readonly placeholder="isi running text">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                            <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="listplayerinfo">
-                                    <label for="mtschedule">maintenance schedule</label>
-                                    <div class="groupeditinput">
-                                        <input type="datetime-local" id="mtschedule" name="mtschedule" value="">
-                                    </div>
-                                </div>
-                                <div class="listplayerinfo">
-                                    <label for="maintenance">maintenance</label>
-                                    <div class="sec_togle">
-                                        <input type="checkbox" id="maintenance" name="switch_active[]" value="0"> <!-- value adalah nilai dari switch maintenance -->
-                                        <label for="maintenance" class="sec_switch"></label>
-                                    </div>
+                                <div class="listgroupplayerinfo right solo" type="submit">
+                                    <button class="tombol primary">
+                                        <span class="texttombol">SAVE DATA</span>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="listgroupplayerinfo right solo">
-                                <button class="tombol primary">
-                                    <span class="texttombol">SAVE DATA</span>
-                                </button>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

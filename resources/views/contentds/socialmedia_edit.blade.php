@@ -25,43 +25,47 @@
         <div class="seceditmemberds updateagent">
             <div class="groupseceditmemberds">
                 <spann class="titleeditmemberds">edit social media</spann>
-                <div class="groupplayerinfo editpromo">
-                    <div class="listgroupplayerinfo left">
-                        <div class="listplayerinfo">
-                            <label for="name">name</label>
-                            <div class="groupeditinput">
-                                <input type="text" readonly id="name" name="name" value="whatsapp 1">
-                            </div>
-                        </div>
-                        <div class="listplayerinfo">
-                            <label for="urltarget">url target</label>
-                            <div class="groupeditinput">
-                                <input type="text" readonly id="urltarget" name="urltarget" value="https://wa.me/628123456789" placeholder="isi link target media social">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                    <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="listplayerinfo">
-                            <span class="labelbetpl">STATUS</span>
-                            <div class="groupradiooption" data-chekced="1">
-                                <div class="listgrpstatusbank">
-                                    <input class="status_online" type="radio" id="active" name="statuspromo" value="1">
-                                    <label for="active">active</label>
-                                </div>
-                                <div class="listgrpstatusbank">
-                                    <input class="status_offline" type="radio" id="inactive" name="statuspromo" value="2">
-                                    <label for="inactive">in-active</label>
+                <form action="/contentds/socialmedia/{{ $data->idctscmed }}" method="POST">
+                    @method('put')
+                    @csrf
+                    <div class="groupplayerinfo editpromo">
+                        <div class="listgroupplayerinfo left">
+                            <div class="listplayerinfo">
+                                <label for="name">name</label>
+                                <div class="groupeditinput">
+                                    <input type="text" readonly id="name" name="name" value="{{ $data->nmectscmed }}">
                                 </div>
                             </div>
+                            <div class="listplayerinfo">
+                                <label for="urltarget">url target</label>
+                                <div class="groupeditinput">
+                                    <input type="text" readonly id="urltarget" name="urltarget" value="{{ $data->trgturctscmed }}" placeholder="isi link target media social">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="listplayerinfo">
+                                <span class="labelbetpl">STATUS</span>
+                                <div class="groupradiooption" data-chekced="{{ $data->statusctscmed }}">
+                                    <div class="listgrpstatusbank">
+                                        <input class="status_online" type="radio" id="active" name="statuspromo" value="1">
+                                        <label for="active">active</label>
+                                    </div>
+                                    <div class="listgrpstatusbank">
+                                        <input class="status_offline" type="radio" id="inactive" name="statuspromo" value="2">
+                                        <label for="inactive">in-active</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="listgroupplayerinfo right solo">
+                            <button class="tombol primary" type="submit">
+                                <span class="texttombol">SAVE DATA</span>
+                            </button>
                         </div>
                     </div>
-                    <div class="listgroupplayerinfo right solo">
-                        <button class="tombol primary">
-                            <span class="texttombol">SAVE DATA</span>
-                        </button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

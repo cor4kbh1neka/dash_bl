@@ -126,21 +126,43 @@ Route::middleware(['auth'])->group(function () {
 
     /*-- Analyticsds --*/
     Route::get('/analyticsds', [AnalyticsdsController::class, 'index']);
+    Route::post('/analyticsds', [AnalyticsdsController::class, 'editMetaTag']);
+
     Route::get('/analyticsds/sitemap', [AnalyticsdsController::class, 'sitemap']);
+    Route::get('/analyticsds/sitemap/create', [AnalyticsdsController::class, 'createSitemap']);
+    Route::post('/analyticsds/sitemap', [AnalyticsdsController::class, 'storeSitemap']);
+    Route::put('/analyticsds/sitemap/{urpage}', [AnalyticsdsController::class, 'updateSitemap']);
+    Route::delete('/analyticsds/sitemap/{urpage}', [AnalyticsdsController::class, 'deleteSitemap']);
 
     /*-- Contentds --*/
-    Route::get('/contentds', [ContentdsController::class, 'index']);
-    Route::get('/contentds/promo', [ContentdsController::class, 'promo']);
-    Route::get('/contentds/promo/add', [ContentdsController::class, 'promoadd']);
-    Route::get('/contentds/promo/edit', [ContentdsController::class, 'promoedit']);
-    Route::get('/contentds/slider', [ContentdsController::class, 'slider']);
-    Route::get('/contentds/slider/edit', [ContentdsController::class, 'slideredit']);
-    Route::get('/contentds/link', [ContentdsController::class, 'link']);
-    Route::get('/contentds/link/edit', [ContentdsController::class, 'linkedit']);
-    Route::get('/contentds/socialmedia', [ContentdsController::class, 'socialmedia']);
-    Route::get('/contentds/socialmedia/edit', [ContentdsController::class, 'socialmediaedit']);
+    Route::prefix('contentds')->group(function(){
+        Route::get('/', [ContentdsController::class, 'index']);
+        Route::put('/{id}', [ContentdsController::class, 'generalUpdate']);
 
+        Route::get('/promo', [ContentdsController::class, 'promo']);
+        Route::get('/promo/add', [ContentdsController::class, 'promoadd']);
+        Route::post('/promo', [ContentdsController::class, 'promostore']);
+        Route::get('/promo/{id}/edit', [ContentdsController::class, 'promoedit']);
+        Route::put('/promo/{id}', [ContentdsController::class, 'promoupdate']);
+        Route::post('/promo/edit', [ContentdsController::class, 'promourutan']);
+        Route::delete('/promo/{id}', [ContentdsController::class, 'promodelete']);
 
+        Route::get('/slider', [ContentdsController::class, 'slider']);
+        Route::get('/slider/{id}/edit', [ContentdsController::class, 'sliderEdit']);
+        Route::put('/slider/{id}', [ContentdsController::class, 'sliderUpdate']);
+
+        Route::get('/link', [ContentdsController::class, 'link']);
+        Route::get('/link/{id}/edit', [ContentdsController::class, 'linkEdit']);
+        Route::put('/link/{id}', [ContentdsController::class, 'linkUpdate']);
+
+        Route::get('/socialmedia', [ContentdsController::class, 'socialmedia']);
+        Route::get('/socialmedia/{id}/edit', [ContentdsController::class, 'socialmediaedit']);
+        Route::put('/socialmedia/{id}', [ContentdsController::class, 'socialmediaupdate']);
+
+        Route::get('/maintenance', [ContentdsController::class, 'statusMaintenance']);
+        Route::get('/maintenance/{status}/edit', [ContentdsController::class, 'statusMaintenanceEdit']);
+        Route::put('/maintenance/{status}', [ContentdsController::class, 'statusMaintenanceUpdate']);
+    });
     /*-- Players --*/
     Route::get('/players', [PlayersController::class, 'index']);
     Route::get('/players/add', [PlayersController::class, 'create']);

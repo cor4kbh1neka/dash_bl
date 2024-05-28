@@ -16,71 +16,71 @@
 
         <div class="secmemberlist">
             <div class="grouphistoryds memberlist">
-                <form class="groupheadhistoryds" method="GET" action="/memberlistds">
+                <form id="searchForm" class="groupheadhistoryds" method="GET" action="/memberlistds">
                     <div class="listmembergroup">
                         <div class="listinputmember">
                             <label for="username">
                                 username
                                 <div class="check_box">
                                     <input type="checkbox" id="checkusername" name="checkusername"
-                                        {{ $checkusername == 'on' ? 'checked' : '' }}>
+                                        {{ request('checkusername') == 'on' ? 'checked' : '' }}>
                                 </div>
                             </label>
                             <input type="text" id="username" name="username" placeholder="username"
-                                value="{{ $username }}">
+                                value="{{ request('username') }}">
                         </div>
                         <div class="listinputmember">
                             <label for="norek">nomor rekening</label>
                             <input type="text" id="norek" name="norek" placeholder="nomor rekening"
-                                value="{{ $norek }}">
+                                value="{{ request('norek') }}">
                         </div>
                         <div class="listinputmember">
-                            <label for="namerek">nama rekening</label>
-                            <input type="text" id="namerek" name="namerek" placeholder="nama rekening"
-                                value="{{ $namerek }}">
+                            <label for="namarek">nama rekening</label>
+                            <input type="text" id="namarek" name="namarek" placeholder="nama rekening"
+                                value="{{ request('namarek') }}">
                         </div>
                         <div class="listinputmember">
                             <label for="bank">bank</label>
                             <input type="text" id="bank" name="bank" placeholder="bank"
-                                value="{{ $bank }}">
+                                value="{{ request('bank') }}">
                         </div>
                         <div class="listinputmember">
-                            <label for="nope">nomor handphone</label>
-                            <input type="text" id="nope" name="nope" placeholder="nomor handphone"
-                                value="{{ $nope }}">
+                            <label for="nohp">nomor handphone</label>
+                            <input type="text" id="nohp" name="nohp" placeholder="nomor handphone"
+                                value="{{ request('nohp') }}">
                         </div>
                     </div>
                     <div class="listmembergroup">
                         <div class="listinputmember">
                             <label for="referral">referral</label>
                             <input type="text" id="referral" name="referral" placeholder="referral"
-                                value="{{ $referral }}">
+                                value="{{ request('referral') }}">
                         </div>
                         <div class="listinputmember">
                             <label for="gabungdari">tanggal gabung dari</label>
                             <input type="date" id="gabungdari" name="gabungdari" placeholder="tanggal gabung dari"
-                                value="{{ $gabungdari }}">
+                                value="{{ request('gabungdari') }}">
                         </div>
                         <div class="listinputmember">
                             <label for="gabunghingga">tanggal gabung hingga</label>
                             <input type="date" id="gabunghingga" name="gabunghingga" placeholder="tanggal gabung hingga"
-                                value="{{ $gabunghingga }}">
+                                value="{{ request('gabunghingga') }}">
                         </div>
                         <div class="listinputmember">
                             <label for="status">Status</label>
                             <select name="status" id="status">
                                 <option value="" selected="" place=""
                                     style="color: #838383; font-style: italic;">Pilih status</option>
-                                <option value="9" {{ $status == 9 ? 'selected' : '' }}>new member</option>
-                                <option value="1" {{ $status == 1 ? 'selected' : '' }}>default</option>
-                                <option value="2" {{ $status == 2 ? 'selected' : '' }}>VVIP</option>
-                                <option value="3" {{ $status == 3 ? 'selected' : '' }}>bandar</option>
-                                <option value="4" {{ $status == 4 ? 'selected' : '' }}>warning</option>
-                                <option value="5" {{ $status == 5 ? 'selected' : '' }}>suspend</option>
+                                <option value="9" {{ request('status') == 9 ? 'selected' : '' }}>new member</option>
+                                <option value="1" {{ request('status') == 1 ? 'selected' : '' }}>default</option>
+                                <option value="2" {{ request('status') == 2 ? 'selected' : '' }}>VVIP</option>
+                                <option value="3" {{ request('status') == 3 ? 'selected' : '' }}>bandar</option>
+                                <option value="4" {{ request('status') == 4 ? 'selected' : '' }}>warning</option>
+                                <option value="5" {{ request('status') == 5 ? 'selected' : '' }}>suspend</option>
                             </select>
                         </div>
                         <div class="listinputmember">
-                            <button class="tombol primary">
+                            <button class="tombol primary" type="submit">
                                 <span class="texttombol">SUBMIT</span>
                             </button>
                         </div>
@@ -108,12 +108,13 @@
                                 <th class="bagtanggal">last login</th>
                                 <th class="action">tools</th>
                             </tr>
-                            @foreach ($data as $i => $d)
+                            @foreach ($data as $d)
                                 <tr>
-                                    <td>{{ $i + 1 }}</td>
+                                    {{-- <td>{{ $i + 1 }}</td> --}}
+                                    <td></td>
                                     <td>
                                         <span class="userpending">
-                                            {{ $d->username }}
+                                            {{ $d['username'] }}
                                             <a href="/memberlistds/winloseyear" class="iconprofile detailbetingan"
                                                 target="_blank">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
@@ -124,19 +125,19 @@
                                             </a>
                                         </span>
                                     </td>
-                                    <td>{{ $d->referral }}</td>
-                                    <td>{{ $d->bank }}, {{ $d->namarek }}, {{ $d->norek }}</td>
+                                    <td>{{ $d['referral'] }}</td>
+                                    <td>{{ $d->bank }}, {{ $d['namarek'] }}, {{ $d['norek'] }}</td>
                                     <td class="valuenominal">
-                                        <span class="koinasli">{{ $d->amount }}</span>
+                                        <span class="koinasli">{{ $d['amount'] }}</span>
                                         <span class="cointorp"></span>
                                     </td>
-                                    <td class="hsjenisakun" data-statusakun="{{ $d->status }}"></td>
-                                    <td>{{ $d->keterangan }}</td>
-                                    <td>{{ $d->created_at }}</td>
-                                    <td>{{ $d->lastlogin }}</td>
+                                    <td class="hsjenisakun" data-statusakun="{{ $d['status'] }}"></td>
+                                    <td>{{ $d['keterangan'] }}</td>
+                                    <td>{{ $d['created_at'] }}</td>
+                                    <td>{{ $d['lastlogin'] }}</td>
                                     <td>
                                         <div class="grouptools">
-                                            <a href="/memberlistds/edit/{{ $d->id }}"
+                                            <a href="/memberlistds/edit/{{ $d['id'] }}"
                                                 class="tombol grey openviewport" target="_blank">
                                                 <span class="texttombol">EDIT</span>
                                             </a>
@@ -151,8 +152,10 @@
 
                         </tbody>
                     </table>
-
-                    <div class="grouppagination">
+                    <div class="grouppagination" style="padding: 25px;">
+                        {{ $data->links('vendor.pagination.customdashboard') }}
+                    </div>
+                    {{-- <div class="grouppagination">
                         <div class="grouppaginationcc">
                             <div class="trigger left">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
@@ -184,7 +187,7 @@
                             <span class="numberpage">...</span>
                             <span class="numberpage">12</span>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -299,28 +302,28 @@
         $(document).ready(function() {
             // Menambahkan kelas active ke nomor halaman saat ini
             var currentPage = getCurrentPageNumber();
-            $(".numberpage").eq(currentPage - 1).addClass("active");
+            // $(".numberpage").eq(currentPage - 1).addClass("active");
 
-            $(".numberpage").click(function() {
-                $(".numberpage").removeClass("active");
-                $(this).addClass("active");
-                var pageNumber = $(this).text();
-                updateUrlWithPage(pageNumber);
-            });
+            // $(".numberpage").click(function() {
+            //     $(".numberpage").removeClass("active");
+            //     $(this).addClass("active");
+            //     var pageNumber = $(this).text();
+            //     updateUrlWithPage(pageNumber);
+            // });
 
-            $(".trigger.left").click(function() {
-                var currentPage = getCurrentPageNumber();
-                var prevPage = currentPage - 1;
-                if (prevPage >= 1) {
-                    updateUrlWithPage(prevPage);
-                }
-            });
+            // $(".trigger.left").click(function() {
+            //     var currentPage = getCurrentPageNumber();
+            //     var prevPage = currentPage - 1;
+            //     if (prevPage >= 1) {
+            //         updateUrlWithPage(prevPage);
+            //     }
+            // });
 
-            $(".trigger.right").click(function() {
-                var currentPage = getCurrentPageNumber();
-                var nextPage = currentPage + 1;
-                updateUrlWithPage(nextPage);
-            });
+            // $(".trigger.right").click(function() {
+            //     var currentPage = getCurrentPageNumber();
+            //     var nextPage = currentPage + 1;
+            //     updateUrlWithPage(nextPage);
+            // });
 
             function getCurrentPageNumber() {
                 var url = window.location.href;
@@ -386,5 +389,27 @@
                     windowLeft + ", top=" + windowTop);
             });
         });
+        // Tinggal isi aja array inputs nya dengan apapun yang mau dicari via form dengan id searchForm
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+        const inputs = [
+            'checkusername',
+            'username',
+            'norek',
+            'namarek',
+            'bank',
+            'nohp',
+            'referral',
+            'gabungdari',
+            'gabunghingga',
+            'status',
+        ];
+            inputs.forEach(id => {
+                const inputElement = document.getElementById(id);
+                if (!inputElement.value) {
+                    inputElement.disabled = true; // Untuk disabled input kalau tidak ada filter :D
+                }
+            });
+        });
+
     </script>
 @endsection

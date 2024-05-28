@@ -15,36 +15,36 @@
         </div>
         <div class="sechistoryds">
             <div class="grouphistoryds">
-                <form method="GET" action="/historycoinds" class="groupheadhistoryds" id="from-search">
+                {{-- <form method="GET" action="/historycoinds" class="groupheadhistoryds" id="searchForm">
                     <div class="listheadhistoryds top">
-                        <button type="button" class="tombol grey {{ $search_jenis == '' ? 'active' : '' }}" data-jenis="">
+                        <button type="button" class="tombol grey {{ request('jenis') == '' ? 'active' : '' }}" data-jenis="">
                             <span class="texttombol">ALL TRANSACTION</span>
                         </button>
-                        <button type="button" class="tombol grey {{ $search_jenis == 'DP' ? 'active' : '' }}"
+                        <button type="button" class="tombol grey {{ request('jenis') == 'DP' ? 'active' : '' }}"
                             data-jenis="DP">
                             <span class="texttombol">HISTORY DEPOSIT</span>
                         </button>
-                        <button type="button" class="tombol grey {{ $search_jenis == 'WD' ? 'active' : '' }}"
+                        <button type="button" class="tombol grey {{ request('jenis') == 'WD' ? 'active' : '' }}"
                             data-jenis="WD">
                             <span class="texttombol">HISTORY WITHDRAW</span>
                         </button>
-                        <button type="button" class="tombol grey {{ $search_jenis == 'M' ? 'active' : '' }}"
+                        <button type="button" class="tombol grey {{ request('jenis') == 'M' ? 'active' : '' }}"
                             data-jenis="M">
                             <span class="texttombol">HISTORY MANUAL</span>
                         </button>
                     </div>
                     <div class="grouplistheadhistoryds">
                         <div class="listheadhistoryds bottom one">
-                            <input type="hidden" id="search_jenis" name="search_jenis" value="{{ $search_jenis }}">
-                            <input type="text" id="search_username" name="search_username" placeholder="User ID"
+                            <input type="hidden" id="jenis" name="jenis" value="{{ request('jenis') }}">
+                            <input type="text" id="username" name="username" placeholder="User ID"
                                 value="{{ $search_username }}">
-                            <select name="search_status" id="search_status">
+                            <select name="status" id="status">
                                 <option value="" selected="" place=""
                                     style="color: #838383; font-style: italic;">Pilih Status</option>
                                 <option value="accept" {{ $search_status == 1 ? 'selected' : '' }}>Accepted</option>
                                 <option value="cancel" {{ $search_status == 2 ? 'selected' : '' }}>Rejected</option>
                             </select>
-                            <select name="search_agent" id="search_agent">
+                            <select name="approved_by" id="approved_by">
                                 <option value="" selected="" place=""
                                     style="color: #838383; font-style: italic;">Pilih Agent</option>
                                 <option value="adminl21" {{ $search_agent == 'adminl21' ? 'selected' : '' }}>adminl21
@@ -63,6 +63,50 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                                 <path fill="currentColor"
                                     d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11zm-6 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z" />
+                            </svg>
+                        </div>
+                    </div>
+                </form> --}}
+                <form method="GET" action="/historycoinds" class="groupheadhistoryds" id="searchForm">
+                    <div class="listheadhistoryds top">
+                        <input type="hidden" name="jenis" id="jenis" value="{{ request('jenis') }}">
+                        <button type="button" class="tombol grey {{ request('jenis') == '' ? 'active' : '' }}" id="" name="" onclick="redirectTo('')">
+                            <span class="texttombol">ALL TRANSACTION</span>
+                        </button>
+                        <button type="button" class="tombol grey {{ request('jenis') == 'DP' ? 'active' : '' }}" id="DP" name="DP" onclick="redirectTo('DP')">
+                            <span class="texttombol">HISTORY DEPOSIT</span>
+                        </button>
+                        <button type="button" class="tombol grey {{ request('jenis') == 'WD' ? 'active' : '' }}" id="WD" name="WD" onclick="redirectTo('WD')">
+                            <span class="texttombol">HISTORY WITHDRAW</span>
+                        </button>
+                        <button type="button" class="tombol grey {{ request('jenis') == 'M' ? 'active' : '' }}" id="DPM" name="DPM" onclick="redirectTo('M')">
+                            <span class="texttombol">HISTORY MANUAL</span>
+                        </button>
+                    </div>
+                    <div class="grouplistheadhistoryds">
+                        <div class="listheadhistoryds bottom one">
+                            <input type="text" id="username" name="username" placeholder="User ID" value="{{ request('username') }}">
+                            <select name="status" id="status">
+                                <option value="" selected="" place="" style="color: #838383; font-style: italic;">Pilih Status</option>
+                                <option value="accept" {{ request('status') == 'accept' ? 'selected' : '' }}>Accepted</option>
+                                <option value="cancel" {{ request('status') == 'cancel' ? 'selected' : '' }}>Rejected</option>
+                            </select>
+                            <select name="approved_by" id="approved_by">
+                                <option value="" selected="" place="" style="color: #838383; font-style: italic;">Pilih Agent</option>
+                                <option value="adminl21" {{ request('approved_by') == 'adminl21' ? 'selected' : '' }}>adminl21</option>
+                            </select>
+                        </div>
+                        <div class="listheadhistoryds bottom two">
+                            <input type="date" id="tgldari" name="tgldari" value="{{ request('tgldari') }}">
+                            <input type="date" id="tglsampai" name="tglsampai" value="{{ request('tglsampai') }}">
+                            <button type="submit" class="tombol primary" id="searchbutton">
+                                <span class="texttombol">SUBMIT</span>
+                            </button>
+                        </div>
+                        <div class="exportdata">
+                            <span class="textdownload">download</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11zm-6 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z" />
                             </svg>
                         </div>
                     </div>
@@ -106,40 +150,9 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{-- <div class="grouppagination">
-                        <div class="grouppaginationcc">
-                            <div class="trigger left">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                    <g fill="none" fill-rule="evenodd">
-                                        <path
-                                            d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
-                                        <path fill="currentColor"
-                                            d="M7.94 13.06a1.5 1.5 0 0 1 0-2.12l5.656-5.658a1.5 1.5 0 1 1 2.121 2.122L11.122 12l4.596 4.596a1.5 1.5 0 1 1-2.12 2.122l-5.66-5.658Z" />
-                                    </g>
-                                </svg>
-                            </div>
-                            <div class="trigger right">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                    viewBox="0 0 24 24">
-                                    <g fill="none" fill-rule="evenodd">
-                                        <path
-                                            d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
-                                        <path fill="currentColor"
-                                            d="M16.06 10.94a1.5 1.5 0 0 1 0 2.12l-5.656 5.658a1.5 1.5 0 1 1-2.121-2.122L12.879 12L8.283 7.404a1.5 1.5 0 0 1 2.12-2.122l5.658 5.657Z" />
-                                    </g>
-                                </svg>
-                            </div>
-                            <span class="numberpage">1</span>
-                            <span class="numberpage">2</span>
-                            <span class="numberpage">3</span>
-                            <span class="numberpage">4</span>
-                            <span class="numberpage">5</span>
-                            <span class="numberpage">...</span>
-                            <span class="numberpage">12</span>
-                        </div>
-                    </div> --}}
-                    {{-- @dd($data); --}}
-                    {{ $data->links('vendor.pagination.customdashboard') }}
+                    <div style="padding: 25px">
+                        {{ $data->links('vendor.pagination.customdashboard') }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -294,5 +307,32 @@
                 }
             }
         });
+        function redirectTo(jenis) {
+            var params = new URLSearchParams(window.location.search);
+            params.set('jenis', jenis);
+            window.location.search = params.toString();
+        }
+
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            const jenisElement = document.getElementById('jenis');
+            const inputs = [
+                'username',
+                'status',
+                'approved_by',
+                'tgldari',
+                'tglsampai',
+            ];
+
+            inputs.forEach(id => {
+                const inputElement = document.getElementById(id);
+                if (!inputElement.value) {
+                    inputElement.disabled = true; // Untuk menonaktifkan input jika tidak ada filter
+                }
+            });
+
+            jenisElement.value = jenisElement.value || ''; // Pastikan jenis tidak kosong
+        });
+
+
     </script>
 @endsection
