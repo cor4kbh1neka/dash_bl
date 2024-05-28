@@ -945,7 +945,7 @@ class ApiBolaController extends Controller
         }
     }
 
-    private function execReferral(Request $request, $mount)
+    private function execReferral(Request $request, $amount)
     {
         $dataAktif = MemberAktif::where('username', $request->Username)->first();
         if (!$dataAktif) {
@@ -1373,7 +1373,7 @@ class ApiBolaController extends Controller
     private function addWinlossStake($transfercode, $portfolio, $amount, $jenis)
     {
         $winlossData = [
-            'transfercode' => '4668995',
+            'transfercode' => '4669397',
             'portfolio' => $portfolio,
             'amount' => $amount,
             'jenis' => $jenis
