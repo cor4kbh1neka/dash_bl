@@ -144,9 +144,10 @@
                                     @foreach ($data as $i => $d)
                                         <tr>
                                             <td>1</td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckbox-0')">
+                                            <td class="check_box">
                                                 <input type="checkbox" id="myCheckbox-{{ $i }}"
-                                                    name="myCheckbox-{{ $i }}" data-id="{{ $d->id }}"
+                                                    name="myCheckbox-{{ $i }}"
+                                                    data-username="{{ $d->username }}"
                                                     data-bonus = "{{ $d->totalbonus }}">
                                             </td>
                                             <td class="username">{{ $d->username }}</td>
@@ -225,27 +226,104 @@
 
         $(document).ready(function() {
             $('#prosesbonus').click(function() {
-                var data = [];
+                var isChecked = $('#myCheckbox:checked, [id^="myCheckbox-"]:checked').length > 0;
 
-                $('input[type="checkbox"]:checked').each(function() {
-                    var id = $(this).data('id');
-                    var bonus = $(this).data('bonus');
+                if (!isChecked) {
+                    Swal.fire({
+                        icon: 'warning',
+                        text: 'Mohon cek kembali data yang ingin Anda proses!',
+                    });
+                    return;
+                }
 
-                    if (id.indexOf('-0') === -1) {
-                        data.push({
-                            id: id,
-                            bonus: bonus
+                Swal.fire({
+                    icon: 'question',
+                    title: 'Konfirmasi',
+                    text: 'Apakah Anda yakin ingin memproses data ini?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Batal',
+                }).then(function(result) {
+                    if (result.isConfirmed) {
+                        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                        var data = [];
+
+                        $('input[type="checkbox"]:checked').each(function() {
+                            var username = $(this).data('username');
+                            var bonus = $(this).data('bonus');
+
+                            // Log untuk memeriksa apakah data-username dan data-bonus terdefinisi
+                            console.log('Checkbox checked:', {
+                                username: username,
+                                bonus: bonus
+                            });
+
+                            if (username !== '') {
+                                data.push({
+                                    username: username,
+                                    bonus: bonus
+                                });
+                            }
+                        });
+
+                        // Log untuk memeriksa isi data sebelum mengirim
+                        console.log('Data yang akan dikirim:', data);
+
+                        if (data.length === 0) {
+                            Swal.fire({
+                                icon: 'warning',
+                                text: 'Tidak ada data yang valid untuk diproses!',
+                            });
+                            return;
+                        }
+
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Mohon tunggu...',
+                            text: 'Proses sedang berlangsung',
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            onBeforeOpen: function() {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        $.ajax({
+                            url: '/storebonusds',
+                            type: 'POST',
+                            data: JSON.stringify(data),
+                            contentType: 'application/json',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            success: function(response) {
+                                console.log('Berhasil mengirim data:', response);
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Data berhasil dikirim!',
+                                    text: 'Respon dari server: ' + response
+                                        .message,
+                                    timer: 3000,
+                                    showConfirmButton: false,
+                                    onClose: function() {
+                                        window.location.href = '/listbonus';
+                                    }
+                                });
+                            },
+                            error: function(error) {
+                                console.error('Gagal mengirim data:', error);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal mengirim data!',
+                                    text: 'Kesalahan: ' + error.statusText,
+                                });
+                            },
+                            complete: function() {
+                                Swal.hideLoading();
+                            }
                         });
                     }
                 });
-
-                if (data.length === 0) {
-                    alert("Tidak ada checkbox yang tercentang atau memiliki ID yang valid.");
-                    return; // Keluar dari fungsi jika tidak ada checkbox tercentang
-                }
-
-                console.log("Data yang dicentang:", data);
-                // Lakukan aksi atau manipulasi data lainnya dengan objek data yang didapat
             });
         });
     </script>

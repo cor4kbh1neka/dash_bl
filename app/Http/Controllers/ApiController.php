@@ -1011,4 +1011,23 @@ class ApiController extends Controller
     {
         return WinlossbetDay::get();
     }
+
+    public function updateApiAgentStatus(Request $request)
+    {
+        $validasiBearer = $this->validasiBearer($request);
+        if ($validasiBearer !== true) {
+            return $validasiBearer;
+        }
+
+        $data = [
+            "Username" => env('AGENTID'),
+            "Status" => "Suspend",
+            "CompanyKey" => env('COMPANY_KEY'),
+            "ServerId" => "YY-TEST"
+        ];
+        $apiUrl = 'https://ex-api-demo-yy.568win.com/web-root/restricted/report/get-bet-list-by-modify-date.aspx';
+
+        $response = Http::post($apiUrl, $data);
+        return $response->json();
+    }
 }

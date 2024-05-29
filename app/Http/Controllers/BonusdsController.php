@@ -149,4 +149,13 @@ class BonusdsController extends Controller
 
         return $response->json();
     }
+
+    public function store(Request $request)
+    {
+        dd($request);
+        foreach ($request->data as $item) {
+        }
+
+        return response()->json(['message' => 'Data berhasil disimpan']);
+    }
 }
