@@ -11,10 +11,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 
 class BonusdsController extends Controller
 {
+    public function indexlist()
+    {
+        $data = [];
+        return view('bonusds.indexlist', [
+            'title' => 'List Cashback dan Rollingan',
+            'data' => $data
+        ]);
+    }
+
     public function index(Request $request)
     {
         $dataBonusPengecualian = BonusPengecualian::get();
@@ -25,7 +35,7 @@ class BonusdsController extends Controller
         $gabunghingga =  $request->input('gabunghingga') != null ? date('Y-m-d', strtotime($request->input('gabunghingga'))) : '';
         $pengecualian = $request->input('kecuali');
 
-        if ($bonus == 1) {
+        if ($bonus == 'cashback') {
             /*bonus cahsback*/
             $dataPortfolio = ['Casino', 'Games', 'SeamlessGame', 'ThirdPartySportsBook'];
         } else {
@@ -42,8 +52,8 @@ class BonusdsController extends Controller
 
             $query = WinlossbetDay::whereIn('portfolio', $dataPortfolio)
                 ->whereBetween('created_at', [$gabungdari . ' 00:00:00', $gabunghingga . ' 23:59:59'])
-                ->select('portfolio', 'username', DB::raw('SUM(stake) as totalstake'), DB::raw('SUM(winloss) as totalwinloss'))
-                ->groupBy('portfolio', 'username');
+                ->select('username', DB::raw('SUM(stake) as totalstake'), DB::raw('SUM(winloss) as totalwinloss'))
+                ->groupBy('username');
 
 
             if (!empty($hunter)) {
@@ -51,21 +61,33 @@ class BonusdsController extends Controller
             }
 
             $results = $query->get();
-            foreach ($results as &$result) {
-                $mBonus = Bonus::where('portfolio', $result->portfolio)->first();
-                if ($bonus == 2) {
-                    if ($result->totalstake >= $mBonus->min_turnover) {
-                        $result->totalbonus = $result->totalstake * $mBonus->persentase_rolingan;
+            foreach ($results as $key => $result) {
+                $mBonus = Bonus::where('jenis_bonus', $bonus)->first();
+                $total = $bonus == 'cashback' ? $result->totalwinloss : $result->totalstake;
+                if ($bonus == 'cashback') {
+                    if ($total <= ($mBonus->min * -1)) {
+                        $result->totalbonus = abs($total) * $mBonus->persentase;
+                    } else {
+                        unset($results[$key]);
                     }
                 } else {
-                    if ($mBonus->min_lose >= $result->totalwinloss) {
-                        $result->totalbonus = $result->totalwinloss * $mBonus->persentase_cashback;
+                    if ($total >= $mBonus->min) {
+                        $result->totalbonus = $total * $mBonus->persentase;
+                    } else {
+                        unset($results[$key]);
                     }
                 }
             }
         } else {
             $results = [];
         }
+
+        if ($results instanceof Collection && !$results->isEmpty()) {
+            $isproses = true;
+        } else {
+            $isproses = false;
+        }
+
         // if ($bonus != null && $gabungdari !== null && $gabunghingga !== null && $pengecualian !== null) {
         //     $userStats = [];
 
@@ -106,7 +128,8 @@ class BonusdsController extends Controller
             'bonus' => $bonus,
             'gabungdari' => $gabungdari,
             'gabunghingga' => $gabunghingga,
-            'pengecualian' => $pengecualian
+            'pengecualian' => $pengecualian,
+            'isproses' => $isproses
         ]);
     }
 

@@ -136,7 +136,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/analyticsds/sitemap/{urpage}', [AnalyticsdsController::class, 'deleteSitemap']);
 
     /*-- Contentds --*/
-    Route::prefix('contentds')->group(function(){
+    Route::prefix('contentds')->group(function () {
         Route::get('/', [ContentdsController::class, 'index']);
         Route::put('/{id}', [ContentdsController::class, 'generalUpdate']);
 
@@ -352,6 +352,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/updateNotifikasi/{id}', [DepoWdController::class, 'updateNotifikasi']);
 
     /*-- Bonusds --*/
+    Route::get('/bonuslistds', [BonusdsController::class, 'indexlist']);
     Route::get('/bonusds', [BonusdsController::class, 'index']);
 });
 // });

@@ -6,6 +6,16 @@
     <div class="sec_table">
         <div class="secgrouptitle">
             <h2>{{ $title }}</h2>
+            <div class="kembali" style="margin-right: 40px">
+                <a href="/bonuslistds">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
+                        <path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="4"
+                            d="M44 40.836c-4.893-5.973-9.238-9.362-13.036-10.168c-3.797-.805-7.412-.927-10.846-.365V41L4 23.545L20.118 7v10.167c6.349.05 11.746 2.328 16.192 6.833c4.445 4.505 7.009 10.117 7.69 16.836Z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="textkembali">Kembali</span>
+                </a>
+            </div>
             <div class="fullscreen">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
                     <path fill="currentColor"
@@ -24,8 +34,10 @@
                                     <select name="bonus" id="bonus" required>
                                         <option value="" selected="" place=""
                                             style="color: #838383; font-style: italic;" disabled="">Pilih Bonus</option>
-                                        <option value="1" {{ $bonus == '1' ? 'selected' : '' }}>Cashback</option>
-                                        <option value="2" {{ $bonus == '2' ? 'selected' : '' }}>Rollingan</option>
+                                        <option value="cashback" {{ $bonus == 'cashback' ? 'selected' : '' }}>Cashback
+                                        </option>
+                                        <option value="rolingan" {{ $bonus == 'rolingan' ? 'selected' : '' }}>Rollingan
+                                        </option>
                                     </select>
                                 </div>
                                 <div class="listinputmember">
@@ -58,7 +70,8 @@
                                 </div>
                                 <div class="grouprightbtn">
                                     <div class="listinputmember">
-                                        <button type="button" class="tombol primary" disabled>
+                                        <button type="button" id="prosesbonus" class="tombol primary"
+                                            {{ $isproses == true ? '' : 'disabled' }}>
                                             <span class="texttombol">PROSES BONUS</span>
                                         </button>
                                     </div>
@@ -132,8 +145,9 @@
                                         <tr>
                                             <td>1</td>
                                             <td class="check_box" onclick="toggleCheckbox('myCheckbox-0')">
-                                                <input type="checkbox" id="myCheckbox-0" name="myCheckbox-0"
-                                                    data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
+                                                <input type="checkbox" id="myCheckbox-{{ $i }}"
+                                                    name="myCheckbox-{{ $i }}" data-id="{{ $d->id }}"
+                                                    data-bonus = "{{ $totalbonus }}">
                                             </td>
                                             <td class="username">{{ $d->username }}</td>
                                             <td class="datacc" data-get="{{ $d->totalstake }}"></td>
@@ -206,6 +220,13 @@
                         $(this).hide();
                     }
                 });
+            });
+        });
+
+        $(document).ready(function() {
+            $('#prosesbonus').click(function() {
+                alert("Tombol diklik! Sesuatu dilakukan.");
+
             });
         });
     </script>

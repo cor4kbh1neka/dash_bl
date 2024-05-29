@@ -12,6 +12,6 @@ class Bonus extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['portfolio', 'min_turnover', 'persentase'];
+    protected $fillable = ['jenis_bonus', 'min', 'persentase'];
     protected $table = 'bonus';
 }

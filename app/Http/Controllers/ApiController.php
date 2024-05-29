@@ -931,11 +931,31 @@ class ApiController extends Controller
         $allSum = $ReferralAktif1 + $ReferralAktif2 + $ReferralAktif3 + $ReferralAktif4 + $ReferralAktif5;
 
         /* Data Referral Member */
-        $DataReferral1 = Referral1::where('upline', $username)->get();
-        $DataReferral2 = Referral2::where('upline', $username)->get();
-        $DataReferral3 = Referral3::where('upline', $username)->get();
-        $DataReferral4 = Referral4::where('upline', $username)->get();
-        $DataReferral5 = Referral5::where('upline', $username)->get();
+        $DataReferral1 = Referral1::leftJoin('ref_aktif_ae', 'referral_ae.upline', '=', 'ref_aktif_ae.upline')
+            ->select('referral_ae.*', DB::raw('IFNULL(SUM(ref_aktif_ae.amount), 0) as total_amount'))
+            ->where('referral_ae.upline', $username)
+            ->groupBy('referral_ae.id')
+            ->get();
+        $DataReferral2 = Referral2::leftJoin('ref_aktif_fj', 'referral_fj.upline', '=', 'ref_aktif_fj.upline')
+            ->select('referral_fj.*', DB::raw('IFNULL(SUM(ref_aktif_fj.amount), 0) as total_amount'))
+            ->where('referral_fj.upline', $username)
+            ->groupBy('referral_fj.id')
+            ->get();
+        $DataReferral3 = Referral3::leftJoin('ref_aktif_ko', 'referral_ko.upline', '=', 'ref_aktif_ko.upline')
+            ->select('referral_ko.*', DB::raw('IFNULL(SUM(ref_aktif_ko.amount), 0) as total_amount'))
+            ->where('referral_ko.upline', $username)
+            ->groupBy('referral_ko.id')
+            ->get();
+        $DataReferral4 = Referral4::leftJoin('ref_aktif_pt', 'referral_pt.upline', '=', 'ref_aktif_pt.upline')
+            ->select('referral_pt.*', DB::raw('IFNULL(SUM(ref_aktif_pt.amount), 0) as total_amount'))
+            ->where('referral_pt.upline', $username)
+            ->groupBy('referral_pt.id')
+            ->get();
+        $DataReferral5 = Referral5::leftJoin('ref_aktif_uz', 'referral_uz.upline', '=', 'ref_aktif_uz.upline')
+            ->select('referral_uz.*', DB::raw('IFNULL(SUM(ref_aktif_uz.amount), 0) as total_amount'))
+            ->where('referral_uz.upline', $username)
+            ->groupBy('referral_uz.id')
+            ->get();
         $allData = $DataReferral1->union($DataReferral2)
             ->union($DataReferral3)
             ->union($DataReferral4)
@@ -968,7 +988,7 @@ class ApiController extends Controller
             'totalReferral' => $allCount,
             'totalKomisi' => $allSum,
             'dataReferral' => $allData,
-            'dataKomisi' => $allDataKomisi
+            // 'dataKomisi' => $allDataKomisi
         ];
     }
 
