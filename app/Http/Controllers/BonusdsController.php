@@ -9,11 +9,13 @@ use App\Models\Listbonusdetail;
 use App\Models\Member;
 use App\Models\MemberAktif;
 use App\Models\WinlossbetDay;
+use App\Models\DepoWd;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class BonusdsController extends Controller
@@ -166,7 +168,8 @@ class BonusdsController extends Controller
             'jenis_bonus' => $bonus,
             'kecuali' => $kecuali,
             'total' => $totalBonus,
-            'status' => 'Processed'
+            'status' => 'Processed',
+            'processed_by' => Auth::user()->username
         ]);
 
         if ($createListbonus) {
@@ -180,7 +183,22 @@ class BonusdsController extends Controller
                 ]);
 
                 if ($createDetail) {
-                    // $this->apiDepo()
+                    $txnid = $this->generateTxnid('D');
+                    $prosesApiDepo = $this->apiDepo($d->username, $d->bonus, $txnid);
+
+                    $maxAttempts4404 = 10;
+                    $attempt4404 = 0;
+                    while ($prosesApiDepo["error"]["id"] === 4404 && $attempt4404 < $maxAttempts4404) {
+                        $txnid = $this->generateTxnid('D');
+                        $data["txnId"] = $txnid;
+                        $resultsApi = $this->requestApi('withdraw', $dataAPI);
+                        if ($resultsApi["error"]["id"] === 0) {
+                            DepoWd::where('id', $dataWD->id)->update([
+                                "txnid" => $txnid
+                            ]);
+                        }
+                        $attempt4404++;
+                    }
                 }
             }
         }
@@ -200,18 +218,37 @@ class BonusdsController extends Controller
         return $invoiceNumber;
     }
 
-    private function apiDepo()
+    private function apiDepo($username, $amount, $txnid)
     {
         $data = [
-            "Username" => "poorgas321",
-            "TxnId" => "D201902081908241889",
-            "Amount" => 9,
+            "Username" => $username,
+            "TxnId" => $txnid,
+            "Amount" => $amount,
             'companyKey' => env('COMPANY_KEY'),
             'serverId' => env('SERVERID')
         ];
+
         $apiUrl = 'https://ex-api-demo-yy.568win.com/web-root/restricted/report/get-bet-list-by-refnos.aspx';
 
         $response = Http::post($apiUrl, $data);
         return $response->json();
+    }
+
+    function generateTxnid($jenis)
+    {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+
+        if ($jenis == 'D') {
+            $length = 17;
+        } else {
+            $length = 10;
+        }
+
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        $randomString = $jenis . $randomString;
+        return $randomString;
     }
 }
