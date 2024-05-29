@@ -932,23 +932,38 @@ class ApiController extends Controller
 
         /* Data Referral Member */
         $DataReferral1 = Referral1::from('referral_ae as A')
-            ->leftJoin(DB::raw('(SELECT upline, SUM(amount) as total_amount FROM ref_aktif_ae GROUP BY upline) as B'), 'A.upline', '=', 'B.upline')
+            ->leftJoin(DB::raw('(SELECT upline, downline, SUM(amount) as total_amount FROM ref_aktif_ae GROUP BY upline, downline) as B'), function ($join) {
+                $join->on('A.upline', '=', 'B.upline')
+                    ->on('A.downline', '=', 'B.downline');
+            })
             ->select('A.*', DB::raw('COALESCE(B.total_amount, 0) as total_amount'))
             ->get();
-        $DataReferral2 = Referral2::from('referral_fj as A')
-            ->leftJoin(DB::raw('(SELECT upline, SUM(amount) as total_amount FROM ref_aktif_fj GROUP BY upline) as B'), 'A.upline', '=', 'B.upline')
+        $DataReferral2 = Referral2::from('referral_jt as A')
+            ->leftJoin(DB::raw('(SELECT upline, downline, SUM(amount) as total_amount FROM ref_aktif_jt GROUP BY upline, downline) as B'), function ($join) {
+                $join->on('A.upline', '=', 'B.upline')
+                    ->on('A.downline', '=', 'B.downline');
+            })
             ->select('A.*', DB::raw('COALESCE(B.total_amount, 0) as total_amount'))
             ->get();
         $DataReferral3 = Referral3::from('referral_ko as A')
-            ->leftJoin(DB::raw('(SELECT upline, SUM(amount) as total_amount FROM ref_aktif_ko GROUP BY upline) as B'), 'A.upline', '=', 'B.upline')
+            ->leftJoin(DB::raw('(SELECT upline, downline, SUM(amount) as total_amount FROM ref_aktif_ko GROUP BY upline, downline) as B'), function ($join) {
+                $join->on('A.upline', '=', 'B.upline')
+                    ->on('A.downline', '=', 'B.downline');
+            })
             ->select('A.*', DB::raw('COALESCE(B.total_amount, 0) as total_amount'))
             ->get();
         $DataReferral4 = Referral4::from('referral_pt as A')
-            ->leftJoin(DB::raw('(SELECT upline, SUM(amount) as total_amount FROM ref_aktif_pt GROUP BY upline) as B'), 'A.upline', '=', 'B.upline')
+            ->leftJoin(DB::raw('(SELECT upline, downline, SUM(amount) as total_amount FROM ref_aktif_pt GROUP BY upline, downline) as B'), function ($join) {
+                $join->on('A.upline', '=', 'B.upline')
+                    ->on('A.downline', '=', 'B.downline');
+            })
             ->select('A.*', DB::raw('COALESCE(B.total_amount, 0) as total_amount'))
             ->get();
         $DataReferral5 = Referral5::from('referral_uz as A')
-            ->leftJoin(DB::raw('(SELECT upline, SUM(amount) as total_amount FROM ref_aktif_uz GROUP BY upline) as B'), 'A.upline', '=', 'B.upline')
+            ->leftJoin(DB::raw('(SELECT upline, downline, SUM(amount) as total_amount FROM ref_aktif_uz GROUP BY upline, downline) as B'), function ($join) {
+                $join->on('A.upline', '=', 'B.upline')
+                    ->on('A.downline', '=', 'B.downline');
+            })
             ->select('A.*', DB::raw('COALESCE(B.total_amount, 0) as total_amount'))
             ->get();
         $allData = $DataReferral1->union($DataReferral2)
