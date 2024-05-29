@@ -147,7 +147,7 @@
                                             <td class="check_box" onclick="toggleCheckbox('myCheckbox-0')">
                                                 <input type="checkbox" id="myCheckbox-{{ $i }}"
                                                     name="myCheckbox-{{ $i }}" data-id="{{ $d->id }}"
-                                                    data-bonus = "{{ $totalbonus }}">
+                                                    data-bonus = "{{ $d->totalbonus }}">
                                             </td>
                                             <td class="username">{{ $d->username }}</td>
                                             <td class="datacc" data-get="{{ $d->totalstake }}"></td>
@@ -225,8 +225,27 @@
 
         $(document).ready(function() {
             $('#prosesbonus').click(function() {
-                alert("Tombol diklik! Sesuatu dilakukan.");
+                var data = [];
 
+                $('input[type="checkbox"]:checked').each(function() {
+                    var id = $(this).data('id');
+                    var bonus = $(this).data('bonus');
+
+                    if (id.indexOf('-0') === -1) {
+                        data.push({
+                            id: id,
+                            bonus: bonus
+                        });
+                    }
+                });
+
+                if (data.length === 0) {
+                    alert("Tidak ada checkbox yang tercentang atau memiliki ID yang valid.");
+                    return; // Keluar dari fungsi jika tidak ada checkbox tercentang
+                }
+
+                console.log("Data yang dicentang:", data);
+                // Lakukan aksi atau manipulasi data lainnya dengan objek data yang didapat
             });
         });
     </script>

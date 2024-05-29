@@ -937,6 +937,7 @@ class ApiController extends Controller
                     ->on('A.downline', '=', 'B.downline');
             })
             ->select('A.*', DB::raw('COALESCE(B.total_amount, 0) as total_amount'))
+            ->where('A.upline', '=', $username)
             ->get();
         $DataReferral2 = Referral2::from('referral_fj as A')
             ->leftJoin(DB::raw('(SELECT upline, downline, SUM(amount) as total_amount FROM ref_aktif_fj GROUP BY upline, downline) as B'), function ($join) {
@@ -944,6 +945,7 @@ class ApiController extends Controller
                     ->on('A.downline', '=', 'B.downline');
             })
             ->select('A.*', DB::raw('COALESCE(B.total_amount, 0) as total_amount'))
+            ->where('A.upline', '=', $username)
             ->get();
         $DataReferral3 = Referral3::from('referral_ko as A')
             ->leftJoin(DB::raw('(SELECT upline, downline, SUM(amount) as total_amount FROM ref_aktif_ko GROUP BY upline, downline) as B'), function ($join) {
@@ -951,6 +953,7 @@ class ApiController extends Controller
                     ->on('A.downline', '=', 'B.downline');
             })
             ->select('A.*', DB::raw('COALESCE(B.total_amount, 0) as total_amount'))
+            ->where('A.upline', '=', $username)
             ->get();
         $DataReferral4 = Referral4::from('referral_pt as A')
             ->leftJoin(DB::raw('(SELECT upline, downline, SUM(amount) as total_amount FROM ref_aktif_pt GROUP BY upline, downline) as B'), function ($join) {
@@ -958,6 +961,7 @@ class ApiController extends Controller
                     ->on('A.downline', '=', 'B.downline');
             })
             ->select('A.*', DB::raw('COALESCE(B.total_amount, 0) as total_amount'))
+            ->where('A.upline', '=', $username)
             ->get();
         $DataReferral5 = Referral5::from('referral_uz as A')
             ->leftJoin(DB::raw('(SELECT upline, downline, SUM(amount) as total_amount FROM ref_aktif_uz GROUP BY upline, downline) as B'), function ($join) {
@@ -965,6 +969,7 @@ class ApiController extends Controller
                     ->on('A.downline', '=', 'B.downline');
             })
             ->select('A.*', DB::raw('COALESCE(B.total_amount, 0) as total_amount'))
+            ->where('A.upline', '=', $username)
             ->get();
         $allData = $DataReferral1->union($DataReferral2)
             ->union($DataReferral3)
