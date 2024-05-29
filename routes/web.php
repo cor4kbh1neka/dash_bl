@@ -355,5 +355,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bonuslistds', [BonusdsController::class, 'indexlist']);
     Route::get('/bonusds', [BonusdsController::class, 'index']);
     Route::post('/storebonusds', [BonusdsController::class, 'store']);
+
+    /*-- Memotouserds --*/
+    Route::get('/maintenance', [MaintenancedsController::class, 'maintenance']);
 });
 // });
