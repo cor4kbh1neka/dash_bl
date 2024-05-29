@@ -53,7 +53,6 @@ Route::post('/checkBalance', [ApiController::class, 'getBalance']);
 Route::post('/getHistoryGame', [ApiController::class, 'getHistoryGame']);
 Route::post('/getHistoryGameById', [ApiController::class, 'getHistoryGameById']);
 Route::post('/getDataOutstanding', [ApiController::class, 'getDataOutstanding']);
-Route::post('/getStatusMt', [ApiController::class, 'getStatusMt']);
 
 // });
 

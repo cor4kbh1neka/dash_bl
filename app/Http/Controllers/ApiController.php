@@ -1011,18 +1011,4 @@ class ApiController extends Controller
     {
         return WinlossbetDay::get();
     }
-
-
-
-    public function getStatusMt(Request $request)
-    {
-        $validasiBearer = $this->validasiBearer($request);
-        if ($validasiBearer !== true) {
-            return $validasiBearer;
-        }
-
-        return [
-            'status' => 'Active'
-        ];
-    }
 }
