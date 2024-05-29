@@ -34,9 +34,16 @@
                                 <th class="bagnominal">coin</th>
                                 <th class="bagnominal">last coin</th>
                             </tr>
+                            @php
+                                if($data != null){
+                                    $currentPage = $data->currentPage();
+                                    $perPage = $data->perPage();
+                                    $startNumber = ($currentPage - 1) * $perPage + 1;
+                                }
+                            @endphp
                             @foreach ($data as $i => $d)
                                 <tr>
-                                    <td>{{ $i + 1 }}</td>
+                                    <td>{{ $startNumber + $i }}</td>
                                     <td class="hsjenistrans">{{ $d->updated_at }}</td>
                                     <td class="hsjenistrans" data-proses="{{ $d->status == 1 ? 'accept' : 'cancel' }}">
                                         @if ($d->jenis == 'DP' || $d->jenis == 'WD')
@@ -54,7 +61,8 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="grouppagination">
+                    {{ $data->links('vendor.pagination.customdashboard') }}
+                    {{-- <div class="grouppagination">
                         <div class="grouppaginationcc">
                             <div class="trigger left">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
@@ -86,7 +94,7 @@
                             <span class="numberpage">...</span>
                             <span class="numberpage">12</span>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="informasihistorycoin">
                         <span>*data yang di tampilkan saat ini, selengkapnya di menu <span
                                 class="texthistory">history</span></span>

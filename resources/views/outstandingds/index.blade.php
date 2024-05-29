@@ -40,9 +40,14 @@
                                     <th class="bagnominal">Total Nominal (IDR)</th>
                                     <th class="bagcountoutstand">Total Invoice</th>
                                 </tr>
+                                @php
+                                    $currentPage = $data->currentPage();
+                                    $perPage = $data->perPage();
+                                    $startNumber = ($currentPage - 1) * $perPage + 1;
+                                @endphp
                                 @foreach ($data as $i => $d)
                                     <tr>
-                                        <td>{{ $i + 1 }}</td>
+                                        <td>{{ $startNumber + $i }}</td>
                                         <td>{{ $d['username'] }}</td>
                                         <td>{{ $d['totalAmount'] }}</td>
                                         <td>
@@ -80,9 +85,14 @@
                                     <th class="bagnominal">nominal (IDR)</th>
                                     <th class="bagstatusbet">status betingan</th>
                                 </tr>
+                                @php
+                                    $currentPage = $data->currentPage();
+                                    $perPage = $data->perPage();
+                                    $startNumber = ($currentPage - 1) * $perPage + 1;
+                                @endphp
                                 @foreach ($dataouts as $i => $d)
                                     <tr>
-                                        <td>{{ $i + 1 }}</td>
+                                        <td>{{ $startNumber + $i }}</td>
                                         <td>{{ $d->username }}</td>
                                         <td>{{ date('Y-m-d H:i:s', strtotime($d->created_at)) }}</td>
                                         <td class="data refNo">{{ $d->transactionid }}</td>

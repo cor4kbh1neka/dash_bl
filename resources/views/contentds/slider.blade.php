@@ -66,7 +66,7 @@
                                             </svg>
                                         </td>
                                         <td>
-                                            <img src="https://via.placeholder.com/184x184" alt="image">
+                                            <img src="{{ $d->ctsldrur }}" alt="image">
                                         </td>
                                         <td class="datamini">{{ $d->ttlectsldr }}</td>
                                         <td class="datamini">{{ $d->trgturctsldr }}</td>

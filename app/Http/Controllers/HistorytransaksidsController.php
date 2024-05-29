@@ -78,7 +78,7 @@ class HistorytransaksidsController extends Controller
     {
         $data = [];
         if ($request->getQueryString() && request('username')){
-            $data = $this->filterAndPaginate(HistoryTransaksi::orderByDesc('created_at')->get(), 10);
+            $data = $this->filterAndPaginate(HistoryTransaksi::orderByDesc('created_at')->get(), 20);
         }
         return view('historytransaksids.index', [
             'title' => 'History Transaksi Baru',
@@ -194,9 +194,9 @@ class HistorytransaksidsController extends Controller
         }
         if (request('invoice')) {
             $inputInvoice = request('invoice');
-            $query = $query->filter(function ($item) use ($inputInvoice) {
-                return $item['invoice'] === $inputInvoice;
-            });
+            $query = $query->filter(function ($item) use ($inputInvoice) { 
+                return stripos($item['invoice'], $inputInvoice) !== false;
+            });   
         }
         if (!request('checkall') || !request(['checkinvoice', 'checkstatus', 'checktransdari', 'checktranshingga'])) {
             return $query = [];

@@ -1,8 +1,6 @@
-
 @if ($paginator->hasPages())
-
 <div class="grouppagination">
-    <div style="margin-right: auto;" >
+    <div style="margin-right: auto;">
         @php
             $x = $paginator->currentPage();
             $y = $paginator->perPage();
@@ -14,6 +12,21 @@
         @endphp
     </div>
     <div class="grouppaginationcc">
+        <!-- Go to First Page -->
+        {{-- @if ($paginator->onFirstPage())
+            <div class="trigger left disabled">
+                <span aria-label="Go to First Page" style="pointer-events: none; opacity: 0.5;">
+                    First
+                </span>
+            </div>
+        @else
+            <div class="trigger left">
+                <a href="{{ $paginator->url(1) }}" aria-label="Go to First Page">
+                    First
+                </a>
+            </div>
+        @endif --}}
+
         @if ($paginator->onFirstPage())
             <div class="trigger left">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
@@ -76,6 +89,21 @@
                 </a>
             </div>
         @endif
+
+        <!-- Go to Last Page -->
+        {{-- @if ($paginator->currentPage() == $paginator->lastPage())
+            <div class="trigger right disabled">
+                <span aria-label="Go to Last Page" style="pointer-events: none; opacity: 0.5;">
+                    Last
+                </span>
+            </div>
+        @else
+            <div class="trigger right">
+                <a href="{{ $paginator->url($paginator->lastPage()) }}" aria-label="Go to Last Page">
+                    Last
+                </a>
+            </div>
+        @endif --}}
     </div>
 </div>
 @endif

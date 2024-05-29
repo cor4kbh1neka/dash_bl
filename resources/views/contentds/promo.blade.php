@@ -35,12 +35,12 @@
                     </a>
                 </div>
                 <div class="listheadsecagentds bottom">
-                    <button id="toggleButton" class="tombol primary setrow" type="button">
+                    {{-- <button id="toggleButton" class="tombol primary setrow" type="button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512">
                             <path fill="currentColor" d="M472 168H40a24 24 0 0 1 0-48h432a24 24 0 0 1 0 48m-80 112H120a24 24 0 0 1 0-48h272a24 24 0 0 1 0 48m-96 112h-80a24 24 0 0 1 0-48h80a24 24 0 0 1 0 48" />
                         </svg>
                         <span id="texttombol" class="texttombol tmblurutan">DEFAULT</span>
-                    </button>
+                    </button> --}}
                     <a href="/contentds/promo/add" class="tombol proses openviewport">
                         <span class="texttombol">
                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
@@ -99,6 +99,16 @@
                                                 <span class="texttombol">edit</span>
                                             </a>
                                             <form action="/contentds/promo/{{ $d->idctprm }}" method="POST">
+                                                @method('delete')
+                                                @csrf
+                                                <button class="tombol cancel border" onclick="return confirm('Yaking Ingin Hapus Promo Ini?')">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                                        <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z" />
+                                                    </svg>
+                                                    <span class="texttombol">delete</span>
+                                                </button>
+                                            </form>
+                                            <form action="/contentds/promo/{{ $d->idctprm }}" method="POST">
                                                 @method('put')
                                                 @csrf
                                                 @if($d->pssprm == 1)
@@ -106,8 +116,21 @@
                                                 <input type="hidden" name="urutan" value="{{ $d->pssprm - 1 }}">
                                                 <input type="hidden" name="urutanlain" value="{{ $d->pssprm }}">
                                                 <button class="tombol grey" type="submit">
-                                                    <svg  xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-chevrons-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 11l5 -5l5 5" /><path d="M7 17l5 -5l5 5" /></svg>
-                                                    <span class="texttombol"></span>
+                                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M18 11l-6 -6" /><path d="M6 11l6 -6" /></svg>
+                                                    <span class="texttombol">Naik</span>
+                                                </button>
+                                                @endif
+                                            </form>
+                                            <form action="/contentds/promo/{{ $d->idctprm }}" method="POST">
+                                                @method('put')
+                                                @csrf
+                                                @if($d->pssprm == 1)
+                                                @else
+                                                <input type="hidden" name="urutan" value="{{ $d->pssprm - 1 }}">
+                                                <input type="hidden" name="urutanlain" value="{{ $d->pssprm }}">
+                                                <button class="tombol grey" type="submit">
+                                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrows-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 3l0 18" /><path d="M4 6l3 -3l3 3" /><path d="M20 6l-3 -3l-3 3" /><path d="M7 3l0 18" /></svg>
+                                                    <span class="texttombol">Teratas</span>
                                                 </button>
                                                 @endif
                                             </form>

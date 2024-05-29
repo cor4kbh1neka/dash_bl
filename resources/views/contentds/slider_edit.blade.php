@@ -73,7 +73,7 @@
                             </div>
                             <div class="listplayerinfo">
                                 <span class="labelbetpl">STATUS</span>
-                                <div class="groupradiooption" data-chekced="1">
+                                <div class="groupradiooption" data-chekced="{{ $data->statusctsldr }}">
                                     <div class="listgrpstatusbank">
                                         <input class="status_online" type="radio" id="active" name="statuspromo" value="1">
                                         <label for="active">active</label>

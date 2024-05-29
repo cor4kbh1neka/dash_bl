@@ -67,6 +67,11 @@
                         </div>
                     </div>
                 </form> --}}
+                @php
+                    $currentPage = $data->currentPage();
+                    $perPage = $data->perPage();
+                    $startNumber = ($currentPage - 1) * $perPage + 1;
+                @endphp
                 <form method="GET" action="/historycoinds" class="groupheadhistoryds" id="searchForm">
                     <div class="listheadhistoryds top">
                         <input type="hidden" name="jenis" id="jenis" value="{{ request('jenis') }}">
@@ -131,7 +136,7 @@
                             @foreach ($data as $i => $d)
                                 <tr>
                                     <td>
-                                        <div class="statusmember">{{ $i + 1 }}</div>
+                                        <div class="statusmember">{{ $startNumber + $i }}</div>
                                     </td>
                                     {{-- <td class="check_box" onclick="toggleCheckbox('myCheckbox-0')">
                                         <input type="checkbox" id="myCheckbox-0" name="myCheckbox-0"

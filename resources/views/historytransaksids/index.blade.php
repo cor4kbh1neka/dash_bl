@@ -119,10 +119,17 @@
                                 <th class="bagnominalhs">credit (IDR)</th>
                                 <th class="bagnominalhs">balance (IDR)</th>
                             </tr>
-                            @foreach ($data as $d)
+                            @php
+                                if($data != null){
+                                    $currentPage = $data->currentPage();
+                                    $perPage = $data->perPage();
+                                    $startNumber = ($currentPage - 1) * $perPage + 1;
+                                }
+                            @endphp
+                            @foreach ($data as $index => $d)
                                 <tr class="statusketerangan" data-status="{{ $d->status }}">
                                     <td>
-                                        <div class="statusmember">1</div>
+                                        <div class="statusmember">{{ $startNumber + $index }}</div>
                                     </td>
                                     <td>{{ $d->refno }}</td>
                                     <td>{{ $d->created_at }}</td>

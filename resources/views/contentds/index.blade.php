@@ -112,7 +112,23 @@
             </div>
         </div>
     </div>
-
+    @if(session('success'))
+    <script>
+        Swal.fire({
+            text: '{{ session('success') }}',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    </script>
+    @elseif(session()->has('error'))
+        <script>
+            Swal.fire({
+                text: '{{ session('error') }}',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
 
     <script>
         $(document).ready(function() {

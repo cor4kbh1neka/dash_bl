@@ -89,7 +89,7 @@ class HistorygamedsController extends Controller
                 return $item['status'] === $status;
             });
         }
-        $data = $this->filterAndPaginate(collect($data), 10);
+        $data = $this->filterAndPaginate(collect($data), 20);
 
         //DATA SPORT TYPE   
         // $dataSportType = [

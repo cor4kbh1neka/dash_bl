@@ -95,7 +95,7 @@ class MemberlistdsController extends Controller
     {
         $query = Member::query()->join('balance', 'balance.username', '=', 'member.username')
                     ->select('member.*', 'balance.amount');
-        $data = $this->filterAndPaginate($query->get(), 10);
+        $data = $this->filterAndPaginate($query->get(), 20);
         return view('memberlistds.index', [
             'title' => 'Member List',
             'data' => $data,
@@ -269,7 +269,6 @@ class MemberlistdsController extends Controller
         }
     }
 
-
     private function reqApiUpdateUser($data, $username)
     {
         $url = 'https://back-staging.bosraka.com/users/' . $username;
@@ -346,7 +345,8 @@ class MemberlistdsController extends Controller
 
     public function historybank($username)
     {
-        $data = DepoWd::where('username', $username)->where('status', '>', 0)->get();
+        $raw = DepoWd::where('username', $username)->where('status', '>', 0)->get();
+        $data = $this->filterAndPaginate($raw, 20);
         return view('memberlistds.history_bank', [
             'title' => 'History Bank',
             'totalnote' => 0,

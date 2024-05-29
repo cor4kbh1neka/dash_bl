@@ -6406,3 +6406,8 @@ input#agentname {
     font-size: 1.7vw;
   }
 }
+.nyala {
+  background: rgba(var(--rgba-primary), 0.2);
+  border-right: 5px solid var(--primary-color);
+  border-radius: 0 6px 6px 0;
+}

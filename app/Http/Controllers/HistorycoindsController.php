@@ -78,7 +78,7 @@ class HistorycoindsController extends Controller
     }
     public function index()
     {
-        $data = $this->filterAndPaginate(10);
+        $data = $this->filterAndPaginate(20);
         return view('historycoinds.index', [
             'title' => 'List History',
             'data' => $data,

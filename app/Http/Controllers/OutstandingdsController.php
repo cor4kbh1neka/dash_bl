@@ -36,8 +36,8 @@ class OutstandingdsController extends Controller
         } else {
             $dataOtstandingDetail = [];
         }
-        $data = $this->paginate($dataOuts, 10);
-        $dataOtstandingPaginate = $this->paginate2($dataOtstandingDetail, 10);
+        $data = $this->paginate($dataOuts, 20);
+        $dataOtstandingPaginate = $this->paginate2($dataOtstandingDetail, 20);
         return view('outstandingds.index', [
             'title' => 'Member Outstanding',
             'data' => $data,

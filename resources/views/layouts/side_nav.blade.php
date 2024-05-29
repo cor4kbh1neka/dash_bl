@@ -24,7 +24,7 @@
     </div>
 
     <a href="/dashboard" class="nav_group">
-        <div class="title_Nav singlemenu">
+        <div class="title_Nav singlemenu {{ Request::is('dashboard*') ? 'nyala' : '' }}">
             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                 <path fill="currentColor"
                     d="M11 21H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h6zm2 0h6c1.1 0 2-.9 2-2v-7h-8zm8-11V5c0-1.1-.9-2-2-2h-6v7z" />
@@ -36,7 +36,7 @@
     <div class="nav_group">
         <span class="title_Nav">TRANSACTION</span>
         <div class="list_sidejsx">
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('depositds*') ? 'active' : '' }}">
                 <a href="/depositds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512">
                         <path fill="currentColor"
@@ -48,7 +48,7 @@
                     <span class="countdatapend" id="countDP">{{ $dataCount['countDP'] }}</span>
                 </a>
             </div>
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('withdrawds*') ? 'active' : '' }}">
                 <a href="/withdrawds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="currentColor"
@@ -58,7 +58,7 @@
                     <span class="countdatapend" id="countWD">{{ $dataCount['countWD'] }}</span>
                 </a>
             </div>
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('manualds*') ? 'active' : '' }}">
                 <a href="/manualds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="currentColor"
@@ -67,7 +67,7 @@
                     <span class="nav_title1">Manual</span>
                 </a>
             </div>
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('historycoinds*') ? 'active' : '' }}">
                 <a href="/historycoinds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -85,7 +85,7 @@
     <div class="nav_group">
         <span class="title_Nav">DATA</span>
         <div class="list_sidejsx">
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('memberlistds*') ? 'active' : '' }}">
                 <a href="/memberlistds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="currentColor" fill-rule="evenodd"
@@ -97,7 +97,7 @@
                     <span class="nav_title1">member list</span>
                 </a>
             </div>
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('historytransaksids*') ? 'active' : '' }}">
                 <a href="/historytransaksids" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 20 20">
                         <path fill="currentColor"
@@ -106,7 +106,7 @@
                     <span class="nav_title1">history transaksi</span>
                 </a>
             </div>
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('referralds*') ? 'active' : '' }}">
                 <a href="/referralds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="currentColor"
@@ -115,7 +115,7 @@
                     <span class="nav_title1">referral</span>
                 </a>
             </div>
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('historygameds*') ? 'active' : '' }}">
                 <a href="/historygameds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512">
                         <path fill="currentColor"
@@ -124,7 +124,7 @@
                     <span class="nav_title1">history game</span>
                 </a>
             </div>
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('outstandingds*') ? 'active' : '' }}">
                 <a href="/outstandingds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="currentColor"
@@ -134,7 +134,7 @@
                     <span class="countdatapend outstanding">{{ $dataCount['countOuts'] }}</span>
                 </a>
             </div>
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('bonusds*') ? 'active' : '' }}">
                 <a href="/bonusds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 14 14">
                         <path fill="currentColor" fill-rule="evenodd"
@@ -144,7 +144,7 @@
                     <span class="nav_title1">Cashback/Rollingan</span>
                 </a>
             </div>
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('reportds*') ? 'active' : '' }}">
                 <a href="/reportds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <g fill="none" fill-rule="evenodd">
@@ -163,7 +163,7 @@
     <div class="nav_group">
         <span class="title_Nav">GENERAL CONFIG</span>
         <div class="list_sidejsx">
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('bankds*') ? 'active' : '' }}">
                 <a href="/bankds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="currentColor"
@@ -172,7 +172,7 @@
                     <span class="nav_title1">bank</span>
                 </a>
             </div>
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('memods*') ? 'active' : '' }}">
                 <a href="/memods" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <g fill="none">
@@ -192,7 +192,7 @@
     <div class="nav_group">
         <span class="title_Nav">CONFIG ADMIN</span>
         <div class="list_sidejsx">
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('agentds*') ? 'active' : '' }}">
                 <a href="/agentds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 32 32">
                         <path fill="currentColor"
@@ -203,7 +203,7 @@
                     <span class="nav_title1">agent</span>
                 </a>
             </div>
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('analyticsds*') ? 'active' : '' }}">
                 <a href="/analyticsds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="currentColor"
@@ -212,7 +212,7 @@
                     <span class="nav_title1">analytics</span>
                 </a>
             </div>
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('contentds*') ? 'active' : '' }}">
                 <a href="/contentds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="currentColor"
@@ -221,7 +221,7 @@
                     <span class="nav_title1">content</span>
                 </a>
             </div>
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('apksettingds*') ? 'active' : '' }}">
                 <a href="/apksettingds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="currentColor"
@@ -230,7 +230,7 @@
                     <span class="nav_title1">APK settings</span>
                 </a>
             </div>
-            <div class="data_sidejsx">
+            <div class="data_sidejsx {{ Request::is('memotouserds*') ? 'active' : '' }}">
                 <a href="/memotouserds" id="Player">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="currentColor" fill-rule="evenodd"
