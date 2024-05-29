@@ -27,35 +27,6 @@ class AgentdsController extends Controller
         ]);
     }
 
-    function apiUpdateStatusSuspend(Request $request)
-    {
-        $username = $request->username;
-        $status = $request->status;
-
-        $data = [
-            "Username" => $username,
-            "Status" => $status,
-            "CompanyKey" => env('COMPANY_KEY'),
-            "ServerId" => "YY-TEST"
-        ];
-        $apiUrl = 'https://ex-api-demo-yy.568win.com/web-root/restricted/report/get-bet-list-by-modify-date.aspx';
-        $response = Http::post($apiUrl, $data);
-
-        if ($response["error"]["id"] == 0) {
-            if ($status == 'Active') {
-                $statusUser = 1;
-            } else if ($status == 'Suspend') {
-                $statusUser = 2;
-            } else {
-                /* CLOSED */
-                $statusUser = 3;
-            }
-
-            User::where('username', $username)->update(['status' => $statusUser]);
-            return response()->json(['success' => true]);
-        }
-    }
-
     public function create()
     {
         $dataAccess = UserAccess::get();
