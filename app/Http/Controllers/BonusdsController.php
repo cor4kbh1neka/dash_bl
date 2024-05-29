@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Bonus;
 use App\Models\BonusPengecualian;
+use App\Models\Listbonus;
+use App\Models\Listbonusdetail;
 use App\Models\Member;
 use App\Models\MemberAktif;
 use App\Models\WinlossbetDay;
@@ -150,12 +152,44 @@ class BonusdsController extends Controller
         return $response->json();
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $bonus, $gabungdari, $gabunghingga, $kecuali)
     {
-        dd($request);
-        foreach ($request->data as $item) {
+
+        $data = $request->request->all();
+        $bonuses = array_column($data, 'bonus');
+        $totalBonus = array_sum($bonuses);
+
+        $prosessSave = Listbonus::create([
+            'no_invoice' => $this->generateInvoiceNumber(),
+            'periodedari' => $gabungdari,
+            'periodesampai' => $gabunghingga,
+            'jenis_bonus' => $bonus,
+            'kecuali' => $kecuali,
+            'total' => $totalBonus,
+            'status' => 'Processed'
+        ]);
+
+        if ($prosessSave) {
+            foreach ($data as $d) {
+                Listbonusdetail
+            }
         }
 
+
+
+
         return response()->json(['message' => 'Data berhasil disimpan']);
+    }
+
+    private function generateInvoiceNumber($length = 8)
+    {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $invoiceNumber = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $invoiceNumber .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        return $invoiceNumber;
     }
 }

@@ -355,7 +355,7 @@ Route::middleware(['auth'])->group(function () {
     /*-- Bonusds --*/
     Route::get('/bonuslistds', [BonusdsController::class, 'indexlist']);
     Route::get('/bonusds', [BonusdsController::class, 'index']);
-    Route::post('/storebonusds', [BonusdsController::class, 'store']);
+    Route::post('/storebonusds/{bonus}/{gabungdari}/{gabunghingga}/{kecuali}', [BonusdsController::class, 'store']);
 
     /*-- Memotouserds --*/
     Route::get('/maintenance', [MaintenancedsController::class, 'maintenance']);

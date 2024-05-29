@@ -248,11 +248,15 @@
                         var csrfToken = $('meta[name="csrf-token"]').attr('content');
                         var data = [];
 
-                        $('input[type="checkbox"]:checked').each(function() {
+                        var bonusVal = $('#bonus').val();
+                        var gabungdariVal = $('#gabungdari').val();
+                        var gabunghinggaVal = $('#gabunghingga').val();
+                        var kecualiVal = $('#kecuali').val();
+
+                        $('input[type="checkbox"]:checked').not('#myCheckbox').each(function() {
                             var username = $(this).data('username');
                             var bonus = $(this).data('bonus');
 
-                            // Log untuk memeriksa apakah data-username dan data-bonus terdefinisi
                             console.log('Checkbox checked:', {
                                 username: username,
                                 bonus: bonus
@@ -266,7 +270,6 @@
                             }
                         });
 
-                        // Log untuk memeriksa isi data sebelum mengirim
                         console.log('Data yang akan dikirim:', data);
 
                         if (data.length === 0) {
@@ -280,16 +283,21 @@
                         Swal.fire({
                             icon: 'info',
                             title: 'Mohon tunggu...',
-                            text: 'Proses sedang berlangsung',
+                            text: 'Proses sedang berlangsung, jangan diclose!',
                             allowOutsideClick: false,
                             showConfirmButton: false,
-                            onBeforeOpen: function() {
+                            didOpen: () => {
                                 Swal.showLoading();
                             }
                         });
 
+                        // Tambahkan bonusVal langsung ke URL
+                        var url = '/storebonusds/' + encodeURIComponent(bonusVal) + '/' +
+                            encodeURIComponent(gabungdariVal) + '/' + encodeURIComponent(
+                                gabunghinggaVal) + '/' + encodeURIComponent(kecualiVal);;
+
                         $.ajax({
-                            url: '/storebonusds',
+                            url: url,
                             type: 'POST',
                             data: JSON.stringify(data),
                             contentType: 'application/json',
@@ -303,10 +311,12 @@
                                     title: 'Data berhasil dikirim!',
                                     text: 'Respon dari server: ' + response
                                         .message,
-                                    timer: 3000,
-                                    showConfirmButton: false,
-                                    onClose: function() {
-                                        window.location.href = '/listbonus';
+                                    timer: 2000,
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Oke',
+                                    didClose: () => {
+                                        // window.location.href =
+                                        //     '/bonuslistds';
                                     }
                                 });
                             },
