@@ -1022,7 +1022,7 @@ class ApiController extends Controller
         }
 
         return [
-            'status' => 'Maintenance'
+            'status' => 'Active'
         ];
     }
 }
