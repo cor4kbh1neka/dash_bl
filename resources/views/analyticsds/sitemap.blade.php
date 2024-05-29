@@ -63,6 +63,7 @@
                                                     @method('put')
                                                     @csrf
                                                     <input type="hidden" id="hiddenUrlPage_{{ $loop->index }}" name="urpage" value="">
+                                                    <input type="hidden" id="hiddenLastmod_{{ $loop->index }}" name="lastmod" value="">
                                                     <button class="tombol primary" type="submit">
                                                         <span class="texttombol">UPDATE</span>
                                                     </button>
@@ -122,8 +123,19 @@
 
                 hiddenUrlPageInput.value = input.value;
             });
-        });
 
+            const lastmodInputs = document.querySelectorAll('input[id^="lastmod_"]');
+            lastmodInputs.forEach(function(input) {
+                const index = input.id.split('_')[1];
+                const hiddenLastmodInput = document.getElementById('hiddenLastmod_' + index);
+
+                input.addEventListener('input', function() {
+                    hiddenLastmodInput.value = input.value;
+                });
+
+                hiddenLastmodInput.value = input.value;
+            });
+        });
     </script>
     @if(session()->has('success'))
     <script>
@@ -138,6 +150,14 @@
         Swal.fire({
             text: '{{ session('error') }}',
             icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    </script>
+    @elseif(session()->has('warning'))
+    <script>
+        Swal.fire({
+            text: '{{ session('warning') }}',
+            icon: 'warning',
             confirmButtonText: 'OK'
         });
     </script>

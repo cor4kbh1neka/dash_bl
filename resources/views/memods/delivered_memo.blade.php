@@ -83,13 +83,18 @@
                                         <th class="bagpengirim">pengirim</th>
                                         <th class="bagaction">actions</th>
                                     </tr>
-                                    @foreach ($data as $d)
+                                    @php
+                                        $currentPage = $data->currentPage();
+                                        $perPage = $data->perPage();
+                                        $startNumber = ($currentPage - 1) * $perPage + 1;
+                                    @endphp
+                                    @foreach ($data as $index => $d)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $startNumber + $index }}</td>
                                             <td>DV{{ sprintf('%06d', $d['idmemo']) }}</td>
                                             <td>{{ $d['statuspriority'] == 1 ? 'All Member' : 'Only VIP' }}</td>
                                             <td>{{ $d['subject'] }}</td>
-                                            <td>2024-04-03 13:29:37</td>
+                                            <td class="ganti">{{ $d['created_at'] }}</td>
                                             <td>ADMIN GLOBAL BOLA</td>
                                             <td>
                                                 <div class="kolom_action">
@@ -245,6 +250,23 @@
                     inputElement.disabled = true; // Untuk disabled input kalau tidak ada filter :D
                 }
             });
+        });
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+            const day = date.getDate().toString().padStart(2, '0');
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            const seconds = date.getSeconds().toString().padStart(2, '0');
+            
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        }
+        const tdElements = document.querySelectorAll('.ganti');
+        tdElements.forEach(tdElement => {
+            const originalDate = tdElement.textContent;
+            const formattedDate = formatDate(originalDate);
+            tdElement.textContent = formattedDate;
         });
     </script>
 

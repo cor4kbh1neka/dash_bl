@@ -38,19 +38,19 @@
                                     <div class="listplayerinfo">
                                         <label for="metatag">meta tag HTML</label>
                                         <div class="groupeditinput">
-                                            <textarea type="text" id="metatag" name="metatag" cols="30" rows="5" placeholder="{{ $data->mttag }}"></textarea>
+                                            <textarea type="text" id="metatag" name="metatag" cols="30" rows="5" placeholder="Masukkan Meta Tag HTML">{{ $data->mttag }}</textarea>
                                         </div>
                                     </div>
                                     <div class="listplayerinfo">
                                         <label for="article">article</label>
                                         <div class="groupeditinput">
-                                            <textarea type="text" id="article" name="article" cols="30" rows="5" placeholder="{{ $data->artcl }}"></textarea>
+                                            <textarea type="text" id="article" name="article" cols="30" rows="5" placeholder="Masukkan Artikel">{{ $data->artcl }}</textarea>
                                         </div>
                                     </div>
                                     <div class="listplayerinfo">
                                         <label for="script_livechat">script livechat</label>
                                         <div class="groupeditinput">
-                                            <textarea type="text" id="script_livechat" name="script_livechat" cols="30" rows="5" placeholder="{{ $data->scrptlvc }}"></textarea>
+                                            <textarea type="text" id="script_livechat" name="script_livechat" cols="30" rows="5" placeholder="Masukkan script Livechat">{{ $data->scrptlvc }}</textarea>
                                         </div>
                                     </div>
                                 </div>

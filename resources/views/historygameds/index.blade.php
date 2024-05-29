@@ -20,7 +20,7 @@
                         <div class="listinputmember">
                             <label for="username">username <span class="required">*</span></label>
                             <input type="text" name="username" id="username" placeholder="username (wajib di isi)"
-                                value="{{ $username }}" required>
+                                value="{{ request('username') }}" required>
                         </div>
                         <div class="listinputmember">
                             <label for="portfolio">jenis game <span class="required">*</span></label>
@@ -28,30 +28,30 @@
                                 <option value="" style="color: #838383; font-style: italic;" disabled="" selected>
                                     pilih
                                     jenis</option>
-                                <option value="SportsBook" {{ $portfolio == 'SportsBook' ? 'selected' : '' }}>SportsBook
+                                <option value="SportsBook" {{ request('portfolio') == 'SportsBook' ? 'selected' : '' }}>SportsBook
                                 </option>
-                                <option value="VirtualSports" {{ $portfolio == 'VirtualSports' ? 'selected' : '' }}>
+                                <option value="VirtualSports" {{ request('portfolio') == 'VirtualSports' ? 'selected' : '' }}>
                                     VirtualSports
                                 </option>
-                                <option value="Games" {{ $portfolio == 'Games' ? 'selected' : '' }}>Games</option>
-                                <option value="SeamlessGame" {{ $portfolio == 'SeamlessGame' ? 'selected' : '' }}>
+                                <option value="Games" {{ request('portfolio') == 'Games' ? 'selected' : '' }}>Games</option>
+                                <option value="SeamlessGame" {{ request('portfolio') == 'SeamlessGame' ? 'selected' : '' }}>
                                     SeamlessGame</option>
 
                             </select>
                         </div>
                         <div class="listinputmember">
                             <label for="startDate">dari <span class="required">*</span></label>
-                            <input type="date" name="startDate" id="startDate" value="{{ $startDate }}" required>
+                            <input type="date" name="startDate" id="startDate" value="{{ request('startDate') }}" required>
                         </div>
                         <div class="listinputmember">
                             <label for="endDate">hingga <span class="required">*</span></label>
-                            <input type="date" name="endDate" id="endDate" value="{{ $endDate }}" required>
+                            <input type="date" name="endDate" id="endDate" value="{{ request('endDate') }}" required>
                         </div>
                     </div>
                     <div class="headhistorygame two">
                         <div class="listinputmember">
                             <label for="refNo">invoice bet</label>
-                            <input type="text" name="refNo" id="refNo" value="{{ $refNo }}"
+                            <input type="text" name="refNo" id="refNo" value="{{ request('refNo') }}"
                                 placeholder="nomor invoice">
                         </div>
                         <div class="listinputmember">
@@ -103,9 +103,14 @@
                                 <th class="bagnominal">win/lose (IDR)</th>
                                 <th class="bagstatusbet">status betingan</th>
                             </tr>
+                            @php
+                                $currentPage = $data->currentPage();
+                                $perPage = $data->perPage();
+                                $startNumber = ($currentPage - 1) * $perPage + 1;
+                            @endphp
                             @foreach ($data as $i => $d)
                                 <tr>
-                                    <td>{{ $i + 1 }}</td>
+                                    <td>{{ $startNumber + $i }}</td>
                                     <td>{{ $d['username'] }}</td>
                                     <td>{{ date('d-m-Y H:i:s', strtotime($d['orderTime'])) }}</td>
                                     <td class="data refNo">{{ $d['refNo'] }}</td>
@@ -274,46 +279,46 @@
         });
 
 
-        $(document).ready(function() {
-            $('#refNo').on('input', function() {
-                var inputRefNo = $(this).val();
-                if (inputRefNo.trim() !== '') {
-                    $('#username').val('');
-                    $('#portfolio').val('');
+        // $(document).ready(function() {
+        //     $('#refNo').on('input', function() {
+        //         var inputRefNo = $(this).val();
+        //         if (inputRefNo.trim() !== '') {
+        //             $('#username').val('');
+        //             $('#portfolio').val('');
 
-                    $('#startDate').val('');
-                    $('#endDate').val('');
+        //             $('#startDate').val('');
+        //             $('#endDate').val('');
 
-                    $('#portfolio').addClass('borderPulse');
-                    $('#username').removeAttr('required');
-                    $('#startDate').removeAttr('required');
-                    $('#endDate').removeAttr('required');
-                }
-            });
+        //             $('#portfolio').addClass('borderPulse');
+        //             $('#username').removeAttr('required');
+        //             $('#startDate').removeAttr('required');
+        //             $('#endDate').removeAttr('required');
+        //         }
+        //     });
 
-            $('#username').on('input', function() {
-                var inputUsername = $(this).val();
-                if (inputUsername.trim() !== '') {
-                    $('#refNo').val('');
-                    $('#portfolio').val('');
+        //     $('#username').on('input', function() {
+        //         var inputUsername = $(this).val();
+        //         if (inputUsername.trim() !== '') {
+        //             $('#refNo').val('');
+        //             $('#portfolio').val('');
 
-                    $(this).removeClass('borderPulse');
-                    $('#username').attr('required', 'required');
-                    $('#startDate').attr('required', 'required');
-                    $('#endDate').attr('required', 'required');
-                }
-            });
+        //             $(this).removeClass('borderPulse');
+        //             $('#username').attr('required', 'required');
+        //             $('#startDate').attr('required', 'required');
+        //             $('#endDate').attr('required', 'required');
+        //         }
+        //     });
 
-            if ($('#refNo').val() != '') {
-                $('#username').removeAttr('required');
-                $('#startDate').removeAttr('required');
-                $('#endDate').removeAttr('required');
-            }
+        //     if ($('#refNo').val() != '') {
+        //         $('#username').removeAttr('required');
+        //         $('#startDate').removeAttr('required');
+        //         $('#endDate').removeAttr('required');
+        //     }
 
-            $('#portfolio').change(function() {
-                $(this).removeClass('borderPulse');
-            });
-        });
+        //     $('#portfolio').change(function() {
+        //         $(this).removeClass('borderPulse');
+        //     });
+        // });
 
         $(document).ready(function() {
             $('#form-historygameds').submit(function(event) {

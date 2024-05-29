@@ -41,8 +41,27 @@
                         </div>
                         <div class="listinputmember">
                             <label for="bank">bank</label>
-                            <input type="text" id="bank" name="bank" placeholder="bank"
-                                value="{{ request('bank') }}">
+                            <select name="bank" id="bank">
+                                <option value="" selected="" place=""
+                                    style="color: #838383; font-style: italic;">Pilih Bank</option>
+                                <option value="BCA" {{ request('bank') == 'BCA' ? 'selected' : '' }}>BCA</option>
+                                <option value="BNI" {{ request('bank') == 'BNI' ? 'selected' : '' }}>BNI</option>
+                                <option value="BRI" {{ request('bank') == 'BRI' ? 'selected' : '' }}>BRI</option>
+                                <option value="BSI" {{ request('bank') == 'BSI' ? 'selected' : '' }}>BSI</option>
+                                <option value="CIMB" {{ request('bank') == 'CIMB' ? 'selected' : '' }}>CIMB</option>
+                                <option value="DANA" {{ request('bank') == 'DANA' ? 'selected' : '' }}>DANA</option>
+                                <option value="DANAMON" {{ request('bank') == 'DANAMON' ? 'selected' : '' }}>DANAMON</option>
+                                <option value="GOPAY" {{ request('bank') == 'GOPAY' ? 'selected' : '' }}>GOPAY</option>
+                                <option value="LINKAJA" {{ request('bank') == 'LINKAJA' ? 'selected' : '' }}>LINKAJA</option>
+                                <option value="MANDIRI" {{ request('bank') == 'MANDIRI' ? 'selected' : '' }}>MANDIRI</option>
+                                <option value="OVO" {{ request('bank') == 'OVO' ? 'selected' : '' }}>OVO</option>
+                                <option value="PANIN" {{ request('bank') == 'PANIN' ? 'selected' : '' }}>PANIN</option>
+                                <option value="PERMATA" {{ request('bank') == 'PERMATA' ? 'selected' : '' }}>PERMATA</option>
+                                <option value="PULSA" {{ request('bank') == 'PULSA' ? 'selected' : '' }}>PULSA</option>
+                                <option value="QRIS" {{ request('bank') == 'QRIS' ? 'selected' : '' }}>PULSA</option>
+                            </select>
+                            {{-- <input type="text" id="bank" name="bank" placeholder="bank"
+                                value="{{ request('bank') }}"> --}}
                         </div>
                         <div class="listinputmember">
                             <label for="nohp">nomor handphone</label>
@@ -111,13 +130,19 @@
                                 <th class="bagtanggal">last login</th>
                                 <th class="action">tools</th>
                             </tr>
-                            @foreach ($data as $d)
+                            @php
+                                $currentPage = $data->currentPage();
+                                $perPage = $data->perPage();
+                                $startNumber = ($currentPage - 1) * $perPage + 1;
+                            @endphp
+                            @foreach ($data as $index => $d )
                                 <tr>
-                                    {{-- <td>{{ $i + 1 }}</td> --}}
-                                    <td></td>
+                                    <td>
+                                        <span>{{ $startNumber + $index }}</span>
+                                    </td>
                                     <td>
                                         <span class="userpending">
-                                            {{ $d['username'] }}
+                                            {{ $d->username }}
                                             <a href="/memberlistds/winloseyear" class="iconprofile detailbetingan"
                                                 target="_blank">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
@@ -128,19 +153,19 @@
                                             </a>
                                         </span>
                                     </td>
-                                    <td>{{ $d['referral'] }}</td>
-                                    <td>{{ $d->bank }}, {{ $d['namarek'] }}, {{ $d['norek'] }}</td>
+                                    <td>{{ $d->referral }}</td>
+                                    <td>{{ $d->bank }}, {{ $d->namarek }}, {{ $d->norek }}</td>
                                     <td class="valuenominal">
-                                        <span class="koinasli">{{ $d['amount'] }}</span>
+                                        <span class="koinasli">{{ $d->amount }}</span>
                                         <span class="cointorp"></span>
                                     </td>
-                                    <td class="hsjenisakun" data-statusakun="{{ $d['status'] }}"></td>
-                                    <td>{{ $d['keterangan'] }}</td>
-                                    <td>{{ $d['created_at'] }}</td>
-                                    <td>{{ $d['lastlogin'] }}</td>
+                                    <td class="hsjenisakun" data-statusakun="{{ $d->status }}"></td>
+                                    <td>{{ $d->keterangan }}</td>
+                                    <td>{{ $d->created_at }}</td>
+                                    <td>{{ $d->lastlogin }}</td>
                                     <td>
                                         <div class="grouptools">
-                                            <a href="/memberlistds/edit/{{ $d['id'] }}"
+                                            <a href="/memberlistds/edit/{{ $d->id }}"
                                                 class="tombol grey openviewport" target="_blank">
                                                 <span class="texttombol">EDIT</span>
                                             </a>

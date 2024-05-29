@@ -69,9 +69,14 @@
                                     <th class="bagstatus">status</th>
                                     <th class="action">tools</th>
                                 </tr>
+                                @php
+                                    $currentPage = $data->currentPage();
+                                    $perPage = $data->perPage();
+                                    $startNumber = ($currentPage - 1) * $perPage + 1;
+                                @endphp
                                 @foreach ($data as $i => $d)
                                     <tr>
-                                        <td>{{ $i + 1 }}</td>
+                                        <td>{{ $startNumber + $i }}</td>
                                         <td>{{ $d->last_login }}</td>
                                         <td>{{ $d->ip_login }}</td>
                                         <td>

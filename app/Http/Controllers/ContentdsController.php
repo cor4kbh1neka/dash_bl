@@ -125,7 +125,6 @@ class ContentdsController extends Controller
     public function promoupdate(Request $request, $id)
     {
         if(request('urutan') && request('urutanlain')){
-            
             $raw = $this->apiContentPromo();
             $data1 = null;
             foreach ($raw as $item) {
@@ -153,7 +152,6 @@ class ContentdsController extends Controller
                 ];
             }
             
-
             $data2 = null;
             foreach ($raw as $item) {
                 if ($item->pssprm == request('urutanlain')) {
@@ -187,15 +185,28 @@ class ContentdsController extends Controller
                 return redirect('/contentds/promo')->with('error', 'Data Gagal di Edit!');
             }
         }
+        $urutanpromo = null;
+        if (request('urutanpromo') === null){
+            $raw = $this->apiContentPromo();
+            foreach ($raw as $item) {
+                if ($item->idctprm == $id) {
+                    $urutanpromo = $item->pssprm;
+                    break;
+                }
+            }
+        } else {
+            $urutanpromo = request('urutanpromo');
+        }
+        
         $url = 'https://back-staging.bosraka.com/content/prm/'.$id;
         $validatedData = $request->validate([
             'titlepromo' => 'required',
             'imgurl' => 'required',
             'description' => 'required',
             'targeturl' => 'required',
-            'urutanpromo' => 'required',
             'statuspromo' => 'required',
         ]);
+        $validatedData['urutanpromo'] = $urutanpromo;
         $validatedData = [
             'ctprmur' => $validatedData['imgurl'],
             'ttlectprm' => $validatedData['titlepromo'],
@@ -211,13 +222,6 @@ class ContentdsController extends Controller
         } else {
             return redirect('/contentds/promo')->with('error', 'Data Gagal di Edit!');
         }
-    }
-    public function promourutan(Request $request)
-    {
-        dd($request);
-        $request = [
-            'titlepromo' => []
-        ];
     }
     public function promodelete($id)
     {
@@ -249,6 +253,9 @@ class ContentdsController extends Controller
     public function slider()
     {
         $data = $this->apiSlider();
+        usort($data, function ($a, $b) {
+            return $a->idctsldr <=> $b->idctsldr;
+        });
         return view('contentds.slider', [
             'title' => 'Content',
             'data' => $data,
@@ -320,6 +327,9 @@ class ContentdsController extends Controller
     public function link()
     {
         $data = $this->apiLinkContent();
+        usort($data, function ($a, $b) {
+            return $a->idctlnk <=> $b->idctlnk;
+        });
         return view('contentds.link', [
             'title' => 'Content',
             'data' => $data,
