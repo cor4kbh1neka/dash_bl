@@ -159,7 +159,7 @@ class BonusdsController extends Controller
         $bonuses = array_column($data, 'bonus');
         $totalBonus = array_sum($bonuses);
 
-        $prosessSave = Listbonus::create([
+        $createListbonus = Listbonus::create([
             'no_invoice' => $this->generateInvoiceNumber(),
             'periodedari' => $gabungdari,
             'periodesampai' => $gabunghingga,
@@ -169,14 +169,21 @@ class BonusdsController extends Controller
             'status' => 'Processed'
         ]);
 
-        if ($prosessSave) {
+        if ($createListbonus) {
             foreach ($data as $d) {
-                Listbonusdetail
+                $createDetail = Listbonusdetail::create([
+                    'listbonus_id' => $createListbonus->id,
+                    'useranme' => $d->username,
+                    'turnover' => $d->stake,
+                    'winlose' => $d->winloss,
+                    'bonus' => $d->bonus
+                ]);
+
+                if ($createDetail) {
+                    // $this->apiDepo()
+                }
             }
         }
-
-
-
 
         return response()->json(['message' => 'Data berhasil disimpan']);
     }
@@ -191,5 +198,20 @@ class BonusdsController extends Controller
         }
 
         return $invoiceNumber;
+    }
+
+    private function apiDepo()
+    {
+        $data = [
+            "Username" => "poorgas321",
+            "TxnId" => "D201902081908241889",
+            "Amount" => 9,
+            'companyKey' => env('COMPANY_KEY'),
+            'serverId' => env('SERVERID')
+        ];
+        $apiUrl = 'https://ex-api-demo-yy.568win.com/web-root/restricted/report/get-bet-list-by-refnos.aspx';
+
+        $response = Http::post($apiUrl, $data);
+        return $response->json();
     }
 }

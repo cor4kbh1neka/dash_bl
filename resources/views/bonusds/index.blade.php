@@ -148,7 +148,9 @@
                                                 <input type="checkbox" id="myCheckbox-{{ $i }}"
                                                     name="myCheckbox-{{ $i }}"
                                                     data-username="{{ $d->username }}"
-                                                    data-bonus = "{{ $d->totalbonus }}">
+                                                    data-bonus = "{{ $d->totalbonus }}"
+                                                    data-stake= "{{ $d->totalstake }}"
+                                                    data-winloss= "{{ $d->totalwinloss }}">
                                             </td>
                                             <td class="username">{{ $d->username }}</td>
                                             <td class="datacc" data-get="{{ $d->totalstake }}"></td>
@@ -256,21 +258,18 @@
                         $('input[type="checkbox"]:checked').not('#myCheckbox').each(function() {
                             var username = $(this).data('username');
                             var bonus = $(this).data('bonus');
-
-                            console.log('Checkbox checked:', {
-                                username: username,
-                                bonus: bonus
-                            });
+                            var stake = $(this).data('stake');
+                            var winloss = $(this).data('winloss');
 
                             if (username !== '') {
                                 data.push({
                                     username: username,
-                                    bonus: bonus
+                                    bonus: bonus,
+                                    stkae: stake,
+                                    winloss: winloss
                                 });
                             }
                         });
-
-                        console.log('Data yang akan dikirim:', data);
 
                         if (data.length === 0) {
                             Swal.fire({
@@ -291,7 +290,6 @@
                             }
                         });
 
-                        // Tambahkan bonusVal langsung ke URL
                         var url = '/storebonusds/' + encodeURIComponent(bonusVal) + '/' +
                             encodeURIComponent(gabungdariVal) + '/' + encodeURIComponent(
                                 gabunghinggaVal) + '/' + encodeURIComponent(kecualiVal);;
@@ -305,7 +303,6 @@
                                 'X-CSRF-TOKEN': csrfToken
                             },
                             success: function(response) {
-                                console.log('Berhasil mengirim data:', response);
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Data berhasil dikirim!',
@@ -321,7 +318,6 @@
                                 });
                             },
                             error: function(error) {
-                                console.error('Gagal mengirim data:', error);
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Gagal mengirim data!',
