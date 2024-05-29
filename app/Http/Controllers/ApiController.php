@@ -931,44 +931,79 @@ class ApiController extends Controller
         $allSum = $ReferralAktif1 + $ReferralAktif2 + $ReferralAktif3 + $ReferralAktif4 + $ReferralAktif5;
 
         /* Data Referral Member */
-        $DataReferral1 = Referral1::where('upline', $username)->get();
-        $DataReferral2 = Referral2::where('upline', $username)->get();
-        $DataReferral3 = Referral3::where('upline', $username)->get();
-        $DataReferral4 = Referral4::where('upline', $username)->get();
-        $DataReferral5 = Referral5::where('upline', $username)->get();
+        $DataReferral1 = Referral1::from('referral_ae as A')
+            ->leftJoin(DB::raw('(SELECT upline, downline, SUM(amount) as total_amount FROM ref_aktif_ae GROUP BY upline, downline) as B'), function ($join) {
+                $join->on('A.upline', '=', 'B.upline')
+                    ->on('A.downline', '=', 'B.downline');
+            })
+            ->select('A.*', DB::raw('COALESCE(B.total_amount, 0) as total_amount'))
+            ->where('A.upline', '=', $username)
+            ->get();
+        $DataReferral2 = Referral2::from('referral_fj as A')
+            ->leftJoin(DB::raw('(SELECT upline, downline, SUM(amount) as total_amount FROM ref_aktif_fj GROUP BY upline, downline) as B'), function ($join) {
+                $join->on('A.upline', '=', 'B.upline')
+                    ->on('A.downline', '=', 'B.downline');
+            })
+            ->select('A.*', DB::raw('COALESCE(B.total_amount, 0) as total_amount'))
+            ->where('A.upline', '=', $username)
+            ->get();
+        $DataReferral3 = Referral3::from('referral_ko as A')
+            ->leftJoin(DB::raw('(SELECT upline, downline, SUM(amount) as total_amount FROM ref_aktif_ko GROUP BY upline, downline) as B'), function ($join) {
+                $join->on('A.upline', '=', 'B.upline')
+                    ->on('A.downline', '=', 'B.downline');
+            })
+            ->select('A.*', DB::raw('COALESCE(B.total_amount, 0) as total_amount'))
+            ->where('A.upline', '=', $username)
+            ->get();
+        $DataReferral4 = Referral4::from('referral_pt as A')
+            ->leftJoin(DB::raw('(SELECT upline, downline, SUM(amount) as total_amount FROM ref_aktif_pt GROUP BY upline, downline) as B'), function ($join) {
+                $join->on('A.upline', '=', 'B.upline')
+                    ->on('A.downline', '=', 'B.downline');
+            })
+            ->select('A.*', DB::raw('COALESCE(B.total_amount, 0) as total_amount'))
+            ->where('A.upline', '=', $username)
+            ->get();
+        $DataReferral5 = Referral5::from('referral_uz as A')
+            ->leftJoin(DB::raw('(SELECT upline, downline, SUM(amount) as total_amount FROM ref_aktif_uz GROUP BY upline, downline) as B'), function ($join) {
+                $join->on('A.upline', '=', 'B.upline')
+                    ->on('A.downline', '=', 'B.downline');
+            })
+            ->select('A.*', DB::raw('COALESCE(B.total_amount, 0) as total_amount'))
+            ->where('A.upline', '=', $username)
+            ->get();
         $allData = $DataReferral1->union($DataReferral2)
             ->union($DataReferral3)
             ->union($DataReferral4)
             ->union($DataReferral5)->toArray();
 
         /* Data Komisi Referral Member */
-        $DataAktif1 = ReferralAktif1::select('upline', DB::raw('SUM(amount) as total_amount'))
-            ->where('upline', $username)
-            ->groupBy('upline')
-            ->get();
-        $DataAktif2 = ReferralAktif2::select('upline', DB::raw('SUM(amount) as total_amount'))
-            ->where('upline', $username)
-            ->groupBy('upline')
-            ->get();
-        $DataAktif3 = ReferralAktif3::select('upline', DB::raw('SUM(amount) as total_amount'))
-            ->where('upline', $username)
-            ->groupBy('upline')
-            ->get();
-        $DataAktif4 = ReferralAktif4::select('upline', DB::raw('SUM(amount) as total_amount'))
-            ->where('upline', $username)
-            ->groupBy('upline')
-            ->get();
-        $DataAktif5 = ReferralAktif5::select('upline', DB::raw('SUM(amount) as total_amount'))
-            ->where('upline', $username)
-            ->groupBy('upline')
-            ->get();
-        $allDataKomisi = $DataAktif1->union($DataAktif2)->union($DataAktif3)->union($DataAktif4)->union($DataAktif5);
+        // $DataAktif1 = ReferralAktif1::select('upline', DB::raw('SUM(amount) as total_amount'))
+        //     ->where('upline', $username)
+        //     ->groupBy('upline')
+        //     ->get();
+        // $DataAktif2 = ReferralAktif2::select('upline', DB::raw('SUM(amount) as total_amount'))
+        //     ->where('upline', $username)
+        //     ->groupBy('upline')
+        //     ->get();
+        // $DataAktif3 = ReferralAktif3::select('upline', DB::raw('SUM(amount) as total_amount'))
+        //     ->where('upline', $username)
+        //     ->groupBy('upline')
+        //     ->get();
+        // $DataAktif4 = ReferralAktif4::select('upline', DB::raw('SUM(amount) as total_amount'))
+        //     ->where('upline', $username)
+        //     ->groupBy('upline')
+        //     ->get();
+        // $DataAktif5 = ReferralAktif5::select('upline', DB::raw('SUM(amount) as total_amount'))
+        //     ->where('upline', $username)
+        //     ->groupBy('upline')
+        //     ->get();
+        // $allDataKomisi = $DataAktif1->union($DataAktif2)->union($DataAktif3)->union($DataAktif4)->union($DataAktif5);
 
         return [
             'totalReferral' => $allCount,
             'totalKomisi' => $allSum,
             'dataReferral' => $allData,
-            'dataKomisi' => $allDataKomisi
+            // 'dataKomisi' => $allDataKomisi
         ];
     }
 

@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('bonus', function (Blueprint $table) {
             $table->id();
-            $table->string('portfolio');
-            $table->decimal('min_turnover', 15, 2)->default(0);
-            $table->decimal('min_lose', 15, 2)->default(0);
-            $table->decimal('persentase_rolingan')->default(0);
-            $table->decimal('persentase_cashback')->default(0);
+            $table->string('jenis_bonus');
+            $table->decimal('min', 15, 2)->default(0);
+            $table->decimal('persentase')->default(0);
             $table->timestamps();
         });
     }

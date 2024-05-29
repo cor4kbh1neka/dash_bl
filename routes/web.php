@@ -37,6 +37,7 @@ use App\Http\Controllers\NotifikasidsController;
 use App\Http\Controllers\Menu2Controller;
 use App\Http\Controllers\PersentasedsController;
 use App\Http\Controllers\BonusdsController;
+use App\Http\Controllers\MaintenancedsController;
 use App\Models\Xdpwd;
 use App\Models\Outstanding;
 use App\Models\DepoWd;
@@ -136,7 +137,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/analyticsds/sitemap/{urpage}', [AnalyticsdsController::class, 'deleteSitemap']);
 
     /*-- Contentds --*/
-    Route::prefix('contentds')->group(function(){
+    Route::prefix('contentds')->group(function () {
         Route::get('/', [ContentdsController::class, 'index']);
         Route::put('/{id}', [ContentdsController::class, 'generalUpdate']);
 
@@ -352,6 +353,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/updateNotifikasi/{id}', [DepoWdController::class, 'updateNotifikasi']);
 
     /*-- Bonusds --*/
+    Route::get('/bonuslistds', [BonusdsController::class, 'indexlist']);
     Route::get('/bonusds', [BonusdsController::class, 'index']);
+    Route::post('/storebonusds/{bonus}/{gabungdari}/{gabunghingga}/{kecuali}', [BonusdsController::class, 'store']);
+
+    /*-- Memotouserds --*/
+    Route::get('/maintenance', [MaintenancedsController::class, 'maintenance']);
 });
 // });

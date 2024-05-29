@@ -17,6 +17,8 @@ return new class extends Migration
             $table->date('periodedari');
             $table->date('periodesampai');
             $table->string('jenis_bonus');
+            $table->string('kecuali');
+            $table->string('total');
             $table->string('status');
             $table->timestamps();
         });

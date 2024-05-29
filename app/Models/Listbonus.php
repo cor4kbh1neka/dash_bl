@@ -8,10 +8,10 @@ use Illuminate\Support\Str;
 use App\Models\Transactions;
 use App\Models\TransactionsSaldo;
 
-class Bonus extends Model
+class Listbonus extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['jenis_bonus', 'min', 'persentase'];
-    protected $table = 'bonus';
+    protected $fillable = ['no_invoice', 'periodedari', 'periodesampai', 'jenis_bonus', 'kecuali', 'total', 'status'];
+    protected $table = 'listbonus';
 }

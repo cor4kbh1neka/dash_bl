@@ -6,6 +6,16 @@
     <div class="sec_table">
         <div class="secgrouptitle">
             <h2>{{ $title }}</h2>
+            <div class="kembali" style="margin-right: 40px">
+                <a href="/bonuslistds">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
+                        <path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="4"
+                            d="M44 40.836c-4.893-5.973-9.238-9.362-13.036-10.168c-3.797-.805-7.412-.927-10.846-.365V41L4 23.545L20.118 7v10.167c6.349.05 11.746 2.328 16.192 6.833c4.445 4.505 7.009 10.117 7.69 16.836Z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="textkembali">Kembali</span>
+                </a>
+            </div>
             <div class="fullscreen">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
                     <path fill="currentColor"
@@ -24,8 +34,10 @@
                                     <select name="bonus" id="bonus" required>
                                         <option value="" selected="" place=""
                                             style="color: #838383; font-style: italic;" disabled="">Pilih Bonus</option>
-                                        <option value="1" {{ $bonus == '1' ? 'selected' : '' }}>Cashback</option>
-                                        <option value="2" {{ $bonus == '2' ? 'selected' : '' }}>Rollingan</option>
+                                        <option value="cashback" {{ $bonus == 'cashback' ? 'selected' : '' }}>Cashback
+                                        </option>
+                                        <option value="rolingan" {{ $bonus == 'rolingan' ? 'selected' : '' }}>Rollingan
+                                        </option>
                                     </select>
                                 </div>
                                 <div class="listinputmember">
@@ -58,7 +70,8 @@
                                 </div>
                                 <div class="grouprightbtn">
                                     <div class="listinputmember">
-                                        <button type="button" class="tombol primary" disabled>
+                                        <button type="button" id="prosesbonus" class="tombol primary"
+                                            {{ $isproses == true ? '' : 'disabled' }}>
                                             <span class="texttombol">PROSES BONUS</span>
                                         </button>
                                     </div>
@@ -131,9 +144,11 @@
                                     @foreach ($data as $i => $d)
                                         <tr>
                                             <td>1</td>
-                                            <td class="check_box" onclick="toggleCheckbox('myCheckbox-0')">
-                                                <input type="checkbox" id="myCheckbox-0" name="myCheckbox-0"
-                                                    data-id=" c93a3488-cd97-4350-9835-0138e6a04aa9">
+                                            <td class="check_box">
+                                                <input type="checkbox" id="myCheckbox-{{ $i }}"
+                                                    name="myCheckbox-{{ $i }}"
+                                                    data-username="{{ $d->username }}"
+                                                    data-bonus = "{{ $d->totalbonus }}">
                                             </td>
                                             <td class="username">{{ $d->username }}</td>
                                             <td class="datacc" data-get="{{ $d->totalstake }}"></td>
@@ -204,6 +219,119 @@
                         $(this).show();
                     } else {
                         $(this).hide();
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function() {
+            $('#prosesbonus').click(function() {
+                var isChecked = $('#myCheckbox:checked, [id^="myCheckbox-"]:checked').length > 0;
+
+                if (!isChecked) {
+                    Swal.fire({
+                        icon: 'warning',
+                        text: 'Mohon cek kembali data yang ingin Anda proses!',
+                    });
+                    return;
+                }
+
+                Swal.fire({
+                    icon: 'question',
+                    title: 'Konfirmasi',
+                    text: 'Apakah Anda yakin ingin memproses data ini?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Batal',
+                }).then(function(result) {
+                    if (result.isConfirmed) {
+                        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                        var data = [];
+
+                        var bonusVal = $('#bonus').val();
+                        var gabungdariVal = $('#gabungdari').val();
+                        var gabunghinggaVal = $('#gabunghingga').val();
+                        var kecualiVal = $('#kecuali').val();
+
+                        $('input[type="checkbox"]:checked').not('#myCheckbox').each(function() {
+                            var username = $(this).data('username');
+                            var bonus = $(this).data('bonus');
+
+                            console.log('Checkbox checked:', {
+                                username: username,
+                                bonus: bonus
+                            });
+
+                            if (username !== '') {
+                                data.push({
+                                    username: username,
+                                    bonus: bonus
+                                });
+                            }
+                        });
+
+                        console.log('Data yang akan dikirim:', data);
+
+                        if (data.length === 0) {
+                            Swal.fire({
+                                icon: 'warning',
+                                text: 'Tidak ada data yang valid untuk diproses!',
+                            });
+                            return;
+                        }
+
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Mohon tunggu...',
+                            text: 'Proses sedang berlangsung, jangan diclose!',
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        // Tambahkan bonusVal langsung ke URL
+                        var url = '/storebonusds/' + encodeURIComponent(bonusVal) + '/' +
+                            encodeURIComponent(gabungdariVal) + '/' + encodeURIComponent(
+                                gabunghinggaVal) + '/' + encodeURIComponent(kecualiVal);;
+
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            data: JSON.stringify(data),
+                            contentType: 'application/json',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            success: function(response) {
+                                console.log('Berhasil mengirim data:', response);
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Data berhasil dikirim!',
+                                    text: 'Respon dari server: ' + response
+                                        .message,
+                                    timer: 2000,
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Oke',
+                                    didClose: () => {
+                                        // window.location.href =
+                                        //     '/bonuslistds';
+                                    }
+                                });
+                            },
+                            error: function(error) {
+                                console.error('Gagal mengirim data:', error);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal mengirim data!',
+                                    text: 'Kesalahan: ' + error.statusText,
+                                });
+                            },
+                            complete: function() {
+                                Swal.hideLoading();
+                            }
+                        });
                     }
                 });
             });

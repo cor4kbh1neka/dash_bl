@@ -37,7 +37,7 @@ class AddWinlossStakeJob implements ShouldQueue
             $jenis = $this->data['jenis'];
 
             $response = $this->getApi($transfercode, $portfolio);
-            Log::info('get Data Api:', ['amountWL' => $amountWL]);
+
             if ($response["error"]["id"] === 0) {
                 $results = $response["result"][0];
                 $username = $results['username'];
@@ -48,7 +48,6 @@ class AddWinlossStakeJob implements ShouldQueue
                     ->where('day', date('d'))
                     ->where('month', date('m'))
                     ->where('year', date('Y'))->first();
-
                 // Log::info('get Data Api:', ['amount' => $amount, 'winloss' => $amountWL]);
                 if ($winlossbet_day) {
                     if ($jenis == 'settle') {

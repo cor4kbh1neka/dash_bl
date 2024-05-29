@@ -297,7 +297,7 @@ class ApiBolaController extends Controller
 
     private function deleteOutstanding($transfercode)
     {
-        deleteOutstandingJob::dispatch($transfercode);
+        DeleteOutstandingJob::dispatch($transfercode);
         return;
     }
 
@@ -1379,7 +1379,7 @@ class ApiBolaController extends Controller
     private function addWinlossStake($transfercode, $portfolio, $amount, $jenis)
     {
         $winlossData = [
-            'transfercode' => '4669397',
+            'transfercode' => $transfercode,
             'portfolio' => $portfolio,
             'amount' => $amount,
             'jenis' => $jenis

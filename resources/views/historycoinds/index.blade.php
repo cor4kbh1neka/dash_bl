@@ -75,30 +75,40 @@
                 <form method="GET" action="/historycoinds" class="groupheadhistoryds" id="searchForm">
                     <div class="listheadhistoryds top">
                         <input type="hidden" name="jenis" id="jenis" value="{{ request('jenis') }}">
-                        <button type="button" class="tombol grey {{ request('jenis') == '' ? 'active' : '' }}" id="" name="" onclick="redirectTo('')">
+                        <button type="button" class="tombol grey {{ request('jenis') == '' ? 'active' : '' }}"
+                            id="" name="" onclick="redirectTo('')">
                             <span class="texttombol">ALL TRANSACTION</span>
                         </button>
-                        <button type="button" class="tombol grey {{ request('jenis') == 'DP' ? 'active' : '' }}" id="DP" name="DP" onclick="redirectTo('DP')">
+                        <button type="button" class="tombol grey {{ request('jenis') == 'DP' ? 'active' : '' }}"
+                            id="DP" name="DP" onclick="redirectTo('DP')">
                             <span class="texttombol">HISTORY DEPOSIT</span>
                         </button>
-                        <button type="button" class="tombol grey {{ request('jenis') == 'WD' ? 'active' : '' }}" id="WD" name="WD" onclick="redirectTo('WD')">
+                        <button type="button" class="tombol grey {{ request('jenis') == 'WD' ? 'active' : '' }}"
+                            id="WD" name="WD" onclick="redirectTo('WD')">
                             <span class="texttombol">HISTORY WITHDRAW</span>
                         </button>
-                        <button type="button" class="tombol grey {{ request('jenis') == 'M' ? 'active' : '' }}" id="DPM" name="DPM" onclick="redirectTo('M')">
+                        <button type="button" class="tombol grey {{ request('jenis') == 'M' ? 'active' : '' }}"
+                            id="DPM" name="DPM" onclick="redirectTo('M')">
                             <span class="texttombol">HISTORY MANUAL</span>
                         </button>
                     </div>
                     <div class="grouplistheadhistoryds">
                         <div class="listheadhistoryds bottom one">
-                            <input type="text" id="username" name="username" placeholder="User ID" value="{{ request('username') }}">
+                            <input type="text" id="username" name="username" placeholder="User ID"
+                                value="{{ request('username') }}">
                             <select name="status" id="status">
-                                <option value="" selected="" place="" style="color: #838383; font-style: italic;">Pilih Status</option>
-                                <option value="accept" {{ request('status') == 'accept' ? 'selected' : '' }}>Accepted</option>
-                                <option value="cancel" {{ request('status') == 'cancel' ? 'selected' : '' }}>Rejected</option>
+                                <option value="" selected="" place=""
+                                    style="color: #838383; font-style: italic;">Pilih Status</option>
+                                <option value="accept" {{ request('status') == 'accept' ? 'selected' : '' }}>Accepted
+                                </option>
+                                <option value="cancel" {{ request('status') == 'cancel' ? 'selected' : '' }}>Rejected
+                                </option>
                             </select>
                             <select name="approved_by" id="approved_by">
-                                <option value="" selected="" place="" style="color: #838383; font-style: italic;">Pilih Agent</option>
-                                <option value="adminl21" {{ request('approved_by') == 'adminl21' ? 'selected' : '' }}>adminl21</option>
+                                <option value="" selected="" place=""
+                                    style="color: #838383; font-style: italic;">Pilih Agent</option>
+                                <option value="adminl21" {{ request('approved_by') == 'adminl21' ? 'selected' : '' }}>
+                                    adminl21</option>
                             </select>
                         </div>
                         <div class="listheadhistoryds bottom two">
@@ -111,7 +121,8 @@
                         <div class="exportdata">
                             <span class="textdownload">download</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                <path fill="currentColor" d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11zm-6 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z" />
+                                <path fill="currentColor"
+                                    d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11zm-6 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z" />
                             </svg>
                         </div>
                     </div>
@@ -185,67 +196,6 @@
 
         });
 
-        $(document).ready(function() {
-            var currentPage = getCurrentPageNumber();
-
-            $(".numberpage").eq(currentPage - 1).addClass("active");
-
-            $(".trigger.left").click(function() {
-                var currentPage = getCurrentPageNumber();
-                var prevPage = currentPage - 1;
-                if (prevPage >= 1) {
-                    updatePageQuery(prevPage);
-                }
-            });
-
-            $(".trigger.right").click(function() {
-                var currentPage = getCurrentPageNumber();
-                var nextPage = currentPage + 1;
-                if (nextPage <= 5) {
-                    updatePageQuery(nextPage);
-                }
-            });
-
-            function getCurrentPageNumber() {
-                var urlParams = new URLSearchParams(window.location.search);
-                return parseInt(urlParams.get("page")) || 1;
-            }
-
-            $(".numberpage").click(function() {
-                var pageNumber = $(this).text();
-                updatePageQuery(pageNumber);
-            });
-
-            function updatePageQuery(pageNumber) {
-                var url = new URL(window.location.href);
-                var searchParams = url.searchParams;
-                searchParams.set("page", pageNumber);
-                window.location.href = url.toString();
-            }
-        });
-
-        $(document).ready(function() {
-            // $("#searchbutton").click(function() {
-            //     var search_username = $('#search_username').val();
-            //     var search_status = $('#search_status').val();
-            //     var search_agent = $('#search_agent').val();
-            //     var tgldari = $('#tgldari').val();
-            //     var tglsampai = $('#tglsampai').val();
-
-            //     var searchParams = '';
-            //     searchParams += 'search_username=' + encodeURIComponent(search_username) + '&';
-            //     searchParams += 'search_status=' + encodeURIComponent(search_status) + '&';
-            //     searchParams += 'search_agent=' + encodeURIComponent(search_agent) + '&';
-            //     searchParams += 'tgldari=' + encodeURIComponent(tgldari) + '&';
-            //     searchParams += 'tglsampai=' + encodeURIComponent(tglsampai) + '&';
-
-            //     var currentUrl = window.location.href;
-            //     var newUrl = currentUrl.split('?')[0] + '?' + searchParams.slice(0, -1);
-
-            //     // Memperbarui URL
-            //     window.location.href = newUrl;
-            // });
-        });
 
         $(document).ready(function() {
             $('#search_username').keypress(function(event) {
@@ -312,6 +262,7 @@
                 }
             }
         });
+
         function redirectTo(jenis) {
             var params = new URLSearchParams(window.location.search);
             params.set('jenis', jenis);
@@ -337,7 +288,5 @@
 
             jenisElement.value = jenisElement.value || ''; // Pastikan jenis tidak kosong
         });
-
-
     </script>
 @endsection
