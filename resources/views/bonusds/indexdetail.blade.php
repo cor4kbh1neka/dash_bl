@@ -89,27 +89,27 @@
                         <div class="totalbonus">
                             <div class="listtotalbonus">
                                 <span class="textbonus">Bonus :</span>
-                                <span class="countbonus">{{ ucfirst($bonus) }}</span>
+                                <span class="countbonus">Rollingan</span>
                             </div>
                             <div class="listtotalbonus">
                                 <span class="textbonus">tanggal :</span>
                                 <div class="grouptgllistbonus">
-                                    <span class="countbonus from">{{ $gabungdari }}</span>
+                                    <span class="countbonus from">2024-04-17</span>
                                     <span>s/d</span>
-                                    <span class="countbonus to">{{ $gabunghingga }}</span>
+                                    <span class="countbonus to">2024-04-17</span>
                                 </div>
                             </div>
                             <div class="listtotalbonus">
                                 <span class="textbonus">Pengecualian :</span>
-                                <span class="countbonus">{{ $pengecualian }}</span>
+                                <span class="countbonus">Tanpa pengecualian</span>
                             </div>
                             <div class="listtotalbonus">
                                 <span class="textbonus">Jumlah User :</span>
-                                <span class="countbonus">{{ $totaluser }}</span>
+                                <span class="countbonus">280</span>
                             </div>
                             <div class="listtotalbonus">
                                 <span class="textbonus">total bonus :</span>
-                                <span class="nominalbonus" data-bonus="{{ $nominalbonus }}"></span>
+                                <span class="nominalbonus" data-bonus="200000000.69"></span>
                             </div>
                         </div>
                         <div class="tabelproses">
@@ -153,9 +153,9 @@
                                                     data-winloss= "{{ $d->totalwinloss }}">
                                             </td>
                                             <td class="username">{{ $d->username }}</td>
-                                            <td class="datacc" data-get="{{ $d->totalstake * 1000 }}"></td>
-                                            <td class="datacc" data-get="{{ $d->totalwinloss * 1000 }}"></td>
-                                            <td class="datacc" data-get="{{ $d->totalbonus * 1000 }}"></td>
+                                            <td class="datacc" data-get="{{ $d->totalstake }}"></td>
+                                            <td class="datacc" data-get="{{ $d->totalwinloss }}"></td>
+                                            <td class="datacc" data-get="{{ $d->totalbonus }}"></td>
                                         </tr>
                                     @endforeach
                                 </tbody>

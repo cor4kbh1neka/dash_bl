@@ -94,7 +94,7 @@ class MemberlistdsController extends Controller
     public function index()
     {
         $query = Member::query()->join('balance', 'balance.username', '=', 'member.username')
-                    ->select('member.*', 'balance.amount');
+            ->select('member.*', 'balance.amount');
         $data = $this->filterAndPaginate($query->get(), 20);
         return view('memberlistds.index', [
             'title' => 'Member List',

@@ -5923,7 +5923,7 @@ input#agentname {
 }
 
 .headseccontentds {
-  width:80%;
+  width: 80%;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 10px;
@@ -6406,8 +6406,19 @@ input#agentname {
     font-size: 1.7vw;
   }
 }
+
 .nyala {
   background: rgba(var(--rgba-primary), 0.2);
   border-right: 5px solid var(--primary-color);
   border-radius: 0 6px 6px 0;
+}
+
+.none {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  outline: inherit;
+  padding: 0;
 }
