@@ -34,44 +34,44 @@ class ReferraldsController extends Controller
         $gabungdari = $request->input('gabungdari', date('Y-m-d'));
         $gabunghingga = $request->input('gabunghingga', date('Y-m-d'));
 
-        $table = $this->determineTable($upline);
-
-        $filterDepo = "WHERE 1=1";
-        $filterAktif = "WHERE 1=1";
-
         if (isset($upline)) {
-            $filterDepo .= " AND A1.upline = '$upline'";
-            $filterAktif .= " AND A1.upline = '$upline'";
+            $table = $this->determineTable($upline);
+
+            $filterDepo = "WHERE 1=1";
+            $filterAktif = "WHERE 1=1";
+
+            if (isset($upline)) {
+                $filterDepo .= " AND A1.upline = '$upline'";
+                $filterAktif .= " AND A1.upline = '$upline'";
+            }
+
+            if (isset($portfolio)) {
+                $filterAktif .= " AND A1.portfolio = '$portfolio'";
+            }
+
+            if (isset($gabungdari) && isset($gabunghingga)) {
+                $filterDepo .= " AND A1.created_at >= '$gabungdari' AND A1.created_at <= '$gabunghingga'";
+                $filterAktif .= " AND A1.created_at >= '$gabungdari' AND A1.created_at <= '$gabunghingga'";
+            }
+
+            $results = DB::table('referral' . $table . ' as A')
+                ->select(
+                    'A.upline',
+                    DB::raw('COUNT(A.downline) as total_downline'),
+                    DB::raw('COALESCE(B.total_deposit, 0) as total_depo'),
+                    DB::raw('COUNT(A.downline) - COALESCE(B.total_deposit, 0) as total_nondepo'),
+                    DB::raw('COALESCE(C.total_aktif, 0) as total_aktif'),
+                    DB::raw('COUNT(A.downline) - COALESCE(C.total_aktif, 0) as total_nonaktif'),
+                    DB::raw('COALESCE(C.total_amount_referral, 0) as total_amount_referral')
+                )
+                ->leftJoin(DB::raw('(SELECT A2.upline, COUNT(A2.downline) as total_deposit FROM (SELECT A1.upline, A1.downline FROM ref_depo' . $table . ' A1 ' . $filterDepo . ' GROUP BY A1.upline, A1.downline) A2 GROUP BY A2.upline) B'), 'A.upline', '=', 'B.upline')
+                ->leftJoin(DB::raw('(SELECT A3.upline, COUNT(A3.downline) as total_aktif, SUM(A3.total_amount_referral) as total_amount_referral FROM (SELECT A1.upline, A1.downline, SUM(A1.amount) as total_amount_referral FROM ref_aktif' . $table . ' A1 ' . $filterAktif . ' GROUP BY A1.upline, A1.downline) A3 GROUP BY A3.upline) C'), 'A.upline', '=', 'C.upline')
+                ->where('A.upline', $upline)
+                ->groupBy('A.upline', 'B.total_deposit', 'C.total_aktif', 'C.total_amount_referral')
+                ->get();
+        } else {
+            $results = [];
         }
-
-        if (isset($portfolio)) {
-            $filterAktif .= " AND A1.portfolio = '$portfolio'";
-        }
-
-        if (isset($gabungdari) && isset($gabunghingga)) {
-            $filterDepo .= " AND A1.created_at >= '$gabungdari' AND A1.created_at <= '$gabunghingga'";
-            $filterAktif .= " AND A1.created_at >= '$gabungdari' AND A1.created_at <= '$gabunghingga'";
-        }
-
-
-
-        $results = DB::table('referral' . $table . ' as A')
-            ->select(
-                'A.upline',
-                DB::raw('COUNT(A.downline) as total_downline'),
-                DB::raw('COALESCE(B.total_deposit, 0) as total_depo'),
-                DB::raw('COUNT(A.downline) - COALESCE(B.total_deposit, 0) as total_nondepo'),
-                DB::raw('COALESCE(C.total_aktif, 0) as total_aktif'),
-                DB::raw('COUNT(A.downline) - COALESCE(C.total_aktif, 0) as total_nonaktif'),
-                DB::raw('COALESCE(C.total_amount_referral, 0) as total_amount_referral')
-            )
-            ->leftJoin(DB::raw('(SELECT A2.upline, COUNT(A2.downline) as total_deposit FROM (SELECT A1.upline, A1.downline FROM ref_depo' . $table . ' A1 ' . $filterDepo . ' GROUP BY A1.upline, A1.downline) A2 GROUP BY A2.upline) B'), 'A.upline', '=', 'B.upline')
-            ->leftJoin(DB::raw('(SELECT A3.upline, COUNT(A3.downline) as total_aktif, SUM(A3.total_amount_referral) as total_amount_referral FROM (SELECT A1.upline, A1.downline, SUM(A1.amount) as total_amount_referral FROM ref_aktif' . $table . ' A1 ' . $filterAktif . ' GROUP BY A1.upline, A1.downline) A3 GROUP BY A3.upline) C'), 'A.upline', '=', 'C.upline')
-            ->where('A.upline', $upline)
-            ->groupBy('A.upline', 'B.total_deposit', 'C.total_aktif', 'C.total_amount_referral')
-            ->get();
-
-
         return view('referralds.index', [
             'title' => 'Referral',
             'data' => $results,

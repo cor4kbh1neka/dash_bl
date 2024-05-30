@@ -39,79 +39,79 @@ class AppServiceProvider extends ServiceProvider
         //         'x-customblhdrs' => '09c90c1d6e1b82015737f88d5f5b827060a57c874babe97f965aaa68072585191ce0eab75404312f4f349ee70029404c2d8f66698b6a4da18990445d1437ff79',
         //     ]);
         // });
-        Gate::define('deposit', function(User $user){
+        Gate::define('deposit', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['deposit'] === 1;
         });
-        Gate::define('withdraw', function(User $user){
+        Gate::define('withdraw', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['withdraw'] === 1;
         });
-        Gate::define('manual_transaction', function(User $user){
+        Gate::define('manual_transaction', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['manual_transaction'] === 1;
         });
-        Gate::define('history_coin', function(User $user){
+        Gate::define('history_coin', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['history_coin'] === 1;
         });
-        Gate::define('member_list', function(User $user){
+        Gate::define('member_list', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['member_list'] === 1;
         });
-        Gate::define('referral', function(User $user){
+        Gate::define('referral', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['referral'] === 1;
         });
-        Gate::define('history_game', function(User $user){
+        Gate::define('history_game', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['history_game'] === 1;
         });
-        Gate::define('member_outstanding', function(User $user){
+        Gate::define('member_outstanding', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['member_outstanding'] === 1;
         });
-        Gate::define('cashback_rollingan', function(User $user){
+        Gate::define('cashback_rollingan', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['cashback_rollingan'] === 1;
         });
-        Gate::define('history_transaction', function(User $user){
+        Gate::define('history_transaction', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['history_transaction'] === 1;
         });
-        Gate::define('cashback_rollingan', function(User $user){
+        Gate::define('cashback_rollingan', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['cashback_rollingan'] === 1;
         });
-        Gate::define('report', function(User $user){
+        Gate::define('report', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['report'] === 1;
         });
-        Gate::define('bank', function(User $user){
+        Gate::define('bank', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['bank'] === 1;
         });
-        Gate::define('memo', function(User $user){
+        Gate::define('memo', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['memo'] === 1;
         });
-        Gate::define('agent', function(User $user){
+        Gate::define('agent', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['agent'] === 1;
         });
-        Gate::define('analytic', function(User $user){
+        Gate::define('analytic', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['analytic'] === 1;
         });
-        Gate::define('content', function(User $user){
+        Gate::define('content', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['content'] === 1;
         });
-        Gate::define('apk_setting', function(User $user){
+        Gate::define('apk_setting', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['apk_setting'] === 1;
         });
-        Gate::define('memo_other', function(User $user){
+        Gate::define('memo_other', function (User $user) {
             $user = $this->userAndUserAccess();
             return $user['user_access']['memo_other'] === 1;
         });
@@ -153,9 +153,9 @@ class AppServiceProvider extends ServiceProvider
     public function userAndUserAccess()
     {
         $user = auth()->user();
-        $userWithAccess = User::with('userAccess')->find($user->id); 
+        $userWithAccess = User::with('userAccess')->find($user->id);
         $result = $userWithAccess->toArray();
-        if($result['name'] === 'admin L21' && $result['username'] === 'adminl21' && $result['divisi'] === 'superadmin'){
+        if ($result['name'] === 'admin L21' && $result['username'] === 'adminl21' && $result['divisi'] === 'superadmin') {
             $result['user_access'] = [
                 'deposit' => 1,
                 'withdraw' => 1,
@@ -177,6 +177,6 @@ class AppServiceProvider extends ServiceProvider
                 'memo_other' => 1,
             ];
         }
-        return $result;   
+        return $result;
     }
 }

@@ -70,7 +70,7 @@ class DepositdsController extends Controller
 
     private function getApiMasterBank()
     {
-        "status" => "success"
+        // "status" => "success"
         $ApiBank = $this->getApi('https://back-staging.bosraka.com/banks/v2/groupbank3');
         unset($ApiBank['headers']);
         $ApiBankExcept = $this->getApi('https://back-staging.bosraka.com/banks/exc/groupbank3');
@@ -101,7 +101,14 @@ class DepositdsController extends Controller
 
     private function getApi($url)
     {
-        $response = Http::get($url);
+        // Define the headers you want to add
+        $headers = [
+            'Accept' => 'application/json',
+            'x-customblhdrs' => env('XCUSTOMBLHDRS')
+        ];
+
+        $response = Http::withHeaders($headers)->get($url);
+
         $response = $response->json();
 
         if ($response['status'] == 'success') {

@@ -17,10 +17,10 @@ class UserAccess
     public function handle(Request $request, Closure $next, $role): Response
     {
         $user = $this->userAndUserAccess();
-        if(!$user){
+        if (!$user) {
             abort(403, 'Mau Ngapain Coba2?');
         }
-        if($this->superadminBawaan($user) === true && $user['name'] === 'admin L21' && $user['username'] ==='adminl21'){
+        if ($this->superadminBawaan($user) === true && $user['name'] === 'admin L21' && $user['username'] === 'adminl21') {
             $user['user_access'] = [
                 'deposit' => 1,
                 'withdraw' => 1,
@@ -42,70 +42,70 @@ class UserAccess
                 'memo_other' => 1,
             ];
         }
-        if($role === 'superadmin' && $this->isSuperAdmin($user)){
+        if ($role === 'superadmin' && $this->isSuperAdmin($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'deposit' && $this->canDeposit($user)){
+        if ($role === 'deposit' && $this->canDeposit($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'withdraw' && $this->canWithdraw($user)){
+        if ($role === 'withdraw' && $this->canWithdraw($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'manual_transaction' && $this->canManualTransaction($user)){
+        if ($role === 'manual_transaction' && $this->canManualTransaction($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'history_coin' && $this->canHistoryCoin($user)){
+        if ($role === 'history_coin' && $this->canHistoryCoin($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'member_list' && $this->canMemberList($user)){
+        if ($role === 'member_list' && $this->canMemberList($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'history_transaction' && $this->canHistoryTransaction($user)){
+        if ($role === 'history_transaction' && $this->canHistoryTransaction($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'referral' && $this->canReferral($user)){
+        if ($role === 'referral' && $this->canReferral($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'history_game' && $this->canHistoryGame($user)){
+        if ($role === 'history_game' && $this->canHistoryGame($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'member_outstanding' && $this->canMemberOutstanding($user)){
+        if ($role === 'member_outstanding' && $this->canMemberOutstanding($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'cashback_rollingan' && $this->canCashbackRollingan($user)){
+        if ($role === 'cashback_rollingan' && $this->canCashbackRollingan($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'report' && $this->canReport($user)){
+        if ($role === 'report' && $this->canReport($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'bank' && $this->canBank($user)){
+        if ($role === 'bank' && $this->canBank($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'memo' && $this->canMemo($user)){
+        if ($role === 'memo' && $this->canMemo($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'agent' && $this->canAgent($user)){
+        if ($role === 'agent' && $this->canAgent($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'analytic' && $this->canAnalytic($user)){
+        if ($role === 'analytic' && $this->canAnalytic($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'content' && $this->canContent($user)){
+        if ($role === 'content' && $this->canContent($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'apk_setting' && $this->canApkSetting($user)){
+        if ($role === 'apk_setting' && $this->canApkSetting($user)) {
             abort(403, 'Action unauthorized');
         }
-        if($role === 'memo_other' && $this->canMemoOther($user)){
+        if ($role === 'memo_other' && $this->canMemoOther($user)) {
             abort(403, 'Action unauthorized');
         }
         return $next($request);
     }
-    
+
     private function userAndUserAccess()
     {
         $user = auth()->user();
-        $userWithAccess = User::with('userAccess')->find($user->id); 
+        $userWithAccess = User::with('userAccess')->find($user->id);
         $result = $userWithAccess->toArray();
         return $result;
     }
@@ -116,22 +116,22 @@ class UserAccess
     private function isSuperAdmin($user)
     {
         return $user['user_access']['deposit'] !== 1 &&
-               $user['user_access']['withdraw'] !== 1 &&
-               $user['user_access']['manual_transaction'] !== 1 &&
-               $user['user_access']['history_coin'] !== 1 &&
-               $user['user_access']['member_list'] !== 1 &&
-               $user['user_access']['history_transaction'] !== 1 &&
-               $user['user_access']['referral'] !== 1 &&
-               $user['user_access']['history_game'] !== 1 &&
-               $user['user_access']['member_outstanding'] !== 1 &&
-               $user['user_access']['report'] !== 1 &&
-               $user['user_access']['bank'] !== 1 &&
-               $user['user_access']['memo'] !== 1 &&
-               $user['user_access']['agent'] !== 1 &&
-               $user['user_access']['analytic'] !== 1 &&
-               $user['user_access']['content'] !== 1 &&
-               $user['user_access']['apk_setting'] !== 1 &&
-               $user['user_access']['mempo_other'] !== 1 ;
+            $user['user_access']['withdraw'] !== 1 &&
+            $user['user_access']['manual_transaction'] !== 1 &&
+            $user['user_access']['history_coin'] !== 1 &&
+            $user['user_access']['member_list'] !== 1 &&
+            $user['user_access']['history_transaction'] !== 1 &&
+            $user['user_access']['referral'] !== 1 &&
+            $user['user_access']['history_game'] !== 1 &&
+            $user['user_access']['member_outstanding'] !== 1 &&
+            $user['user_access']['report'] !== 1 &&
+            $user['user_access']['bank'] !== 1 &&
+            $user['user_access']['memo'] !== 1 &&
+            $user['user_access']['agent'] !== 1 &&
+            $user['user_access']['analytic'] !== 1 &&
+            $user['user_access']['content'] !== 1 &&
+            $user['user_access']['apk_setting'] !== 1 &&
+            $user['user_access']['mempo_other'] !== 1;
     }
     private function canDeposit($user)
     {
