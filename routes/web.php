@@ -355,8 +355,10 @@ Route::middleware(['auth'])->group(function () {
     /*-- Bonusds --*/
     Route::get('/bonuslistds', [BonusdsController::class, 'indexlist']);
     Route::get('/bonusds', [BonusdsController::class, 'index']);
-    Route::get('/bonusdetailds', [BonusdsController::class, 'indexdetail']);
+    Route::get('/bonusdetailds/{listbonus_id}', [BonusdsController::class, 'indexdetail']);
     Route::post('/storebonusds/{bonus}/{gabungdari}/{gabunghingga}/{kecuali}', [BonusdsController::class, 'store']);
+    Route::post('/cancelbonusds', [BonusdsController::class, 'cancel']);
+
 
     /*-- Memotouserds --*/
     Route::get('/maintenance', [MaintenancedsController::class, 'maintenance']);

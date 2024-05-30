@@ -20,9 +20,9 @@
                         <div class="groupheadhistoryds">
                             <form method="GET" action="/referralds" class="listmembergroup">
                                 <div class="listinputmember">
-                                    <label for="upline">upline</label>
+                                    <label for="upline">upline <span class="required">*</span></label>
                                     <input type="text" id="upline" name="upline" value="{{ $upline }}"
-                                        placeholder="username upline">
+                                        placeholder="username upline" required>
                                 </div>
                                 <div class="listinputmember">
                                     <label for="portfolio">jenis game</label>
@@ -109,40 +109,40 @@
                                             <td>{{ $i + 1 }}</td>
                                             <td>{{ $d->upline }}</td>
                                             <td>
-                                                <a href="referralds/downline/{{ $d->upline }}/totaldownline/{{ $d->total_referral }}/{{ $d->total_referral }}/{{ $d->total_amount }}/?{{ $query }}"
+                                                <a href="referralds/downline/{{ $d->upline }}/totaldownline/{{ $d->total_downline }}/{{ $d->total_downline }}/{{ $d->total_amount_referral }}/?{{ $query }}"
                                                     target="_blank" class="detailbetingan">
-                                                    <span class="texttypebet sportsType">{{ $d->total_referral }}</span>
+                                                    <span class="texttypebet sportsType">{{ $d->total_downline }}</span>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="/referralds/downline/{{ $d->upline }}/deposit/{{ $d->total_deposit }}/{{ $d->total_referral }}/{{ $d->total_amount }}/?{{ $query }}"
+                                                <a href="/referralds/downline/{{ $d->upline }}/deposit/{{ $d->total_depo }}/{{ $d->total_downline }}/{{ $d->total_amount_referral }}/?{{ $query }}"
                                                     target="_blank" class="detailbetingan">
-                                                    <span class="texttypebet sportsType">{{ $d->total_deposit }}</span>
+                                                    <span class="texttypebet sportsType">{{ $d->total_depo }}</span>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="/referralds/downline/{{ $d->upline }}/belumdeposit/{{ $d->total_nondeposit }}/{{ $d->total_referral }}/{{ $d->total_amount }}/?{{ $query }}"
+                                                <a href="/referralds/downline/{{ $d->upline }}/belumdeposit/{{ $d->total_nondepo }}/{{ $d->total_downline }}/{{ $d->total_amount_referral }}/?{{ $query }}"
                                                     target="_blank" class="detailbetingan">
-                                                    <span class="texttypebet sportsType">{{ $d->total_nondeposit }}</span>
+                                                    <span class="texttypebet sportsType">{{ $d->total_nondepo }}</span>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="/referralds/downline/{{ $d->upline }}/aktif/{{ $d->total_aktif }}/{{ $d->total_referral }}/{{ $d->total_amount }}/?{{ $query }}"
+                                                <a href="/referralds/downline/{{ $d->upline }}/aktif/{{ $d->total_aktif }}/{{ $d->total_downline }}/{{ $d->total_amount_referral }}/?{{ $query }}"
                                                     target="_blank" class="detailbetingan">
                                                     <span class="texttypebet sportsType">{{ $d->total_aktif }}</span>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="/referralds/downline/{{ $d->upline }}/tidakaktif/{{ $d->total_nonaktif }}/{{ $d->total_referral }}/{{ $d->total_amount }}/?{{ $query }}"
+                                                <a href="/referralds/downline/{{ $d->upline }}/tidakaktif/{{ $d->total_nonaktif }}/{{ $d->total_downline }}/{{ $d->total_amount_referral }}/?{{ $query }}"
                                                     target="_blank" class="detailbetingan">
                                                     <span class="texttypebet sportsType">{{ $d->total_nonaktif }}</span>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="/referralds/downline/{{ $d->upline }}/bonusreferral/{{ $d->total_aktif }}/{{ $d->total_referral }}/{{ $d->total_amount }}/?{{ $query }}"
+                                                <a href="/referralds/downline/{{ $d->upline }}/bonusreferral/{{ $d->total_amount_referral }}/{{ $d->total_downline }}/{{ $d->total_amount_referral }}/?{{ $query }}"
                                                     target="_blank" class="detailbetingan">
                                                     <span class="texttypebet sportsType nominalreff"
-                                                        data-bonusreff="{{ $d->total_amount }}"></span>
+                                                        data-bonusreff="{{ $d->total_amount_referral }}"></span>
                                                 </a>
                                             </td>
                                         </tr>

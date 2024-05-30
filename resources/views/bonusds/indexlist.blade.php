@@ -34,18 +34,37 @@
                                 ADD BONUS
                             </span>
                         </a>
-                        <div class="groupsearchagentds">
+                        <form action="/bonuslistds" method="GET" class="groupsearchagentds">
+                            <div class="listinputmember">
+                                <select name="bonus" id="bonus">
+                                    <option value="" selected="" place="">All Bonus</option>
+                                    <option value="cashback" {{ $bonus == 'cashback' ? 'selected' : '' }}>Cashback
+                                    </option>
+                                    <option value="rolingan" {{ $bonus == 'rolingan' ? 'selected' : '' }}>Rollingan
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="listinputmember">
+                                <input type="date" id="gabungdari" name="gabungdari" placeholder="tanggal gabung dari"
+                                    value="{{ $gabungdari }}">
+                            </div>
+                            <div class="listinputmember">
+                                <input type="date" id="gabunghingga" name="gabunghingga"
+                                    placeholder="tanggal gabung hingga" value="{{ $gabunghingga }}">
+                            </div>
+
                             <div class="grubsearchnav">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                                     <path fill="currentColor"
                                         d="m19.6 21l-6.3-6.3q-.75.6-1.725.95T9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l6.3 6.3zM9.5 14q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14" />
                                 </svg>
-                                <input type="text" placeholder="Cari Tabel..." id="searchTabel">
+                                <input type="text" placeholder="Search No. Invoice..." id="searchTabel"
+                                    name="searchinvoice" value="{{ $search }}">
                             </div>
                             <button class="tombol primary">
                                 <span class="texttombol">search</span>
                             </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <div class="groupdatasecagentds">
@@ -60,23 +79,31 @@
                                     <th class="baguser">status</th>
                                     <th class="baguser">total</th>
                                     <th class="baguser">log</th>
+                                    <th class="baguser">Tools</th>
                                 </tr>
                                 @foreach ($data as $i => $d)
                                     <tr>
                                         <td>{{ $i + 1 }}</td>
-                                        <td> <a href="/bonusdetailds/{{ $d->id }}"> {{ $d->no_invoice }}
-                                            </a></td>
+                                        <td>{{ $d->no_invoice }}</td>
                                         <td>{{ ucwords($d->jenis_bonus) }}</td>
                                         <td>{{ $d->periodedari }} to {{ $d->periodesampai }}</td>
                                         <td>{{ $d->status }}</td>
                                         <td>{{ $d->total }}</td>
                                         <td>{{ $d->processed_by }} ({{ $d->created_at }})</td>
+                                        <td>
+                                            <div class="grouptools">
+                                                <a href="/bonusdetailds/{{ $d->id }}" target="_blank"
+                                                    class="tombol grey openviewport">
+                                                    <span class="texttombol">VIEW</span>
+                                                </a>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                         <div style="padding-left:25px;padding-right:25px">
-                            {{-- {{ $data->links('vendor.pagination.customdashboard') }} --}}
+                            {{ $data->links('vendor.pagination.customdashboard') }}
                         </div>
                     </div>
                 </div>

@@ -25,21 +25,54 @@ use Illuminate\Support\Str;
 
 class BonusdsController extends Controller
 {
-    public function indexlist()
+    public function indexlist(Request $request)
     {
-        $data = Listbonus::get();
+        $bonus = $request->input('bonus');
+        $gabungdari = $request->input('gabungdari');
+        $gabunghingga = $request->input('gabunghingga');
+        $search_invoice = $request->input('searchinvoice');
+
+        $query = Listbonus::orderByDesc('created_at');
+
+        if (!empty($bonus)) {
+            $query->where('jenis_bonus', $bonus);
+        }
+
+        if (!empty($gabungdari) && !empty($gabunghingga)) {
+            $query->where('periodedari', '>=', $gabungdari)
+                ->where('periodesampai', '<=', $gabunghingga);
+        }
+
+        if (!empty($search_invoice)) {
+            $query->where('no_invoice', 'like', '%' . $search_invoice . '%');
+        }
+
+        $data = $query->paginate(10);
         return view('bonusds.indexlist', [
             'title' => 'List Cashback dan Rollingan',
-            'data' => $data
+            'data' => $data,
+            'bonus' => $bonus,
+            'gabungdari' => $gabungdari,
+            'gabunghingga' => $gabunghingga,
+            'search' => $search_invoice
         ]);
     }
 
-    public function indexdetail()
+    public function indexdetail($listbonus_id)
     {
-        $data = Listbonusdetail::get();
+        $data = Listbonus::where('id', $listbonus_id)->first();
+        $datadetail = Listbonusdetail::where('listbonus_id', $listbonus_id)->get();
+        $dataBonusPengecualian = BonusPengecualian::get();
+
         return view('bonusds.indexdetail', [
-            'title' => 'List Cashback dan Rollingan',
-            'data' => $data
+            'title' => 'Cashback dan Rollingan',
+            'data' => $data,
+            'datadetail' => $datadetail,
+            'dataBonusPengecualian' => $dataBonusPengecualian,
+            'isproses' => true,
+            'listbonus_id' => $listbonus_id,
+            'total_user' => $datadetail->count(),
+            'total_bonus' => $datadetail->sum('bonus')
         ]);
     }
 
@@ -219,7 +252,7 @@ class BonusdsController extends Controller
                         $this->addDataWinLoss($d['username'], $d['bonus'], "deposit");
 
                         // 5.Create History
-                        $test33 = $this->addDataHistory($d['username'], $txnid, '', strtolower($bonus), 'bonus', 0, $d['bonus'], $prosesBalance["balance"]);
+                        $this->addDataHistory($d['username'], $txnid, '', strtolower($bonus), 'bonus', 0, $d['bonus'], $prosesBalance["balance"]);
                     }
 
                     $maxAttempts4404 = 10;
@@ -426,5 +459,49 @@ class BonusdsController extends Controller
         ]);
 
         return $result;
+    }
+
+    public function cancel(Request $request)
+    {
+        // $listbonus_id = $request->listbonus_id;
+        // $updateListbonus = Listbonus::where('id', $listbonus_id)->update([
+        //     'status' => 'Cancel'
+        // ]);
+
+        // if ($updateListbonus) {
+        //     $dataListbonus = Listbonusdetail::where('listbonus_id', $listbonus_id)->get();
+
+        //     foreach ($dataListbonus as $i => $d) {
+
+        //         // 3. Process balance
+        //         $prosesBalance = $this->processBalance($d->username, 'WD', $d->bonus);
+        //         if ($prosesBalance) {
+        //         }
+
+        //         // 1. requestApiSeamless
+        //         $txnid = $this->generateTxnid('D');
+        //         $prosesApiDepo = $this->apiDepo($d['username'], $d['bonus'], $txnid);
+
+        //         if ($prosesApiDepo["error"]["id"] === 0) {
+        //             // 2.create DepoWd DPM
+        //             $balance = Balance::where('username', $d['username'])->first();
+        //             if ($balance) {
+        //                 $balance = $balance->amount;
+        //             }
+        //             $keterangan = 'Bonus ' . $bonus;
+        //             $this->createDepoWD($d['username'], $d['bonus'], $keterangan, 'DPM', $txnid, $balance, Auth::user()->username, 1);
+
+
+
+        //             //4. Process win Lose
+        //             $this->addDataWinLoss($d['username'], $d['bonus'], "deposit");
+
+        //             // 5.Create History
+        //             $test33 = $this->addDataHistory($d['username'], $txnid, '', strtolower($bonus), 'bonus', 0, $d['bonus'], $prosesBalance["balance"]);
+        //         }
+        //     }
+        // }
+
+        return;
     }
 }

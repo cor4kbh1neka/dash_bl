@@ -34,7 +34,83 @@ class ReferraldsController extends Controller
         $gabungdari = $request->input('gabungdari', date('Y-m-d'));
         $gabunghingga = $request->input('gabunghingga', date('Y-m-d'));
 
+        $table = $this->determineTable($upline);
 
+        $filterDepo = "WHERE 1=1";
+        $filterAktif = "WHERE 1=1";
+
+        if (isset($upline)) {
+            $filterDepo .= " AND A1.upline = '$upline'";
+            $filterAktif .= " AND A1.upline = '$upline'";
+        }
+
+        if (isset($portfolio)) {
+            $filterAktif .= " AND A1.portfolio = '$portfolio'";
+        }
+
+        if (isset($gabungdari) && isset($gabunghingga)) {
+            $filterDepo .= " AND A1.created_at >= '$gabungdari' AND A1.created_at <= '$gabunghingga'";
+            $filterAktif .= " AND A1.created_at >= '$gabungdari' AND A1.created_at <= '$gabunghingga'";
+        }
+
+
+
+        $results = DB::table('referral' . $table . ' as A')
+            ->select(
+                'A.upline',
+                DB::raw('COUNT(A.downline) as total_downline'),
+                DB::raw('COALESCE(B.total_deposit, 0) as total_depo'),
+                DB::raw('COUNT(A.downline) - COALESCE(B.total_deposit, 0) as total_nondepo'),
+                DB::raw('COALESCE(C.total_aktif, 0) as total_aktif'),
+                DB::raw('COUNT(A.downline) - COALESCE(C.total_aktif, 0) as total_nonaktif'),
+                DB::raw('COALESCE(C.total_amount_referral, 0) as total_amount_referral')
+            )
+            ->leftJoin(DB::raw('(SELECT A2.upline, COUNT(A2.downline) as total_deposit FROM (SELECT A1.upline, A1.downline FROM ref_depo' . $table . ' A1 ' . $filterDepo . ' GROUP BY A1.upline, A1.downline) A2 GROUP BY A2.upline) B'), 'A.upline', '=', 'B.upline')
+            ->leftJoin(DB::raw('(SELECT A3.upline, COUNT(A3.downline) as total_aktif, SUM(A3.total_amount_referral) as total_amount_referral FROM (SELECT A1.upline, A1.downline, SUM(A1.amount) as total_amount_referral FROM ref_aktif' . $table . ' A1 ' . $filterAktif . ' GROUP BY A1.upline, A1.downline) A3 GROUP BY A3.upline) C'), 'A.upline', '=', 'C.upline')
+            ->where('A.upline', $upline)
+            ->groupBy('A.upline', 'B.total_deposit', 'C.total_aktif', 'C.total_amount_referral')
+            ->get();
+
+
+        return view('referralds.index', [
+            'title' => 'Referral',
+            'data' => $results,
+            'totalnote' => 0,
+            'upline' => $upline,
+            'portfolio' => $portfolio,
+            'gabungdari' => $gabungdari,
+            'gabunghingga' => $gabunghingga,
+            'query' => $query,
+            'total_upline' => 0,
+            'total_bonus' => 0
+        ]);
+    }
+
+    private function determineTable($username)
+    {
+        $firstCharacter = strtolower($username[0]);
+
+        if (in_array($firstCharacter, ['a', 'b', 'c', 'd', 'e'])) {
+            return '_ae';
+        } elseif (in_array($firstCharacter, ['f', 'g', 'h', 'i', 'j'])) {
+            return '_fj';
+        } elseif (in_array($firstCharacter, ['k', 'l', 'm', 'n', 'o'])) {
+            return '_ko';
+        } elseif (in_array($firstCharacter, ['p', 'q', 'r', 's', 't'])) {
+            return '_pt';
+        } elseif (in_array($firstCharacter, ['u', 'v', 'w', 'x', 'y', 'z'])) {
+            return '_uz';
+        }
+    }
+
+
+    public function index33(Request $request)
+    {
+        $query = $request->getQueryString();
+        $upline = $request->input('upline');
+        $portfolio = $request->input('portfolio');
+        $gabungdari = $request->input('gabungdari', date('Y-m-d'));
+        $gabunghingga = $request->input('gabunghingga', date('Y-m-d'));
 
         $tables = ['ae', 'fj', 'pt', 'ko', 'uz'];
 
@@ -302,6 +378,7 @@ class ReferraldsController extends Controller
             'total_referral' => $total_referral,
             'total' => $total,
             'total_downline' => $total_downline,
+            'countdata' => $data->count()
             // 'total_all_donwline' => $allDownline
         ]);
     }
@@ -309,17 +386,19 @@ class ReferraldsController extends Controller
     private function getTidakAktif($upline, $portfolio, $gabungdari, $gabunghingga)
     {
         if (preg_match('/^[a-e]/i', $upline)) {
-            $dataReferral = ReferralAktif1::where('upline', $upline)->pluck('downline')
+            $dataReferral = ReferralAktif1::where('upline', $upline)
                 ->when($portfolio != '', function ($query) use ($portfolio) {
                     return $query->where('portfolio', $portfolio);
                 })
-                ->whereBetween('created_at', [$gabungdari, $gabunghingga])->toArray();
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])->pluck('downline')->toArray();
+
             $data = Referral1::where('upline', $upline)
                 ->whereNotIn('downline', $dataReferral)
                 ->get();
+
             if (!$data->isEmpty()) {
                 foreach ($data as $row) {
-                    $row->total_amount = 0;
+                    $row->total_amount_referral = 0;
                 }
             }
         } elseif (preg_match('/^[f-j]/i', $upline)) {
@@ -327,15 +406,15 @@ class ReferraldsController extends Controller
                 ->when($portfolio != '', function ($query) use ($portfolio) {
                     return $query->where('portfolio', $portfolio);
                 })
-                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                ->pluck('downline')
-                ->toArray();
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])->pluck('downline')->toArray();
+
             $data = Referral2::where('upline', $upline)
                 ->whereNotIn('downline', $dataReferral)
                 ->get();
+
             if (!$data->isEmpty()) {
                 foreach ($data as $row) {
-                    $row->total_amount = 0;
+                    $row->total_amount_referral = 0;
                 }
             }
         } elseif (preg_match('/^[k-o]/i', $upline)) {
@@ -343,15 +422,15 @@ class ReferraldsController extends Controller
                 ->when($portfolio != '', function ($query) use ($portfolio) {
                     return $query->where('portfolio', $portfolio);
                 })
-                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                ->pluck('downline')
-                ->toArray();
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])->pluck('downline')->toArray();
+
             $data = Referral3::where('upline', $upline)
                 ->whereNotIn('downline', $dataReferral)
                 ->get();
+
             if (!$data->isEmpty()) {
                 foreach ($data as $row) {
-                    $row->total_amount = 0;
+                    $row->total_amount_referral = 0;
                 }
             }
         } elseif (preg_match('/^[p-t]/i', $upline)) {
@@ -359,15 +438,15 @@ class ReferraldsController extends Controller
                 ->when($portfolio != '', function ($query) use ($portfolio) {
                     return $query->where('portfolio', $portfolio);
                 })
-                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                ->pluck('downline')
-                ->toArray();
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])->pluck('downline')->toArray();
+
             $data = Referral4::where('upline', $upline)
                 ->whereNotIn('downline', $dataReferral)
                 ->get();
+
             if (!$data->isEmpty()) {
                 foreach ($data as $row) {
-                    $row->total_amount = 0;
+                    $row->total_amount_referral = 0;
                 }
             }
         } elseif (preg_match('/^[u-z]/i', $upline)) {
@@ -375,15 +454,15 @@ class ReferraldsController extends Controller
                 ->when($portfolio != '', function ($query) use ($portfolio) {
                     return $query->where('portfolio', $portfolio);
                 })
-                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                ->pluck('downline')
-                ->toArray();
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])->pluck('downline')->toArray();
+
             $data = Referral5::where('upline', $upline)
                 ->whereNotIn('downline', $dataReferral)
                 ->get();
+
             if (!$data->isEmpty()) {
                 foreach ($data as $row) {
-                    $row->total_amount = 0;
+                    $row->total_amount_referral = 0;
                 }
             }
         }
@@ -393,85 +472,50 @@ class ReferraldsController extends Controller
     private function getAktif($upline, $portfolio, $gabungdari, $gabunghingga)
     {
         if (preg_match('/^[a-e]/i', $upline)) {
-            $data = Referral1::where('upline', $upline)->get();
-            foreach ($data as $row) {
-                $refAktif = ReferralAktif1::where('upline', $upline)->where('downline', $row->downline)
-                    ->when($portfolio != '', function ($query) use ($portfolio) {
-                        return $query->where('portfolio', $portfolio);
-                    })
-                    ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                    ->first();
-
-                if ($refAktif) {
-                    $row->total_amount = $refAktif->amount;
-                } else {
-                    $row->total_amount = 0;
-                }
-            }
+            $data = ReferralAktif1::where('upline', $upline)
+                ->when($portfolio != '', function ($query) use ($portfolio) {
+                    return $query->where('portfolio', $portfolio);
+                })
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
+                ->select('downline', DB::raw('SUM(amount) as total_amount_referral'))
+                ->groupBy('downline')
+                ->get();
         } elseif (preg_match('/^[f-j]/i', $upline)) {
-            $data = Referral2::where('upline', $upline)->get();
-            foreach ($data as $row) {
-                $refAktif = ReferralAktif2::where('upline', $upline)->where('downline', $row->downline)
-                    ->when($portfolio != '', function ($query) use ($portfolio) {
-                        return $query->where('portfolio', $portfolio);
-                    })
-                    ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                    ->first();
-
-                if ($refAktif) {
-                    $row->total_amount = $refAktif->amount;
-                } else {
-                    $row->total_amount = 0;
-                }
-            }
+            $data = ReferralAktif2::where('upline', $upline)
+                ->when($portfolio != '', function ($query) use ($portfolio) {
+                    return $query->where('portfolio', $portfolio);
+                })
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
+                ->select('downline', DB::raw('SUM(amount) as total_amount_referral'))
+                ->groupBy('downline')
+                ->get();
         } elseif (preg_match('/^[k-o]/i', $upline)) {
-            $data = Referral3::where('upline', $upline)->get();
-            foreach ($data as $row) {
-                $refAktif = ReferralAktif3::where('upline', $upline)->where('downline', $row->downline)
-                    ->when($portfolio != '', function ($query) use ($portfolio) {
-                        return $query->where('portfolio', $portfolio);
-                    })
-                    ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                    ->first();
-
-                if ($refAktif) {
-                    $row->total_amount = $refAktif->amount;
-                } else {
-                    $row->total_amount = 0;
-                }
-            }
+            $data = ReferralAktif3::where('upline', $upline)
+                ->when($portfolio != '', function ($query) use ($portfolio) {
+                    return $query->where('portfolio', $portfolio);
+                })
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
+                ->select('downline', DB::raw('SUM(amount) as total_amount_referral'))
+                ->groupBy('downline')
+                ->get();
         } elseif (preg_match('/^[p-t]/i', $upline)) {
-            $data = Referral4::where('upline', $upline)->get();
-            foreach ($data as $row) {
-                $refAktif = ReferralAktif4::where('upline', $upline)->where('downline', $row->downline)
-                    ->when($portfolio != '', function ($query) use ($portfolio) {
-                        return $query->where('portfolio', $portfolio);
-                    })
-                    ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                    ->first();
-
-                if ($refAktif) {
-                    $row->total_amount = $refAktif->amount;
-                } else {
-                    $row->total_amount = 0;
-                }
-            }
+            $data = ReferralAktif4::where('upline', $upline)
+                ->when($portfolio != '', function ($query) use ($portfolio) {
+                    return $query->where('portfolio', $portfolio);
+                })
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
+                ->select('downline', DB::raw('SUM(amount) as total_amount_referral'))
+                ->groupBy('downline')
+                ->get();
         } elseif (preg_match('/^[u-z]/i', $upline)) {
-            $data = Referral5::where('upline', $upline)->get();
-            foreach ($data as $row) {
-                $refAktif = ReferralAktif5::where('upline', $upline)->where('downline', $row->downline)
-                    ->when($portfolio != '', function ($query) use ($portfolio) {
-                        return $query->where('portfolio', $portfolio);
-                    })
-                    ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                    ->first();
-
-                if ($refAktif) {
-                    $row->total_amount = $refAktif->amount;
-                } else {
-                    $row->total_amount = 0;
-                }
-            }
+            $data = ReferralAktif5::where('upline', $upline)
+                ->when($portfolio != '', function ($query) use ($portfolio) {
+                    return $query->where('portfolio', $portfolio);
+                })
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
+                ->select('downline', DB::raw('SUM(amount) as total_amount_referral'))
+                ->groupBy('downline')
+                ->get();
         }
         return $data;
     }
@@ -482,60 +526,70 @@ class ReferraldsController extends Controller
             $dataReferral = ReferralDepo1::where('upline', $upline)
                 ->whereBetween('created_at', [$gabungdari, $gabunghingga])
                 ->pluck('downline')->toArray();
+
             $data = Referral1::where('upline', $upline)
                 ->whereNotIn('downline', $dataReferral)
                 ->get();
+
             if (!$data->isEmpty()) {
                 foreach ($data as $row) {
-                    $row->total_amount = 0;
+                    $row->total_amount_referral = 0;
                 }
             }
         } elseif (preg_match('/^[f-j]/i', $upline)) {
             $dataReferral = ReferralDepo2::where('upline', $upline)
                 ->whereBetween('created_at', [$gabungdari, $gabunghingga])
                 ->pluck('downline')->toArray();
+
             $data = Referral2::where('upline', $upline)
                 ->whereNotIn('downline', $dataReferral)
                 ->get();
+
             if (!$data->isEmpty()) {
                 foreach ($data as $row) {
-                    $row->total_amount = 0;
+                    $row->total_amount_referral = 0;
                 }
             }
         } elseif (preg_match('/^[k-o]/i', $upline)) {
             $dataReferral = ReferralDepo3::where('upline', $upline)
                 ->whereBetween('created_at', [$gabungdari, $gabunghingga])
                 ->pluck('downline')->toArray();
+
             $data = Referral3::where('upline', $upline)
                 ->whereNotIn('downline', $dataReferral)
                 ->get();
+
             if (!$data->isEmpty()) {
                 foreach ($data as $row) {
-                    $row->total_amount = 0;
+                    $row->total_amount_referral = 0;
                 }
             }
         } elseif (preg_match('/^[p-t]/i', $upline)) {
             $dataReferral = ReferralDepo4::where('upline', $upline)
                 ->whereBetween('created_at', [$gabungdari, $gabunghingga])
                 ->pluck('downline')->toArray();
+
             $data = Referral4::where('upline', $upline)
                 ->whereNotIn('downline', $dataReferral)
                 ->get();
+
             if (!$data->isEmpty()) {
                 foreach ($data as $row) {
-                    $row->total_amount = 0;
+                    $row->total_amount_referral = 0;
                 }
             }
         } elseif (preg_match('/^[u-z]/i', $upline)) {
             $dataReferral = ReferralDepo5::where('upline', $upline)
                 ->whereBetween('created_at', [$gabungdari, $gabunghingga])
                 ->pluck('downline')->toArray();
+
             $data = Referral5::where('upline', $upline)
                 ->whereNotIn('downline', $dataReferral)
                 ->get();
+
             if (!$data->isEmpty()) {
                 foreach ($data as $row) {
-                    $row->total_amount = 0;
+                    $row->total_amount_referral = 0;
                 }
             }
         }
@@ -545,65 +599,35 @@ class ReferraldsController extends Controller
     private function getDeposit($upline, $portfolio, $gabungdari, $gabunghingga)
     {
         if (preg_match('/^[a-e]/i', $upline)) {
-            $data = Referral1::where('upline', $upline)->get();
-            foreach ($data as $row) {
-                $refDepo = ReferralDepo1::where('upline', $upline)->where('downline', $row->downline)
-                    ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                    ->first();
-                if ($refDepo) {
-                    $row->total_amount = $refDepo->amount;
-                } else {
-                    $row->total_amount = 0;
-                }
-            }
+            $data = ReferralDepo1::where('upline', $upline)
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
+                ->select('upline', 'downline', DB::raw('SUM(amount) as total_amount_referral'))
+                ->groupBy('upline', 'downline')
+                ->get();
         } elseif (preg_match('/^[f-j]/i', $upline)) {
-            $data = Referral2::where('upline', $upline)->get();
-            foreach ($data as $row) {
-                $refDepo = ReferralDepo2::where('upline', $upline)->where('downline', $row->downline)
-                    ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                    ->first();
-                if ($refDepo) {
-                    $row->total_amount = $refDepo->amount;
-                } else {
-                    $row->total_amount = 0;
-                }
-            }
+            $data = ReferralDepo2::where('upline', $upline)
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
+                ->select('upline', 'downline', DB::raw('SUM(amount) as total_amount_referral'))
+                ->groupBy('upline', 'downline')
+                ->get();
         } elseif (preg_match('/^[k-o]/i', $upline)) {
-            $data = Referral3::where('upline', $upline)->get();
-            foreach ($data as $row) {
-                $refDepo = ReferralDepo3::where('upline', $upline)->where('downline', $row->downline)
-                    ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                    ->first();
-                if ($refDepo) {
-                    $row->total_amount = $refDepo->amount;
-                } else {
-                    $row->total_amount = 0;
-                }
-            }
+            $data = ReferralDepo3::where('upline', $upline)
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
+                ->select('upline', 'downline', DB::raw('SUM(amount) as total_amount_referral'))
+                ->groupBy('upline', 'downline')
+                ->get();
         } elseif (preg_match('/^[p-t]/i', $upline)) {
-            $data = Referral4::where('upline', $upline)->get();
-            foreach ($data as $row) {
-                $refDepo = ReferralDepo4::where('upline', $upline)->where('downline', $row->downline)
-                    ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                    ->first();
-                if ($refDepo) {
-                    $row->total_amount = $refDepo->amount;
-                } else {
-                    $row->total_amount = 0;
-                }
-            }
+            $data = ReferralDepo4::where('upline', $upline)
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
+                ->select('upline', 'downline', DB::raw('SUM(amount) as total_amount_referral'))
+                ->groupBy('upline', 'downline')
+                ->get();
         } elseif (preg_match('/^[u-z]/i', $upline)) {
-            $data = Referral5::where('upline', $upline)->get();
-            foreach ($data as $row) {
-                $refDepo = ReferralDepo5::where('upline', $upline)->where('downline', $row->downline)
-                    ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                    ->first();
-                if ($refDepo) {
-                    $row->total_amount = $refDepo->amount;
-                } else {
-                    $row->total_amount = 0;
-                }
-            }
+            $data = ReferralDepo5::where('upline', $upline)
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
+                ->select('upline', 'downline', DB::raw('SUM(amount) as total_amount_referral'))
+                ->groupBy('upline', 'downline')
+                ->get();
         }
         return $data;
     }
@@ -611,95 +635,50 @@ class ReferraldsController extends Controller
     private function getTotalDownline($upline, $portfolio, $gabungdari, $gabunghingga)
     {
         if (preg_match('/^[a-e]/i', $upline)) {
-            $data = Referral1::where('upline', $upline)->get();
-            foreach ($data as $row) {
-                $refAktif = ReferralAktif1::where('upline', $upline)
-                    ->where('downline', $row->downline)
-                    ->when($portfolio != '', function ($query) use ($portfolio) {
-                        return $query->where('portfolio', $portfolio);
-                    })
-                    ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                    ->first();
-
-
-                if ($refAktif) {
-                    $row->total_amount = $refAktif->amount;
-                } else {
-                    $row->total_amount = 0;
-                }
-            }
+            $data = ReferralAktif1::where('upline', $upline)
+                ->when($portfolio != '', function ($query) use ($portfolio) {
+                    return $query->where('portfolio', $portfolio);
+                })
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
+                ->select('upline', 'downline', DB::raw('SUM(amount) as total_amount_referral'))
+                ->groupBy('upline', 'downline')
+                ->get();
         } elseif (preg_match('/^[f-j]/i', $upline)) {
-            $data = Referral2::where('upline', $upline)->get();
-            foreach ($data as $row) {
-                $refAktif = ReferralAktif2::where('upline', $upline)
-                    ->where('downline', $row->downline)
-                    ->when($portfolio != '', function ($query) use ($portfolio) {
-                        return $query->where('portfolio', $portfolio);
-                    })
-                    ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                    ->first();
-
-
-                if ($refAktif) {
-                    $row->total_amount = $refAktif->amount;
-                } else {
-                    $row->total_amount = 0;
-                }
-            }
+            $data = ReferralAktif2::where('upline', $upline)
+                ->when($portfolio != '', function ($query) use ($portfolio) {
+                    return $query->where('portfolio', $portfolio);
+                })
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
+                ->select('upline', 'downline', DB::raw('SUM(amount) as total_amount_referral'))
+                ->groupBy('upline', 'downline')
+                ->get();
         } elseif (preg_match('/^[k-o]/i', $upline)) {
-            $data = Referral3::where('upline', $upline)->get();
-            foreach ($data as $row) {
-                $refAktif = ReferralAktif3::where('upline', $upline)
-                    ->where('downline', $row->downline)
-                    ->when($portfolio != '', function ($query) use ($portfolio) {
-                        return $query->where('portfolio', $portfolio);
-                    })
-                    ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                    ->first();
-
-
-                if ($refAktif) {
-                    $row->total_amount = $refAktif->amount;
-                } else {
-                    $row->total_amount = 0;
-                }
-            }
+            $data = ReferralAktif3::where('upline', $upline)
+                ->when($portfolio != '', function ($query) use ($portfolio) {
+                    return $query->where('portfolio', $portfolio);
+                })
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
+                ->select('upline', 'downline', DB::raw('SUM(amount) as total_amount_referral'))
+                ->groupBy('upline', 'downline')
+                ->get();
         } elseif (preg_match('/^[p-t]/i', $upline)) {
-            $data = Referral4::where('upline', $upline)->get();
-            foreach ($data as $row) {
-                $refAktif = ReferralAktif4::where('upline', $upline)
-                    ->where('downline', $row->downline)
-                    ->when($portfolio != '', function ($query) use ($portfolio) {
-                        return $query->where('portfolio', $portfolio);
-                    })
-                    ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                    ->first();
-
-
-                if ($refAktif) {
-                    $row->total_amount = $refAktif->amount;
-                } else {
-                    $row->total_amount = 0;
-                }
-            }
+            $data = ReferralAktif4::where('upline', $upline)
+                ->when($portfolio != '', function ($query) use ($portfolio) {
+                    return $query->where('portfolio', $portfolio);
+                })
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
+                ->select('upline', 'downline', DB::raw('SUM(amount) as total_amount_referral'))
+                ->groupBy('upline', 'downline')
+                ->get();
         } elseif (preg_match('/^[u-z]/i', $upline)) {
-            $data = Referral5::where('upline', $upline)->get();
-            foreach ($data as $row) {
-                $refAktif = ReferralAktif5::where('upline', $upline)
-                    ->where('downline', $row->downline)
-                    ->when($portfolio != '', function ($query) use ($portfolio) {
-                        return $query->where('portfolio', $portfolio);
-                    })
-                    ->whereBetween('created_at', [$gabungdari, $gabunghingga])
-                    ->first();
-
-
-                if ($refAktif) {
-                    $row->total_amount = $refAktif->amount;
-                } else {
-                    $row->total_amount = 0;
-                }
-            }
+            $data = ReferralAktif5::where('upline', $upline)
+                ->when($portfolio != '', function ($query) use ($portfolio) {
+                    return $query->where('portfolio', $portfolio);
+                })
+                ->whereBetween('created_at', [$gabungdari, $gabunghingga])
+                ->select('upline', 'downline', DB::raw('SUM(amount) as total_amount_referral'))
+                ->groupBy('upline', 'downline')
+                ->get();
         }
         return $data;
     }

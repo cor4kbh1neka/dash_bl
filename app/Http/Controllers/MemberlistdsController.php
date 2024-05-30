@@ -94,7 +94,7 @@ class MemberlistdsController extends Controller
     public function index()
     {
         $query = Member::query()->join('balance', 'balance.username', '=', 'member.username')
-            ->select('member.*', 'balance.amount');
+            ->select('member.*', 'balance.amount')->orderByDesc('created_at');
         $data = $this->filterAndPaginate($query->get(), 20);
         return view('memberlistds.index', [
             'title' => 'Member List',
@@ -345,7 +345,7 @@ class MemberlistdsController extends Controller
 
     public function historybank($username)
     {
-        $raw = DepoWd::where('username', $username)->where('status', '>', 0)->get();
+        $raw = DepoWd::where('username', $username)->where('status', '>', 0)->orderByDesc('created_at')->get();
         $data = $this->filterAndPaginate($raw, 20);
         return view('memberlistds.history_bank', [
             'title' => 'History Bank',
