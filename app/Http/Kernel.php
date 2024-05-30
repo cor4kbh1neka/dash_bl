@@ -79,6 +79,7 @@ class Kernel extends HttpKernel
         'referral' => \App\Http\Middleware\UserAccess::class. ':referral',
         'history_game' => \App\Http\Middleware\UserAccess::class. ':history_game',
         'member_outstanding' => \App\Http\Middleware\UserAccess::class. ':member_outstanding',
+        'cashback_rollingan' => \App\Http\Middleware\UserAccess::class. ':cashback_rollingan',
         'report' => \App\Http\Middleware\UserAccess::class. ':report',
         'bank' => \App\Http\Middleware\UserAccess::class. ':bank',
         'memo' => \App\Http\Middleware\UserAccess::class. ':memo',
