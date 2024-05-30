@@ -197,6 +197,9 @@ class DepoWdController extends Controller
                         $kredit = $result->jenis == 'DPM' ? $result->amount : 0;
                         $this->addDataHistory($result->username, $txnid, '', $keterangan, 'manual', $debit, $kredit, $processBalance["balance"]);
 
+                        /* Win Loss WD */
+                        $this->addDataWinLoss($result->username, $result->amount, $keterangan);
+
                         return redirect()->route('manualds')->with([
                             'title' => 'Proses Manual',
                             'totalnote' => 0,

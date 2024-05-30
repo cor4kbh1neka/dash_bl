@@ -381,7 +381,6 @@ class BonusdsController extends Controller
 
     public function addDataWinLoss($username, $amount, $jenis)
     {
-
         /* W/L harian */
         $winLoss = winlossDay::where('username', $username)->where('day', date("d"))->where('month', date("m"))->where('year', date("Y"))->first();
         if (!$winLoss) {

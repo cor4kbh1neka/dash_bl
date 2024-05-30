@@ -45,7 +45,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\AddTokenToHttpRequest::class,
-            \Clockwork\Support\Laravel\ClockworkMiddleware::class,
+            // \Clockwork\Support\Laravel\ClockworkMiddleware::class,
         ],
     ];
 
