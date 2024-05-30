@@ -89,27 +89,27 @@
                         <div class="totalbonus">
                             <div class="listtotalbonus">
                                 <span class="textbonus">Bonus :</span>
-                                <span class="countbonus">Rollingan</span>
+                                <span class="countbonus">{{ ucfirst($bonus) }}</span>
                             </div>
                             <div class="listtotalbonus">
                                 <span class="textbonus">tanggal :</span>
                                 <div class="grouptgllistbonus">
-                                    <span class="countbonus from">2024-04-17</span>
+                                    <span class="countbonus from">{{ $gabungdari }}</span>
                                     <span>s/d</span>
-                                    <span class="countbonus to">2024-04-17</span>
+                                    <span class="countbonus to">{{ $gabunghingga }}</span>
                                 </div>
                             </div>
                             <div class="listtotalbonus">
                                 <span class="textbonus">Pengecualian :</span>
-                                <span class="countbonus">Tanpa pengecualian</span>
+                                <span class="countbonus">{{ $pengecualian }}</span>
                             </div>
                             <div class="listtotalbonus">
                                 <span class="textbonus">Jumlah User :</span>
-                                <span class="countbonus">280</span>
+                                <span class="countbonus">{{ $totaluser }}</span>
                             </div>
                             <div class="listtotalbonus">
                                 <span class="textbonus">total bonus :</span>
-                                <span class="nominalbonus" data-bonus="200000000.69"></span>
+                                <span class="nominalbonus" data-bonus="{{ $nominalbonus }}"></span>
                             </div>
                         </div>
                         <div class="tabelproses">
@@ -148,12 +148,14 @@
                                                 <input type="checkbox" id="myCheckbox-{{ $i }}"
                                                     name="myCheckbox-{{ $i }}"
                                                     data-username="{{ $d->username }}"
-                                                    data-bonus = "{{ $d->totalbonus }}">
+                                                    data-bonus = "{{ $d->totalbonus }}"
+                                                    data-stake= "{{ $d->totalstake }}"
+                                                    data-winloss= "{{ $d->totalwinloss }}">
                                             </td>
                                             <td class="username">{{ $d->username }}</td>
-                                            <td class="datacc" data-get="{{ $d->totalstake }}"></td>
-                                            <td class="datacc" data-get="{{ $d->totalwinloss }}"></td>
-                                            <td class="datacc" data-get="{{ $d->totalbonus }}"></td>
+                                            <td class="datacc" data-get="{{ $d->totalstake * 1000 }}"></td>
+                                            <td class="datacc" data-get="{{ $d->totalwinloss * 1000 }}"></td>
+                                            <td class="datacc" data-get="{{ $d->totalbonus * 1000 }}"></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -256,21 +258,18 @@
                         $('input[type="checkbox"]:checked').not('#myCheckbox').each(function() {
                             var username = $(this).data('username');
                             var bonus = $(this).data('bonus');
-
-                            console.log('Checkbox checked:', {
-                                username: username,
-                                bonus: bonus
-                            });
+                            var stake = $(this).data('stake');
+                            var winloss = $(this).data('winloss');
 
                             if (username !== '') {
                                 data.push({
                                     username: username,
-                                    bonus: bonus
+                                    bonus: bonus,
+                                    stake: stake,
+                                    winloss: winloss
                                 });
                             }
                         });
-
-                        console.log('Data yang akan dikirim:', data);
 
                         if (data.length === 0) {
                             Swal.fire({
@@ -283,7 +282,7 @@
                         Swal.fire({
                             icon: 'info',
                             title: 'Mohon tunggu...',
-                            text: 'Proses sedang berlangsung, jangan diclose!',
+                            text: 'Proses sedang berlangsung, mohon untuk tidak diclose!',
                             allowOutsideClick: false,
                             showConfirmButton: false,
                             didOpen: () => {
@@ -291,7 +290,6 @@
                             }
                         });
 
-                        // Tambahkan bonusVal langsung ke URL
                         var url = '/storebonusds/' + encodeURIComponent(bonusVal) + '/' +
                             encodeURIComponent(gabungdariVal) + '/' + encodeURIComponent(
                                 gabunghinggaVal) + '/' + encodeURIComponent(kecualiVal);;
@@ -305,12 +303,10 @@
                                 'X-CSRF-TOKEN': csrfToken
                             },
                             success: function(response) {
-                                console.log('Berhasil mengirim data:', response);
                                 Swal.fire({
                                     icon: 'success',
-                                    title: 'Data berhasil dikirim!',
-                                    text: 'Respon dari server: ' + response
-                                        .message,
+                                    title: 'Sukses',
+                                    text: 'Proses data bonus berhasil!',
                                     timer: 2000,
                                     showConfirmButton: true,
                                     confirmButtonText: 'Oke',
@@ -321,10 +317,9 @@
                                 });
                             },
                             error: function(error) {
-                                console.error('Gagal mengirim data:', error);
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Gagal mengirim data!',
+                                    title: 'Gagal diproses!',
                                     text: 'Kesalahan: ' + error.statusText,
                                 });
                             },

@@ -86,12 +86,12 @@ class HistorycoindsController extends Controller
     }
     public function filterAndPaginate($page)
     {
-        $query = DepoWD::query(); // untuk saat ini yang penting jalan, nanti pelajari lagi
+        $query = DepoWD::query();
 
         $parameter = [
             'username',
             'approved_by',
-        ]; 
+        ];
 
         foreach ($parameter as $isiSearch) {
             if (request($isiSearch)) {
@@ -107,11 +107,11 @@ class HistorycoindsController extends Controller
         }
 
         // Filter berdasarkan jenis
-        if (request('jenis') === 'DP'){
+        if (request('jenis') === 'DP') {
             $query->where('jenis', 'DP');
-        } elseif (request('jenis') === "WD"){
+        } elseif (request('jenis') === "WD") {
             $query->where('jenis', 'WD');
-        } elseif (request('jenis') === "M"){
+        } elseif (request('jenis') === "M") {
             $query->whereIn('jenis', ['DPM', 'WDM']);
         }
 
@@ -121,10 +121,9 @@ class HistorycoindsController extends Controller
             $tglsampai = request('tglsampai') . " 23:59:59";
             $query->whereBetween('created_at', [$tgldari, $tglsampai]);
         }
-        
-        $paginatedItems = $query->paginate($page)->appends(request()->except('page'));
+
+        $paginatedItems = $query->orderByDesc('created_at')->paginate($page)->appends(request()->except('page'));
 
         return $paginatedItems;
     }
-
 }

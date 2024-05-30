@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('kecuali');
             $table->string('total');
             $table->string('status');
+            $table->string('processed_by');
             $table->timestamps();
         });
     }

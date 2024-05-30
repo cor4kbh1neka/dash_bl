@@ -50,13 +50,17 @@
                                 <option value="BSI" {{ request('bank') == 'BSI' ? 'selected' : '' }}>BSI</option>
                                 <option value="CIMB" {{ request('bank') == 'CIMB' ? 'selected' : '' }}>CIMB</option>
                                 <option value="DANA" {{ request('bank') == 'DANA' ? 'selected' : '' }}>DANA</option>
-                                <option value="DANAMON" {{ request('bank') == 'DANAMON' ? 'selected' : '' }}>DANAMON</option>
+                                <option value="DANAMON" {{ request('bank') == 'DANAMON' ? 'selected' : '' }}>DANAMON
+                                </option>
                                 <option value="GOPAY" {{ request('bank') == 'GOPAY' ? 'selected' : '' }}>GOPAY</option>
-                                <option value="LINKAJA" {{ request('bank') == 'LINKAJA' ? 'selected' : '' }}>LINKAJA</option>
-                                <option value="MANDIRI" {{ request('bank') == 'MANDIRI' ? 'selected' : '' }}>MANDIRI</option>
+                                <option value="LINKAJA" {{ request('bank') == 'LINKAJA' ? 'selected' : '' }}>LINKAJA
+                                </option>
+                                <option value="MANDIRI" {{ request('bank') == 'MANDIRI' ? 'selected' : '' }}>MANDIRI
+                                </option>
                                 <option value="OVO" {{ request('bank') == 'OVO' ? 'selected' : '' }}>OVO</option>
                                 <option value="PANIN" {{ request('bank') == 'PANIN' ? 'selected' : '' }}>PANIN</option>
-                                <option value="PERMATA" {{ request('bank') == 'PERMATA' ? 'selected' : '' }}>PERMATA</option>
+                                <option value="PERMATA" {{ request('bank') == 'PERMATA' ? 'selected' : '' }}>PERMATA
+                                </option>
                                 <option value="PULSA" {{ request('bank') == 'PULSA' ? 'selected' : '' }}>PULSA</option>
                                 <option value="QRIS" {{ request('bank') == 'QRIS' ? 'selected' : '' }}>PULSA</option>
                             </select>
@@ -135,7 +139,7 @@
                                 $perPage = $data->perPage();
                                 $startNumber = ($currentPage - 1) * $perPage + 1;
                             @endphp
-                            @foreach ($data as $index => $d )
+                            @foreach ($data as $index => $d)
                                 <tr>
                                     <td>
                                         <span>{{ $startNumber + $index }}</span>
@@ -143,8 +147,8 @@
                                     <td>
                                         <span class="userpending">
                                             {{ $d->username }}
-                                            <a href="/memberlistds/winloseyear" class="iconprofile detailbetingan"
-                                                target="_blank">
+                                            <a href="/memberlistds/winloseyear/{{ $d->username }}"
+                                                class="iconprofile detailbetingan" target="_blank">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
                                                     viewBox="0 0 24 24">
                                                     <path fill="currentColor"
@@ -419,18 +423,18 @@
         });
         // Tinggal isi aja array inputs nya dengan apapun yang mau dicari via form dengan id searchForm
         document.getElementById('searchForm').addEventListener('submit', function(event) {
-        const inputs = [
-            'checkusername',
-            'username',
-            'norek',
-            'namarek',
-            'bank',
-            'nohp',
-            'referral',
-            'gabungdari',
-            'gabunghingga',
-            'status',
-        ];
+            const inputs = [
+                'checkusername',
+                'username',
+                'norek',
+                'namarek',
+                'bank',
+                'nohp',
+                'referral',
+                'gabungdari',
+                'gabunghingga',
+                'status',
+            ];
             inputs.forEach(id => {
                 const inputElement = document.getElementById(id);
                 if (!inputElement.value) {
@@ -438,7 +442,6 @@
                 }
             });
         });
-
     </script>
 
     @if (session('success'))

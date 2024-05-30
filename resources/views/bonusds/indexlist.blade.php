@@ -34,18 +34,37 @@
                                 ADD BONUS
                             </span>
                         </a>
-                        <div class="groupsearchagentds">
+                        <form action="/bonuslistds" method="GET" class="groupsearchagentds">
+                            <div class="listinputmember">
+                                <select name="bonus" id="bonus">
+                                    <option value="" selected="" place="">All Bonus</option>
+                                    <option value="cashback" {{ $bonus == 'cashback' ? 'selected' : '' }}>Cashback
+                                    </option>
+                                    <option value="rolingan" {{ $bonus == 'rolingan' ? 'selected' : '' }}>Rollingan
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="listinputmember">
+                                <input type="date" id="gabungdari" name="gabungdari" placeholder="tanggal gabung dari"
+                                    value="{{ $gabungdari }}">
+                            </div>
+                            <div class="listinputmember">
+                                <input type="date" id="gabunghingga" name="gabunghingga"
+                                    placeholder="tanggal gabung hingga" value="{{ $gabunghingga }}">
+                            </div>
+
                             <div class="grubsearchnav">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                                     <path fill="currentColor"
                                         d="m19.6 21l-6.3-6.3q-.75.6-1.725.95T9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l6.3 6.3zM9.5 14q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14" />
                                 </svg>
-                                <input type="text" placeholder="Cari Tabel..." id="searchTabel">
+                                <input type="text" placeholder="Search No. Invoice..." id="searchTabel"
+                                    name="searchinvoice" value="{{ $search }}">
                             </div>
                             <button class="tombol primary">
                                 <span class="texttombol">search</span>
                             </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <div class="groupdatasecagentds">
@@ -54,43 +73,29 @@
                             <tbody>
                                 <tr class="hdtable">
                                     <th class="bagno">#</th>
-                                    <th class="baglogininfo">no invoice</th>
+                                    <th class="baglogininfo">no. invoice</th>
                                     <th class="bagiplogin">bonus</th>
                                     <th class="bagiplogin">periode</th>
                                     <th class="baguser">status</th>
                                     <th class="baguser">total</th>
+                                    <th class="baguser">log</th>
+                                    <th class="baguser">Tools</th>
                                 </tr>
                                 @foreach ($data as $i => $d)
                                     <tr>
                                         <td>{{ $i + 1 }}</td>
-                                        <td>{{ $d->last_login }}</td>
-                                        <td>{{ $d->ip_login }}</td>
-                                        <td>
-                                            <div class="splitcollum" title="suka ngibul">
-                                                <span class="userpending">
-                                                    {{ $d->username }}
-                                                    <a href="/agentds/agentinfo" class="iconprofile openviewportinfo"
-                                                        target="_blank">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em"
-                                                            height="1em" viewBox="0 0 24 24">
-                                                            <path fill="currentColor"
-                                                                d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
-                                                        </svg>
-                                                    </a>
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td>{{ $d->divisi }}</td>
-                                        <td class="statusagent" data-status="{{ $d->status }}"></td>
+                                        <td>{{ $d->no_invoice }}</td>
+                                        <td>{{ ucwords($d->jenis_bonus) }}</td>
+                                        <td>{{ $d->periodedari }} to {{ $d->periodesampai }}</td>
+                                        <td>{{ $d->status }}</td>
+                                        <td>{{ $d->total }}</td>
+                                        <td>{{ $d->processed_by }} ({{ $d->created_at }})</td>
                                         <td>
                                             <div class="grouptools">
-                                                <a href="/agentds/agentupdate/{{ $d->id }}" target="_blank"
+                                                <a href="/bonusdetailds/{{ $d->id }}" target="_blank"
                                                     class="tombol grey openviewport">
-                                                    <span class="texttombol">EDIT</span>
+                                                    <span class="texttombol">VIEW</span>
                                                 </a>
-                                                <button class="tombol cancel border">
-                                                    <span class="texttombol">suspend</span>
-                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -98,7 +103,7 @@
                             </tbody>
                         </table>
                         <div style="padding-left:25px;padding-right:25px">
-                            {{-- {{ $data->links('vendor.pagination.customdashboard') }} --}}
+                            {{ $data->links('vendor.pagination.customdashboard') }}
                         </div>
                     </div>
                 </div>

@@ -46,7 +46,7 @@
                     <span class="label">Jumlah Downline</span>
                     <span class="gap">:</span>
                     <span class="value sportsType"><span class="statusdepo"
-                            data-countdownline="{{ $total }}"></span> (<span class="textdepo"></span>)</span>
+                            data-countdownline="{{ $total_referral }}"></span> ({{ $countdata }})</span>
                 </div>
                 <div class="listheaddetail">
                     <span class="label">Total Balance (IDR)</span>
@@ -84,7 +84,8 @@
                         <tr>
                             <td class="nmr">{{ $i + 1 }}</td>
                             <td>{{ $d->downline }}</td>
-                            <td class="nominalbonus" data-bonusreff="{{ $d->total_amount }}">{{ $d->total_amount }}
+                            <td class="nominalbonus" data-bonusreff="{{ $d->total_amount_referral }}">
+                                {{ $d->total_amount_referral }}
                             </td>
                         </tr>
                     @endforeach

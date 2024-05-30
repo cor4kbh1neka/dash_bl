@@ -33,4 +33,14 @@ class Referral1 extends Model
     }
 
     protected $table = 'referral_ae';
+
+    public function depoReferrals()
+    {
+        return $this->hasMany(ReferralDepo1::class, 'upline', 'upline');
+    }
+
+    public function aktifReferrals()
+    {
+        return $this->hasMany(ReferralAktif1::class, 'upline', 'upline');
+    }
 }

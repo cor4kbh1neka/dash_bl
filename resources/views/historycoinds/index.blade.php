@@ -159,7 +159,7 @@
                                     <td class="texttype">{{ $d->jenis }}</td>
                                     <td class="hsjenistrans" data-proses="{{ $d->status == 1 ? 'accept' : 'cancel' }}">
                                         {{ $d->status == 1 ? 'accepted' : 'rejected' }}</td>
-                                    <td>maksimal 20 karakter</td>
+                                    <td>{{ $d->keterangan }}</td>
                                     <td>{{ $d->created_at }}</td>
                                     <td>{{ $d->updated_at }}</td>
                                 </tr>
