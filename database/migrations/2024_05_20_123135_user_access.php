@@ -24,6 +24,7 @@ return new class extends Migration
             $table->boolean('history_game')->default(false);
             $table->boolean('member_outstanding')->default(false);
             $table->boolean('history_transaction')->default(false);
+            $table->boolean('cashback_rollingan')->default(false);
             $table->boolean('report')->default(false);
 
             $table->boolean('bank')->default(false);

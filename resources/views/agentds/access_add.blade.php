@@ -99,6 +99,12 @@
                             </div>
                             <div class="listaccess">
                                 <div class="check_box">
+                                    <input type="checkbox" id="cashback_rollingan" name="cashback/rollingan" value="cashback/rollingan">
+                                </div>
+                                <label for="cashback_rollingan">view cashback/rollingan</label>
+                            </div>
+                            <div class="listaccess">
+                                <div class="check_box">
                                     <input type="checkbox" id="report" name="report" value="on">
                                 </div>
                                 <label for="report">view report</label>

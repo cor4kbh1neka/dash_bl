@@ -1112,7 +1112,7 @@
 										}
 									}
 								},
-								"url": ""
+								"url": "https://back-staging.bosraka.com/content/stmp/test1234"
 							},
 							"response": []
 						},
@@ -1152,6 +1152,339 @@
 									}
 								},
 								"url": "https://back-staging.bosraka.com/content/stmp"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "content promo",
+					"item": [
+						{
+							"name": "add promo",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ctprmur\": \"https://example.com/34\",\r\n    \"ttlectprm\": \"example title 2\",\r\n    \"trgturctprm\": \"https://example.com\",\r\n    \"statusctprm\": \"2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://back-staging.bosraka.com/content/prm"
+							},
+							"response": []
+						},
+						{
+							"name": "edit promo",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ctprmur\": \"https://example.com/341\",\r\n    \"ttlectprm\": \"example title 2\",\r\n    \"trgturctprm\": \"https://example.com\",\r\n    \"statusctprm\": \"2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://back-staging.bosraka.com/content/prm/1"
+							},
+							"response": []
+						},
+						{
+							"name": "get promo",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"urpage\": \"test1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://back-staging.bosraka.com/content/prm"
+							},
+							"response": []
+						},
+						{
+							"name": "delete promo",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"urpage\": \"test1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://back-staging.bosraka.com/content/prm/1"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "content general",
+					"item": [
+						{
+							"name": "edit content general",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nmwebsite\": \"kaguura\",\r\n    \"logrl\": \"kasti-logo.webp\",\r\n    \"icrl\": \"kasti-logo.webp\",\r\n    \"pkrl\": \"https://apkdownload.com/44\",\r\n    \"rnntxt\": \"kastiglobal SITUS RESMI | Situs Betting Parlay Terlengkap & Terpercaya | proses transaksi kurang dari 1 menit\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://back-staging.bosraka.com/content/ctgeneral/1"
+							},
+							"response": []
+						},
+						{
+							"name": "get content general",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nmwebsite\": \"nama website \",\r\n    \"logrl\": \"kasti-logo.webp\",\r\n    \"icrl\": \"kasti-logo.webp\",\r\n    \"pkrl\": \"https://apkdownload.com/44\",\r\n    \"rnntxt\": \"kastiglobal SITUS RESMI | Situs Betting Parlay Terlengkap & Terpercaya | proses transaksi kurang dari 1 menit\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://back-staging.bosraka.com/content/ctgeneral"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "content slider",
+					"item": [
+						{
+							"name": "edit slidergeneral",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ctsldrur\": \"https://example.com/4 \",\r\n    \"ttlectsldr\": \"example title 2\",\r\n    \"trgturctsldr\": \"https://example.com/5\",\r\n    \"statusctsldr\": \"4\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://127.0.0.1:5000/content/ctslider/1"
+							},
+							"response": []
+						},
+						{
+							"name": "get slider general",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nmwebsite\": \"nama website \",\r\n    \"logrl\": \"kasti-logo.webp\",\r\n    \"icrl\": \"kasti-logo.webp\",\r\n    \"pkrl\": \"https://apkdownload.com/44\",\r\n    \"rnntxt\": \"kastiglobal SITUS RESMI | Situs Betting Parlay Terlengkap & Terpercaya | proses transaksi kurang dari 1 menit\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://back-staging.bosraka.com/content/ctslider"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "content socmed",
+					"item": [
+						{
+							"name": "edit socmed",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-customblhdrs",
+										"value": "09c90c1d6e1b82015737f88d5f5b827060a57c874babe97f965aaa68072585191ce0eab75404312f4f349ee70029404c2d8f66698b6a4da18990445d1437ff79",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ctscmedur\": \"https://example.com/4 \",\r\n    \"nmectscmed\": \"example title 2\",\r\n    \"trgturctscmed\": \"https://example.com/5\",\r\n    \"statusctscmed\": \"4\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://127.0.0.1:5000/content/socmed/1"
+							},
+							"response": []
+						},
+						{
+							"name": "get slider general",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-customblhdrs",
+										"value": "09c90c1d6e1b82015737f88d5f5b827060a57c874babe97f965aaa68072585191ce0eab75404312f4f349ee70029404c2d8f66698b6a4da18990445d1437ff79",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nmwebsite\": \"nama website \",\r\n    \"logrl\": \"kasti-logo.webp\",\r\n    \"icrl\": \"kasti-logo.webp\",\r\n    \"pkrl\": \"https://apkdownload.com/44\",\r\n    \"rnntxt\": \"kastiglobal SITUS RESMI | Situs Betting Parlay Terlengkap & Terpercaya | proses transaksi kurang dari 1 menit\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/content/socmed",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"content",
+										"socmed"
+									],
+									"query": [
+										{
+											"key": "x-customblhdrs",
+											"value": "09c90c1d6e1b82015737f88d5f5b827060a57c874babe97f965aaa68072585191ce0eab75404312f4f349ee70029404c2d8f66698b6a4da18990445d1437ff79",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "content link",
+					"item": [
+						{
+							"name": "edit link content",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"ctlnkname\": \"nama domain\",\r\n    \"ctlnkdmn\": \"https://example.com/5\",\r\n    \"statusctlnk\": \"4\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://back-staging.bosraka.com/content/ctlink/1"
+							},
+							"response": []
+						},
+						{
+							"name": "get link content",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nmwebsite\": \"nama website \",\r\n    \"logrl\": \"kasti-logo.webp\",\r\n    \"icrl\": \"kasti-logo.webp\",\r\n    \"pkrl\": \"https://apkdownload.com/44\",\r\n    \"rnntxt\": \"kastiglobal SITUS RESMI | Situs Betting Parlay Terlengkap & Terpercaya | proses transaksi kurang dari 1 menit\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://back-staging.bosraka.com/content/ctlink"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "statusmt",
+					"item": [
+						{
+							"name": "update status mt",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"stsmtncnc\": \"4\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://back-staging.bosraka.com/content/sts/1"
+							},
+							"response": []
+						},
+						{
+							"name": "get status mt",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"stsmtncnc\": \"4\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://back-staging.bosraka.com/content/sts"
 							},
 							"response": []
 						}

@@ -108,32 +108,32 @@
                                                     <span class="texttombol">delete</span>
                                                 </button>
                                             </form>
-                                            <form action="/contentds/promo/{{ $d->idctprm }}" method="POST">
+                                            @if($d->pssprm == 1)
+                                            @else
+                                            <form action="/contentds/promo/{{ $d->idctprm }}" method="POST" class="tombol grey">
                                                 @method('put')
                                                 @csrf
-                                                @if($d->pssprm == 1)
-                                                @else
                                                 <input type="hidden" name="urutan" value="{{ $d->pssprm - 1 }}">
                                                 <input type="hidden" name="urutanlain" value="{{ $d->pssprm }}">
-                                                <button class="tombol grey" type="submit">
-                                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M18 11l-6 -6" /><path d="M6 11l6 -6" /></svg>
-                                                    <span class="texttombol">Naik</span>
+                                                <button class="none" type="submit">
+                                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="1em"  height="1em"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M18 11l-6 -6" /><path d="M6 11l6 -6" /></svg>
+                                                    {{-- <span class="texttombol">Naik</span> --}}
                                                 </button>
-                                                @endif
                                             </form>
-                                            <form action="/contentds/promo/{{ $d->idctprm }}" method="POST">
+                                            @endif
+                                            @if($d->pssprm == 1)
+                                            @else
+                                            {{-- <form action="/contentds/promo/{{ $d->idctprm }}" method="POST">
                                                 @method('put')
                                                 @csrf
-                                                @if($d->pssprm == 1)
-                                                @else
                                                 <input type="hidden" name="urutan" value="{{ $d->pssprm - 1 }}">
                                                 <input type="hidden" name="urutanlain" value="{{ $d->pssprm }}">
                                                 <button class="tombol grey" type="submit">
                                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrows-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 3l0 18" /><path d="M4 6l3 -3l3 3" /><path d="M20 6l-3 -3l-3 3" /><path d="M7 3l0 18" /></svg>
                                                     <span class="texttombol">Teratas</span>
                                                 </button>
-                                                @endif
-                                            </form>
+                                            </form> --}}
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

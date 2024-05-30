@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\AddTokenToHttpRequest::class,
+            \Clockwork\Support\Laravel\ClockworkMiddleware::class,
         ],
 
         'api' => [
@@ -44,6 +45,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\AddTokenToHttpRequest::class,
+            \Clockwork\Support\Laravel\ClockworkMiddleware::class,
         ],
     ];
 
@@ -67,5 +69,23 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'allowedIP' => \App\Http\Middleware\CheckAllowedIPMiddleware::class,
+        'superadmin' => \App\Http\Middleware\UserAccess::class . ':superadmin',
+        'deposit' => \App\Http\Middleware\UserAccess::class. ':deposit',
+        'withdraw' => \App\Http\Middleware\UserAccess::class. ':withdraw',
+        'manual_transaction' => \App\Http\Middleware\UserAccess::class. ':manual_transaction',
+        'history_coin' => \App\Http\Middleware\UserAccess::class. ':history_coin',
+        'member_list' => \App\Http\Middleware\UserAccess::class. ':member_list',
+        'history_transaction' => \App\Http\Middleware\UserAccess::class. ':history_transaction',
+        'referral' => \App\Http\Middleware\UserAccess::class. ':referral',
+        'history_game' => \App\Http\Middleware\UserAccess::class. ':history_game',
+        'member_outstanding' => \App\Http\Middleware\UserAccess::class. ':member_outstanding',
+        'report' => \App\Http\Middleware\UserAccess::class. ':report',
+        'bank' => \App\Http\Middleware\UserAccess::class. ':bank',
+        'memo' => \App\Http\Middleware\UserAccess::class. ':memo',
+        'agent' => \App\Http\Middleware\UserAccess::class. ':agent',
+        'analytic' => \App\Http\Middleware\UserAccess::class. ':analytic',
+        'content' => \App\Http\Middleware\UserAccess::class. ':content',
+        'apk_setting' => \App\Http\Middleware\UserAccess::class. ':apk_setting',
+        'memo_other' => \App\Http\Middleware\UserAccess::class. ':memo_other',
     ];
 }

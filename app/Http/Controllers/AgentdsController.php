@@ -120,7 +120,6 @@ class AgentdsController extends Controller
 
     public function accessadd()
     {
-
         return view('agentds.access_add', [
             'title' => 'Add Access Agent',
             'totalnote' => 0,
@@ -146,6 +145,7 @@ class AgentdsController extends Controller
         $user->history_game = isset($request->history_game) ? true : false;
         $user->member_outstanding = isset($request->member_outstanding) ? true : false;
         $user->history_transaction = isset($request->history_transaction) ? true : false;
+        $user->cashback_rollingan = isset($request->cashback_rollingan) ? true : false;
         $user->report = isset($request->report) ? true : false;
 
         $user->bank = isset($request->bank) ? true : false;
@@ -191,6 +191,7 @@ class AgentdsController extends Controller
         $user->history_game = isset($request->history_game) ? true : false;
         $user->member_outstanding = isset($request->member_outstanding) ? true : false;
         $user->history_transaction = isset($request->history_transaction) ? true : false;
+        $user->cashback_rollingan = isset($request->cashback_rollingan) ? true : false;
         $user->report = isset($request->report) ? true : false;
 
         $user->bank = isset($request->bank) ? true : false;
@@ -277,5 +278,23 @@ class AgentdsController extends Controller
         $user->save();
 
         return redirect('/agentds')->with('success', 'Aget berhasil ditambahkan.');
+    }
+
+    public function userAndUserAccess()
+    {
+        $user = auth()->user();
+        $userWithAccess = User::with('userAccess')->find($user->id); 
+        // $userWithAccess = User::with('userAccess')->find($user->id); 
+        // userAccess di atas adalah penghubung ke method userAccess di model User.php
+        // Cara bacanya User yang memiliki hubungan ke model UserAccess dengan name_access yang serupa dengan divisi milik model User
+        // Maka temukan ID nya si auth user dan 
+        $result = $userWithAccess->toArray();
+        if ($result['user_access']['deposit'] = 1){
+            dd('masuk');
+        } else {
+            dd('keluar');
+        }
+        
+        return $result;
     }
 }

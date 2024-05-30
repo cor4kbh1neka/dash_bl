@@ -346,7 +346,7 @@ class MemberlistdsController extends Controller
     public function historybank($username)
     {
         $raw = DepoWd::where('username', $username)->where('status', '>', 0)->get();
-        $data = $this->filterAndPaginate($raw, 20);
+        $data = $this->filterAndPaginate($raw, 2);
         return view('memberlistds.history_bank', [
             'title' => 'History Bank',
             'totalnote' => 0,

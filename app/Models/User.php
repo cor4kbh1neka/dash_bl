@@ -48,4 +48,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function userAccess()
+    {
+        return $this->hasOne(UserAccess::class, 'name_access', 'divisi');
+    }
 }

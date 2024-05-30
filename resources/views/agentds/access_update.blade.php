@@ -118,6 +118,13 @@
                         </div>
                         <div class="listaccess">
                             <div class="check_box">
+                                <input type="checkbox" id="cashback_rollingan" name="cashback_rollingan" value="on"
+                                    {{ $data->cashback_rollingan ? 'checked' : '' }}>
+                            </div>
+                            <label for="cashback_rollingan">view cashback/rollingan</label>
+                        </div>
+                        <div class="listaccess">
+                            <div class="check_box">
                                 <input type="checkbox" id="report" name="report" value="on"
                                     {{ $data->report ? 'checked' : '' }}>
                             </div>

@@ -138,7 +138,7 @@ class MemodsController extends Controller
     {
         $query = collect($data);
         $parameter = [
-            'statustype',
+            'statuspriority',
             'idmemo',
         ]; 
 

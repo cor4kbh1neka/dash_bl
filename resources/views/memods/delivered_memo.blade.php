@@ -42,13 +42,13 @@
                         <form id="searchForm" action="/memods/delivered" method="GET">
                             <div class="groupinputfilter">
                                 <div class="listinputmember">
-                                    <label for="statustype">penerima</label>
-                                    <select name="statustype" id="statustype">
-                                        <option value="" {{ request('statustype') === null || request('statustype') === '' ? 'selected' : '' }}>
+                                    <label for="statuspriority">penerima</label>
+                                    <select name="statuspriority" id="statuspriority">
+                                        <option value="" {{ request('statuspriority') === null || request('statuspriority') === '' ? 'selected' : '' }}>
                                             Lihat Semua
                                         </option>
-                                        <option value="1" {{ request('statustype') == 1 ? 'selected' : '' }}>All Player</option>
-                                        <option value="2" {{ request('statustype') == 2 ? 'selected' : '' }}>VIP Only</option>
+                                        <option value="1" {{ request('statuspriority') == 1 ? 'selected' : '' }}>All Player</option>
+                                        <option value="2" {{ request('statuspriority') == 2 ? 'selected' : '' }}>VIP Only</option>
                                     </select>
                                 </div>
                                 <div class="listinputmember">
@@ -241,7 +241,7 @@
         }
         document.getElementById('searchForm').addEventListener('submit', function(event) {
         const inputs = [
-            'statustype',
+            'statuspriority',
             'idmemo',
         ];
             inputs.forEach(id => {
