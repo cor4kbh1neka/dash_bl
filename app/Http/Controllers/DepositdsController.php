@@ -70,31 +70,31 @@ class DepositdsController extends Controller
 
     private function getApiMasterBank()
     {
-        // "status" => "success"
-        // $ApiBank = $this->getApi('https://back-staging.bosraka.com/banks/v2/groupbank3');
-        // unset($ApiBank['headers']);
-        // $ApiBankExcept = $this->getApi('https://back-staging.bosraka.com/banks/exc/groupbank3');
-        // unset($ApiBankExcept['headers']);
+        "status" => "success"
+        $ApiBank = $this->getApi('https://back-staging.bosraka.com/banks/v2/groupbank3');
+        unset($ApiBank['headers']);
+        $ApiBankExcept = $this->getApi('https://back-staging.bosraka.com/banks/exc/groupbank3');
+        unset($ApiBankExcept['headers']);
 
-        // $data1 = [];
-        // foreach ($ApiBank as $dts) {
-        //     foreach ($dts as $dt) {
-        //         foreach ($dt["data_bank"] as $d) {
-        //             $data1[] = $d['namebankxxyy'];
-        //         }
-        //     }
-        // }
+        $data1 = [];
+        foreach ($ApiBank as $dts) {
+            foreach ($dts as $dt) {
+                foreach ($dt["data_bank"] as $d) {
+                    $data1[] = $d['namebankxxyy'];
+                }
+            }
+        }
 
-        // $data2 = [];
-        // foreach ($ApiBankExcept as $dts) {
-        //     foreach ($dts as $dt) {
-        //         foreach ($dt["data_bank"] as $d) {
-        //             $data2[] = $d['namebankxxyy'];
-        //         }
-        //     }
-        // }
+        $data2 = [];
+        foreach ($ApiBankExcept as $dts) {
+            foreach ($dts as $dt) {
+                foreach ($dt["data_bank"] as $d) {
+                    $data2[] = $d['namebankxxyy'];
+                }
+            }
+        }
 
-        // $allDataBank = array_merge($data1, $data2);
+        $allDataBank = array_merge($data1, $data2);
         $allDataBank = [];
         return $allDataBank;
     }
