@@ -231,14 +231,15 @@ Route::middleware(['auth'])->group(function () {
 
     /*-- Historyds --*/
     Route::get('/historycoinds', [HistorycoindsController::class, 'index'])->middleware('history_coin');
+    Route::get('/historycoinds/export/', [HistorycoindsController::class, 'export']);
 
     /*-- Historytransaksids --*/
-    Route::middleware('history_transaction')->group(function(){
+    Route::middleware('history_transaction')->group(function () {
         Route::get('/historytransaksids', [HistorytransaksidsController::class, 'index']);
         Route::get('/historytransaksids/transaksilama', [HistorytransaksidsController::class, 'transaksilama']);
     });
     /*-- Memberlistds --*/
-    Route::middleware('member_list')->group(function(){
+    Route::middleware('member_list')->group(function () {
         Route::get('/memberlistds', [MemberlistdsController::class, 'index'])->name('memberlistds');
         Route::get('/memberlistds/edit/{id}', [MemberlistdsController::class, 'update']);
         Route::post('/memberlistds/updateuser/{id}', [MemberlistdsController::class, 'updateUser']);
@@ -252,7 +253,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/memberlistds/store', [MemberlistdsController::class, 'store']);
     });
     /*-- Historygameds --*/
-    Route::middleware('history_game')->group(function(){
+    Route::middleware('history_game')->group(function () {
         Route::get('/historygameds', [HistorygamedsController::class, 'index']);
         Route::get('/historygameds/detail/{invoice}/{portfolio}', [HistorygamedsController::class, 'detail']);
     });
@@ -260,19 +261,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/outstandingds/{username?}', [OutstandingdsController::class, 'index'])->middleware('member_outstanding');
 
     /*-- Reportds --*/
-    Route::middleware('report')->group(function(){
+    Route::middleware('report')->group(function () {
         Route::get('/reportds', [ReportdsController::class, 'index']);
         Route::get('/reportds/winlosematch', [ReportdsController::class, 'winlosematch']);
         Route::get('/reportds/memberstatement', [ReportdsController::class, 'memberstatement']);
     });
     /*-- Referralds --*/
-    Route::middleware('referral')->group(function(){
+    Route::middleware('referral')->group(function () {
         Route::get('/referralds', [ReferraldsController::class, 'index']);
         Route::get('/referralds/downline/{upline}/{jenis}/{total}/{total_referral}/{total_downline}', [ReferraldsController::class, 'downlinedetail']);
         Route::get('/referralds/bonusreferral', [ReferraldsController::class, 'bonusreferral']);
     });
     /*-- Bankds --*/
-    Route::middleware('bank')->group(function(){
+    Route::middleware('bank')->group(function () {
         Route::get('/bankds', [BankdsController::class, 'index'])->name('bankds');
         Route::post('/storemaster', [BankdsController::class, 'storemaster']);
         Route::post('/storegroupbank', [BankdsController::class, 'storegroupbank']);
@@ -300,7 +301,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     /*-- Memods --*/
-    Route::middleware('memo')->group(function(){
+    Route::middleware('memo')->group(function () {
         Route::get('/memods', [MemodsController::class, 'index']);
         Route::get('/memods/viewinbox', [MemodsController::class, 'viewinbox']);
         Route::get('/memods/readinbox', [MemodsController::class, 'readinbox']);
@@ -311,7 +312,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/storememo', [MemodsController::class, 'storememo']);
     });
     /*-- Agentds --*/
-    Route::middleware('agent')->group(function(){
+    Route::middleware('agent')->group(function () {
         Route::get('/agentds', [AgentdsController::class, 'index']);
         Route::get('/agentds/create', [AgentdsController::class, 'create']);
         Route::post('/agentds/store', [AgentdsController::class, 'store']);
@@ -330,7 +331,7 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/eventds', [EventdsController::class, 'index']);
 
     /*-- Apksettingds --*/
-    Route::middleware('apk_setting')->group(function(){
+    Route::middleware('apk_setting')->group(function () {
         Route::get('/apksettingds', [ApksettingdsController::class, 'index']);
         Route::get('/apksettingds/setting', [ApksettingdsController::class, 'apksetting']);
         Route::get('/apksettingds/event', [ApksettingdsController::class, 'apkevent']);
@@ -338,7 +339,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/apksettingds/event/edit', [ApksettingdsController::class, 'apkeventedit']);
     });
     /*-- Memotouserds --*/
-    Route::middleware('memo')->group(function(){
+    Route::middleware('memo')->group(function () {
         Route::get('/memotouserds', [MemotouserdsController::class, 'index']);
         Route::get('/memotouserds/delivered', [MemotouserdsController::class, 'delivered']);
         Route::get('/memotouserds/read', [MemotouserdsController::class, 'deliveredread']);
@@ -364,7 +365,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/updateNotifikasi/{id}', [DepoWdController::class, 'updateNotifikasi']);
 
     /*-- Bonusds --*/
-    Route::middleware('cashback_rollingan')->group(function(){
+    Route::middleware('cashback_rollingan')->group(function () {
         Route::get('/bonuslistds', [BonusdsController::class, 'indexlist']);
         Route::get('/bonusds', [BonusdsController::class, 'index']);
         Route::get('/bonusdetailds/{listbonus_id}', [BonusdsController::class, 'indexdetail']);
@@ -374,7 +375,6 @@ Route::middleware(['auth'])->group(function () {
 
     /*-- Memotouserds --*/
     Route::get('/maintenance', [MaintenancedsController::class, 'maintenance']);
-    Route::get('/test',[AgentdsController::class, 'userAndUserAccess']);
+    Route::get('/test', [AgentdsController::class, 'userAndUserAccess']);
 });
 // });
-

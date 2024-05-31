@@ -154,6 +154,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $user = auth()->user();
         $userWithAccess = User::with('userAccess')->find($user->id);
+
         $result = $userWithAccess->toArray();
         if ($result['name'] === 'admin L21' && $result['username'] === 'adminl21' && $result['divisi'] === 'superadmin') {
             $result['user_access'] = [

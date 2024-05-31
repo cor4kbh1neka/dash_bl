@@ -6,6 +6,7 @@ use App\Models\DepoWd;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class HistorycoindsController extends Controller
 {
@@ -125,5 +126,10 @@ class HistorycoindsController extends Controller
         $paginatedItems = $query->orderByDesc('created_at')->paginate($page)->appends(request()->except('page'));
 
         return $paginatedItems;
+    }
+
+    public function export()
+    {
+        return Excel::download(new DepoWd, 'users.xlsx');
     }
 }

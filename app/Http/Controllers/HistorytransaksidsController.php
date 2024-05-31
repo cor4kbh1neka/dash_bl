@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+
 class HistorytransaksidsController extends Controller
 {
     // public function index(Request $request)
@@ -77,7 +78,7 @@ class HistorytransaksidsController extends Controller
     public function index(Request $request)
     {
         $data = [];
-        if ($request->getQueryString() && request('username')){
+        if ($request->getQueryString() && request('username')) {
             $data = $this->filterAndPaginate(HistoryTransaksi::orderByDesc('created_at')->get(), 20);
         }
         return view('historytransaksids.index', [
@@ -165,7 +166,7 @@ class HistorytransaksidsController extends Controller
         $query = collect($data);
         $parameter = [
             'status',
-        ]; 
+        ];
 
         foreach ($parameter as $isiSearch) {
             if (request($isiSearch)) {
@@ -182,7 +183,7 @@ class HistorytransaksidsController extends Controller
 
             $transdari = Carbon::createFromFormat('Y-m-d\TH:i', $transdariInput)->format('Y-m-d H:i:s');
             $transhingga = Carbon::createFromFormat('Y-m-d\TH:i', $transhinggaInput)->format('Y-m-d H:i:s');
-            
+
             $query = $query->whereBetween('created_at', [$transdari, $transhingga]);
         }
         // Filter untuk strict data
@@ -194,9 +195,9 @@ class HistorytransaksidsController extends Controller
         }
         if (request('invoice')) {
             $inputInvoice = request('invoice');
-            $query = $query->filter(function ($item) use ($inputInvoice) { 
+            $query = $query->filter(function ($item) use ($inputInvoice) {
                 return stripos($item['invoice'], $inputInvoice) !== false;
-            });   
+            });
         }
         if (!request('checkall') || !request(['checkinvoice', 'checkstatus', 'checktransdari', 'checktranshingga'])) {
             return $query = [];

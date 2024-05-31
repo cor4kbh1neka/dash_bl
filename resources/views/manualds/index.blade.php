@@ -27,7 +27,8 @@
                         <label for="button"></label>
                     </div>
                     <div class="groupform input">
-                        <input type="text" name="username" id="username" placeholder="masukan username" required>
+                        <input type="text" name="username" id="username" placeholder="masukan username" autofocus
+                            required>
                         <input type="number" name="saldo" id="saldo" placeholder="-" readonly>
                         <input type="text" name="keterangan" id="keterangan" placeholder="masukan keterangan">
                         <select name="jenis" id="jenis" required>
