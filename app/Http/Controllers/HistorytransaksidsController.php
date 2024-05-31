@@ -14,67 +14,12 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\DepoWdExport;
 
 
 class HistorytransaksidsController extends Controller
 {
-    // public function index(Request $request)
-    // {
-    //     $query = $request->getQueryString();
-    //     $username = $request->input('username');
-
-    //     $checkinvoice = $request->input('checkinvoice');
-    //     $invoice = $request->input('invoice');
-
-    //     $checkstatus = $request->input('checkstatus');
-    //     $status = $request->input('status');
-
-
-    //     $checktransdari = $request->input('checktransdari');
-    //     $transdari = $request->input('transdari') == null ? date('Y-m-01') . 'T00:00' : $request->input('transdari');
-
-    //     $checktranshingga = $request->input('checktranshingga');
-    //     $transhingga = $request->input('transhingga') == null ? date('Y-m-t') . 'T23:59' : $request->input('transhingga');
-
-
-    //     if ($username != '') {
-    //         $data = HistoryTransaksi::where('username', $username)
-    //             ->when($checkinvoice == 'on' && $invoice != '', function ($query) use ($invoice) {
-    //                 return $query->where('refno', $invoice);
-    //             })
-    //             ->when($checkstatus == 'on' && $status != '', function ($query) use ($status) {
-    //                 return $query->where('status', $status);
-    //             })
-    //             ->when(($checktransdari == 'on' && $transdari != '') || ($checktranshingga == 'on' && $transhingga != ''), function ($query) use ($transdari, $transhingga) {
-    //                 $tgldari = date('Y-m-d H:i:s', strtotime($transdari));
-    //                 $tglsampai = date('Y-m-d H:i:s', strtotime($transhingga));
-    //                 $tglsampai = substr_replace($tglsampai, '59', -2);
-
-    //                 $query->whereBetween('created_at', [$tgldari, $tglsampai]);
-    //             })
-    //             ->orderBy('created_at', 'desc')
-    //             ->paginate(10);
-    //     } else {
-    //         $data = [];
-    //     }
-
-    //     return view('historytransaksids.index', [
-    //         'title' => 'History Transaksi Baru',
-    //         'data' => $data,
-    //         'totalnote' => 0,
-    //         'total' => 0,
-    //         'username' => $username,
-    //         'checkinvoice' => $checkinvoice,
-    //         'invoice' => $invoice,
-    //         'checkstatus' => $checkstatus,
-    //         'status' => $status,
-    //         'checktransdari' => $checktransdari,
-    //         'transdari' => $transdari,
-    //         'checktranshingga' => $checktranshingga,
-    //         'transhingga' => $transhingga,
-    //         'query' => $query
-    //     ]);
-    // }
     public function index(Request $request)
     {
         $data = [];
@@ -183,9 +128,12 @@ class HistorytransaksidsController extends Controller
 
             $transdari = Carbon::createFromFormat('Y-m-d\TH:i', $transdariInput)->format('Y-m-d H:i:s');
             $transhingga = Carbon::createFromFormat('Y-m-d\TH:i', $transhinggaInput)->format('Y-m-d H:i:s');
-
-            $query = $query->whereBetween('created_at', [$transdari, $transhingga]);
+        } else {
+            $transdari = date('Y-m-d') . "00.00.00";
+            $transhingga = date('Y-m-d') . "23.59.59";
         }
+        $query = $query->whereBetween('created_at', [$transdari, $transhingga]);
+
         // Filter untuk strict data
         if (request('username')) {
             $inputUsername = request('username');
@@ -230,5 +178,11 @@ class HistorytransaksidsController extends Controller
             }
         }
         return $paginatedItems;
+    }
+
+    public function export()
+    {
+        $data = $this->filterAndPaginate(HistoryTransaksi::orderByDesc('created_at')->get(), 0);
+        return Excel::download(new DepoWdExport($data), 'Historycoin.xlsx');
     }
 }

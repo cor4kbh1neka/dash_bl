@@ -112,8 +112,10 @@
                             </select>
                         </div>
                         <div class="listheadhistoryds bottom two">
-                            <input type="date" id="tgldari" name="tgldari" value="{{ request('tgldari') }}">
-                            <input type="date" id="tglsampai" name="tglsampai" value="{{ request('tglsampai') }}">
+                            <input type="date" id="tgldari" name="tgldari"
+                                value="{{ request('tgldari') ?? date('Y-m-d') }}">
+                            <input type="date" id="tglsampai" name="tglsampai"
+                                value="{{ request('tglsampai') ?? date('Y-m-d') }}">
                             <button type="submit" class="tombol primary" id="searchbutton">
                                 <span class="texttombol">SUBMIT</span>
                             </button>
@@ -219,49 +221,7 @@
             });
         });
 
-        $(document).ready(function() {
-            $('#tglsampai').change(function() {
-                var tgldari = new Date($('#tgldari').val());
-                var tglsampai = new Date($(this).val());
 
-                if (tglsampai < tgldari) {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Tanggal akhir harus lebih besar atau sama dengan tanggal awal',
-                        icon: 'error',
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'OK'
-                    });
-                    $(this).val(''); // Mengosongkan nilai tglsampai jika tidak valid
-                }
-            });
-        });
-
-        $('#tgldari').change(function() {
-            var today = new Date();
-            var refNo = $('#refNo').val();
-            var tgldari = new Date($('#tgldari').val());
-
-            // Menghitung tanggal 60 hari yang lalu
-            var maxDate = new Date(today);
-            maxDate.setDate(maxDate.getDate() - 60);
-
-            if (refNo == '') {
-                if (tgldari < maxDate) {
-                    // Format tanggal 60 hari yang lalu menjadi string
-                    var maxDateString = maxDate.toLocaleDateString('en-GB');
-
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Tanggal awal tidak boleh kurang dari ' + maxDateString,
-                        icon: 'error',
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'OK'
-                    });
-                    $(this).val('');
-                }
-            }
-        });
 
         function redirectTo(jenis) {
             var params = new URLSearchParams(window.location.search);
@@ -287,6 +247,22 @@
             });
 
             jenisElement.value = jenisElement.value || ''; // Pastikan jenis tidak kosong
+        });
+
+        $('.exportdata').click(function() {
+            Swal.fire({
+                icon: 'question',
+                title: 'Konfirmasi',
+                text: 'Apakah ingin mendownload data ini?',
+                showCancelButton: true,
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Batal',
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    var url = '/historycoinds/export';
+                    window.location.href = url;
+                }
+            });
         });
     </script>
 @endsection

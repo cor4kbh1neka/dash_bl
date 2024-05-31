@@ -19,83 +19,16 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\MemberListExport;
 
 class MemberlistdsController extends Controller
 {
-    // public function index(Request $request)
-    // {
-    //     $username = $request->input('username');
-    //     $checkusername = $request->input('checkusername');
-    //     $norek = $request->input('norek');
-    //     $namerek = $request->input('namerek');
-    //     $bank = $request->input('bank');
-    //     $nope = $request->input('nope');
-    //     $referral = $request->input('referral');
-    //     $gabungdari = $request->input('gabungdari') == '' ? date('Y-m-d') : $request->input('gabungdari');
-    //     $gabunghingga = $request->input('gabunghingga') == '' ? date('Y-m-d') : $request->input('gabunghingga');
-    //     $status = $request->input('status');
-
-    //     $query = Member::query()->join('balance', 'balance.username', '=', 'member.username')
-    //         ->select('member.*', 'balance.amount');;
-    //     if ($username) {
-    //         if (!isset($checkusername)) {
-    //             $query->where('member.username', 'like', '%' . $username . '%');
-    //         } else {
-    //             $query->where('member.username',  $username);
-    //         }
-    //     }
-    //     if ($norek) {
-    //         $query->where('norek', 'like', '%' . $norek . '%');
-    //     }
-    //     if ($namerek) {
-    //         $query->where('namerek', 'like', '%' . $namerek . '%');
-    //     }
-    //     if ($bank) {
-    //         $query->where('bank', 'like', '%' . $bank . '%');
-    //     }
-    //     if ($nope) {
-    //         $query->where('nohp', 'like', '%' . $nope . '%');
-    //     }
-    //     if ($referral) {
-    //         $query->where('referral', 'like', '%' . $referral . '%');
-    //     }
-    //     if ($gabungdari && $gabunghingga) {
-    //        $query->whereBetween('member.created_at', [$gabungdari . " 00:00:00", $gabunghingga . " 23:59:59"]);
-    //     }
-    //     if ($status) {
-    //         $query->where('status', $status);
-    //     }
-
-    //     $members = $query->orderBy('member.created_at', 'DESC')->get();
-    //     dd($members);
-    //     // $data = $this->filterAndPaginate($members, 10);
-
-    //     // ->map(function ($member) {
-    //     //     $member->status = $member->status == 0 ? 'New Member' : 'Default';
-    //     //     return $member;
-    //     // });
-
-    //     return view('memberlistds.index', [
-    //         'title' => 'Member List',
-    //         'data' => $members,
-    //         'totalnote' => 0,
-    //         'username' => $username,
-    //         'norek' => $norek,
-    //         'namerek' => $namerek,
-    //         'bank' => $bank,
-    //         'nope' => $nope,
-    //         'referral' => $referral,
-    //         'gabungdari' => $gabungdari,
-    //         'gabunghingga' => $gabunghingga,
-    //         'status' => $status,
-    //         'checkusername' => $checkusername
-    //     ]);
-    // }
     public function index()
     {
         $query = Member::query()->join('balance', 'balance.username', '=', 'member.username')
-            ->select('member.*', 'balance.amount')->orderByDesc('created_at');
-        $data = $this->filterAndPaginate($query->get(), 20);
+            ->select('member.*', 'balance.amount')->orderByDesc('created_at')->get();
+        $data = $this->filterAndPaginate($query, 20);
         return view('memberlistds.index', [
             'title' => 'Member List',
             'data' => $data,
@@ -354,7 +287,7 @@ class MemberlistdsController extends Controller
             'username' => $username
         ]);
     }
-    public function filterAndPaginate($data, $page) // ini versi yang lengkap
+    public function filterAndPaginate($data, $page)
     {
         $query = collect($data);
         $parameter = [
@@ -374,12 +307,20 @@ class MemberlistdsController extends Controller
                 });
             }
         }
+
         // Tambahan Filter Tanggal, comment aja klau tidak terpakai :D
         if (request('gabungdari') && request('gabunghingga')) {
             $gabungdari = request('gabungdari') . " 00:00:00";
             $gabunghingga = request('gabunghingga') . " 23:59:59";
-            $query = $query->whereBetween('created_at', [$gabungdari, $gabunghingga]);
+        } else {
+            $gabungdari = date('Y-m-d') . " 00:00:00";
+            $gabunghingga = date('Y-m-d') . " 23:59:59";
         }
+        $query = $query->filter(function ($item) use ($gabungdari, $gabunghingga) {
+            return $item['created_at'] >= $gabungdari && $item['created_at'] <= $gabunghingga;
+        });
+
+
         // Filter untuk strict username
         if (request('checkusername')) {
             $inputUsername = request('username');
@@ -394,22 +335,26 @@ class MemberlistdsController extends Controller
             'checkusername'
         ]);
 
-        $currentPage = Paginator::resolveCurrentPage();
-        $perPage = $page;
-        $currentPageItems = $query->slice(($currentPage - 1) * $perPage, $perPage)->values();
-        $paginatedItems = new LengthAwarePaginator(
-            $currentPageItems,
-            $query->count(),
-            $perPage,
-            $currentPage,
-            ['path' => Paginator::resolveCurrentPath()]
-        );
-        foreach ($parameter as $isiSearch) {
-            if (request($isiSearch)) {
-                $paginatedItems->appends($isiSearch, request($isiSearch));
+        if ($page > 0) {
+            $currentPage = Paginator::resolveCurrentPage();
+            $perPage = $page;
+            $currentPageItems = $query->slice(($currentPage - 1) * $perPage, $perPage)->values();
+            $paginatedItems = new LengthAwarePaginator(
+                $currentPageItems,
+                $query->count(),
+                $perPage,
+                $currentPage,
+                ['path' => Paginator::resolveCurrentPath()]
+            );
+            foreach ($parameter as $isiSearch) {
+                if (request($isiSearch)) {
+                    $paginatedItems->appends($isiSearch, request($isiSearch));
+                }
             }
+            return $paginatedItems;
+        } else {
+            return $query->values();
         }
-        return $paginatedItems;
     }
 
     public function addmember()
@@ -500,5 +445,13 @@ class MemberlistdsController extends Controller
             ]);
             return redirect()->back()->with('error', 'Gagal menambahkan data member');
         }
+    }
+
+    public function export()
+    {
+        $query = Member::query()->join('balance', 'balance.username', '=', 'member.username')
+            ->select('member.*', 'balance.amount')->orderByDesc('created_at')->get();
+        $data = $this->filterAndPaginate($query, 0);
+        return Excel::download(new MemberListExport($data), 'Memberlist.xlsx');
     }
 }

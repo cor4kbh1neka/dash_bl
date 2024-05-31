@@ -82,12 +82,12 @@
                         <div class="listinputmember">
                             <label for="gabungdari">tanggal gabung dari</label>
                             <input type="date" id="gabungdari" name="gabungdari" placeholder="tanggal gabung dari"
-                                value="{{ request('gabungdari') }}">
+                                value="{{ request('gabungdari') ? request('gabungdari') : date('Y-m-d') }}">
                         </div>
                         <div class="listinputmember">
                             <label for="gabunghingga">tanggal gabung hingga</label>
                             <input type="date" id="gabunghingga" name="gabunghingga" placeholder="tanggal gabung hingga"
-                                value="{{ request('gabunghingga') }}">
+                                value="{{ request('gabunghingga') ? request('gabunghingga') : date('Y-m-d') }}">
                         </div>
                         <div class="listinputmember">
                             <label for="status">Status</label>
@@ -421,6 +421,7 @@
                     windowLeft + ", top=" + windowTop);
             });
         });
+
         // Tinggal isi aja array inputs nya dengan apapun yang mau dicari via form dengan id searchForm
         document.getElementById('searchForm').addEventListener('submit', function(event) {
             const inputs = [
@@ -439,6 +440,22 @@
                 const inputElement = document.getElementById(id);
                 if (!inputElement.value) {
                     inputElement.disabled = true; // Untuk disabled input kalau tidak ada filter :D
+                }
+            });
+        });
+
+        $('.exportdata').click(function() {
+            Swal.fire({
+                icon: 'question',
+                title: 'Konfirmasi',
+                text: 'Apakah ingin mendownload data ini?',
+                showCancelButton: true,
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Batal',
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    var url = '/memberlistds/export';
+                    window.location.href = url;
                 }
             });
         });

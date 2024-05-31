@@ -237,6 +237,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('history_transaction')->group(function () {
         Route::get('/historytransaksids', [HistorytransaksidsController::class, 'index']);
         Route::get('/historytransaksids/transaksilama', [HistorytransaksidsController::class, 'transaksilama']);
+        Route::get('/historytransaksids/export', [HistorytransaksidsController::class, 'export']);
     });
     /*-- Memberlistds --*/
     Route::middleware('member_list')->group(function () {
@@ -251,6 +252,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/memberlistds/history/{username}', [MemberlistdsController::class, 'historybank']);
         Route::get('/memberlistds/addmember', [MemberlistdsController::class, 'addmember']);
         Route::post('/memberlistds/store', [MemberlistdsController::class, 'store']);
+        Route::get('/memberlistds/export', [MemberlistdsController::class, 'export']);
     });
     /*-- Historygameds --*/
     Route::middleware('history_game')->group(function () {

@@ -28,12 +28,15 @@
                                 <option value="" style="color: #838383; font-style: italic;" disabled="" selected>
                                     pilih
                                     jenis</option>
-                                <option value="SportsBook" {{ request('portfolio') == 'SportsBook' ? 'selected' : '' }}>SportsBook
+                                <option value="SportsBook" {{ request('portfolio') == 'SportsBook' ? 'selected' : '' }}>
+                                    SportsBook
                                 </option>
-                                <option value="VirtualSports" {{ request('portfolio') == 'VirtualSports' ? 'selected' : '' }}>
+                                <option value="VirtualSports"
+                                    {{ request('portfolio') == 'VirtualSports' ? 'selected' : '' }}>
                                     VirtualSports
                                 </option>
-                                <option value="Games" {{ request('portfolio') == 'Games' ? 'selected' : '' }}>Games</option>
+                                <option value="Games" {{ request('portfolio') == 'Games' ? 'selected' : '' }}>Games
+                                </option>
                                 <option value="SeamlessGame" {{ request('portfolio') == 'SeamlessGame' ? 'selected' : '' }}>
                                     SeamlessGame</option>
 
@@ -41,11 +44,13 @@
                         </div>
                         <div class="listinputmember">
                             <label for="startDate">dari <span class="required">*</span></label>
-                            <input type="date" name="startDate" id="startDate" value="{{ request('startDate') }}" required>
+                            <input type="date" name="startDate" id="startDate"
+                                value="{{ request('startDate') ? request('startDate') : date('Y-m-d') }}" required>
                         </div>
                         <div class="listinputmember">
                             <label for="endDate">hingga <span class="required">*</span></label>
-                            <input type="date" name="endDate" id="endDate" value="{{ request('endDate') }}" required>
+                            <input type="date" name="endDate" id="endDate"
+                                value="{{ request('startDate') ? request('startDate') : date('Y-m-d') }}" required>
                         </div>
                     </div>
                     <div class="headhistorygame two">
@@ -408,15 +413,15 @@
             }
         });
         document.getElementById('form-historygameds').addEventListener('submit', function(event) {
-        const inputs = [
-            'username',
-            'portfolio',
-            'startDate',
-            'endDate',
-            'refNo',
-            'sportsType',
-            'status',
-        ];
+            const inputs = [
+                'username',
+                'portfolio',
+                'startDate',
+                'endDate',
+                'refNo',
+                'sportsType',
+                'status',
+            ];
             inputs.forEach(id => {
                 const inputElement = document.getElementById(id);
                 if (!inputElement.value) {
