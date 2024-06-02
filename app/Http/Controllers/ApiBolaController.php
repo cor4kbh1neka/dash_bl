@@ -81,6 +81,10 @@ class ApiBolaController extends Controller
 
     public function Deduct(Request $request)
     {
+        Log::info('Informasi Request:', [
+            'parameters' => $request->all()
+        ]);
+
         $saldoMember = $this->GetBalance($request);
         if ($saldoMember["ErrorCode"] === 0) {
             $saldoMember = $saldoMember["Balance"];
@@ -1124,10 +1128,6 @@ class ApiBolaController extends Controller
 
     private function setTransaction(Request $request, $saldoMember)
     {
-        Log::info('Informasi Request:', [
-            'parameters' => $request->all()
-        ]);
-
         $cekTransaction = Transactions::where('transactionid', $request->TransactionId)->first();
 
         if ($cekTransaction) {
