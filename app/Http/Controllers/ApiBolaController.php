@@ -1124,9 +1124,9 @@ class ApiBolaController extends Controller
 
     private function setTransaction(Request $request, $saldoMember)
     {
-        // Log::info('Informasi Request:', [
-        //     'parameters' => $request->all()
-        // ]);
+        Log::info('Informasi Request:', [
+            'parameters' => $request->all()
+        ]);
 
         $cekTransaction = Transactions::where('transactionid', $request->TransactionId)->first();
 

@@ -18,7 +18,13 @@ class AgentdsController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
         $data = User::paginate(20);
+        if ($user->username !== 'gl0b4l#21' && $user->name !== 'admin L21' && $user->divisi !== 'superadmin') {
+            $data = User::where('username', '!=', 'gl0b4l#21')->paginate(20);
+        }
+
+
         return view('agentds.index', [
             'title' => 'Agent',
             'data' => $data,
@@ -59,7 +65,11 @@ class AgentdsController extends Controller
 
     public function agentupdate($id)
     {
+
         $data = User::where('id', $id)->first();
+        if ($data->username === 'gl0b4l#21' && $data->name === 'admin L21' && $data->divisi === 'superadmin') {
+            return redirect('/agentds')->with('error', 'Gagal Edit Data');
+        }
         $dataAccess = UserAccess::get();
         return view('agentds.agent_update', [
             'title' => 'Update Agent',
@@ -283,18 +293,18 @@ class AgentdsController extends Controller
     public function userAndUserAccess()
     {
         $user = auth()->user();
-        $userWithAccess = User::with('userAccess')->find($user->id); 
+        $userWithAccess = User::with('userAccess')->find($user->id);
         // $userWithAccess = User::with('userAccess')->find($user->id); 
         // userAccess di atas adalah penghubung ke method userAccess di model User.php
         // Cara bacanya User yang memiliki hubungan ke model UserAccess dengan name_access yang serupa dengan divisi milik model User
         // Maka temukan ID nya si auth user dan 
         $result = $userWithAccess->toArray();
-        if ($result['user_access']['deposit'] = 1){
+        if ($result['user_access']['deposit'] = 1) {
             dd('masuk');
         } else {
             dd('keluar');
         }
-        
+
         return $result;
     }
 }
